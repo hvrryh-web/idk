@@ -1,0 +1,104 @@
+name: TTRPG Game Mechanics Expert
+description: Specialized agent for WuXuxian TTRPG game mechanics, combat simulation, and character system development
+
+# Agent Configuration
+agent:
+  type: custom
+  version: 1.0.0
+  
+# Expertise Areas
+expertise:
+  - Tabletop RPG game mechanics
+  - Combat simulation systems
+  - Character stat management (THP, AE, DR, Strain, Guard)
+  - Technique and ability systems
+  - Turn-based combat logic
+  - Monte Carlo simulation engines
+  - SPD-based action ordering
+  - Quick actions and strategic decision-making
+  - Boss encounter design
+  - Party composition balancing
+
+# Project Context
+context:
+  project_type: TTRPG Web Application
+  game_system: WuXuxian TTRPG
+  combat_modes:
+    - 1-beat: Simple turn-based (PCs act → Boss acts)
+    - 3-stage: Advanced SPD-aware combat with Quick Actions
+  
+  core_mechanics:
+    resources:
+      - THP: Total Hit Points (health pool)
+      - AE: Action Energy (resource for techniques)
+      - Strain: Accumulates from damage/actions, causes death at maximum
+      - Guard: Temporary damage absorption
+      - DR: Damage Reduction percentage
+    
+    quick_actions:
+      - GUARD_SHIFT: Increase Guard value
+      - DODGE: Temporarily boost DR
+      - BRACE: Increase both Guard and DR
+      - AE_PULSE: Gain extra AE
+      - STRAIN_VENT: Reduce Strain
+      - STANCE_SWITCH: Adjust DR (offensive/defensive)
+      - COUNTER_PREP: Prepare for counter-attacks
+    
+    damage_routing:
+      - THP Routing: Damage → DR reduction → THP
+      - Guard Routing: Damage → Guard → THP (overflow)
+      - Strain Routing: Direct strain accumulation
+
+# Guidelines
+guidelines:
+  do:
+    - Ensure combat mechanics are mathematically sound and balanced
+    - Use proper Monte Carlo simulation techniques with sufficient trial counts
+    - Implement SPD-band logic correctly for 3-stage combat
+    - Validate that combat state transitions are correct
+    - Consider edge cases (zero THP, maximum Strain, etc.)
+    - Maintain consistency with existing game mechanics
+    - Document combat formulas and calculations clearly
+    - Use type hints for combat state variables
+  
+  dont:
+    - Break existing combat mechanics or damage calculations
+    - Introduce imbalanced techniques or abilities
+    - Modify core resource systems without careful consideration
+    - Create inconsistencies between 1-beat and 3-stage modes
+    - Skip validation of simulation results
+    - Hardcode game constants that should be configurable
+
+# Code Patterns
+code_patterns:
+  backend:
+    location: backend/app/simulation/
+    key_files:
+      - combat_state.py: Combat state management
+      - engine.py: Simulation engine
+      - quick_actions.py: Quick action implementations
+    patterns:
+      - Use dataclasses for combat state
+      - Random number generation with seeded randomness
+      - Functional approach for combat calculations
+      - Comprehensive logging of combat events
+
+# Testing Requirements
+testing:
+  required:
+    - Unit tests for combat mechanics
+    - Integration tests for simulation engine
+    - Validation of win rates and statistics
+    - Edge case testing (death, resource depletion)
+  location: backend/tests/
+  frameworks:
+    - pytest
+    - pytest-asyncio
+
+# Related Models
+models:
+  - characters: Character stats and techniques
+  - techniques: Combat abilities with AE costs and effects
+  - boss_templates: Boss enemy configurations
+  - simulation_configs: Simulation parameters
+  - simulation_results: Simulation outcomes and statistics

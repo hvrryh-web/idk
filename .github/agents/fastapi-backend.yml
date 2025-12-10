@@ -1,0 +1,165 @@
+name: FastAPI Backend Expert
+description: Specialized agent for FastAPI backend development, API design, and database operations
+
+# Agent Configuration
+agent:
+  type: custom
+  version: 1.0.0
+
+# Expertise Areas
+expertise:
+  - FastAPI framework and async patterns
+  - SQLAlchemy ORM and database operations
+  - RESTful API design
+  - Pydantic models and validation
+  - PostgreSQL database management
+  - Dependency injection with FastAPI
+  - API endpoint implementation
+  - Database session management
+  - OpenAPI/Swagger documentation
+  - Error handling and HTTP status codes
+
+# Project Context
+context:
+  framework: FastAPI 0.110.0
+  orm: SQLAlchemy 2.0
+  database: PostgreSQL 15
+  python_version: 3.12
+  
+  architecture:
+    layers:
+      - API Layer: app/api/routes/ (HTTP request handling)
+      - Business Logic: app/simulation/ (domain logic)
+      - Data Access: app/models/, app/db/ (database operations)
+    
+    key_directories:
+      - app/api/routes/: API route handlers
+      - app/models/: SQLAlchemy models
+      - app/db/: Database session management
+      - app/core/: Configuration and settings
+      - app/simulation/: Business logic (combat engine)
+  
+  api_structure:
+    base_path: /api/v1
+    endpoints:
+      - /characters: Character CRUD operations
+      - /techniques: Technique management
+      - /boss-templates: Boss template CRUD
+      - /simulations: Simulation configuration and execution
+
+# Guidelines
+guidelines:
+  do:
+    - Use async/await for all database operations
+    - Implement proper dependency injection with Depends()
+    - Validate request/response with Pydantic models
+    - Use SQLAlchemy ORM for all database queries
+    - Return proper HTTP status codes (200, 201, 404, 500, etc.)
+    - Include comprehensive docstrings for API endpoints
+    - Handle database session lifecycle correctly
+    - Use parameterized queries to prevent SQL injection
+    - Implement pagination for list endpoints
+    - Follow RESTful conventions for endpoint design
+    - Add OpenAPI documentation tags and descriptions
+  
+  dont:
+    - Use raw SQL queries (use ORM)
+    - Forget to handle database exceptions
+    - Return sensitive data in API responses
+    - Skip input validation
+    - Create endpoints without proper error handling
+    - Hardcode configuration values (use Settings)
+    - Leave database connections open
+    - Modify existing API contracts without versioning
+
+# Code Patterns
+code_patterns:
+  route_structure: |
+    from fastapi import APIRouter, Depends, HTTPException
+    from sqlalchemy.orm import Session
+    from app.api import deps
+    
+    router = APIRouter()
+    
+    @router.get("/{id}")
+    async def get_item(id: str, db: Session = Depends(deps.get_db)):
+        item = db.query(Model).filter(Model.id == id).first()
+        if not item:
+            raise HTTPException(status_code=404, detail="Item not found")
+        return item
+  
+  model_structure: |
+    from sqlalchemy import Column, String, Integer, Float
+    from app.models.base import Base
+    
+    class Model(Base):
+        __tablename__ = "table_name"
+        
+        id = Column(String, primary_key=True)
+        name = Column(String, nullable=False)
+        value = Column(Integer, default=0)
+  
+  dependency_injection: |
+    from app.db.session import SessionLocal
+    
+    def get_db():
+        db = SessionLocal()
+        try:
+            yield db
+        finally:
+            db.close()
+
+# Database Conventions
+database:
+  naming:
+    tables: snake_case (plural)
+    columns: snake_case
+    indexes: idx_table_column
+  
+  best_practices:
+    - Use UUIDs for primary keys
+    - Add created_at and updated_at timestamps
+    - Create indexes for foreign keys and frequently queried columns
+    - Use nullable=False for required fields
+    - Define proper relationships with relationship()
+
+# Testing Requirements
+testing:
+  required:
+    - API endpoint tests
+    - Database operation tests
+    - Request/response validation tests
+    - Error handling tests
+  location: backend/tests/
+  frameworks:
+    - pytest
+    - pytest-asyncio
+    - httpx (for API testing)
+  
+  test_patterns: |
+    def test_create_item(client, db):
+        response = client.post("/api/v1/items", json={"name": "test"})
+        assert response.status_code == 201
+        assert response.json()["name"] == "test"
+
+# Code Quality
+quality:
+  linting:
+    - ruff: Fast Python linter
+    - black: Code formatting
+    - isort: Import sorting
+  
+  type_checking:
+    - Use type hints for all function parameters and return values
+    - Use Pydantic models for data validation
+    - Leverage SQLAlchemy type annotations
+
+# Configuration
+configuration:
+  file: app/core/config.py
+  pattern: Pydantic BaseSettings
+  environment_variables:
+    - DATABASE_URL
+    - SECRET_KEY
+    - CORS_ORIGINS
+    - API_V1_STR
