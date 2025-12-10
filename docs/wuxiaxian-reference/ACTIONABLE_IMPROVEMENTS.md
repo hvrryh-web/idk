@@ -30,6 +30,8 @@ class Character(Base):
     # ... existing fields ...
     
     # PRIMARY STATS (9 stats, range -1 to +11)
+    # Note: -1 represents actively harmful stat (e.g., cursed, debilitated)
+    # 0 = baseline mortal, 1-11 = cultivation progression
     # Soul Cluster
     essence = Column(Integer, nullable=True, default=0)
     resolve = Column(Integer, nullable=True, default=0)
@@ -594,9 +596,14 @@ def get_available_quick_actions(combatant: CombatantState) -> List[Dict]:
         # Check condition
         if "condition" in action_data:
             condition = action_data["condition"]
-            # Evaluate condition (simple eval or parse)
-            # For safety, use a whitelist of allowed operations
-            if not eval_safe_condition(condition, combatant):
+            # SECURITY NOTE: Never use eval() here!
+            # Use a safe condition checker with whitelisted operations:
+            # - Simple comparisons: "guard < max_guard", "ae >= ae_cost"
+            # - Boolean logic: "strain > 5 and ae > 0"
+            # - No function calls, no imports, no assignment
+            # Example implementation: Use a parser like pyparsing or ast.literal_eval
+            # with custom node visitor that only allows safe operations
+            if not check_condition_safely(condition, combatant):
                 continue
         
         available.append(action_data)
@@ -622,7 +629,13 @@ def execute_quick_action(
     if effect_type == "modify_stat":
         stat = effect["stat"]
         formula = effect["formula"]
-        value = eval_safe_formula(formula, combatant)
+        # SECURITY NOTE: Never use eval() for formulas!
+        # Use a safe mathematical expression parser:
+        # - Option 1: simpleeval library (pypi.org/project/simpleeval/)
+        # - Option 2: numexpr library for numeric expressions
+        # - Option 3: Custom parser with whitelisted operations
+        # Example: simpleeval.simple_eval(formula, names={'scl': combatant.scl})
+        value = evaluate_formula_safely(formula, combatant)
         
         if stat == "guard":
             combatant.guard += value

@@ -606,20 +606,21 @@ export default function CombatView() {
   const [targetMode, setTargetMode] = useState(false);
   const [combatLog, setCombatLog] = useState<LogEntry[]>([]);
 
+  // Load combat state when encounter ID changes
   useEffect(() => {
+    const loadCombatState = async () => {
+      if (!encounterId) return;
+      try {
+        const state = await getCombatState(encounterId);
+        setCombatState(state);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to load combat state:', error);
+      }
+    };
+    
     loadCombatState();
-  }, [encounterId]);
-
-  const loadCombatState = async () => {
-    if (!encounterId) return;
-    try {
-      const state = await getCombatState(encounterId);
-      setCombatState(state);
-      setLoading(false);
-    } catch (error) {
-      console.error('Failed to load combat state:', error);
-    }
-  };
+  }, [encounterId]); // Only re-run when encounterId changes
 
   const handleTechniqueSelect = (techId: string) => {
     setSelectedTechnique(techId);
