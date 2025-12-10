@@ -1,0 +1,126 @@
+name: Copilot Coding Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to work on'
+        required: true
+        type: string
+  pull_request:
+    types: [opened, synchronize]
+
+# Set minimal permissions for GITHUB_TOKEN
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+jobs:
+  copilot-agent:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Fix #1: Ensure checkout fetches main with full history
+    # This prevents "fatal: ambiguous argument 'main'" errors in git diff
+    # Reference: https://github.com/hvrryh-web/idk/actions/runs/20095175371/job/57651702396
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{ github.head_ref || github.ref_name }}
+    
+    # Ensure main branch is available for git operations
+    - name: Fetch main branch
+      run: |
+        git fetch origin main:main || git fetch origin main
+    
+    # Fix #2: Add a safe git-diff guard step
+    # This step attempts to fetch origin/main if missing and skips diff if unavailable
+    # instead of failing the job
+    - name: Ensure base branch available and safe diff
+      shell: bash
+      run: |
+        set -euo pipefail
+        BASE=main
+        echo "Checking for base branch '$BASE'..."
+        if ! git rev-parse --verify --quiet "refs/heads/$BASE" >/dev/null; then
+          echo "Base branch '$BASE' not found locally. Attempting to fetch origin/$BASE..."
+          if git ls-remote --exit-code origin refs/heads/$BASE >/dev/null 2>&1; then
+            git fetch origin "$BASE:$BASE" || true
+          else
+            echo "origin/$BASE not found; skipping git diff against base branch." >&2
+          fi
+        fi
+        if git rev-parse --verify --quiet "refs/heads/$BASE" >/dev/null; then
+          echo "Running git diff against $BASE..."
+          git --no-pager diff --name-only "$BASE"...HEAD || true
+        else
+          echo "Skipping git diff: base branch unavailable."
+        fi
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    # Fix #3: Wrap the Copilot-calling step with a retry wrapper
+    # This handles transient failures (499 status codes, network errors) with
+    # exponential backoff (3 attempts: 3s, 6s, 12s delays)
+    - name: Run Copilot coding agent with retries
+      shell: bash
+      env:
+        MAX_ATTEMPTS: 3
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ISSUE_NUMBER: ${{ github.event.inputs.issue_number || github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        attempt=1
+        backoff=3
+        
+        # TODO: Replace COPILOT_CMD with the actual Copilot agent invocation command
+        # The command should be the exact script/binary that invokes the Copilot coding agent
+        # Examples:
+        #   - Direct CLI: gh copilot suggest --issue "$ISSUE_NUMBER"
+        #   - Custom script: ./scripts/run-copilot-agent.sh
+        #   - Action entrypoint: node .github/actions/copilot-agent/dist/index.js
+        COPILOT_CMD='echo "Copilot agent placeholder - replace with actual command"; exit 0'
+        
+        while [ $attempt -le "$MAX_ATTEMPTS" ]; do
+          echo "Attempt $attempt/$MAX_ATTEMPTS: invoking Copilot coding agent..."
+          set +e
+          output=$(eval "$COPILOT_CMD" 2>&1)
+          rc=$?
+          set -e
+          echo "$output"
+          
+          if [ $rc -eq 0 ]; then
+            echo "Copilot agent succeeded"
+            exit 0
+          fi
+          
+          echo "Copilot agent failed with exit code $rc"
+          
+          # Detect 499 or transient network errors in output
+          # Only retry if we detect specific transient failure patterns
+          if echo "$output" | grep -q "499" || echo "$output" | grep -qi "timeout\|network\|ECONNREFUSED\|ETIMEDOUT"; then
+            if [ $attempt -lt "$MAX_ATTEMPTS" ]; then
+              echo "Transient failure detected. Sleeping $backoff seconds before retry..."
+              sleep $backoff
+              attempt=$((attempt+1))
+              backoff=$((backoff*2))
+              continue
+            else
+              echo "Reached max attempts ($MAX_ATTEMPTS). Failing step." >&2
+              exit $rc
+            fi
+          else
+            echo "Non-retryable failure. Failing step." >&2
+            exit $rc
+          fi
+        done
