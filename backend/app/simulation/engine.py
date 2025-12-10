@@ -202,6 +202,81 @@ def run_1beat_round(state: CombatState, techniques: Dict[UUID, TechniqueData]):
     state.record_round_stats()
 
 
+def run_3stage_round(state: CombatState, techniques: Dict[UUID, TechniqueData]):
+    """
+    Run a single 3-stage round with SPD-aware turn ordering.
+    
+    Stage 1: Quick Actions for Fast SPD_band actors
+    Stage 2: Major Actions for all actors
+    Stage 3: Quick Actions for Slow SPD_band actors
+    """
+    from app.simulation.quick_actions import choose_quick_action, execute_quick_action
+    
+    state.round_number += 1
+    
+    # Stage 1: Quick Actions for Fast actors
+    fast_actors = [pc for pc in state.party if pc.is_alive() and pc.spd_band == "Fast"]
+    if state.boss and state.boss_alive() and state.boss.spd_band == "Fast":
+        fast_actors.append(state.boss)
+    
+    for actor in fast_actors:
+        if actor.is_alive():
+            quick_action = choose_quick_action(actor)
+            execute_quick_action(actor, quick_action)
+    
+    # Stage 2: Major Actions for all actors (same as 1-beat)
+    # PCs act first
+    for pc in state.party:
+        if not pc.is_alive():
+            continue
+        
+        if not state.boss_alive():
+            break
+        
+        # Choose technique
+        technique = choose_technique_simple(pc, techniques, is_boss=False)
+        if technique:
+            execute_technique(pc, state.boss, technique, state)
+    
+    # Boss acts if still alive
+    if state.boss_alive() and state.party_alive():
+        # Choose technique
+        technique = choose_technique_simple(state.boss, techniques, is_boss=True)
+        if technique:
+            # Target random living PC
+            living_pcs = [pc for pc in state.party if pc.is_alive()]
+            if living_pcs:
+                target = random.choice(living_pcs)
+                execute_technique(state.boss, target, technique, state)
+    
+    # Stage 3: Quick Actions for Slow actors
+    slow_actors = [pc for pc in state.party if pc.is_alive() and pc.spd_band == "Slow"]
+    if state.boss and state.boss_alive() and state.boss.spd_band == "Slow":
+        slow_actors.append(state.boss)
+    
+    for actor in slow_actors:
+        if actor.is_alive():
+            quick_action = choose_quick_action(actor)
+            execute_quick_action(actor, quick_action)
+    
+    # End of round: regenerate AE
+    for pc in state.party:
+        if pc.is_alive():
+            pc.regenerate_ae()
+    
+    if state.boss_alive():
+        state.boss.regenerate_ae()
+    
+    # Clear temporary modifiers
+    for pc in state.party:
+        pc.temp_dr_modifier = 0.0
+    if state.boss:
+        state.boss.temp_dr_modifier = 0.0
+    
+    # Record stats
+    state.record_round_stats()
+
+
 def run_single_trial(
     party_states: List[CombatantState],
     boss_state: CombatantState,
@@ -246,8 +321,7 @@ def run_single_trial(
         
         # Run combat round
         if enable_3_stage:
-            # TODO: Implement 3-stage in Phase 3
-            run_1beat_round(state, techniques)
+            run_3stage_round(state, techniques)
         else:
             run_1beat_round(state, techniques)
     
