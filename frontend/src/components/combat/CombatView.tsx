@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getCombatState, executeAction, executeQuickAction, fetchTechniques } from '../../api';
-import CombatantCard from './CombatantCard';
-import TurnIndicator from './TurnIndicator';
-import TechniqueSelector from './TechniqueSelector';
-import QuickActionPanel from './QuickActionPanel';
-import CombatLog from './CombatLog';
-import type { CombatState, LogEntry, Technique } from '../../types';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { getCombatState, executeAction, executeQuickAction, fetchTechniques } from "../../api";
+import CombatantCard from "./CombatantCard";
+import TurnIndicator from "./TurnIndicator";
+import TechniqueSelector from "./TechniqueSelector";
+import QuickActionPanel from "./QuickActionPanel";
+import CombatLog from "./CombatLog";
+import type { CombatState, LogEntry, Technique } from "../../types";
 
 export default function CombatView() {
   const { encounterId } = useParams<{ encounterId: string }>();
@@ -33,7 +33,7 @@ export default function CombatView() {
       setCombatState(state);
       setLoading(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load combat state');
+      setError(err instanceof Error ? err.message : "Failed to load combat state");
       setLoading(false);
     }
   };
@@ -43,7 +43,7 @@ export default function CombatView() {
       const techs = await fetchTechniques();
       setTechniques(techs);
     } catch (err) {
-      console.error('Failed to load techniques:', err);
+      console.error("Failed to load techniques:", err);
     }
   };
 
@@ -59,14 +59,20 @@ export default function CombatView() {
       const activeCharId = combatState.active_character_id;
       if (!activeCharId) return;
 
-      const response = await executeAction(encounterId, activeCharId, 'technique', selectedTechnique, targetId);
+      const response = await executeAction(
+        encounterId,
+        activeCharId,
+        "technique",
+        selectedTechnique,
+        targetId
+      );
 
       setCombatState(response.combat_state);
       setCombatLog((prev) => [...prev, ...response.log_entries]);
       setSelectedTechnique(null);
       setTargetMode(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to execute action');
+      setError(err instanceof Error ? err.message : "Failed to execute action");
       setTargetMode(false);
     }
   };
@@ -83,7 +89,7 @@ export default function CombatView() {
       setCombatState(response.combat_state);
       setCombatLog((prev) => [...prev, ...response.log_entries]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to execute quick action');
+      setError(err instanceof Error ? err.message : "Failed to execute quick action");
     }
   };
 
@@ -94,7 +100,7 @@ export default function CombatView() {
 
   if (loading) {
     return (
-      <div style={{ padding: '24px', textAlign: 'center' }}>
+      <div style={{ padding: "24px", textAlign: "center" }}>
         <h2>Loading combat...</h2>
       </div>
     );
@@ -102,21 +108,21 @@ export default function CombatView() {
 
   if (error || !combatState) {
     return (
-      <div style={{ padding: '24px', textAlign: 'center' }}>
+      <div style={{ padding: "24px", textAlign: "center" }}>
         <h2>Error</h2>
-        <p style={{ color: '#f55' }}>{error || 'Combat state not found'}</p>
-        <button onClick={() => navigate('/')}>Return to Home</button>
+        <p style={{ color: "#f55" }}>{error || "Combat state not found"}</p>
+        <button onClick={() => navigate("/")}>Return to Home</button>
       </div>
     );
   }
 
   if (combatState.combat_ended) {
     return (
-      <div style={{ padding: '24px', textAlign: 'center' }}>
-        <h1>{combatState.victor === 'party' ? '⚔️ VICTORY ⚔️' : '💀 DEFEAT 💀'}</h1>
-        <p style={{ fontSize: '1.2em', marginTop: '16px' }}>Combat has ended!</p>
-        <div style={{ marginTop: '24px' }}>
-          <button onClick={() => navigate('/')} style={{ padding: '12px 24px', fontSize: '1em' }}>
+      <div style={{ padding: "24px", textAlign: "center" }}>
+        <h1>{combatState.victor === "party" ? "⚔️ VICTORY ⚔️" : "💀 DEFEAT 💀"}</h1>
+        <p style={{ fontSize: "1.2em", marginTop: "16px" }}>Combat has ended!</p>
+        <div style={{ marginTop: "24px" }}>
+          <button onClick={() => navigate("/")} style={{ padding: "12px 24px", fontSize: "1em" }}>
             Return to Home
           </button>
         </div>
@@ -125,7 +131,9 @@ export default function CombatView() {
   }
 
   const activeCharacter = combatState.active_character_id
-    ? [...combatState.party, ...combatState.enemies].find((c) => c.id === combatState.active_character_id)
+    ? [...combatState.party, ...combatState.enemies].find(
+        (c) => c.id === combatState.active_character_id
+      )
     : null;
 
   const availableTechniques = activeCharacter
@@ -133,8 +141,8 @@ export default function CombatView() {
     : [];
 
   return (
-    <div style={{ padding: '24px', maxWidth: '1400px', margin: '0 auto' }}>
-      <h1 style={{ marginBottom: '16px' }}>Combat Encounter</h1>
+    <div style={{ padding: "24px", maxWidth: "1400px", margin: "0 auto" }}>
+      <h1 style={{ marginBottom: "16px" }}>Combat Encounter</h1>
 
       <TurnIndicator
         round={combatState.round}
@@ -145,25 +153,25 @@ export default function CombatView() {
       {targetMode && (
         <div
           style={{
-            padding: '12px',
-            backgroundColor: '#334',
-            borderRadius: '8px',
-            marginBottom: '16px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            padding: "12px",
+            backgroundColor: "#334",
+            borderRadius: "8px",
+            marginBottom: "16px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <span style={{ fontSize: '1.1em' }}>🎯 Select Target</span>
-          <button onClick={handleCancelTarget} style={{ padding: '8px 16px' }}>
+          <span style={{ fontSize: "1.1em" }}>🎯 Select Target</span>
+          <button onClick={handleCancelTarget} style={{ padding: "8px 16px" }}>
             Cancel
           </button>
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '24px', marginBottom: '24px' }}>
+      <div style={{ display: "flex", gap: "24px", marginBottom: "24px" }}>
         <div style={{ flex: 1 }}>
-          <h3 style={{ marginBottom: '12px', color: '#5f5' }}>Party</h3>
+          <h3 style={{ marginBottom: "12px", color: "#5f5" }}>Party</h3>
           {combatState.party.map((char) => (
             <CombatantCard
               key={char.id}
@@ -178,18 +186,18 @@ export default function CombatView() {
 
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '3em',
-            color: '#888',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "3em",
+            color: "#888",
           }}
         >
           VS
         </div>
 
         <div style={{ flex: 1 }}>
-          <h3 style={{ marginBottom: '12px', color: '#f55' }}>Enemies</h3>
+          <h3 style={{ marginBottom: "12px", color: "#f55" }}>Enemies</h3>
           {combatState.enemies.map((char) => (
             <CombatantCard
               key={char.id}
@@ -205,8 +213,8 @@ export default function CombatView() {
       </div>
 
       {combatState.is_player_turn && activeCharacter && (
-        <div style={{ marginBottom: '24px' }}>
-          {combatState.phase === 'Major' && (
+        <div style={{ marginBottom: "24px" }}>
+          {combatState.phase === "Major" && (
             <TechniqueSelector
               techniques={availableTechniques}
               currentAE={activeCharacter.ae}
@@ -215,7 +223,7 @@ export default function CombatView() {
             />
           )}
 
-          {(combatState.phase === 'Quick1' || combatState.phase === 'Quick2') && (
+          {(combatState.phase === "Quick1" || combatState.phase === "Quick2") && (
             <QuickActionPanel onSelectQuickAction={handleQuickAction} disabled={targetMode} />
           )}
         </div>

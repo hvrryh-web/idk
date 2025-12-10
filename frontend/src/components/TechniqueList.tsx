@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { fetchTechniques } from '../api';
-import type { Technique } from '../types';
+import { useEffect, useState } from "react";
+import { fetchTechniques } from "../api";
+import type { Technique } from "../types";
 
 export default function TechniqueList() {
   const [techniques, setTechniques] = useState<Technique[]>([]);
@@ -21,7 +21,7 @@ export default function TechniqueList() {
           <li key={technique.id}>
             <div style={{ fontWeight: 600 }}>{technique.name}</div>
             {technique.description && <div>{technique.description}</div>}
-            <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.9rem' }}>
+            <div style={{ display: "flex", gap: "0.5rem", fontSize: "0.9rem" }}>
               {technique.damage !== undefined && <span>Damage: {technique.damage}</span>}
               {technique.cost !== undefined && <span>Cost: {technique.cost}</span>}
             </div>

@@ -1,10 +1,10 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 // Sample article content - in production, this would come from a CMS or markdown files
 const articleData: Record<string, { title: string; content: string; relatedArticles: string[] }> = {
-  'cultivation-basics': {
-    title: 'Cultivation Basics',
+  "cultivation-basics": {
+    title: "Cultivation Basics",
     content: `# Cultivation Basics
 
 ## What is Cultivation?
@@ -39,10 +39,10 @@ During gameplay, cultivation happens through:
 - Surviving combat and learning from defeat
 
 Each milestone brings you closer to the next cultivation stage.`,
-    relatedArticles: ['soul-core', 'cultivation-stages', 'domain-source'],
+    relatedArticles: ["soul-core", "cultivation-stages", "domain-source"],
   },
-  'soul-core': {
-    title: 'Soul Core System',
+  "soul-core": {
+    title: "Soul Core System",
     content: `# Soul Core System
 
 ## Overview
@@ -73,10 +73,10 @@ As you cultivate, your Soul Core grows stronger:
 ## Using Your Soul Core
 
 In combat, you spend **Action Energy (AE)** to activate Soul Core techniques. Plan carefully—powerful techniques cost more AE!`,
-    relatedArticles: ['cultivation-basics', 'techniques', 'action-economy'],
+    relatedArticles: ["cultivation-basics", "techniques", "action-economy"],
   },
-  'combat-system': {
-    title: 'Combat System',
+  "combat-system": {
+    title: "Combat System",
     content: `# Combat System
 
 ## Turn Structure
@@ -125,10 +125,10 @@ Builds up from blocking attacks. High Strain reduces effectiveness.
 - Strain Vent: -Strain
 - Stance Switch: Change DR
 - Counter Prep: Ready a counter-attack`,
-    relatedArticles: ['quick-actions', 'techniques', 'action-economy'],
+    relatedArticles: ["quick-actions", "techniques", "action-economy"],
   },
-  'quick-actions': {
-    title: 'Quick Actions',
+  "quick-actions": {
+    title: "Quick Actions",
     content: `# Quick Actions
 
 Quick Actions are special moves available in 3-Stage Combat Mode. They're fast, low-cost actions that can turn the tide of battle.
@@ -166,10 +166,10 @@ Quick Actions are special moves available in 3-Stage Combat Mode. They're fast, 
 ## Timing
 
 Quick Actions occur in Stage 1 (Fast actors) and Stage 3 (Slow actors) of 3-Stage Combat. Plan your SPD band to match your strategy!`,
-    relatedArticles: ['combat-system', 'action-economy'],
+    relatedArticles: ["combat-system", "action-economy"],
   },
-  'techniques': {
-    title: 'Techniques Guide',
+  techniques: {
+    title: "Techniques Guide",
     content: `# Techniques Guide
 
 ## What are Techniques?
@@ -211,10 +211,10 @@ Techniques are special abilities powered by your Soul Core. They consume Action 
 - Manage your AE carefully
 - Combo techniques for synergy
 - Consider enemy weaknesses`,
-    relatedArticles: ['soul-core', 'action-economy', 'combat-system'],
+    relatedArticles: ["soul-core", "action-economy", "combat-system"],
   },
-  'domain-source': {
-    title: 'Domain Sources',
+  "domain-source": {
+    title: "Domain Sources",
     content: `# Domain Sources
 
 ## What is a Domain Source?
@@ -250,10 +250,10 @@ Work with your GM to create a Domain Source that fits your character concept. Co
 ## Domain Source Techniques
 
 Your Domain Source determines your **Source Sequence Technique**—your ultimate ability that embodies your cultivation path.`,
-    relatedArticles: ['cultivation-basics', 'soul-core', 'techniques'],
+    relatedArticles: ["cultivation-basics", "soul-core", "techniques"],
   },
-  'cultivation-stages': {
-    title: 'Cultivation Stages',
+  "cultivation-stages": {
+    title: "Cultivation Stages",
     content: `# Cultivation Stages
 
 ## The Path of Cultivation
@@ -302,14 +302,14 @@ Progress between stages by:
 - Surviving tribulations
 - Completing cultivation milestones
 - Role-playing your character's growth`,
-    relatedArticles: ['cultivation-basics', 'soul-core'],
+    relatedArticles: ["cultivation-basics", "soul-core"],
   },
 };
 
 export default function WikiArticle() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [article, setArticle] = useState<typeof articleData[string] | null>(null);
+  const [article, setArticle] = useState<(typeof articleData)[string] | null>(null);
 
   useEffect(() => {
     if (id && articleData[id]) {
@@ -324,7 +324,7 @@ export default function WikiArticle() {
       <div className="wiki-article error">
         <h1>Article Not Found</h1>
         <p>The article "{id}" does not exist.</p>
-        <button onClick={() => navigate('/wiki')}>← Back to Wiki</button>
+        <button onClick={() => navigate("/wiki")}>← Back to Wiki</button>
       </div>
     );
   }
@@ -332,7 +332,7 @@ export default function WikiArticle() {
   return (
     <div className="wiki-article">
       <header className="article-header">
-        <button className="back-button" onClick={() => navigate('/wiki')}>
+        <button className="back-button" onClick={() => navigate("/wiki")}>
           ← Wiki Index
         </button>
         <h1>{article.title}</h1>
@@ -340,21 +340,25 @@ export default function WikiArticle() {
 
       <div className="article-content">
         {/* Simple markdown-like rendering */}
-        {article.content.split('\n').map((line, index) => {
-          if (line.startsWith('# ')) {
+        {article.content.split("\n").map((line, index) => {
+          if (line.startsWith("# ")) {
             return <h1 key={index}>{line.substring(2)}</h1>;
-          } else if (line.startsWith('## ')) {
+          } else if (line.startsWith("## ")) {
             return <h2 key={index}>{line.substring(3)}</h2>;
-          } else if (line.startsWith('### ')) {
+          } else if (line.startsWith("### ")) {
             return <h3 key={index}>{line.substring(4)}</h3>;
-          } else if (line.startsWith('- ')) {
+          } else if (line.startsWith("- ")) {
             return <li key={index}>{line.substring(2)}</li>;
           } else if (line.match(/^\d+\. /)) {
-            return <li key={index}>{line.substring(line.indexOf(' ') + 1)}</li>;
-          } else if (line.trim() === '') {
+            return <li key={index}>{line.substring(line.indexOf(" ") + 1)}</li>;
+          } else if (line.trim() === "") {
             return <br key={index} />;
-          } else if (line.startsWith('**') && line.endsWith('**')) {
-            return <p key={index}><strong>{line.slice(2, -2)}</strong></p>;
+          } else if (line.startsWith("**") && line.endsWith("**")) {
+            return (
+              <p key={index}>
+                <strong>{line.slice(2, -2)}</strong>
+              </p>
+            );
           } else {
             return <p key={index}>{line}</p>;
           }
@@ -377,8 +381,8 @@ export default function WikiArticle() {
       )}
 
       <nav className="article-navigation">
-        <button onClick={() => navigate('/wiki')}>← Back to Wiki</button>
-        <button onClick={() => navigate('/help')}>🔍 Search</button>
+        <button onClick={() => navigate("/wiki")}>← Back to Wiki</button>
+        <button onClick={() => navigate("/help")}>🔍 Search</button>
       </nav>
     </div>
   );

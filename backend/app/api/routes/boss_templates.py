@@ -1,6 +1,6 @@
 """API routes for boss templates."""
 import uuid
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
@@ -14,6 +14,7 @@ router = APIRouter(prefix="/boss-templates", tags=["boss-templates"])
 
 class BossTemplateBase(BaseModel):
     """Base model for boss template."""
+
     name: str = Field(..., example="Ancient Dragon")
     description: Optional[str] = Field(None, example="A fearsome ancient dragon")
     thp: int = Field(..., ge=1, example=500)
@@ -30,11 +31,13 @@ class BossTemplateBase(BaseModel):
 
 class BossTemplateCreate(BossTemplateBase):
     """Request body for creating a boss template."""
+
     pass
 
 
 class BossTemplateRead(BossTemplateBase):
     """Response model for boss template."""
+
     id: uuid.UUID
 
     class Config:
@@ -54,9 +57,13 @@ def create_boss_template(payload: BossTemplateCreate, db: Session = Depends(get_
         strain=payload.strain,
         guard=payload.guard,
         spike_threshold=payload.spike_threshold,
-        basic_technique_id=uuid.UUID(payload.basic_technique_id) if payload.basic_technique_id else None,
-        spike_technique_id=uuid.UUID(payload.spike_technique_id) if payload.spike_technique_id else None,
-        techniques=payload.techniques
+        basic_technique_id=uuid.UUID(payload.basic_technique_id)
+        if payload.basic_technique_id
+        else None,
+        spike_technique_id=uuid.UUID(payload.spike_technique_id)
+        if payload.spike_technique_id
+        else None,
+        techniques=payload.techniques,
     )
     db.add(boss)
     db.commit()
