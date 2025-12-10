@@ -1,9 +1,9 @@
 """Technique models matching schema.sql."""
 from sqlalchemy import Column, DateTime, Enum, Numeric, Text, func
-from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import Base
 from app.models.enums import TechniqueAxis, TechniqueTier
+from app.models.types import JSONType
 
 
 class Technique(Base):
@@ -31,9 +31,9 @@ class Technique(Base):
     boss_strain_on_hit = Column(Numeric, nullable=False, default=0)
     dr_debuff = Column(Numeric, nullable=False, default=0)
     
-    # JSONB fields
-    ally_shield = Column(JSONB, nullable=True)
-    build_meta = Column(JSONB, nullable=True)
+    # JSON/JSONB fields
+    ally_shield = Column(JSONType, nullable=True)
+    build_meta = Column(JSONType, nullable=True)
     
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)

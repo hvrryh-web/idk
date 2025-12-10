@@ -2,17 +2,17 @@
 import uuid
 
 from sqlalchemy import Column, DateTime, Enum, Integer, Numeric, String, Text, func
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base
 from app.models.enums import CharacterType, SpeedBand
+from app.models.types import UUIDType
 
 
 class Character(Base):
     __tablename__ = "characters"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUIDType, primary_key=True, default=uuid.uuid4)
     name = Column(Text, nullable=False)
     type = Column(Enum(CharacterType, name="character_type", create_type=False), nullable=False)
     
@@ -50,8 +50,8 @@ class Character(Base):
     spd_band = Column(Enum(SpeedBand, name="speed_band", create_type=False), nullable=False)
     
     # Fate Profile
-    death_card_id = Column(UUID(as_uuid=True), nullable=True)
-    body_card_id = Column(UUID(as_uuid=True), nullable=True)
+    death_card_id = Column(UUIDType, nullable=True)
+    body_card_id = Column(UUIDType, nullable=True)
     soul_thesis = Column(Text, nullable=True)
     
     # Timestamps

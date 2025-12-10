@@ -1,9 +1,9 @@
 """Boss template models matching schema.sql."""
 from sqlalchemy import Column, Enum, Integer, Numeric, Text
-from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import Base
 from app.models.enums import BossRank
+from app.models.types import JSONType
 
 
 class BossTemplate(Base):
@@ -17,5 +17,5 @@ class BossTemplate(Base):
     thp_factor = Column(Numeric, nullable=False)
     dmg_factor = Column(Numeric, nullable=False)
     dr_factor = Column(Numeric, nullable=False)
-    minions = Column(JSONB, nullable=False, default=list)
-    lieutenants = Column(JSONB, nullable=False, default=list)
+    minions = Column(JSONType, nullable=False, default=list)
+    lieutenants = Column(JSONType, nullable=False, default=list)
