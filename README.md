@@ -39,6 +39,58 @@ FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Post
    - Frontend: http://localhost:5173
    - API: http://localhost:8000 (characters at `/api/v1/characters`)
 
+## Testing
+
+Automated tests are available for both backend and frontend components. Use the provided scripts to run tests easily.
+
+### Quick Start - Run All Tests
+```bash
+# Start and run all tests
+./start-tests.sh
+
+# Stop any running test processes and clean up
+./stop-tests.sh
+```
+
+### Backend Tests
+The backend uses **pytest** for testing. Tests cover API endpoints, database operations, and business logic.
+
+**Run backend tests manually:**
+```bash
+cd backend
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest tests/ -v
+```
+
+**Test files:**
+- `backend/tests/test_main.py` - Tests for main application endpoints (health check)
+- `backend/tests/test_characters.py` - Tests for character CRUD operations
+
+### Frontend Tests
+The frontend uses **vitest** and **React Testing Library** for testing.
+
+**Run frontend tests manually:**
+```bash
+cd frontend
+npm install
+npm test          # Run tests once
+npm run test:watch # Run tests in watch mode
+```
+
+**Test files:**
+- `frontend/src/App.test.tsx` - Tests for the main App component
+
+### What's Tested
+- ✅ Backend health check endpoint
+- ✅ Character listing (empty and with data)
+- ✅ Character creation
+- ✅ Character retrieval by ID
+- ✅ Error handling (404, server errors)
+- ✅ Frontend component rendering
+- ✅ Frontend API integration
+- ✅ User interactions (refresh button)
+
 ## Repository layout
 ```
 wuxuxian-ttrpg-webapp/
