@@ -1,0 +1,22 @@
+# Development dependencies for WuXuxian TTRPG Backend
+
+# Include production requirements
+-r requirements.txt
+
+# Code formatting
+black==23.12.1
+isort==5.13.2
+
+# Linting
+ruff==0.1.9
+pylint==3.0.3
+
+# Type checking
+mypy==1.8.0
+
+# Development tools
+ipython==8.19.0
+ipdb==0.13.13
+
+# Database migrations (for future use)
+alembic==1.13.1
