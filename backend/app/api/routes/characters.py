@@ -1,21 +1,25 @@
 import uuid
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
-from app.models.characters import Character, CharacterTypeEnum
+from app.models.characters import Character, CharacterType
 
 router = APIRouter(prefix="/characters", tags=["characters"])
 
 
 class CharacterBase(BaseModel):
     name: str = Field(..., example="Li Mei")
-    type: str = Field(..., example="pc")
+    type: CharacterType = Field(..., example=CharacterType.pc)
     level: Optional[int] = Field(None, example=5)
+    lineage: Optional[str] = Field(None, example="Azure Crane Sect")
     description: Optional[str] = Field(None, example="A daring wandering cultivator.")
+    stats: Optional[Dict[str, int]] = Field(
+        None, example={"might": 3, "cunning": 2, "spirit": 4}
+    )
 
 
 class CharacterCreate(CharacterBase):
@@ -29,29 +33,20 @@ class CharacterRead(CharacterBase):
         orm_mode = True
 
 
-def _validate_character_type(value: str) -> str:
-    valid_types = getattr(CharacterTypeEnum, "enums", [])
-    if value not in valid_types:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"Invalid character type '{value}'. Allowed: {valid_types}",
-        )
-    return value
-
-
 @router.get("/", response_model=List[CharacterRead])
 def list_characters(db: Session = Depends(get_db)):
-    return db.query(Character).all()
+    return db.query(Character).order_by(Character.created_at.desc()).all()
 
 
 @router.post("/", response_model=CharacterRead, status_code=status.HTTP_201_CREATED)
 def create_character(payload: CharacterCreate, db: Session = Depends(get_db)):
-    ctype = _validate_character_type(payload.type)
     character = Character(
         name=payload.name,
-        type=ctype,
+        type=payload.type,
         level=payload.level,
+        lineage=payload.lineage,
         description=payload.description,
+        stats=payload.stats,
     )
     db.add(character)
     db.commit()
