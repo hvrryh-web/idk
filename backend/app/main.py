@@ -9,6 +9,7 @@ from app.api.routes.fate_cards import (
     death_cards_router,
     seed_cards_router,
 )
+from app.api.routes.power_builder import router as power_builder_router
 from app.api.routes.simulations import router as simulations_router
 from app.api.routes.techniques import router as techniques_router
 from app.core.config import settings
@@ -32,6 +33,7 @@ app.include_router(seed_cards_router, prefix=settings.API_PREFIX)
 app.include_router(effect_modules_router, prefix=settings.API_PREFIX)
 app.include_router(boss_templates_router, prefix=settings.API_PREFIX)
 app.include_router(simulations_router, prefix=settings.API_PREFIX)
+app.include_router(power_builder_router, prefix=settings.API_PREFIX)
 
 
 @app.get("/health")
