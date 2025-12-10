@@ -18,5 +18,6 @@ mypy==1.8.0
 ipython==8.19.0
 ipdb==0.13.13
 
-# Database migrations (for future use)
-alembic==1.13.1
+# Database migrations
+# TODO: Configure Alembic for database migrations
+# alembic==1.13.1

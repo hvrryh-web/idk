@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+# Set minimal permissions for GITHUB_TOKEN
+permissions:
+  contents: read
+
 jobs:
   backend-tests:
     runs-on: ubuntu-latest
@@ -14,8 +18,10 @@ jobs:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          # Using environment variables for test database credentials
+          # In production, use GitHub secrets
+          POSTGRES_USER: ${{ secrets.TEST_DB_USER || 'postgres' }}
+          POSTGRES_PASSWORD: ${{ secrets.TEST_DB_PASSWORD || 'postgres' }}
           POSTGRES_DB: wuxuxian_test
         ports:
           - 5432:5432
@@ -44,7 +50,8 @@ jobs:
     - name: Run backend tests
       working-directory: ./backend
       env:
-        DATABASE_URL: postgresql+psycopg2://postgres:postgres@localhost:5432/wuxuxian_test
+        # Use the same credentials as the postgres service
+        DATABASE_URL: postgresql+psycopg2://${{ secrets.TEST_DB_USER || 'postgres' }}:${{ secrets.TEST_DB_PASSWORD || 'postgres' }}@localhost:5432/wuxuxian_test
       run: |
         python -m pytest tests/ -v --tb=short
 

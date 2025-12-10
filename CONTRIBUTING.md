@@ -4,6 +4,14 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 ## Getting Started
 
+### Important Security Note
+
+**For CI/CD:** The GitHub Actions workflow supports optional secrets for test database credentials:
+- `TEST_DB_USER` (defaults to 'postgres' if not set)
+- `TEST_DB_PASSWORD` (defaults to 'postgres' if not set)
+
+While hardcoded credentials are acceptable for local development and CI test databases, **never commit production credentials** to the repository.
+
 ### Prerequisites
 - Python 3.12+
 - Node.js 18+
