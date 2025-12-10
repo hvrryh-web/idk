@@ -17,10 +17,11 @@ const srdContent = `# WuXuxian TTRPG - System Reference Document
 **Coverage**: 42% complete (5 of 12 sections)
 **Status**: Alpha - Rules may change based on playtesting
 
-[View SRD History Document](file:///docs/wuxiaxian-reference/SRD_HISTORY.md)
-[View SRD Alpha Structure](file:///docs/wuxiaxian-reference/SRD_ALPHA_STRUCTURE.md)
-[View SRD Patch 0.1](file:///docs/wuxiaxian-reference/SRD_ALPHA_PATCH_0.1.md)
-[View SRD Patch 0.2](file:///docs/wuxiaxian-reference/SRD_ALPHA_PATCH_0.2.md)
+**Access these documents in the repository:**
+- docs/wuxiaxian-reference/SRD_HISTORY.md
+- docs/wuxiaxian-reference/SRD_ALPHA_STRUCTURE.md
+- docs/wuxiaxian-reference/SRD_ALPHA_PATCH_0.1.md
+- docs/wuxiaxian-reference/SRD_ALPHA_PATCH_0.2.md
 
 ---
 

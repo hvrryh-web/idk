@@ -504,25 +504,7 @@ For faster character creation, choose a **Playbook** - a pre-configured template
 **Path**: Orthodox Cultivation
 **Primary Pillar**: Violence
 
-**Recommended Stats** (SCL 5, 75 PP):
-- **Soul**: Essence 3, Resolve 5, Presence 3
-- **Body**: Strength 5, Endurance 4, Agility 6
-- **Mind**: Technique 7, Willpower 4, Focus 5
-- **Aether**: Control 4, Fate 2, Spirit 2
-
-**Result**: CL = 5, SL = 3, SCL = 8... wait, that's too high. Let me recalculate.
-
-Actually, let me fix this:
-- **Body Core** = (5+4+6)/3 = 5
-- **Mind Core** = (7+4+5)/3 = 5.33 → 5
-- **Soul Core** = (3+5+3)/3 = 3.67 → 4
-- **CL** = (5+5+4)/3 = 4.67 → 5
-- **SL** = (4+2+2)/3 = 2.67 → 3
-- **SCL** = 5 + 3 = 8
-
-Hmm, that's SCL 8, not SCL 5. Let me adjust:
-
-**Corrected Recommended Stats** (for SCL 5):
+**Recommended Stats** (for SCL 5, 75 PP):
 - **Soul**: Essence 2, Resolve 3, Presence 2
 - **Body**: Strength 4, Endurance 3, Agility 5
 - **Mind**: Technique 5, Willpower 3, Focus 4
@@ -1185,7 +1167,7 @@ Soul Core = (ESS + RES + PRE) / 3, round
 
 CL = (Body Core + Mind Core + Soul Core) / 3, floor
 
-SL = (CON + FAT + SPI) / 3, floor
+SL = (Control + Fate + Spirit) / 3, floor
 
 SCL = CL + SL
 ```
