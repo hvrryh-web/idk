@@ -2,6 +2,20 @@
 
 FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Postgres via Docker Compose.
 
+## 🚀 Quick Start - Test Me!
+
+**Want to quickly test the backend?** Run this from the `backend/` directory:
+
+```bash
+cd backend
+./test_me.sh
+```
+
+The server will start at http://localhost:8000 with:
+- **API Docs**: http://localhost:8000/docs
+- **Health Check**: http://localhost:8000/health  
+- **Characters API**: http://localhost:8000/api/v1/characters
+
 ## Architecture
 - Treat `backend/openapi.yaml` and `backend/schema.sql` as canonical inputs; paste the provided specs verbatim without modifying them.
 - Backend: FastAPI application with settings in `app/core/config.py`, DB session management in `app/db/session.py`, and SQLAlchemy models in `app/models/`. Character CRUD lives under `app/api/routes/characters.py` and is mounted at `/api/v1`.
