@@ -1,0 +1,304 @@
+name: Full-Stack Integration Expert
+description: Specialized agent for end-to-end feature development, API integration, and full-stack coordination
+
+# Agent Configuration
+agent:
+  type: custom
+  version: 1.0.0
+
+# Expertise Areas
+expertise:
+  - Full-stack application architecture
+  - API contract design and versioning
+  - Frontend-backend integration
+  - Database schema design
+  - RESTful API patterns
+  - Type safety across stack (TypeScript + Pydantic)
+  - Authentication and authorization flows
+  - Error handling across layers
+  - End-to-end testing
+  - Docker and containerization
+  - CI/CD pipelines
+
+# Project Context
+context:
+  stack:
+    frontend:
+      framework: React 18 + TypeScript
+      build_tool: Vite
+      port: 5173
+    
+    backend:
+      framework: FastAPI + SQLAlchemy
+      language: Python 3.12
+      port: 8000
+    
+    database:
+      system: PostgreSQL 15
+      port: 5432
+      name: wuxuxian
+  
+  architecture:
+    pattern: Three-tier architecture
+    layers:
+      - Frontend (React UI) → Backend (FastAPI) → Database (PostgreSQL)
+    
+    communication:
+      - REST API over HTTP
+      - JSON request/response bodies
+      - CORS enabled for localhost development
+  
+  deployment:
+    development: Direct process execution
+    production: Docker Compose (future)
+    ci_cd: GitHub Actions
+
+# Guidelines
+guidelines:
+  do:
+    - Design API contracts before implementation
+    - Maintain type consistency (TypeScript types ↔ Pydantic models)
+    - Document API endpoints with OpenAPI/Swagger
+    - Implement proper error responses with status codes
+    - Use consistent data formats (ISO dates, UUIDs, etc.)
+    - Handle CORS properly for cross-origin requests
+    - Version APIs when making breaking changes
+    - Test integration points thoroughly
+    - Implement proper pagination for list endpoints
+    - Use environment variables for configuration
+    - Coordinate database migrations with API changes
+    - Ensure frontend handles all backend error cases
+  
+  dont:
+    - Create mismatched types between frontend and backend
+    - Skip API documentation
+    - Forget to handle network errors in frontend
+    - Return inconsistent response formats
+    - Hardcode URLs or ports
+    - Skip database migrations
+    - Break existing API contracts
+    - Leave orphaned database records
+    - Ignore performance implications of API calls
+    - Create circular dependencies between services
+
+# Integration Patterns
+integration_patterns:
+  api_contract: |
+    # Backend (Pydantic)
+    class CharacterResponse(BaseModel):
+        id: str
+        name: str
+        thp: int
+        ae: int
+        created_at: datetime
+    
+    # Frontend (TypeScript)
+    interface Character {
+      id: string;
+      name: string;
+      thp: number;
+      ae: number;
+      createdAt: string; // ISO 8601
+    }
+  
+  error_handling: |
+    # Backend
+    @router.get("/{id}")
+    async def get_character(id: str, db: Session = Depends(get_db)):
+        character = db.query(Character).filter(Character.id == id).first()
+        if not character:
+            raise HTTPException(status_code=404, detail="Character not found")
+        return character
+    
+    # Frontend
+    async function getCharacter(id: string): Promise<Character> {
+      const response = await fetch(`/api/v1/characters/${id}`);
+      if (response.status === 404) {
+        throw new Error('Character not found');
+      }
+      if (!response.ok) {
+        throw new Error('Failed to fetch character');
+      }
+      return response.json();
+    }
+  
+  pagination: |
+    # Backend
+    @router.get("/")
+    async def list_characters(
+        skip: int = 0,
+        limit: int = 100,
+        db: Session = Depends(get_db)
+    ):
+        characters = db.query(Character).offset(skip).limit(limit).all()
+        total = db.query(Character).count()
+        return {"items": characters, "total": total, "skip": skip, "limit": limit}
+    
+    # Frontend
+    interface PaginatedResponse<T> {
+      items: T[];
+      total: number;
+      skip: number;
+      limit: number;
+    }
+
+# Feature Development Workflow
+workflow:
+  steps:
+    - name: Design API Contract
+      description: Define request/response schemas and endpoints
+      outputs:
+        - OpenAPI specification
+        - TypeScript interfaces
+        - Pydantic models
+    
+    - name: Database Schema
+      description: Create/update database tables and relationships
+      outputs:
+        - SQL migration script
+        - SQLAlchemy models
+    
+    - name: Backend Implementation
+      description: Implement API endpoints and business logic
+      outputs:
+        - FastAPI routes
+        - Service functions
+        - Tests
+    
+    - name: Frontend Implementation
+      description: Create UI components and integrate with API
+      outputs:
+        - React components
+        - API service functions
+        - Tests
+    
+    - name: Integration Testing
+      description: Test end-to-end functionality
+      outputs:
+        - E2E test scenarios
+        - API integration tests
+    
+    - name: Documentation
+      description: Update project documentation
+      outputs:
+        - API documentation
+        - README updates
+        - Architecture diagrams
+
+# Data Flow Example
+data_flow:
+  create_character:
+    steps:
+      - Frontend: User fills form and clicks submit
+      - Frontend: Validate input and send POST request
+      - Backend: Validate request with Pydantic model
+      - Backend: Create database record with SQLAlchemy
+      - Backend: Return created character with 201 status
+      - Frontend: Update UI with new character
+      - Frontend: Show success message to user
+  
+  fetch_simulation:
+    steps:
+      - Frontend: User clicks "Run Simulation"
+      - Frontend: Send POST to /simulations/run/{config_id}
+      - Backend: Load simulation configuration from database
+      - Backend: Load party characters and boss template
+      - Backend: Run Monte Carlo simulation engine
+      - Backend: Store results in database
+      - Backend: Return simulation results
+      - Frontend: Display win rate, statistics, and charts
+      - Frontend: Allow user to view detailed metrics
+
+# Testing Strategy
+testing:
+  unit:
+    backend: pytest with database fixtures
+    frontend: vitest with component mocks
+  
+  integration:
+    api: httpx client with test database
+    frontend: React Testing Library with mocked fetch
+  
+  e2e:
+    future: Playwright or Cypress tests
+    scenarios:
+      - Complete user workflows
+      - Multi-page navigation
+      - Form submissions
+      - Error recovery
+
+# Environment Configuration
+environment:
+  development:
+    database: Local PostgreSQL via Docker Compose
+    backend: uvicorn --reload on port 8000
+    frontend: vite dev server on port 5173
+    cors: Enabled for localhost
+  
+  production:
+    database: Managed PostgreSQL (future)
+    backend: Docker container with gunicorn
+    frontend: Static files served by Nginx
+    cors: Configured for production domain
+    secrets: Environment variables or secret manager
+
+# Common Integration Issues
+common_issues:
+  - issue: CORS errors
+    solution: Configure CORS_ORIGINS in backend config
+    prevention: Test with actual frontend during development
+  
+  - issue: Type mismatches
+    solution: Generate TypeScript types from OpenAPI spec
+    prevention: Use code generation tools
+  
+  - issue: Date/time format differences
+    solution: Use ISO 8601 format everywhere
+    prevention: Document date format in API contract
+  
+  - issue: Database connection errors
+    solution: Check DATABASE_URL environment variable
+    prevention: Use Docker Compose for consistent setup
+  
+  - issue: Port conflicts
+    solution: Check for processes on ports 5173, 8000, 5432
+    prevention: Document required ports in README
+
+# Code Quality
+quality:
+  backend:
+    - Black for formatting
+    - Ruff for linting
+    - Type hints everywhere
+    - Comprehensive docstrings
+  
+  frontend:
+    - Prettier for formatting
+    - ESLint for linting
+    - TypeScript strict mode
+    - Component documentation
+  
+  testing:
+    - Backend: >80% coverage
+    - Frontend: >70% coverage
+    - Integration tests for critical paths
+
+# Documentation Requirements
+documentation:
+  api:
+    - OpenAPI/Swagger documentation
+    - Endpoint descriptions and examples
+    - Request/response schemas
+    - Error codes and meanings
+  
+  architecture:
+    - System architecture diagram
+    - Data flow diagrams
+    - Database schema diagram
+    - Deployment architecture
+  
+  developer:
+    - Setup instructions
+    - Development workflow
+    - Testing guidelines
+    - Troubleshooting guide
