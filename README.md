@@ -1,46 +1,70 @@
-# WuXuxian stack
+# WuXuxian TTRPG webapp scaffold
 
-Mono-repo scaffolding for the WuXuxian TTRPG tools: FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and optional local Postgres via Docker Compose.
+FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Postgres via Docker Compose.
 
-## Architecture & plan (concise)
-- Treat `backend/openapi.yaml` and `backend/schema.sql` as canonical; paste in the provided specs without modifying them. Use `schema.sql` to bootstrap the database.
-- Backend settings live in `app/core/config.py` with an environment-driven `DATABASE_URL` defaulting to local Postgres.
-- SQLAlchemy engine/session in `app/db/session.py` with a shared declarative `Base` in `app/models/base.py`.
-- Core models map to the `characters` and `techniques` tables with minimal enums aligned to the schema placeholder.
-- Minimal CRUD routes for characters under `/api/v1` using simple Pydantic schemas.
-- FastAPI app (`app/main.py`) includes CORS for Vite (`http://localhost:5173`) and a `/health` endpoint.
-- Frontend calls `GET /api/v1/characters` on load, displays the list, and offers a refresh button.
-- Optional infra via `infra/docker-compose.yml` to run Postgres locally; apply `schema.sql` manually.
-- Dependencies stay minimal: FastAPI, Uvicorn, SQLAlchemy, psycopg2-binary, python-dotenv (optional).
+## Architecture
+- Treat `backend/openapi.yaml` and `backend/schema.sql` as canonical inputs; paste the provided specs verbatim without modifying them.
+- Backend: FastAPI application with settings in `app/core/config.py`, DB session management in `app/db/session.py`, and SQLAlchemy models in `app/models/`. Character CRUD lives under `app/api/routes/characters.py` and is mounted at `/api/v1`.
+- Frontend: Vite + React + TypeScript in `frontend/`, calling the backend at `http://localhost:8000/api/v1`.
+- Infra: Docker Compose in `infra/` to start a local Postgres instance; optionally connect the backend to it via `DATABASE_URL`.
 
-## Quick start
-Start Postgres (Docker):
+## Getting started
+1. **Start Postgres**
+   ```bash
+   cd infra
+   docker-compose up -d
+   ```
 
-```bash
-cd infra
-docker-compose up -d
+2. **Apply the schema** (after pasting the real DDL into `backend/schema.sql`):
+   ```bash
+   psql postgresql://postgres:postgres@localhost:5432/wuxuxian -f ../backend/schema.sql
+   ```
+
+3. **Run the backend**
+   ```bash
+   cd ../backend
+   python -m venv .venv && source .venv/bin/activate
+   pip install -r requirements.txt
+   uvicorn app.main:app --reload --port 8000
+   ```
+
+4. **Run the frontend**
+   ```bash
+   cd ../frontend
+   npm install
+   npm run dev
+   ```
+
+5. **Open the app**
+   - Frontend: http://localhost:5173
+   - API: http://localhost:8000 (characters at `/api/v1/characters`)
+
+## Repository layout
 ```
-
-Apply schema:
-
-```bash
-psql postgresql://postgres:postgres@localhost:5432/wuxuxian -f backend/schema.sql
+wuxuxian-ttrpg-webapp/
+  backend/
+    app/
+      api/
+        deps.py
+        routes/
+          characters.py
+      core/
+        config.py
+      db/
+        session.py
+      models/
+        base.py
+        characters.py
+    openapi.yaml
+    schema.sql
+    requirements.txt
+  frontend/
+    src/
+      App.tsx
+      main.tsx
+    package.json
+    vite.config.ts
+  infra/
+    docker-compose.yml
+  README.md
 ```
-
-Backend:
-
-```bash
-cd backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-```
-
-Frontend:
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open the app: http://localhost:5173 (API at http://localhost:8000).

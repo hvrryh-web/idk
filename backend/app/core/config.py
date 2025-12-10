@@ -4,10 +4,10 @@ from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
-    app_name: str = Field("WuXuxian TTRPG", env="APP_NAME")
-    api_prefix: str = Field("/api/v1", env="API_PREFIX")
-    env: str = Field("dev", env="ENV")
-    database_url: str = Field(
+    APP_NAME: str = Field("WuXuxian TTRPG", env="APP_NAME")
+    API_PREFIX: str = Field("/api/v1", env="API_PREFIX")
+    ENV: str = Field("dev", env="ENV")
+    DATABASE_URL: str = Field(
         "postgresql+psycopg2://postgres:postgres@localhost:5432/wuxuxian",
         env="DATABASE_URL",
     )

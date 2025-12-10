@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes.characters import router as characters_router
 from app.core.config import settings
 
-app = FastAPI(title=settings.app_name)
+app = FastAPI(title=settings.APP_NAME)
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(characters_router, prefix=settings.api_prefix)
+app.include_router(characters_router, prefix=settings.API_PREFIX)
 
 
 @app.get("/health")

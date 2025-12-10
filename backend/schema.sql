@@ -1,1 +1,1 @@
--- paste the provided Postgres DDL here; do not modify.
+-- TODO: paste full Postgres DDL here verbatim; do not modify.
