@@ -1,9 +1,9 @@
-version: "3.9"
+version: '3.9'
 
 services:
   db:
     image: postgres:15
-    restart: unless-stopped
+    container_name: wuxuxian-db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -11,11 +11,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./backend/schema.sql:/docker-entrypoint-initdb.d/00-schema.sql:ro
-      - ./backend/seed.sql:/docker-entrypoint-initdb.d/10-seed.sql:ro
+      - db_data:/var/lib/postgresql/data
+      - ./backend/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d wuxuxian"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -23,17 +22,31 @@ services:
   backend:
     build:
       context: ./backend
-    restart: unless-stopped
+      dockerfile: Dockerfile
+    container_name: wuxuxian-backend
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg2://postgres:postgres@db:5432/wuxuxian}
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/wuxuxian
+      ENV: production
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./backend:/app
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: wuxuxian-frontend
+    environment:
+      # Use service name for Docker network communication
+      VITE_API_URL: http://backend:8000
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
 
 volumes:
-  postgres_data:
+  db_data:

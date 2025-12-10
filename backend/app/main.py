@@ -1,25 +1,28 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import characters, techniques
-from app.core.config import get_settings
+from app.api.routes.characters import router as characters_router
+from app.api.routes.boss_templates import router as boss_templates_router
+from app.api.routes.simulations import router as simulations_router
+from app.api.routes.techniques import router as techniques_router
+from app.core.config import settings
 
-settings = get_settings()
-
-app = FastAPI(title=settings.app_name, debug=settings.debug, openapi_url=f"{settings.api_prefix}/openapi.json")
+app = FastAPI(title=settings.APP_NAME)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(characters.router, prefix=settings.api_prefix)
-app.include_router(techniques.router, prefix=settings.api_prefix)
+app.include_router(characters_router, prefix=settings.API_PREFIX)
+app.include_router(boss_templates_router, prefix=settings.API_PREFIX)
+app.include_router(simulations_router, prefix=settings.API_PREFIX)
+app.include_router(techniques_router, prefix=settings.API_PREFIX)
 
 
-@app.get("/")
-def healthcheck():
+@app.get("/health")
+def health():
     return {"status": "ok"}
