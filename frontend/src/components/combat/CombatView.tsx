@@ -129,7 +129,7 @@ export default function CombatView() {
     : null;
 
   const availableTechniques = activeCharacter
-    ? techniques.filter((t) => activeCharacter.technique_ids?.includes(String(t.id)))
+    ? techniques.filter((t) => t.id && activeCharacter.technique_ids?.includes(String(t.id)))
     : [];
 
   return (

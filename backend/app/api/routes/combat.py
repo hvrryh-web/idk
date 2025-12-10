@@ -14,7 +14,12 @@ from app.simulation.player_combat import PlayerCombatSession
 
 router = APIRouter()
 
-# In-memory storage for combat sessions (TODO: move to Redis or database)
+# In-memory storage for combat sessions
+# TODO: Replace with Redis or database for production use
+# Current limitations:
+# - Sessions lost on server restart
+# - No horizontal scaling support
+# - Memory grows with active sessions (implement cleanup for old sessions)
 active_sessions: Dict[str, PlayerCombatSession] = {}
 
 
@@ -192,6 +197,8 @@ def get_action_preview(encounter_id: str, actor_id: str, technique_id: str, targ
 
     # Calculate preview data
     effective_dr = target.get_effective_dr()
+    if effective_dr is None:
+        effective_dr = 0.0
     estimated_damage = int(technique.base_damage * (1.0 - effective_dr))
 
     # Check for cost track warnings (simplified)

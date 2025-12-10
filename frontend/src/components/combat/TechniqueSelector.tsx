@@ -26,7 +26,7 @@ export default function TechniqueSelector({
           return (
             <button
               key={tech.id}
-              onClick={() => !isDisabled && onSelectTechnique(String(tech.id))}
+              onClick={() => !isDisabled && tech.id && onSelectTechnique(String(tech.id))}
               disabled={isDisabled}
               style={{
                 padding: '12px',

@@ -1,4 +1,5 @@
 """Player-controlled combat logic for the UI."""
+import random
 from typing import Dict, List, Optional
 from uuid import UUID
 
@@ -18,6 +19,8 @@ class PlayerCombatSession:
         enable_3_stage: bool = False,
     ):
         self.encounter_id = encounter_id
+        # Note: CombatState.boss is kept for compatibility with existing simulation code
+        # For multi-enemy support, use self.enemies list
         self.state = CombatState(round_number=1, party=party, boss=enemies[0] if enemies else None)
         self.enemies = enemies
         self.techniques = techniques
@@ -183,8 +186,6 @@ class PlayerCombatSession:
         for enemy in self.enemies:
             if enemy.is_alive() and self.state.party_alive():
                 # Simple AI: attack random living party member
-                import random
-
                 living_pcs = [pc for pc in self.state.party if pc.is_alive()]
                 if living_pcs:
                     target = random.choice(living_pcs)

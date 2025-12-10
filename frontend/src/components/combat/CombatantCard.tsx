@@ -17,8 +17,8 @@ export default function CombatantCard({
   isSelected,
   onSelect,
 }: CombatantCardProps) {
-  const thpPercent = (combatant.thp / combatant.max_thp) * 100;
-  const aePercent = (combatant.ae / combatant.max_ae) * 100;
+  const thpPercent = combatant.max_thp > 0 ? (combatant.thp / combatant.max_thp) * 100 : 0;
+  const aePercent = combatant.max_ae > 0 ? (combatant.ae / combatant.max_ae) * 100 : 0;
   const strainPercent = (combatant.strain / 10) * 100;
 
   const cardStyle: React.CSSProperties = {
