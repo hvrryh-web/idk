@@ -193,6 +193,18 @@ Sequence ≈ SCL ← Narrative label
 
 ## Related Files in Repository
 
+### ⭐ SRD Alpha Documents (NEW - 2025-12-10)
+
+**Game-ready System Reference Documents:**
+- **[SRD_HISTORY.md](./SRD_HISTORY.md)** - Complete evolution of game design through 12 phases
+- **[SRD_ALPHA_STRUCTURE.md](./SRD_ALPHA_STRUCTURE.md)** - Comprehensive 12-section SRD framework
+- **[SRD_ALPHA_PATCH_0.1.md](./SRD_ALPHA_PATCH_0.1.md)** - Sections 0-2 (Introduction, Character Creation, Stats & SCL)
+- **[SRD_ALPHA_PATCH_0.2.md](./SRD_ALPHA_PATCH_0.2.md)** - Sections 3-4 (Combat Resources, Conflict Types)
+
+**Coverage**: 42% complete (5 of 12 sections)
+**Status**: Alpha - Rules complete for character creation and core combat
+**Next**: Patch 0.3 will add Techniques, Equipment, Cultivation
+
 ### Design Documents (Source Material)
 
 Located in `/WUXUXIANXIA TTRPG/`:
