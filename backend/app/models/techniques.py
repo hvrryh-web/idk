@@ -1,14 +1,42 @@
-import uuid
-
-from sqlalchemy import Column, String, Text
-from sqlalchemy.dialects.postgresql import UUID
+"""Technique models matching schema.sql."""
+from sqlalchemy import Column, DateTime, Enum, Numeric, Text, func
+from sqlalchemy.dialects.postgresql import JSONB
 
 from app.models.base import Base
+from app.models.enums import TechniqueAxis, TechniqueTier
 
 
 class Technique(Base):
     __tablename__ = "techniques"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = Column(String, nullable=False)
-    description = Column(Text, nullable=True)
+    id = Column(Text, primary_key=True)  # String key like 'Karma_Innate'
+    name = Column(Text, nullable=False)
+    tier = Column(Enum(TechniqueTier, name="technique_tier", create_type=False), nullable=False)
+    archetype = Column(Text, nullable=True)
+    axis = Column(Enum(TechniqueAxis, name="technique_axis", create_type=False), nullable=False)
+    target_pool = Column(Text, nullable=False)  # 'PHP', 'MSHP', or 'mixed'
+    
+    # Core Stats
+    base_offrank_bias = Column(Numeric, nullable=False, default=0)
+    base_damage = Column(Numeric, nullable=False, default=0)
+    ae_cost = Column(Numeric, nullable=False, default=0)
+    self_strain = Column(Numeric, nullable=False, default=0)
+    
+    # Damage Routing
+    damage_to_thp = Column(Numeric, nullable=False, default=1)
+    damage_to_php = Column(Numeric, nullable=False, default=0)
+    damage_to_mshp = Column(Numeric, nullable=False, default=0)
+    
+    # Special Effects
+    boss_strain_on_hit = Column(Numeric, nullable=False, default=0)
+    dr_debuff = Column(Numeric, nullable=False, default=0)
+    
+    # JSONB fields
+    ally_shield = Column(JSONB, nullable=True)
+    build_meta = Column(JSONB, nullable=True)
+    
+    # Timestamps
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+    )
