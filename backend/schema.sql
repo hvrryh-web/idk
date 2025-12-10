@@ -1,6 +1,7 @@
--- ==========================
 -- Enum Types
 -- ==========================
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TYPE character_type AS ENUM ('PC', 'Boss', 'NPC');
 
