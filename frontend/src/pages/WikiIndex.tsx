@@ -3,6 +3,15 @@ import { useNavigate } from 'react-router-dom';
 // Table of contents for the wiki
 const wikiToc = [
   {
+    section: 'SRD Alpha (NEW)',
+    articles: [
+      { id: 'srd-history', title: '📖 SRD History - Game Dev Evolution' },
+      { id: 'srd-structure', title: '🏗️ SRD Alpha Structure' },
+      { id: 'srd-patch-01', title: '📄 Patch 0.1 - Introduction, Stats & SCL' },
+      { id: 'srd-patch-02', title: '📄 Patch 0.2 - Combat & Conflict Types' },
+    ],
+  },
+  {
     section: 'Getting Started',
     articles: [
       { id: 'character-creation', title: 'Character Creation' },
