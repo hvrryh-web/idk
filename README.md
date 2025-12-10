@@ -148,6 +148,7 @@ isort .
 ruff check .
 ruff check . --fix  # Auto-fix issues
 ```
+This launches Postgres on `localhost:5432` with user `postgres`, password `postgres`, and database `wuxuxian`.
 
 **TypeScript (Frontend):**
 ```bash
@@ -208,6 +209,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 pytest tests/ -v
 ```
+The API will be available at `http://localhost:8000`. Health check: `http://localhost:8000/health`.
 
 **Test files:**
 - `backend/tests/test_main.py` - Tests for main application endpoints (health check)
@@ -225,6 +227,10 @@ npm install
 npm test          # Run tests once
 npm run test:watch # Run tests in watch mode
 ```
+The dev server runs at `http://localhost:5173`.
+
+### 5) See the vertical slice
+Open your browser to `http://localhost:5173`. The page loads characters by calling `GET http://localhost:8000/api/v1/characters`. If the list is empty, it will say "No characters yet." Use the "Refresh" button after you add data.
 
 **Test files:**
 - `frontend/src/App.test.tsx` - Tests for the main App component
