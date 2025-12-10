@@ -39,6 +39,10 @@ FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Post
    - Frontend: http://localhost:5173
    - API: http://localhost:8000 (characters at `/api/v1/characters`)
 
+## Tasks
+
+- Masterdocs segmentation: See [masterdocs/README.md](./masterdocs/README.md) for the task and instructions to split large Masterdoc files into ingestible chunks for indexing and QA systems.
+
 ## Combat Simulation Engine
 
 The application includes a Monte Carlo combat simulation engine for testing party compositions against boss encounters.
