@@ -1,68 +1,116 @@
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 
-type SimulationResult = {
-  id: string;
-  status: string;
-  result?: Record<string, unknown>;
-};
+interface SimulationRunnerProps {
+  availableScenarios?: string[];
+}
 
-export default function SimulationRunner() {
-  const [configId, setConfigId] = useState('');
-  const [iterations, setIterations] = useState(1000);
-  const [result, setResult] = useState<SimulationResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+interface SimulationRunnerState {
+  selectedScenario: string;
+  iterationCount: number;
+  isRunning: boolean;
+  lastResult?: SimulationResultPreview;
+}
 
-  const run = (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    fetch('/api/v1/simulations/runs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ config_id: configId, iterations })
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setResult(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+interface SimulationResultPreview {
+  runId: string;
+  status: 'pending' | 'completed' | 'failed';
+  summary: string;
+}
+
+export default function SimulationRunner({ availableScenarios = [] }: SimulationRunnerProps) {
+  const [state, setState] = useState<SimulationRunnerState>({
+    selectedScenario: '',
+    iterationCount: 100,
+    isRunning: false
+  });
+
+  const scenarioOptions = useMemo(() => {
+    if (availableScenarios.length > 0) {
+      return availableScenarios;
+    }
+
+    return ['Default Scenario', 'Boss Rush', 'Speedrun', 'Endless'];
+  }, [availableScenarios]);
+
+  const handleScenarioChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    console.log('TODO: handle scenario selection', value);
+    setState((prev) => ({ ...prev, selectedScenario: value }));
+  };
+
+  const handleIterationChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
+    console.log('TODO: validate iteration count', value);
+    setState((prev) => ({ ...prev, iterationCount: value }));
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('TODO: start simulation with backend wiring', state);
+    setState((prev) => ({ ...prev, isRunning: true }));
+
+    // TODO: replace with real simulation call once backend is connected
+    const placeholderResult: SimulationResultPreview = {
+      runId: `local-${Date.now()}`,
+      status: 'pending',
+      summary: 'Simulation result preview will appear here.'
+    };
+
+    setState((prev) => ({ ...prev, isRunning: false, lastResult: placeholderResult }));
   };
 
   return (
-    <div>
+    <div className="simulation-runner">
       <h2>Simulation Runner</h2>
-      <form onSubmit={run}>
+      <form onSubmit={handleSubmit}>
         <label>
-          Config ID
-          <input value={configId} onChange={(e) => setConfigId(e.target.value)} required />
+          Scenario
+          <select
+            value={state.selectedScenario}
+            onChange={handleScenarioChange}
+            required
+          >
+            <option value="" disabled>
+              Select a scenario
+            </option>
+            {scenarioOptions.map((scenario) => (
+              <option key={scenario} value={scenario}>
+                {scenario}
+              </option>
+            ))}
+          </select>
         </label>
+
         <label>
           Iterations
           <input
             type="number"
-            value={iterations}
             min={1}
-            onChange={(e) => setIterations(Number(e.target.value))}
+            value={state.iterationCount}
+            onChange={handleIterationChange}
+            required
           />
         </label>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Running...' : 'Run simulation'}
+
+        <button type="submit" disabled={state.isRunning}>
+          {state.isRunning ? 'Starting…' : 'Start Simulation'}
         </button>
       </form>
-      {error && <p>Failed to run: {error}</p>}
-      {result && (
-        <div>
-          <p>
-            Run {result.id} – status: <strong>{result.status}</strong>
-          </p>
-          {result.result && <pre>{JSON.stringify(result.result, null, 2)}</pre>}
-        </div>
-      )}
+
+      <section className="simulation-results">
+        <h3>Results</h3>
+        {state.lastResult ? (
+          <div className="simulation-results__placeholder">
+            <p>
+              Run ID: <strong>{state.lastResult.runId}</strong>
+            </p>
+            <p>Status: {state.lastResult.status}</p>
+            <p>{state.lastResult.summary}</p>
+          </div>
+        ) : (
+          <p>No simulations run yet. Results will appear here.</p>
+        )}
+      </section>
     </div>
   );
 }
