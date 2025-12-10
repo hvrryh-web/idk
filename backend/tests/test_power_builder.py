@@ -116,5 +116,5 @@ def test_build_innate_technique(db_session):
     assert budget > 0, "Budget should be positive"
     
     # Magic rank should be average of MND and SOL
-    expected_magic_rank = (12 + 14) // 2
+    expected_magic_rank = (character.mnd + character.sol) // 2
     assert technique.build_meta["magic_rank"] == expected_magic_rank

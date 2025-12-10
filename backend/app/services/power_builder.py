@@ -89,7 +89,7 @@ def build_innate_technique(
     
     # Determine axis based on seed aspects
     aspects = [seed.aspect for seed in seed_cards]
-    if all(a == aspects[0] for a in aspects):
+    if aspects and all(a == aspects[0] for a in aspects):
         # All same aspect
         axis = TechniqueAxis[aspects[0].value]
     else:
