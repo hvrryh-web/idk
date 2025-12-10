@@ -7,10 +7,13 @@
     "skipLibCheck": true,
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "strict": true
+    "strict": true,
+    "baseUrl": "./src",
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }
