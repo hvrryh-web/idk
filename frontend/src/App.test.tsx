@@ -12,7 +12,7 @@ describe("App Component", () => {
     vi.clearAllMocks();
   });
 
-  it("renders the app title", () => {
+  it("renders the app title", async () => {
     (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
@@ -20,9 +20,14 @@ describe("App Component", () => {
 
     render(<App />);
     expect(screen.getByText(/WuXuxian TTRPG – Characters/i)).toBeInTheDocument();
+    
+    // Wait for the fetch to complete to avoid act warnings
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalled();
+    });
   });
 
-  it("displays loading state initially", () => {
+  it("displays loading state initially", async () => {
     (global.fetch as any).mockImplementationOnce(
       () =>
         new Promise((resolve) =>
@@ -39,6 +44,11 @@ describe("App Component", () => {
 
     render(<App />);
     expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+    
+    // Wait for the fetch to complete to avoid act warnings
+    await waitFor(() => {
+      expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
+    });
   });
 
   it("displays no characters message when list is empty", async () => {
