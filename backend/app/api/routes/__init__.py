@@ -1,3 +1,4 @@
-from app.api.routes import characters, techniques
+# Routes package
+# Individual route modules can be imported directly, e.g.:
+# from app.api.routes.characters import router
 
-__all__ = ["characters", "techniques"]

@@ -1,30 +1,32 @@
 # Backend
 
-FastAPI + SQLAlchemy backend implementing the WuXuxian TTRPG API from `openapi.yaml` and `schema.sql`.
+FastAPI + SQLAlchemy backend for the WuXuxian TTRPG data. The API contract and database structure are defined by `openapi.yaml` and `schema.sql` (placeholders here; paste in the provided specs without modifying them).
 
 ## Prerequisites
 - Python 3.12
-- Postgres (with `pgcrypto` or `uuid-ossp` to support `gen_random_uuid()`)
+- Postgres running locally (see `infra/docker-compose.yml` for a quick container)
 
 ## Setup
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install fastapi uvicorn sqlalchemy psycopg2-binary pydantic
+pip install -r requirements.txt
 ```
 
-Apply the schema to your database:
+Apply the schema to your database (adjust the connection string as needed):
 ```bash
-psql $DATABASE_URL -f schema.sql
+psql postgresql://postgres:postgres@localhost:5432/wuxuxian -f schema.sql
 ```
 
-## Running
+## Running locally
 ```bash
 export DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/wuxuxian
-uvicorn app.main:app --reload --app-dir backend/app --port 8000
+uvicorn app.main:app --reload --port 8000
 ```
 
-Sample request (list characters):
-```bash
-curl http://localhost:8000/api/v1/characters
-```
+## Structure
+- `app/core/config.py` – environment-driven settings
+- `app/db/session.py` – SQLAlchemy engine and session factory
+- `app/models/` – declarative models for `characters` and `techniques`
+- `app/api/routes/characters.py` – minimal CRUD for characters under `/api/v1`
+- `app/main.py` – FastAPI app with CORS and a `/health` endpoint
