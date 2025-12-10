@@ -67,7 +67,7 @@ export default function App() {
           results.
         </p>
       </section>
-      <section>
+      <section className="runner-card">
         <SimulationRunner />
       </section>
     </main>
