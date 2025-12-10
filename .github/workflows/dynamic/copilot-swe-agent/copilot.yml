@@ -73,7 +73,8 @@ jobs:
           echo "Attempt $attempt/$MAX_ATTEMPTS: invoking Copilot coding agent..."
           # TODO: Replace the command below with the actual Copilot agent command
           # Example: gh copilot suggest "fix the code" or similar
-          # For now, using a placeholder that can be customized
+          # Note: The placeholder command below always succeeds for safety.
+          #       Replace with the actual command to enable proper retry testing.
           if output=$(echo "Copilot agent placeholder - replace with actual command" 2>&1); then
             echo "Copilot agent succeeded"
             echo "$output"
@@ -82,7 +83,8 @@ jobs:
             rc=$?
             echo "Copilot agent failed with exit code $rc"
             echo "$output"
-            # Detect 499 in output (CAPI 499) as a transient condition
+            # Retry on transient failures: HTTP 499 or any non-zero exit code
+            # Per requirements: treat all failures as potentially transient
             if echo "$output" | grep -q "499" || [ $rc -ne 0 ]; then
               if [ $attempt -lt "$MAX_ATTEMPTS" ]; then
                 echo "Transient failure detected. Sleeping $backoff seconds before retry..."
@@ -92,7 +94,7 @@ jobs:
                 continue
               else
                 echo "Reached max attempts ($MAX_ATTEMPTS). Failing step." >&2
-                # Re-run once to ensure original exit code is propagated
+                # Exit with failure status
                 false
               fi
             else
