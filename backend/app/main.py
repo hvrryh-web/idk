@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.characters import router as characters_router
+from app.api.routes.boss_templates import router as boss_templates_router
+from app.api.routes.simulations import router as simulations_router
 from app.core.config import settings
 
 app = FastAPI(title=settings.APP_NAME)
@@ -15,6 +17,8 @@ app.add_middleware(
 )
 
 app.include_router(characters_router, prefix=settings.API_PREFIX)
+app.include_router(boss_templates_router, prefix=settings.API_PREFIX)
+app.include_router(simulations_router, prefix=settings.API_PREFIX)
 
 
 @app.get("/health")
