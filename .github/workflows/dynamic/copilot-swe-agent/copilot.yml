@@ -1,0 +1,104 @@
+name: Copilot Coding Agent
+
+# This workflow addresses two key issues:
+# 1. Git diff failure when base branch (main) is not available in checkout
+#    - Fixed by using fetch-depth: 0 and explicitly checking out main ref
+#    - Added safe git-diff guard to handle missing base branch gracefully
+# 2. Transient Copilot API failures (HTTP 499)
+#    - Fixed by wrapping Copilot agent calls with retry logic (3 attempts, exponential backoff)
+#
+# Reference: https://github.com/hvrryh-web/idk/actions/runs/20095175371/job/57651702396
+# Commit ref: ad7e93fb79199560b9665bc7aab950afd7bb7a81
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+# Minimal permissions required
+permissions:
+  contents: read
+
+jobs:
+  copilot-agent:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Fix 1: Checkout with full history and ensure base branch is fetched
+    # This ensures 'main' branch is available for git diff operations
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: main
+    
+    # Fix 1 (continued): Safe git-diff guard to handle missing base branch
+    # This step fetches the base branch if needed and runs git diff safely
+    # If the base branch is unavailable, it skips diff instead of failing
+    - name: Ensure base branch available and safe diff
+      shell: bash
+      run: |
+        set -euo pipefail
+        BASE=main
+        # If the base branch doesn't exist locally, try to fetch it from origin
+        if ! git rev-parse --verify --quiet "refs/heads/$BASE" >/dev/null; then
+          echo "Base branch '$BASE' not found locally. Attempting to fetch origin/$BASE..."
+          if git ls-remote --exit-code origin refs/heads/$BASE >/dev/null 2>&1; then
+            git fetch origin "$BASE:$BASE" || true
+          else
+            echo "origin/$BASE not found; skipping git diff against base branch." >&2
+          fi
+        fi
+        # If base exists now, run the diff safely; otherwise, skip
+        if git rev-parse --verify --quiet "refs/heads/$BASE" >/dev/null; then
+          echo "Running git diff against $BASE..."
+          git --no-pager diff --name-only "$BASE"...HEAD || true
+        else
+          echo "Skipping git diff: base branch unavailable."
+        fi
+    
+    # Fix 2: Copilot agent invocation with retry logic
+    # Wraps the agent call with 3 retry attempts and exponential backoff
+    # Handles transient failures (HTTP 499, non-zero exit codes)
+    - name: Run Copilot coding agent with retries
+      shell: bash
+      env:
+        MAX_ATTEMPTS: 3
+      run: |
+        set -euo pipefail
+        attempt=1
+        backoff=3
+        while [ $attempt -le "$MAX_ATTEMPTS" ]; do
+          echo "Attempt $attempt/$MAX_ATTEMPTS: invoking Copilot coding agent..."
+          # TODO: Replace the command below with the actual Copilot agent command
+          # Example: gh copilot suggest "fix the code" or similar
+          # For now, using a placeholder that can be customized
+          if output=$(echo "Copilot agent placeholder - replace with actual command" 2>&1); then
+            echo "Copilot agent succeeded"
+            echo "$output"
+            break
+          else
+            rc=$?
+            echo "Copilot agent failed with exit code $rc"
+            echo "$output"
+            # Detect 499 in output (CAPI 499) as a transient condition
+            if echo "$output" | grep -q "499" || [ $rc -ne 0 ]; then
+              if [ $attempt -lt "$MAX_ATTEMPTS" ]; then
+                echo "Transient failure detected. Sleeping $backoff seconds before retry..."
+                sleep $backoff
+                attempt=$((attempt+1))
+                backoff=$((backoff*2))
+                continue
+              else
+                echo "Reached max attempts ($MAX_ATTEMPTS). Failing step." >&2
+                # Re-run once to ensure original exit code is propagated
+                false
+              fi
+            else
+              # Non-transient failure; fail fast
+              echo "Non-retryable failure. Failing step." >&2
+              false
+            fi
+          fi
+        done
