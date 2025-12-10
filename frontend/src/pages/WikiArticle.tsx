@@ -168,7 +168,7 @@ Quick Actions are special moves available in 3-Stage Combat Mode. They're fast, 
 Quick Actions occur in Stage 1 (Fast actors) and Stage 3 (Slow actors) of 3-Stage Combat. Plan your SPD band to match your strategy!`,
     relatedArticles: ["combat-system", "action-economy"],
   },
-  techniques: {
+  "techniques": {
     title: "Techniques Guide",
     content: `# Techniques Guide
 
