@@ -1,0 +1,92 @@
+# GitHub Actions workflow for Copilot SWE Agent
+# Reference: https://github.com/hvrryh-web/idk/actions/runs/20095175371/job/57651702396
+# File ref: dynamic/copilot-swe-agent/copilot@ad7e93fb79199560b9665bc7aab950afd7bb7a81
+#
+# This workflow addresses two main issues:
+# 1. Ensures checkout fetches the main branch with full history to avoid "fatal: ambiguous argument 'main'" errors
+# 2. Wraps Copilot API calls with retry logic to handle transient 499 errors
+
+name: Copilot SWE Agent
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  copilot-agent:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Fix #1: Ensure checkout fetches main with full history
+    # This ensures the main branch is available for git diff operations
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: main
+    
+    # Fix #2: Add a safe git-diff guard step
+    - name: Ensure base branch available and safe diff
+      shell: bash
+      run: |
+        set -euo pipefail
+        BASE=main
+        echo "Checking for base branch '$BASE'..."
+        if ! git rev-parse --verify --quiet "refs/heads/$BASE" >/dev/null; then
+          echo "Base branch '$BASE' not found locally. Attempting to fetch origin/$BASE..."
+          if git ls-remote --exit-code origin refs/heads/$BASE >/dev/null 2>&1; then
+            git fetch origin "$BASE:$BASE" || true
+          else
+            echo "origin/$BASE not found; skipping git diff against base branch." >&2
+          fi
+        fi
+        if git rev-parse --verify --quiet "refs/heads/$BASE" >/dev/null; then
+          echo "Running git diff against $BASE..."
+          git --no-pager diff --name-only "$BASE"...HEAD || true
+        else
+          echo "Skipping git diff: base branch unavailable."
+        fi
+    
+    # Fix #3: Wrap the Copilot-calling step with a retry wrapper (3 attempts, exponential backoff)
+    - name: Run Copilot coding agent with retries
+      shell: bash
+      env:
+        MAX_ATTEMPTS: 3
+      run: |
+        set -euo pipefail
+        attempt=1
+        backoff=3
+        MAX_ATTEMPTS="${MAX_ATTEMPTS}"
+        # Replace the COPILOT_CMD below with the exact command used in the workflow to invoke the agent
+        # For demonstration purposes, using a simple echo command
+        # In production, this should be replaced with the actual Copilot agent invocation
+        COPILOT_CMD="echo 'Running Copilot coding agent...'; exit 0"
+        while [ $attempt -le "$MAX_ATTEMPTS" ]; do
+          echo "Attempt $attempt/$MAX_ATTEMPTS: invoking Copilot coding agent..."
+          output="$(eval $COPILOT_CMD 2>&1)" || rc=$?
+          rc=${rc:-0}
+          echo "$output"
+          if [ $rc -eq 0 ]; then
+            echo "Copilot agent succeeded"
+            break
+          fi
+          echo "Copilot agent failed with exit code $rc"
+          if echo "$output" | grep -q "499" || echo "$output" | grep -qi "timeout\|network\|ECONNREFUSED\|ETIMEDOUT" || [ $rc -ne 0 ]; then
+            if [ $attempt -lt "$MAX_ATTEMPTS" ]; then
+              echo "Transient failure detected. Sleeping $backoff seconds before retry..."
+              sleep $backoff
+              attempt=$((attempt+1))
+              backoff=$((backoff*2))
+              rc=0
+              continue
+            else
+              echo "Reached max attempts ($MAX_ATTEMPTS). Failing step." >&2
+              exit $rc
+            fi
+          else
+            echo "Non-retryable failure. Failing step." >&2
+            exit $rc
+          fi
+        done
