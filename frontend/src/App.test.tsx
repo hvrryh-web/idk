@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import App from "./App";
 
 // Mock fetch globally
-global.fetch = vi.fn();
+globalThis.fetch = vi.fn() as any;
 
 describe("App Component", () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe("App Component", () => {
   });
 
   it("renders the app title", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+    (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
     });
@@ -23,12 +23,12 @@ describe("App Component", () => {
     
     // Wait for the fetch to complete to avoid act warnings
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalled();
+      expect(globalThis.fetch).toHaveBeenCalled();
     });
   });
 
   it("displays loading state initially", async () => {
-    (global.fetch as any).mockImplementationOnce(
+    (globalThis.fetch as any).mockImplementationOnce(
       () =>
         new Promise((resolve) =>
           setTimeout(
@@ -52,7 +52,7 @@ describe("App Component", () => {
   });
 
   it("displays no characters message when list is empty", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+    (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
     });
@@ -75,7 +75,7 @@ describe("App Component", () => {
       },
     ];
 
-    (global.fetch as any).mockResolvedValueOnce({
+    (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockCharacters,
     });
@@ -92,7 +92,7 @@ describe("App Component", () => {
   });
 
   it("displays error message when fetch fails", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+    (globalThis.fetch as any).mockResolvedValueOnce({
       ok: false,
       status: 500,
     });
@@ -108,7 +108,7 @@ describe("App Component", () => {
     const user = userEvent.setup();
 
     // First load
-    (global.fetch as any).mockResolvedValueOnce({
+    (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
     });
@@ -120,7 +120,7 @@ describe("App Component", () => {
     });
 
     // Mock second load with data
-    (global.fetch as any).mockResolvedValueOnce({
+    (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [
         {
