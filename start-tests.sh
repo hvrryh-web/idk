@@ -3,8 +3,6 @@
 # start-tests.sh - Start automated tests for WuXuxian TTRPG webapp
 # This script runs tests for both backend and frontend components
 
-set -e  # Exit on error
-
 echo "============================================"
 echo "WuXuxian TTRPG - Automated Test Runner"
 echo "============================================"
