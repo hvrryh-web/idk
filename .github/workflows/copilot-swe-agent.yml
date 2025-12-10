@@ -14,6 +14,10 @@ on:
   push:
     branches: [ main, develop ]
 
+# Set minimal permissions for GITHUB_TOKEN
+permissions:
+  contents: read
+
 jobs:
   copilot-agent:
     runs-on: ubuntu-latest
@@ -21,6 +25,8 @@ jobs:
     steps:
     # Fix #1: Ensure checkout fetches main with full history
     # This ensures the main branch is available for git diff operations
+    # Note: Using ref: main as specified in requirements. For PR workflows,
+    # you may need to adjust this to checkout the PR branch instead.
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
@@ -59,9 +65,10 @@ jobs:
         attempt=1
         backoff=3
         MAX_ATTEMPTS="${MAX_ATTEMPTS}"
-        # Replace the COPILOT_CMD below with the exact command used in the workflow to invoke the agent
-        # For demonstration purposes, using a simple echo command
-        # In production, this should be replaced with the actual Copilot agent invocation
+        # TODO: Replace the COPILOT_CMD below with the actual command to invoke the Copilot agent
+        # Example: COPILOT_CMD="gh copilot suggest --some-args"
+        # WARNING: Using eval - ensure COPILOT_CMD is trusted and not user-controlled
+        # For demonstration purposes only - replace with actual Copilot invocation
         COPILOT_CMD="echo 'Running Copilot coding agent...'; exit 0"
         while [ $attempt -le "$MAX_ATTEMPTS" ]; do
           echo "Attempt $attempt/$MAX_ATTEMPTS: invoking Copilot coding agent..."
