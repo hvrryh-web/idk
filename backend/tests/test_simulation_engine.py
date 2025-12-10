@@ -9,7 +9,7 @@ from app.models.simulations import SimulationConfig, SimulationRun
 
 def test_simulation_config_creation(db_session):
     """Test creating a simulation config."""
-    
+
     # Create a simple boss template
     boss_template = BossTemplate(
         id="test_boss",
@@ -24,7 +24,7 @@ def test_simulation_config_creation(db_session):
         lieutenants=[],
     )
     db_session.add(boss_template)
-    
+
     # Create a test character
     character = Character(
         name="Test PC",
@@ -48,7 +48,7 @@ def test_simulation_config_creation(db_session):
     )
     db_session.add(character)
     db_session.commit()
-    
+
     # Create simulation config
     config = SimulationConfig(
         name="Test Simulation",
@@ -62,7 +62,7 @@ def test_simulation_config_creation(db_session):
     )
     db_session.add(config)
     db_session.commit()
-    
+
     assert config.id is not None
     assert config.name == "Test Simulation"
     assert len(config.party_character_ids) == 1
@@ -70,7 +70,7 @@ def test_simulation_config_creation(db_session):
 
 def test_simulation_run_stub(db_session):
     """Test creating a simulation run with stub metrics."""
-    
+
     # Create dependencies
     boss_template = BossTemplate(
         id="test_boss_2",
@@ -84,7 +84,7 @@ def test_simulation_run_stub(db_session):
         lieutenants=[],
     )
     db_session.add(boss_template)
-    
+
     character = Character(
         name="Test PC 2",
         type=CharacterType.PC,
@@ -107,7 +107,7 @@ def test_simulation_run_stub(db_session):
     )
     db_session.add(character)
     db_session.commit()
-    
+
     config = SimulationConfig(
         name="Test Simulation 2",
         party_character_ids=[str(character.id)],
@@ -117,7 +117,7 @@ def test_simulation_run_stub(db_session):
     )
     db_session.add(config)
     db_session.commit()
-    
+
     # Create simulation run with stub metrics
     run = SimulationRun(
         config_id=config.id,
@@ -131,7 +131,7 @@ def test_simulation_run_stub(db_session):
     )
     db_session.add(run)
     db_session.commit()
-    
+
     assert run.id is not None
     assert run.metrics is not None
     assert "party_win_rate" in run.metrics

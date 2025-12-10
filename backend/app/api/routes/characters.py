@@ -22,13 +22,13 @@ def list_characters(
 ):
     """List characters with optional type filter and pagination."""
     query = db.query(Character)
-    
+
     if type:
         query = query.filter(Character.type == type)
-    
+
     total = query.count()
     items = query.order_by(Character.created_at.desc()).limit(limit).offset(offset).all()
-    
+
     return {
         "items": [CharacterRead.from_orm(char) for char in items],
         "total": total,
@@ -46,7 +46,7 @@ def create_character(payload: CharacterCreate, db: Session = Depends(get_db)):
         spd_band = SpeedBand.Fast
     else:
         spd_band = SpeedBand.Normal
-    
+
     character = Character(
         name=payload.name,
         type=payload.type,
@@ -67,16 +67,16 @@ def create_character(payload: CharacterCreate, db: Session = Depends(get_db)):
         spd_raw=spd_raw,
         spd_band=spd_band,
     )
-    
+
     if payload.fate_profile:
         character.death_card_id = payload.fate_profile.death_card_id
         character.body_card_id = payload.fate_profile.body_card_id
         character.soul_thesis = payload.fate_profile.soul_thesis
-    
+
     db.add(character)
     db.commit()
     db.refresh(character)
-    
+
     return CharacterRead.from_orm(character)
 
 
@@ -97,7 +97,7 @@ def update_character(
     character = db.query(Character).filter(Character.id == character_id).first()
     if not character:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Character not found")
-    
+
     if payload.name is not None:
         character.name = payload.name
     if payload.core_stats:
@@ -129,10 +129,10 @@ def update_character(
             character.body_card_id = payload.fate_profile.body_card_id
         if payload.fate_profile.soul_thesis is not None:
             character.soul_thesis = payload.fate_profile.soul_thesis
-    
+
     db.commit()
     db.refresh(character)
-    
+
     return CharacterRead.from_orm(character)
 
 
@@ -142,8 +142,8 @@ def delete_character(character_id: UUID, db: Session = Depends(get_db)):
     character = db.query(Character).filter(Character.id == character_id).first()
     if not character:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Character not found")
-    
+
     db.delete(character)
     db.commit()
-    
+
     return None

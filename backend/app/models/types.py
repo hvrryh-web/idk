@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID as PostgresUUID
 
 class JSONType(TypeDecorator):
     """Platform-independent JSON type.
-    
+
     Uses JSONB on PostgreSQL, JSON elsewhere.
     """
     impl = JSON
@@ -21,7 +21,7 @@ class JSONType(TypeDecorator):
 
 class UUIDType(TypeDecorator):
     """Platform-independent UUID type.
-    
+
     Uses UUID on PostgreSQL, String(36) elsewhere.
     """
     impl = String(36)

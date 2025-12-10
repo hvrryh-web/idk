@@ -13,7 +13,7 @@ cd backend
 
 The server will start at http://localhost:8000 with:
 - **API Docs**: http://localhost:8000/docs
-- **Health Check**: http://localhost:8000/health  
+- **Health Check**: http://localhost:8000/health
 - **Characters API**: http://localhost:8000/api/v1/characters
 
 ## Architecture

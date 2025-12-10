@@ -52,7 +52,7 @@ def run_simulation(payload: RunSimulationRequest, db: Session = Depends(get_db))
     config = db.query(SimulationConfig).filter(SimulationConfig.id == payload.config_id).first()
     if not config:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Simulation config not found")
-    
+
     # Create simulation run (stub implementation)
     run = SimulationRun(
         config_id=payload.config_id,

@@ -54,11 +54,11 @@ def update_boss_template(
     template = db.query(BossTemplate).filter(BossTemplate.id == template_id).first()
     if not template:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Boss template not found")
-    
+
     update_data = payload.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(template, key, value)
-    
+
     db.commit()
     db.refresh(template)
     return template

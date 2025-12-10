@@ -15,7 +15,7 @@ from app.services.power_builder import build_innate_technique
 
 def test_build_innate_technique(db_session):
     """Test building an innate technique with known module set."""
-    
+
     # Create dummy fate cards
     death_card = DeathCard(
         name="Test Death",
@@ -24,7 +24,7 @@ def test_build_innate_technique(db_session):
         mechanical_hooks={},
     )
     db_session.add(death_card)
-    
+
     body_card = BodyCard(
         name="Test Body",
         summary="A test body card",
@@ -34,7 +34,7 @@ def test_build_innate_technique(db_session):
         mechanical_hooks={},
     )
     db_session.add(body_card)
-    
+
     seed_cards = [
         SeedCard(
             colour=FateColour.Red,
@@ -57,7 +57,7 @@ def test_build_innate_technique(db_session):
     ]
     for seed in seed_cards:
         db_session.add(seed)
-    
+
     # Create a test character
     character = Character(
         name="Test Hero",
@@ -81,13 +81,13 @@ def test_build_innate_technique(db_session):
     )
     db_session.add(character)
     db_session.commit()
-    
+
     # Build technique with known module set
     modules = [
         {"id": "DMG", "rank": 5},
         {"id": "DR_SHRED", "rank": 2},
     ]
-    
+
     technique = build_innate_technique(
         character=character,
         death_card=death_card,
@@ -98,7 +98,7 @@ def test_build_innate_technique(db_session):
         advantages=["Increased Range"],
         limitations=["Requires Concentration"],
     )
-    
+
     # Assertions
     assert technique is not None
     assert technique.tier == TechniqueTier.Innate
@@ -108,13 +108,13 @@ def test_build_innate_technique(db_session):
     assert "magic_rank" in technique.build_meta
     assert "real_cost" in technique.build_meta
     assert "budget" in technique.build_meta
-    
+
     # Check that real cost is computed
     real_cost = technique.build_meta["real_cost"]
     budget = technique.build_meta["budget"]
     assert real_cost > 0, "Real cost should be positive"
     assert budget > 0, "Budget should be positive"
-    
+
     # Magic rank should be average of MND and SOL
     expected_magic_rank = (character.mnd + character.sol) // 2
     assert technique.build_meta["magic_rank"] == expected_magic_rank

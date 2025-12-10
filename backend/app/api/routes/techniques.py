@@ -21,17 +21,17 @@ def list_techniques(
 ):
     """List techniques with optional filters."""
     query = db.query(Technique)
-    
+
     if tier:
         query = query.filter(Technique.tier == tier)
     if archetype:
         query = query.filter(Technique.archetype == archetype)
     if axis:
         query = query.filter(Technique.axis == axis)
-    
+
     total = query.count()
     items = query.all()
-    
+
     return {
         "items": [TechniqueRead.from_orm(tech) for tech in items],
         "total": total,
@@ -57,16 +57,16 @@ def create_technique(payload: TechniqueCreate, db: Session = Depends(get_db)):
         ally_shield=payload.ally_shield,
         build_meta=payload.build_meta,
     )
-    
+
     if payload.damage_routing:
         technique.damage_to_thp = payload.damage_routing.to_thp
         technique.damage_to_php = payload.damage_routing.to_php
         technique.damage_to_mshp = payload.damage_routing.to_mshp
-    
+
     db.add(technique)
     db.commit()
     db.refresh(technique)
-    
+
     return TechniqueRead.from_orm(technique)
 
 
@@ -87,19 +87,19 @@ def update_technique(
     technique = db.query(Technique).filter(Technique.id == technique_id).first()
     if not technique:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Technique not found")
-    
+
     update_data = payload.dict(exclude_unset=True)
-    
+
     if "damage_routing" in update_data and update_data["damage_routing"]:
         technique.damage_to_thp = update_data["damage_routing"]["to_thp"]
         technique.damage_to_php = update_data["damage_routing"]["to_php"]
         technique.damage_to_mshp = update_data["damage_routing"]["to_mshp"]
         del update_data["damage_routing"]
-    
+
     for key, value in update_data.items():
         setattr(technique, key, value)
-    
+
     db.commit()
     db.refresh(technique)
-    
+
     return TechniqueRead.from_orm(technique)

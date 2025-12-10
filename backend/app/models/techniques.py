@@ -15,26 +15,26 @@ class Technique(Base):
     archetype = Column(Text, nullable=True)
     axis = Column(Enum(TechniqueAxis, name="technique_axis", create_type=False), nullable=False)
     target_pool = Column(Text, nullable=False)  # 'PHP', 'MSHP', or 'mixed'
-    
+
     # Core Stats
     base_offrank_bias = Column(Numeric, nullable=False, default=0)
     base_damage = Column(Numeric, nullable=False, default=0)
     ae_cost = Column(Numeric, nullable=False, default=0)
     self_strain = Column(Numeric, nullable=False, default=0)
-    
+
     # Damage Routing
     damage_to_thp = Column(Numeric, nullable=False, default=1)
     damage_to_php = Column(Numeric, nullable=False, default=0)
     damage_to_mshp = Column(Numeric, nullable=False, default=0)
-    
+
     # Special Effects
     boss_strain_on_hit = Column(Numeric, nullable=False, default=0)
     dr_debuff = Column(Numeric, nullable=False, default=0)
-    
+
     # JSON/JSONB fields
     ally_shield = Column(JSONType, nullable=True)
     build_meta = Column(JSONType, nullable=True)
-    
+
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(
