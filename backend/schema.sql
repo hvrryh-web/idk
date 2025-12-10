@@ -1,246 +1,199 @@
--- ==========================
--- Enum Types
--- ==========================
+-- WuXuxian TTRPG Database Schema
+-- PostgreSQL 15+
 
-CREATE TYPE character_type AS ENUM ('PC', 'Boss', 'NPC');
+-- Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TYPE speed_band AS ENUM ('Normal', 'Fast', 'SuperFast');
+-- Character types enum
+CREATE TYPE character_type AS ENUM ('pc', 'npc', 'boss');
 
-CREATE TYPE technique_tier AS ENUM ('Basic', 'Std', 'Maj', 'Innate');
+-- Speed band enum for 3-stage combat
+CREATE TYPE spd_band AS ENUM ('Fast', 'Normal', 'Slow');
 
-CREATE TYPE technique_axis AS ENUM ('Body', 'Mind', 'Soul', 'Mixed');
+-- Technique types enum
+CREATE TYPE technique_type AS ENUM ('Basic', 'Standard', 'Major', 'Spike');
 
-CREATE TYPE fate_colour AS ENUM ('Red', 'Blue', 'Green', 'Black', 'Gold');
+-- Damage routing enum
+CREATE TYPE damage_routing AS ENUM ('THP', 'Guard', 'Strain');
 
-CREATE TYPE fate_aspect AS ENUM ('Body', 'Mind', 'Soul');
-
-CREATE TYPE boss_rank AS ENUM ('Lieutenant', 'Major', 'General', 'Boss', 'Final');
-
-CREATE TYPE quick_actions_mode AS ENUM ('none', 'defensive_only', 'full');
-
-CREATE TYPE sim_status AS ENUM ('pending', 'running', 'completed', 'failed');
-
-
--- ==========================
--- Characters
--- ==========================
-
+-- Characters table
 CREATE TABLE characters (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name            TEXT NOT NULL,
-    type            character_type NOT NULL,
-
-    sc              INTEGER NOT NULL DEFAULT 1,
-    seq_lvl         INTEGER NOT NULL DEFAULT 1,
-    realm_lvl       INTEGER NOT NULL DEFAULT 1,
-
-    bod             INTEGER NOT NULL,
-    mnd             INTEGER NOT NULL,
-    sol             INTEGER NOT NULL,
-
-    ae_max          NUMERIC NOT NULL,
-    ae_reg          NUMERIC NOT NULL,
-    strain_cap      NUMERIC NOT NULL,
-
-    thp_max         NUMERIC NOT NULL,
-    php_max         NUMERIC NOT NULL,
-    mshp_max        NUMERIC NOT NULL,
-
-    dr              NUMERIC NOT NULL,
-
-    guard_base_charges INTEGER NOT NULL,
-    guard_prr       INTEGER NOT NULL,
-    guard_mrr       INTEGER NOT NULL,
-    guard_srr       INTEGER NOT NULL,
-
-    spd_raw         INTEGER NOT NULL,
-    spd_band        speed_band NOT NULL,
-
-    death_card_id   UUID NULL,
-    body_card_id    UUID NULL,
-    soul_thesis     TEXT NULL,
-
-    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
+    type character_type NOT NULL,
+    level INTEGER,
+    lineage VARCHAR(255),
+    description TEXT,
+    stats JSONB,
+    
+    -- Combat stats
+    thp INTEGER,
+    ae INTEGER,
+    ae_reg INTEGER DEFAULT 0,
+    dr FLOAT DEFAULT 0.0,
+    strain INTEGER DEFAULT 0,
+    guard INTEGER DEFAULT 0,
+    spd_band spd_band DEFAULT 'Normal',
+    
+    -- Techniques (array of technique IDs)
+    techniques JSONB,
+    
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
--- index for listing PCs/Bosses
-CREATE INDEX idx_characters_type ON characters(type);
-
-
--- ==========================
--- Fate Cards
--- ==========================
-
-CREATE TABLE death_cards (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name            TEXT NOT NULL,
-    summary         TEXT NOT NULL,
-    tags            JSONB NOT NULL DEFAULT '[]'::jsonb,
-    mechanical_hooks JSONB NOT NULL DEFAULT '{}'::jsonb
-);
-
-CREATE TABLE body_cards (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name            TEXT NOT NULL,
-    summary         TEXT NOT NULL,
-    stat_mods       JSONB NOT NULL DEFAULT '{}'::jsonb,
-    spd_mod         INTEGER NOT NULL DEFAULT 0,
-    archetype_hint  TEXT NULL,
-    mechanical_hooks JSONB NOT NULL DEFAULT '{}'::jsonb
-);
-
-CREATE TABLE seed_cards (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    colour          fate_colour NOT NULL,
-    aspect          fate_aspect NOT NULL,
-    keywords        JSONB NOT NULL DEFAULT '[]'::jsonb,
-    mechanical_bias JSONB NOT NULL DEFAULT '{}'::jsonb
-);
-
--- FK from characters to fate cards
-ALTER TABLE characters
-    ADD CONSTRAINT fk_characters_death_card
-        FOREIGN KEY (death_card_id) REFERENCES death_cards(id),
-    ADD CONSTRAINT fk_characters_body_card
-        FOREIGN KEY (body_card_id) REFERENCES body_cards(id);
-
--- Character ↔ Seed many-to-many
-CREATE TABLE character_seed_cards (
-    character_id    UUID NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
-    seed_card_id    UUID NOT NULL REFERENCES seed_cards(id) ON DELETE CASCADE,
-    PRIMARY KEY (character_id, seed_card_id)
-);
-
-
--- ==========================
--- Techniques
--- ==========================
-
+-- Techniques table
 CREATE TABLE techniques (
-    id                  TEXT PRIMARY KEY,      -- string key, e.g. 'Karma_Innate'
-    name                TEXT NOT NULL,
-    tier                technique_tier NOT NULL,
-    archetype           TEXT NULL,
-    axis                technique_axis NOT NULL,
-    target_pool         TEXT NOT NULL CHECK (target_pool IN ('PHP','MSHP','mixed')),
-
-    base_offrank_bias   NUMERIC NOT NULL DEFAULT 0,
-    base_damage         NUMERIC NOT NULL DEFAULT 0,
-    ae_cost             NUMERIC NOT NULL DEFAULT 0,
-    self_strain         NUMERIC NOT NULL DEFAULT 0,
-
-    damage_to_thp       NUMERIC NOT NULL DEFAULT 1,
-    damage_to_php       NUMERIC NOT NULL DEFAULT 0,
-    damage_to_mshp      NUMERIC NOT NULL DEFAULT 0,
-
-    boss_strain_on_hit  NUMERIC NOT NULL DEFAULT 0,
-    dr_debuff           NUMERIC NOT NULL DEFAULT 0,
-
-    ally_shield         JSONB NULL,
-    build_meta          JSONB NULL,
-
-    created_at          TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at          TIMESTAMPTZ NOT NULL DEFAULT now()
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    
+    -- Combat mechanics
+    technique_type technique_type,
+    base_damage INTEGER DEFAULT 0,
+    ae_cost INTEGER DEFAULT 0,
+    self_strain INTEGER DEFAULT 0,
+    damage_routing damage_routing DEFAULT 'THP',
+    boss_strain_on_hit INTEGER DEFAULT 0,
+    dr_debuff FLOAT DEFAULT 0.0,
+    
+    -- Quick action flag (0 = major action, 1 = quick action)
+    is_quick_action INTEGER DEFAULT 0,
+    
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
-
--- ==========================
--- Character ↔ Technique associations
--- ==========================
-
--- Generic many-to-many if you want:
-CREATE TABLE character_techniques (
-    character_id    UUID NOT NULL REFERENCES characters(id) ON DELETE CASCADE,
-    technique_id    TEXT NOT NULL REFERENCES techniques(id) ON DELETE CASCADE,
-    category        TEXT NOT NULL CHECK (category IN ('basic','std','maj')),
-    PRIMARY KEY (character_id, technique_id, category)
-);
-
--- Optional helper table to declare the “profile” by technique ID,
--- or just derive from character_techniques.
-
-
--- ==========================
--- Effect Modules (builder atoms)
--- ==========================
-
-CREATE TABLE effect_modules (
-    id                  TEXT PRIMARY KEY,
-    name                TEXT NOT NULL,
-    base_cost_per_rank  NUMERIC NOT NULL
-);
-
-
--- ==========================
--- Boss Templates
--- ==========================
-
+-- Boss templates table
 CREATE TABLE boss_templates (
-    id                      TEXT PRIMARY KEY,
-    name                    TEXT NOT NULL,
-    rank                    boss_rank NOT NULL,
-    sc_level                INTEGER NOT NULL,
-    sc_offset_from_party    INTEGER NOT NULL DEFAULT 0,
-    thp_factor              NUMERIC NOT NULL,
-    dmg_factor              NUMERIC NOT NULL,
-    dr_factor               NUMERIC NOT NULL,
-    minions                 JSONB NOT NULL DEFAULT '[]'::jsonb,
-    lieutenants             JSONB NOT NULL DEFAULT '[]'::jsonb
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    
+    -- Combat stats
+    thp INTEGER NOT NULL,
+    ae INTEGER NOT NULL,
+    ae_reg INTEGER DEFAULT 0 NOT NULL,
+    dr FLOAT DEFAULT 0.0 NOT NULL,
+    strain INTEGER DEFAULT 0 NOT NULL,
+    guard INTEGER DEFAULT 0 NOT NULL,
+    
+    -- Boss-specific
+    spike_threshold INTEGER,
+    
+    -- Techniques
+    basic_technique_id UUID REFERENCES techniques(id),
+    spike_technique_id UUID REFERENCES techniques(id),
+    techniques JSONB,
+    
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
-
--- ==========================
--- Simulation Configs & Runs
--- ==========================
-
+-- Simulation configurations table
 CREATE TABLE simulation_configs (
-    id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name                TEXT NOT NULL,
-    party_character_ids JSONB NOT NULL,   -- array of character UUID strings
-    boss_template_id    TEXT NOT NULL REFERENCES boss_templates(id),
-    rounds_max          INTEGER NOT NULL,
-    trials              INTEGER NOT NULL,
-    enable_3_stage      BOOLEAN NOT NULL DEFAULT FALSE,
-    quick_actions_mode  quick_actions_mode NOT NULL DEFAULT 'none',
-    decision_policy     JSONB NOT NULL DEFAULT '{}'::jsonb,
-    created_at          TIMESTAMPTZ NOT NULL DEFAULT now()
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255),
+    description TEXT,
+    
+    -- Configuration
+    party_character_ids JSONB NOT NULL,  -- Array of character IDs
+    boss_template_id UUID NOT NULL REFERENCES boss_templates(id),
+    trials INTEGER DEFAULT 1000 NOT NULL,
+    max_rounds INTEGER DEFAULT 50 NOT NULL,
+    random_seed INTEGER,
+    enable_3_stage BOOLEAN DEFAULT FALSE NOT NULL,
+    quick_actions_mode BOOLEAN DEFAULT FALSE NOT NULL,
+    decision_policy VARCHAR(50) DEFAULT 'balanced' NOT NULL,
+    
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
-CREATE TABLE simulation_runs (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    config_id       UUID NOT NULL REFERENCES simulation_configs(id) ON DELETE CASCADE,
-    status          sim_status NOT NULL DEFAULT 'pending',
-    metrics         JSONB NULL,
-    created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+-- Simulation results table
+CREATE TABLE simulation_results (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    simulation_config_id UUID NOT NULL REFERENCES simulation_configs(id) ON DELETE CASCADE,
+    
+    -- Results
+    win_rate FLOAT NOT NULL,
+    avg_rounds FLOAT NOT NULL,
+    damage_by_character JSONB NOT NULL,
+    ae_curves JSONB,
+    strain_curves JSONB,
+    boss_kills INTEGER NOT NULL,
+    party_wipes INTEGER NOT NULL,
+    timeouts INTEGER NOT NULL,
+    
+    completed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    
+    CONSTRAINT valid_win_rate CHECK (win_rate >= 0 AND win_rate <= 1)
 );
 
-CREATE INDEX idx_simulation_runs_config ON simulation_runs(config_id);
+-- Indexes for performance
+CREATE INDEX idx_characters_type ON characters(type);
+CREATE INDEX idx_characters_created_at ON characters(created_at DESC);
+CREATE INDEX idx_techniques_type ON techniques(technique_type);
+CREATE INDEX idx_techniques_is_quick ON techniques(is_quick_action);
+CREATE INDEX idx_boss_templates_created_at ON boss_templates(created_at DESC);
+CREATE INDEX idx_simulation_configs_boss ON simulation_configs(boss_template_id);
+CREATE INDEX idx_simulation_results_config ON simulation_results(simulation_config_id);
+CREATE INDEX idx_simulation_results_completed ON simulation_results(completed_at DESC);
 
-
--- ==========================
--- Basic triggers for updated_at (optional)
--- ==========================
-
--- You can add a generic trigger function and attach it to characters, techniques, etc.
-
-CREATE OR REPLACE FUNCTION set_updated_at()
+-- Trigger function to update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
-  NEW.updated_at = now();
-  RETURN NEW;
+    NEW.updated_at = NOW();
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER trg_characters_updated
-BEFORE UPDATE ON characters
-FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+-- Apply update triggers
+CREATE TRIGGER update_characters_updated_at
+    BEFORE UPDATE ON characters
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER trg_techniques_updated
-BEFORE UPDATE ON techniques
-FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+CREATE TRIGGER update_techniques_updated_at
+    BEFORE UPDATE ON techniques
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER trg_simulation_runs_updated
-BEFORE UPDATE ON simulation_runs
-FOR EACH ROW EXECUTE PROCEDURE set_updated_at();
+CREATE TRIGGER update_boss_templates_updated_at
+    BEFORE UPDATE ON boss_templates
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_simulation_configs_updated_at
+    BEFORE UPDATE ON simulation_configs
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Sample data (optional - for development/testing)
+-- Uncomment to populate with sample data
+
+/*
+-- Sample techniques
+INSERT INTO techniques (name, description, technique_type, base_damage, ae_cost, self_strain, damage_routing)
+VALUES 
+    ('Basic Strike', 'A simple melee attack', 'Basic', 30, 2, 1, 'THP'),
+    ('Thunder Slash', 'Lightning-infused sword strike', 'Standard', 60, 5, 2, 'THP'),
+    ('Guard Break', 'Shattering attack targeting guard', 'Standard', 40, 4, 1, 'Guard'),
+    ('Soul Drain', 'Spiritual attack causing strain', 'Major', 0, 8, 3, 'Strain');
+
+-- Sample character
+INSERT INTO characters (name, type, level, lineage, description, thp, ae, ae_reg, dr, stats)
+VALUES (
+    'Zhang Wei',
+    'pc',
+    5,
+    'Azure Crane Sect',
+    'A disciplined cultivator of the Azure Crane',
+    120,
+    12,
+    3,
+    0.15,
+    '{"might": 3, "cunning": 2, "spirit": 4}'::jsonb
+);
+*/

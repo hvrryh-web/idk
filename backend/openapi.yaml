@@ -1,1 +1,804 @@
-# TODO: paste full OpenAPI spec here verbatim; do not modify.
+openapi: 3.0.3
+info:
+  title: WuXuxian TTRPG API
+  description: |
+    RESTful API for the WuXuxian TTRPG webapp.
+    
+    Provides endpoints for:
+    - Character management (PCs, NPCs, bosses)
+    - Technique/ability management
+    - Boss template management
+    - Combat simulation configuration and execution
+    
+    The API follows RESTful conventions and uses JSON for request/response payloads.
+  version: 0.0.1
+  contact:
+    name: WuXuxian TTRPG Team
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+  - url: https://api.wuxuxian.example.com/api/v1
+    description: Production server (example)
+
+tags:
+  - name: characters
+    description: Character management operations
+  - name: techniques
+    description: Technique/ability management
+  - name: boss-templates
+    description: Boss template management
+  - name: simulations
+    description: Combat simulation operations
+  - name: health
+    description: System health checks
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      description: Returns the health status of the API
+      operationId: healthCheck
+      tags:
+        - health
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /characters:
+    get:
+      summary: List all characters
+      description: Retrieve a list of all characters (PCs, NPCs, bosses)
+      operationId: listCharacters
+      tags:
+        - characters
+      responses:
+        '200':
+          description: List of characters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+    
+    post:
+      summary: Create a new character
+      description: Create a new character with specified attributes
+      operationId: createCharacter
+      tags:
+        - characters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterCreate'
+      responses:
+        '201':
+          description: Character created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '400':
+          description: Invalid input
+
+  /characters/{character_id}:
+    get:
+      summary: Get a character by ID
+      description: Retrieve a specific character by its UUID
+      operationId: getCharacter
+      tags:
+        - characters
+      parameters:
+        - name: character_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Character details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '404':
+          description: Character not found
+
+  /techniques:
+    get:
+      summary: List all techniques
+      description: Retrieve a list of all techniques with optional filters
+      operationId: listTechniques
+      tags:
+        - techniques
+      parameters:
+        - name: technique_type
+          in: query
+          schema:
+            type: string
+            enum: [Basic, Standard, Major, Spike]
+        - name: is_quick_action
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of techniques
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Technique'
+    
+    post:
+      summary: Create a new technique
+      description: Create a new technique/ability
+      operationId: createTechnique
+      tags:
+        - techniques
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TechniqueCreate'
+      responses:
+        '201':
+          description: Technique created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technique'
+
+  /techniques/{technique_id}:
+    get:
+      summary: Get a technique by ID
+      operationId: getTechnique
+      tags:
+        - techniques
+      parameters:
+        - name: technique_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Technique details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technique'
+        '404':
+          description: Technique not found
+    
+    patch:
+      summary: Update a technique
+      operationId: updateTechnique
+      tags:
+        - techniques
+      parameters:
+        - name: technique_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TechniqueUpdate'
+      responses:
+        '200':
+          description: Technique updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technique'
+        '404':
+          description: Technique not found
+    
+    delete:
+      summary: Delete a technique
+      operationId: deleteTechnique
+      tags:
+        - techniques
+      parameters:
+        - name: technique_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Technique deleted successfully
+        '404':
+          description: Technique not found
+
+  /boss-templates:
+    get:
+      summary: List all boss templates
+      operationId: listBossTemplates
+      tags:
+        - boss-templates
+      responses:
+        '200':
+          description: List of boss templates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BossTemplate'
+    
+    post:
+      summary: Create a boss template
+      operationId: createBossTemplate
+      tags:
+        - boss-templates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BossTemplateCreate'
+      responses:
+        '201':
+          description: Boss template created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BossTemplate'
+
+  /boss-templates/{boss_id}:
+    get:
+      summary: Get a boss template by ID
+      operationId: getBossTemplate
+      tags:
+        - boss-templates
+      parameters:
+        - name: boss_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Boss template details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BossTemplate'
+        '404':
+          description: Boss template not found
+
+  /simulations/configs:
+    post:
+      summary: Create a simulation configuration
+      operationId: createSimulationConfig
+      tags:
+        - simulations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulationConfigCreate'
+      responses:
+        '201':
+          description: Configuration created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationConfig'
+
+  /simulations/configs/{config_id}:
+    get:
+      summary: Get a simulation configuration
+      operationId: getSimulationConfig
+      tags:
+        - simulations
+      parameters:
+        - name: config_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Configuration details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationConfig'
+
+  /simulations/run/{config_id}:
+    post:
+      summary: Run a simulation
+      description: Execute a combat simulation based on the configuration
+      operationId: runSimulation
+      tags:
+        - simulations
+      parameters:
+        - name: config_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Simulation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationResult'
+        '400':
+          description: Invalid configuration
+        '404':
+          description: Configuration not found
+
+  /simulations/results/{result_id}:
+    get:
+      summary: Get simulation results
+      operationId: getSimulationResult
+      tags:
+        - simulations
+      parameters:
+        - name: result_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Simulation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationResult'
+
+  /simulations/configs/{config_id}/results:
+    get:
+      summary: List results for a configuration
+      operationId: listConfigResults
+      tags:
+        - simulations
+      parameters:
+        - name: config_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SimulationResult'
+
+components:
+  schemas:
+    Character:
+      type: object
+      required:
+        - id
+        - name
+        - type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "Li Mei"
+        type:
+          type: string
+          enum: [pc, npc, boss]
+        level:
+          type: integer
+          nullable: true
+          example: 5
+        lineage:
+          type: string
+          nullable: true
+          example: "Azure Crane Sect"
+        description:
+          type: string
+          nullable: true
+        stats:
+          type: object
+          nullable: true
+          additionalProperties: true
+        thp:
+          type: integer
+          nullable: true
+        ae:
+          type: integer
+          nullable: true
+        ae_reg:
+          type: integer
+          nullable: true
+        dr:
+          type: number
+          format: float
+          nullable: true
+        strain:
+          type: integer
+          nullable: true
+        guard:
+          type: integer
+          nullable: true
+        spd_band:
+          type: string
+          enum: [Fast, Normal, Slow]
+          nullable: true
+        techniques:
+          type: array
+          items:
+            type: string
+            format: uuid
+          nullable: true
+    
+    CharacterCreate:
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [pc, npc, boss]
+        level:
+          type: integer
+          nullable: true
+        lineage:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        stats:
+          type: object
+          nullable: true
+    
+    Technique:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        technique_type:
+          type: string
+          enum: [Basic, Standard, Major, Spike]
+          nullable: true
+        base_damage:
+          type: integer
+        ae_cost:
+          type: integer
+        self_strain:
+          type: integer
+        damage_routing:
+          type: string
+          enum: [THP, Guard, Strain]
+        boss_strain_on_hit:
+          type: integer
+        dr_debuff:
+          type: number
+          format: float
+        is_quick_action:
+          type: integer
+    
+    TechniqueCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        technique_type:
+          type: string
+          enum: [Basic, Standard, Major, Spike]
+          nullable: true
+        base_damage:
+          type: integer
+        ae_cost:
+          type: integer
+        self_strain:
+          type: integer
+        damage_routing:
+          type: string
+          enum: [THP, Guard, Strain]
+        boss_strain_on_hit:
+          type: integer
+        dr_debuff:
+          type: number
+          format: float
+        is_quick_action:
+          type: integer
+    
+    TechniqueUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        technique_type:
+          type: string
+          enum: [Basic, Standard, Major, Spike]
+          nullable: true
+        base_damage:
+          type: integer
+          nullable: true
+        ae_cost:
+          type: integer
+          nullable: true
+        self_strain:
+          type: integer
+          nullable: true
+        damage_routing:
+          type: string
+          enum: [THP, Guard, Strain]
+          nullable: true
+        boss_strain_on_hit:
+          type: integer
+          nullable: true
+        dr_debuff:
+          type: number
+          format: float
+          nullable: true
+        is_quick_action:
+          type: integer
+          nullable: true
+    
+    BossTemplate:
+      type: object
+      required:
+        - id
+        - name
+        - thp
+        - ae
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        thp:
+          type: integer
+        ae:
+          type: integer
+        ae_reg:
+          type: integer
+        dr:
+          type: number
+          format: float
+        strain:
+          type: integer
+        guard:
+          type: integer
+        spike_threshold:
+          type: integer
+          nullable: true
+        basic_technique_id:
+          type: string
+          format: uuid
+          nullable: true
+        spike_technique_id:
+          type: string
+          format: uuid
+          nullable: true
+        techniques:
+          type: array
+          items:
+            type: string
+            format: uuid
+          nullable: true
+    
+    BossTemplateCreate:
+      type: object
+      required:
+        - name
+        - thp
+        - ae
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        thp:
+          type: integer
+        ae:
+          type: integer
+        ae_reg:
+          type: integer
+        dr:
+          type: number
+          format: float
+        strain:
+          type: integer
+        guard:
+          type: integer
+        spike_threshold:
+          type: integer
+          nullable: true
+        basic_technique_id:
+          type: string
+          nullable: true
+        spike_technique_id:
+          type: string
+          nullable: true
+        techniques:
+          type: array
+          items:
+            type: string
+          nullable: true
+    
+    SimulationConfig:
+      type: object
+      required:
+        - id
+        - party_character_ids
+        - boss_template_id
+        - trials
+        - max_rounds
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        party_character_ids:
+          type: array
+          items:
+            type: string
+        boss_template_id:
+          type: string
+          format: uuid
+        trials:
+          type: integer
+          minimum: 1
+          maximum: 10000
+        max_rounds:
+          type: integer
+          minimum: 1
+          maximum: 1000
+        random_seed:
+          type: integer
+          nullable: true
+        enable_3_stage:
+          type: boolean
+        quick_actions_mode:
+          type: boolean
+        decision_policy:
+          type: string
+    
+    SimulationConfigCreate:
+      type: object
+      required:
+        - party_character_ids
+        - boss_template_id
+      properties:
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        party_character_ids:
+          type: array
+          items:
+            type: string
+        boss_template_id:
+          type: string
+        trials:
+          type: integer
+          default: 1000
+        max_rounds:
+          type: integer
+          default: 50
+        random_seed:
+          type: integer
+          nullable: true
+        enable_3_stage:
+          type: boolean
+          default: false
+        quick_actions_mode:
+          type: boolean
+          default: false
+        decision_policy:
+          type: string
+          default: balanced
+    
+    SimulationResult:
+      type: object
+      required:
+        - id
+        - simulation_config_id
+        - win_rate
+        - avg_rounds
+        - boss_kills
+        - party_wipes
+        - timeouts
+      properties:
+        id:
+          type: string
+          format: uuid
+        simulation_config_id:
+          type: string
+          format: uuid
+        win_rate:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        avg_rounds:
+          type: number
+          format: float
+        damage_by_character:
+          type: object
+          additionalProperties: true
+        ae_curves:
+          type: object
+          nullable: true
+          additionalProperties: true
+        strain_curves:
+          type: object
+          nullable: true
+          additionalProperties: true
+        boss_kills:
+          type: integer
+        party_wipes:
+          type: integer
+        timeouts:
+          type: integer
