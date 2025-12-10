@@ -1,19 +1,4 @@
-from app.api.routes import (
-    boss_templates,
-    characters,
-    effect_modules,
-    fate_cards,
-    power_builder,
-    simulations,
-    techniques,
-)
+# Routes package
+# Individual route modules can be imported directly, e.g.:
+# from app.api.routes.characters import router
 
-__all__ = [
-    "boss_templates",
-    "characters",
-    "effect_modules",
-    "fate_cards",
-    "power_builder",
-    "simulations",
-    "techniques",
-]
