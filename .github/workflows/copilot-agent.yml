@@ -83,9 +83,12 @@ jobs:
         attempt=1
         backoff=3
         
-        # The Copilot coding agent command
-        # This is a placeholder - replace with actual Copilot agent invocation
-        # Example: gh copilot suggest --issue "$ISSUE_NUMBER"
+        # TODO: Replace COPILOT_CMD with the actual Copilot agent invocation command
+        # The command should be the exact script/binary that invokes the Copilot coding agent
+        # Examples:
+        #   - Direct CLI: gh copilot suggest --issue "$ISSUE_NUMBER"
+        #   - Custom script: ./scripts/run-copilot-agent.sh
+        #   - Action entrypoint: node .github/actions/copilot-agent/dist/index.js
         COPILOT_CMD='echo "Copilot agent placeholder - replace with actual command"; exit 0'
         
         while [ $attempt -le "$MAX_ATTEMPTS" ]; do
@@ -104,7 +107,8 @@ jobs:
           echo "Copilot agent failed with exit code $rc"
           
           # Detect 499 or transient network errors in output
-          if echo "$output" | grep -q "499" || echo "$output" | grep -qi "timeout\|network\|ECONNREFUSED\|ETIMEDOUT" || [ $rc -ne 0 ]; then
+          # Only retry if we detect specific transient failure patterns
+          if echo "$output" | grep -q "499" || echo "$output" | grep -qi "timeout\|network\|ECONNREFUSED\|ETIMEDOUT"; then
             if [ $attempt -lt "$MAX_ATTEMPTS" ]; then
               echo "Transient failure detected. Sleeping $backoff seconds before retry..."
               sleep $backoff
