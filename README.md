@@ -126,6 +126,61 @@ POST /api/v1/simulations/run/{config-uuid}
 - `STANCE_SWITCH`: Adjust DR (offensive/defensive)
 - `COUNTER_PREP`: Prepare for counter-attacks
 
+## Code Quality
+
+### Linting and Formatting
+
+**Python (Backend):**
+```bash
+cd backend
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+
+# Format code
+black .
+isort .
+
+# Lint code
+ruff check .
+ruff check . --fix  # Auto-fix issues
+```
+
+**TypeScript (Frontend):**
+```bash
+cd frontend
+
+# Format code
+npm run format
+
+# Check formatting
+npm run format:check
+
+# Lint code
+npm run lint
+npm run lint:fix  # Auto-fix issues
+```
+
+### Pre-commit Hooks
+
+Install pre-commit hooks to automatically format and lint code before commits:
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+Now code will be automatically checked and formatted on every commit.
+
+### Continuous Integration
+
+The project uses GitHub Actions for CI/CD. On every push and pull request:
+- ✅ Backend tests run with pytest
+- ✅ Frontend tests run with vitest
+- ✅ Code is linted (Python with Ruff, TypeScript with ESLint)
+- ✅ Code formatting is checked (Black, Prettier)
+- ✅ Frontend build is verified
+
+See `.github/workflows/ci.yml` for the full CI configuration.
+
 ## Testing
 
 Automated tests are available for both backend and frontend components. Use the provided scripts to run tests easily.
@@ -188,6 +243,23 @@ npm run test:watch # Run tests in watch mode
 - ✅ User interactions (refresh button)
 
 **Test Coverage**: 35 tests (29 backend + 6 frontend)
+
+## Documentation
+
+For more detailed information, see:
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture and design decisions
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute to the project
+- **[SECURITY.md](SECURITY.md)** - Security policy and best practices
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
+
+## API Documentation
+
+When the backend is running, interactive API documentation is available at:
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+- **OpenAPI Spec**: http://localhost:8000/openapi.json
+
+The full OpenAPI specification is also available in `backend/openapi.yaml`.
 
 ## Repository layout
 ```
