@@ -15,7 +15,7 @@ export default function App() {
         <CharacterBrowser />
         <TechniqueBrowser />
       </section>
-      <section>
+      <section className="runner-card">
         <SimulationRunner />
       </section>
     </main>
