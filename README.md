@@ -2,11 +2,23 @@
 
 FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Postgres via Docker Compose.
 
+## 📖 Design Documentation
+
+**NEW**: Comprehensive design analysis and implementation roadmap now available!
+
+See **[docs/wuxiaxian-reference/](./docs/wuxiaxian-reference/)** for:
+- **Design Intent**: Complete Wuxiaxian system mechanics (SCL, stats, combat, conditions)
+- **Current State**: Gap analysis between design and implementation
+- **Combat UI**: Complete component breakdown and implementation plan
+- **Actionable Improvements**: Prioritized tasks with code examples (19-27 hours to MVP)
+- **Quick Start**: [Executive Summary](./docs/wuxiaxian-reference/EXECUTIVE_SUMMARY.md)
+
 ## Architecture
 - Treat `backend/openapi.yaml` and `backend/schema.sql` as canonical inputs; paste the provided specs verbatim without modifying them.
 - Backend: FastAPI application with settings in `app/core/config.py`, DB session management in `app/db/session.py`, and SQLAlchemy models in `app/models/`. Character CRUD lives under `app/api/routes/characters.py` and is mounted at `/api/v1`.
 - Frontend: Vite + React + TypeScript in `frontend/`, calling the backend at `http://localhost:8000/api/v1`.
 - Infra: Docker Compose in `infra/` to start a local Postgres instance; optionally connect the backend to it via `DATABASE_URL`.
+- **Design Docs**: See [WUXUXIANXIA TTRPG/](./WUXUXIANXIA%20TTRPG/) for original design documents and [docs/wuxiaxian-reference/](./docs/wuxiaxian-reference/) for implementation analysis.
 
 ## 🚀 LAUNCH ALPHA TEST
 
