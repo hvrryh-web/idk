@@ -1,5 +1,8 @@
 import enum
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, JSON, Numeric, String, Text, text, func
+import enum
+
+from sqlalchemy import Column, DateTime, Enum, ForeignKey, JSON, Numeric, String, func, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -27,7 +30,11 @@ class SimulationConfig(Base):
     name = Column(String, nullable=False)
     boss_template_id = Column(UUID(as_uuid=True), ForeignKey("boss_templates.id"))
     params = Column(JSON, nullable=False, server_default=text("'{}'::jsonb"))
-    quick_actions_mode = Column(Enum(QuickActionsMode, name="quick_actions_mode"), nullable=False, server_default=QuickActionsMode.none.value)
+    quick_actions_mode = Column(
+        Enum(QuickActionsMode, name="quick_actions_mode"),
+        nullable=False,
+        server_default=QuickActionsMode.none.value,
+    )
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     boss_template = relationship("BossTemplate", back_populates="simulations")

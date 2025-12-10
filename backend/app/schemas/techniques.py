@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.models.techniques import TechniqueAxis, TechniqueTier
 
@@ -21,10 +21,10 @@ class TechniqueBuildMeta(BaseModel):
     base_cost_discounted: Optional[float] = None
     active_cost: Optional[float] = None
     real_cost: Optional[float] = None
-    modules: List[TechniqueBuildModule] = []
-    advantages: List[str] = []
-    limitations: List[str] = []
-    seed_colours: List[str] = []
+    modules: List[TechniqueBuildModule] = Field(default_factory=list)
+    advantages: List[str] = Field(default_factory=list)
+    limitations: List[str] = Field(default_factory=list)
+    seed_colours: List[str] = Field(default_factory=list)
     death_card: Optional[str] = None
     body_card: Optional[str] = None
 

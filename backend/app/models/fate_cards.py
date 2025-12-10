@@ -1,11 +1,11 @@
+import enum
+
 from sqlalchemy import Column, Enum, ForeignKey, Integer, JSON, String, Table, Text, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 from app.models import Base
 from app.models.characters import Character
-import enum
-
 
 class FateColour(str, enum.Enum):
     Red = "Red"
