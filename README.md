@@ -8,7 +8,59 @@ FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Post
 - Frontend: Vite + React + TypeScript in `frontend/`, calling the backend at `http://localhost:8000/api/v1`.
 - Infra: Docker Compose in `infra/` to start a local Postgres instance; optionally connect the backend to it via `DATABASE_URL`.
 
-## Getting started
+## 🚀 LAUNCH ALPHA TEST
+
+Get up and running quickly with the WuXuxian TTRPG alpha test!
+
+### Quick Start
+
+1. **Start Postgres**
+   ```bash
+   cd infra
+   docker-compose up -d
+   ```
+
+2. **Apply the schema** (after pasting the real DDL into `backend/schema.sql`):
+   ```bash
+   psql postgresql://postgres:postgres@localhost:5432/wuxuxian -f ../backend/schema.sql
+   ```
+
+3. **Run the backend**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   python -m uvicorn app.main:app --reload --port 8000
+   ```
+
+4. **Run the frontend**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+5. **🎮 Play the Alpha Test**
+   - Open your browser to [http://localhost:5173](http://localhost:5173)
+   - Click the big green **"🚀 LAUNCH ALPHA TEST"** button on the Game Room page
+   - Explore the multi-page UI:
+     - **Character Sheets**: View detailed profiles, cultivation paths, soul cores, and domain sources
+     - **Wiki & Help**: Browse the knowledge base with search functionality
+     - **SRD Book**: Read the full System Reference Document with rendered/raw toggle
+     - **Character Manager**: Create and manage characters, run simulations
+
+### What's Included
+
+The alpha test includes:
+- ✅ Multi-page visual novel–style UI with routing
+- ✅ Player character sheet system (Profile, Cultivation, Soul Core, Domain Source)
+- ✅ Knowledge Wiki with searchable SRD articles
+- ✅ Help page with intelligent search
+- ✅ SRD book viewer with Markdown rendering toggle
+- ✅ Character and simulation management
+- ✅ Backend API with FastAPI + SQLAlchemy
+- ✅ Full CORS support for local development
+
+## Getting started (Detailed)
 1. **Start Postgres**
    ```bash
    cd infra

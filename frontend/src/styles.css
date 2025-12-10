@@ -130,3 +130,594 @@ textarea {
   color: #1d4ed8;
   font-size: 0.85rem;
 }
+
+/* ===== NEW PAGE STYLES ===== */
+
+/* Game Room */
+.game-room {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 3rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin: 0 0 0.5rem;
+}
+
+.hero-section .subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+}
+
+.action-section {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.launch-button {
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  background: #10b981;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.launch-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  background: #059669;
+}
+
+.launch-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.character-roster {
+  margin: 2rem 0;
+}
+
+.character-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.character-list li button {
+  width: 100%;
+  padding: 1rem;
+  text-align: left;
+  background: white;
+  color: #1f2937;
+  border: 2px solid #e5e7eb;
+}
+
+.character-list li button:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.quick-nav {
+  margin: 2rem 0;
+}
+
+.quick-nav nav {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.quick-nav button {
+  flex: 1;
+  min-width: 150px;
+}
+
+.warning {
+  color: #dc2626;
+  padding: 1rem;
+  background: #fef2f2;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+/* Profile and Character Sheets */
+.profile-sheet,
+.cultivation-sheet,
+.soul-core-sheet,
+.domain-source-sheet {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.sheet-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.sheet-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+}
+
+.sheet-header .subtitle,
+.sheet-header .character-type {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+.need-to-know,
+.stats-section,
+.orientation,
+.soul-core-progress,
+.milestone-logbook,
+.core-essence,
+.core-abilities,
+.activation-conditions,
+.domain-source,
+.source-sequence {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.info-grid,
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.info-item,
+.stat {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+.placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.orientation-axis {
+  margin: 1.5rem 0;
+}
+
+.axis-bar {
+  position: relative;
+  height: 8px;
+  background: linear-gradient(to right, #3b82f6, #e5e7eb, #ef4444);
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+.axis-bar .marker {
+  position: absolute;
+  top: -8px;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+}
+
+.axis-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.milestone-list {
+  list-style: none;
+  padding: 0;
+}
+
+.milestone {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  background: #f9fafb;
+  border-left: 3px solid #2563eb;
+  border-radius: 0.25rem;
+}
+
+.milestone-add button {
+  width: 100%;
+  padding: 1rem;
+  border: 2px dashed #d1d5db;
+  background: white;
+  color: #6b7280;
+}
+
+.ability-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.ability-card,
+.source-card,
+.technique-card {
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.ability-card h3,
+.source-card h3,
+.technique-card h3 {
+  margin-top: 0;
+  color: #1f2937;
+}
+
+.ability-type,
+.technique-type {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #dbeafe;
+  color: #1e40af;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.ability-mechanics,
+.mechanics {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-left: 3px solid #10b981;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+.conditions-list {
+  padding-left: 1.5rem;
+}
+
+.technique-stages .stage {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: white;
+  border-radius: 0.5rem;
+}
+
+.sheet-navigation {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.sheet-navigation button {
+  flex: 1;
+  min-width: 150px;
+}
+
+/* Help and Wiki Pages */
+.help-page,
+.wiki-index,
+.wiki-article,
+.srd-book,
+.character-manager {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.5rem;
+}
+
+.search-section {
+  margin: 2rem 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.125rem;
+  border-radius: 0.75rem;
+  border: 2px solid #d1d5db;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.search-results {
+  margin: 2rem 0;
+}
+
+.article-list {
+  list-style: none;
+  padding: 0;
+}
+
+.article-item {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.article-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #ede9fe;
+  color: #5b21b6;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-item h3 {
+  margin: 0.5rem 0;
+}
+
+.article-item button {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 0;
+  text-align: left;
+}
+
+.article-item button:hover {
+  text-decoration: underline;
+}
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.toc-section {
+  margin: 2rem 0;
+}
+
+.toc-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.toc-section li {
+  margin: 0.5rem 0;
+}
+
+.toc-section button {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: white;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+}
+
+.toc-section button:hover {
+  background: #f9fafb;
+  border-color: #2563eb;
+}
+
+.wiki-intro,
+.wiki-footer {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.article-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.back-button {
+  background: #6b7280;
+  padding: 0.5rem 1rem;
+}
+
+.article-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  line-height: 1.8;
+}
+
+.article-content h1 {
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.article-content h2 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #1f2937;
+}
+
+.article-content h3 {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.article-content li {
+  margin: 0.5rem 0;
+}
+
+.related-articles {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+}
+
+.related-articles ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.related-articles button {
+  background: white;
+  color: #2563eb;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 1rem;
+}
+
+.article-navigation {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* SRD Book */
+.srd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.srd-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.srd-controls button {
+  padding: 0.5rem 1rem;
+  background: white;
+  color: #1f2937;
+  border: 2px solid #e5e7eb;
+}
+
+.srd-controls button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.srd-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  min-height: 500px;
+}
+
+.raw-content {
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #1f2937;
+  color: #10b981;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.rendered-content {
+  line-height: 1.8;
+}
+
+.rendered-content h1 {
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.rendered-content h2 {
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rendered-content h3 {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.rendered-content hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 2px solid #e5e7eb;
+}
+
+.rendered-content .italic {
+  font-style: italic;
+  color: #6b7280;
+}
+
+.srd-navigation {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Loading and Error States */
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.25rem;
+}
+
+.error {
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 0.75rem;
+}

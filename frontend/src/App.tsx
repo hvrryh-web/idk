@@ -1,40 +1,32 @@
-import { useState } from 'react';
-import CharacterDetail from './components/CharacterDetail';
-import CharacterList from './components/CharacterList';
-import SimulationRunner from './components/SimulationRunner';
-import TechniqueList from './components/TechniqueList';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import GameRoom from './pages/GameRoom';
+import ProfileSheet from './pages/ProfileSheet';
+import CultivationSheet from './pages/CultivationSheet';
+import SoulCoreSheet from './pages/SoulCoreSheet';
+import DomainSourceSheet from './pages/DomainSourceSheet';
+import HelpPage from './pages/HelpPage';
+import WikiIndex from './pages/WikiIndex';
+import WikiArticle from './pages/WikiArticle';
+import SRDBook from './pages/SRDBook';
+import CharacterManager from './pages/CharacterManager';
 
 export default function App() {
-  const [selectedCharacterId, setSelectedCharacterId] = useState<number>();
-
   return (
-    <div className="app">
-      <aside className="sidebar">
-        <h1>Martial Roster</h1>
-        <p style={{ margin: '0 0 1rem' }}>
-          Minimal UI for browsing characters and running simulations.
-        </p>
-        <nav>
-          <a href="#characters">Characters</a>
-          <a href="#techniques">Techniques</a>
-          <a href="#simulation">Simulation</a>
-        </nav>
-      </aside>
-
-      <main className="main-content">
-        <div className="grid" id="characters">
-          <CharacterList selectedId={selectedCharacterId} onSelect={setSelectedCharacterId} />
-          <CharacterDetail id={selectedCharacterId} />
-        </div>
-
-        <section id="techniques" style={{ marginTop: '1rem' }}>
-          <TechniqueList />
-        </section>
-
-        <section id="simulation" style={{ marginTop: '1rem' }}>
-          <SimulationRunner />
-        </section>
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={<GameRoom />} />
+          <Route path="/profile/:id" element={<ProfileSheet />} />
+          <Route path="/cultivation/:id" element={<CultivationSheet />} />
+          <Route path="/soul-core/:id" element={<SoulCoreSheet />} />
+          <Route path="/domain-source/:id" element={<DomainSourceSheet />} />
+          <Route path="/help" element={<HelpPage />} />
+          <Route path="/wiki" element={<WikiIndex />} />
+          <Route path="/wiki/:id" element={<WikiArticle />} />
+          <Route path="/srd" element={<SRDBook />} />
+          <Route path="/characters" element={<CharacterManager />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }

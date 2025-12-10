@@ -1,3 +1,5 @@
+import type { Character, Technique, SimulationResult } from './types';
+
 const API_BASE = 'http://localhost:8000/api/v1';
 
 async function handle<T>(response: Response): Promise<T> {
@@ -8,26 +10,26 @@ async function handle<T>(response: Response): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function fetchCharacters() {
+export async function fetchCharacters(): Promise<Character[]> {
   const res = await fetch(`${API_BASE}/characters`);
-  return handle(res);
+  return handle<Character[]>(res);
 }
 
-export async function fetchCharacter(id: number) {
+export async function fetchCharacter(id: number): Promise<Character> {
   const res = await fetch(`${API_BASE}/characters/${id}`);
-  return handle(res);
+  return handle<Character>(res);
 }
 
-export async function fetchTechniques() {
+export async function fetchTechniques(): Promise<Technique[]> {
   const res = await fetch(`${API_BASE}/techniques`);
-  return handle(res);
+  return handle<Technique[]>(res);
 }
 
-export async function runSimulation(body: unknown) {
+export async function runSimulation(body: unknown): Promise<SimulationResult> {
   const res = await fetch(`${API_BASE}/simulations`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  return handle(res);
+  return handle<SimulationResult>(res);
 }

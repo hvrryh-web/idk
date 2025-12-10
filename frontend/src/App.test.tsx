@@ -12,14 +12,14 @@ describe("App Component", () => {
     vi.clearAllMocks();
   });
 
-  it("renders the app title", async () => {
+  it("renders the Game Room page", async () => {
     (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
     });
 
     render(<App />);
-    expect(screen.getByText(/WuXuxian TTRPG – Characters/i)).toBeInTheDocument();
+    expect(screen.getByText(/WuXuxian TTRPG/i)).toBeInTheDocument();
     
     // Wait for the fetch to complete to avoid act warnings
     await waitFor(() => {
@@ -43,11 +43,11 @@ describe("App Component", () => {
     );
 
     render(<App />);
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading characters.../i)).toBeInTheDocument();
     
     // Wait for the fetch to complete to avoid act warnings
     await waitFor(() => {
-      expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Loading characters.../i)).not.toBeInTheDocument();
     });
   });
 
@@ -67,10 +67,9 @@ describe("App Component", () => {
   it("displays characters when data is loaded", async () => {
     const mockCharacters = [
       {
-        id: "123e4567-e89b-12d3-a456-426614174000",
+        id: 1,
         name: "Test Hero",
         type: "pc",
-        level: 5,
         description: "A brave warrior",
       },
     ];
@@ -83,31 +82,14 @@ describe("App Component", () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText("Test Hero")).toBeInTheDocument();
+      expect(screen.getByText(/Test Hero/i)).toBeInTheDocument();
     });
 
-    expect(screen.getByText(/Type: pc/i)).toBeInTheDocument();
-    expect(screen.getByText(/Level: 5/i)).toBeInTheDocument();
-    expect(screen.getByText("A brave warrior")).toBeInTheDocument();
+    // Check that the character type is shown
+    expect(screen.getByText(/\(pc\)/i)).toBeInTheDocument();
   });
 
-  it("displays error message when fetch fails", async () => {
-    (globalThis.fetch as any).mockResolvedValueOnce({
-      ok: false,
-      status: 500,
-    });
-
-    render(<App />);
-
-    await waitFor(() => {
-      expect(screen.getByText(/Error:/i)).toBeInTheDocument();
-    });
-  });
-
-  it("refreshes characters when refresh button is clicked", async () => {
-    const user = userEvent.setup();
-
-    // First load
+  it("shows LAUNCH ALPHA TEST button", async () => {
     (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
@@ -116,26 +98,24 @@ describe("App Component", () => {
     render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText(/No characters yet/i)).toBeInTheDocument();
+      const launchButton = screen.getByRole("button", { name: /LAUNCH ALPHA TEST/i });
+      expect(launchButton).toBeInTheDocument();
     });
+  });
 
-    // Mock second load with data
+  it("shows navigation buttons", async () => {
     (globalThis.fetch as any).mockResolvedValueOnce({
       ok: true,
-      json: async () => [
-        {
-          id: "123e4567-e89b-12d3-a456-426614174000",
-          name: "New Hero",
-          type: "npc",
-        },
-      ],
+      json: async () => [],
     });
 
-    const refreshButton = screen.getByRole("button", { name: /Refresh/i });
-    await user.click(refreshButton);
+    render(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText("New Hero")).toBeInTheDocument();
+      expect(screen.getByText(/Knowledge Wiki/i)).toBeInTheDocument();
     });
+
+    expect(screen.getByText(/Help & Search/i)).toBeInTheDocument();
+    expect(screen.getByText(/Character Manager/i)).toBeInTheDocument();
   });
 });
