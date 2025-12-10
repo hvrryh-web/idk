@@ -1,0 +1,150 @@
+name: Copilot coding agent (patched)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  # If you need a proxy, set HTTP(S)_PROXY here in the repo secrets or workflow env
+  # Example: HTTP_PROXY / HTTPS_PROXY
+  COPILOT_API_URL: https://api.githubcopilot.com
+  CONNECTIVITY_RETRIES: 5
+  CONNECTIVITY_BACKOFF_SECS: 5
+
+jobs:
+  copilot-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo (all refs)
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git user (for any commits)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Verify Copilot API connectivity (with retries)
+        shell: bash
+        run: |
+          set -euo pipefail
+          attempt=0
+          until [ $attempt -ge "$CONNECTIVITY_RETRIES" ]
+          do
+            attempt=$((attempt+1))
+            if curl -sS --head --fail "$COPILOT_API_URL" >/dev/null 2>&1; then
+              echo "OK: Copilot API reachable on attempt $attempt"
+              break
+            fi
+            echo "WARN: Attempt $attempt - cannot reach $COPILOT_API_URL; sleeping $((attempt * CONNECTIVITY_BACKOFF_SECS))s"
+            sleep $((attempt * CONNECTIVITY_BACKOFF_SECS))
+          done
+          if [ $attempt -ge "$CONNECTIVITY_RETRIES" ]; then
+            echo "::error::ERROR: Unable to reach $COPILOT_API_URL after $CONNECTIVITY_RETRIES attempts. Check firewall / proxy allow list. See https://gh.io/copilot/firewall-config"
+            exit 2
+          fi
+
+      - name: Ensure base branch is available for diffs (PR context safe)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          echo "Fetching base branch: $BASE_REF"
+          # Try to fetch the base ref from origin; tolerate failure but continue
+          git fetch --no-tags --prune --depth=1 origin "$BASE_REF" || true
+          # Confirm the branch exists locally or via origin/BASE_REF
+          if git show-ref --verify --quiet "refs/remotes/origin/$BASE_REF"; then
+            echo "Base ref origin/$BASE_REF available"
+          elif git rev-parse --verify "$BASE_REF" >/dev/null 2>&1; then
+            echo "Base ref $BASE_REF available locally"
+          else
+            echo "::warning::Base ref $BASE_REF not found locally; diffs will use origin/$BASE_REF if present."
+          fi
+
+      - name: Determine diff base ref
+        id: diff_base
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="${{ github.event.pull_request.base.ref }}"
+            # Prefer origin/BASE_REF if present
+            if git show-ref --verify --quiet "refs/remotes/origin/$BASE_REF"; then
+              echo "base_ref=origin/$BASE_REF" >> "$GITHUB_OUTPUT"
+            else
+              echo "base_ref=$BASE_REF" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            # Use repository default branch as fallback
+            DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
+            if git show-ref --verify --quiet "refs/remotes/origin/$DEFAULT_BRANCH"; then
+              echo "base_ref=origin/$DEFAULT_BRANCH" >> "$GITHUB_OUTPUT"
+            else
+              echo "base_ref=$DEFAULT_BRANCH" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Show changed files against base ref
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Diff base = ${{ steps.diff_base.outputs.base_ref }}"
+          git fetch --no-tags --prune --depth=1 "${{ steps.diff_base.outputs.base_ref }}" || true
+          git diff --name-only "${{ steps.diff_base.outputs.base_ref }}...HEAD" || echo "No diff or base ref not present"
+
+      - name: Run Copilot agent (safe wrapper)
+        shell: bash
+        env:
+          HTTP_PROXY: ${{ secrets.HTTP_PROXY || '' }}
+          HTTPS_PROXY: ${{ secrets.HTTPS_PROXY || '' }}
+          NO_PROXY: ${{ secrets.NO_PROXY || '' }}
+        run: |
+          set -euo pipefail
+          # Example: run the Copilot coding agent binary or script that previously failed.
+          # Replace the command below with the actual command used in your original workflow.
+          CMD="./run-copilot-agent.sh"
+          if [ ! -x "$CMD" ]; then
+            echo "::warning::$CMD not found or not executable. Replace this step with the real agent invocation."
+          else
+            attempt=0
+            max_attempts=3
+            until [ $attempt -ge $max_attempts ]
+            do
+              attempt=$((attempt+1))
+              echo "INFO: Running copilot agent attempt $attempt/$max_attempts..."
+              if $CMD; then
+                echo "INFO: Copilot agent finished successfully"
+                break
+              fi
+              echo "WARN: Copilot agent failed on attempt $attempt; sleeping $((attempt * 10))s before retry"
+              sleep $((attempt * 10))
+            done
+            if [ $attempt -ge $max_attempts ]; then
+              echo "::error::Copilot agent failed after $max_attempts attempts"
+              exit 3
+            fi
+          fi
+
+      - name: Commit any workspace changes (if applicable)
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "chore: workspace updates from Copilot agent (automated)" || echo "No commit needed"
+            # Push back to branch if runner has push permission
+            if [ -n "${{ secrets.GITHUB_TOKEN }}" ]; then
+              git push origin HEAD:HEAD || echo "Push failed or not permitted"
+            fi
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Finalize
+        run: echo "Finished patched Copilot agent job."
