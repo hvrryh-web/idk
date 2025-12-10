@@ -1,0 +1,35 @@
+# Auto detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# Explicitly set text files
+*.py text
+*.js text
+*.ts text
+*.tsx text
+*.json text
+*.yaml text
+*.yml text
+*.md text
+*.txt text
+*.sh text
+*.sql text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+
+# Linguist overrides for better language detection
+*.sql linguist-detectable=true
+*.yaml linguist-detectable=true
+*.yml linguist-detectable=true
