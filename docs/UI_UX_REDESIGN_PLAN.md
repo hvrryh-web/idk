@@ -826,7 +826,7 @@ frontend/
 ### Technical References
 
 - [MDN Web Docs - Responsive Images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images)
-- [web.dev - Image Optimization](https://web.dev/fast/#optimize-your-images)
+- [web.dev - Optimize Images](https://web.dev/articles/optimize-images)
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [CSS Tricks - 9-Slice Scaling](https://css-tricks.com/9-slice-scaling/)
 - [Lottie Animation Docs](https://airbnb.io/lottie/)

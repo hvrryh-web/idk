@@ -228,14 +228,16 @@
   --gradient-bg-dark: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   
   /* ============================================
-     BREAKPOINTS (for reference in JS)
+     BREAKPOINTS (for documentation reference only)
+     Note: CSS variables cannot be used in @media queries.
+     Use these values directly in your media queries.
      ============================================ */
   
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
+  --breakpoint-sm: 640px;   /* Use in @media: (min-width: 640px) */
+  --breakpoint-md: 768px;   /* Use in @media: (min-width: 768px) */
+  --breakpoint-lg: 1024px;  /* Use in @media: (min-width: 1024px) */
+  --breakpoint-xl: 1280px;  /* Use in @media: (min-width: 1280px) */
+  --breakpoint-2xl: 1536px; /* Use in @media: (min-width: 1536px) */
 }
 
 /* ============================================

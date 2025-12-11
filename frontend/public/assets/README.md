@@ -99,11 +99,14 @@ Use `srcset` and `picture` elements in React components to serve appropriate res
 
 ### React Component
 ```tsx
-import homeIcon from '/assets/icons/navigation/icon-home.svg';
-
+// With Vite, assets in public/ are served from root
 function Navigation() {
-  return <img src={homeIcon} alt="Home" width={24} height={24} />;
+  return <img src="/assets/icons/navigation/icon-home.svg" alt="Home" width={24} height={24} />;
 }
+
+// Or use dynamic imports from src/assets if you move assets there
+// import homeIcon from '../assets/icons/navigation/icon-home.svg';
+// return <img src={homeIcon} alt="Home" width={24} height={24} />;
 ```
 
 ## Asset Creation Workflow
