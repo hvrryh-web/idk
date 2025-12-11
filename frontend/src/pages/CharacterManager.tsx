@@ -10,7 +10,7 @@ export default function CharacterManager() {
   const [selectedCharacterId, setSelectedCharacterId] = useState<number>();
 
   return (
-    <div className="character-manager">
+    <div className="character-manager" style={{background: 'var(--parchment)', borderRadius: '18px', boxShadow: '0 4px 24px rgba(124,63,0,0.08)', border: '6px solid #c9b18a', fontFamily: 'Cinzel, serif', color: '#3a2c13', padding: '2rem', margin: '2rem 0'}}>
       <header className="page-header">
         <h1>Character & Simulation Manager</h1>
         <div className="header-actions">

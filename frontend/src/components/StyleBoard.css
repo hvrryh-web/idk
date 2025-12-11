@@ -1,0 +1,71 @@
+.style-board {
+  background: #f8f5ef;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  font-family: 'Noto Serif JP', 'serif';
+}
+.style-board h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #7c3f00;
+  border-bottom: 2px solid #c9b18a;
+  padding-bottom: 0.5rem;
+}
+.style-board h3 {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  color: #3a2c13;
+}
+.artwork-row, .asset-row {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+.artwork {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  border: 2px solid #c9b18a;
+}
+.asset-preview {
+  position: relative;
+  width: 160px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eae2d6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  border: 2px solid #c9b18a;
+}
+.asset-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fx-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+}
+.fx-overlay.bloom {
+  box-shadow: 0 0 32px 8px #fff8e1 inset;
+  mix-blend-mode: screen;
+  opacity: 0.18;
+}
+.fx-overlay.vignette {
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.18) 100%);
+}
+.fx-overlay.grain {
+  background-image: url('/assets/fx/grain-overlay.png');
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+}
+.fx-overlay.lut {
+  background: linear-gradient(90deg, #e6d3b3 0%, #c9b18a 100%);
+  opacity: 0.12;
+  mix-blend-mode: color;
+}
