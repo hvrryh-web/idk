@@ -21,7 +21,8 @@ import AsciiVisualizer from "./pages/AsciiVisualizer";
 
 export default function App() {
   // Use global API hook for error/debug info
-  const { apiError, lastApiCall, lastStatus } = useApi();
+  const apiDiagnostics = useApi();
+  const { apiError, lastApiCall, lastStatus } = apiDiagnostics;
 
   return (
     <ErrorBoundary>
@@ -30,7 +31,7 @@ export default function App() {
       <BrowserRouter>
         <div className="app">
           <Routes>
-            <Route path="/" element={<GameRoom />} />
+            <Route path="/" element={<GameRoom systemStatus={apiDiagnostics} />} />
             <Route path="/game" element={<GameScreen />} />
             <Route path="/profile/:id" element={<ProfileSheet />} />
             <Route path="/cultivation/:id" element={<CultivationSheet />} />
