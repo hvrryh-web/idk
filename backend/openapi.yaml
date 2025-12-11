@@ -34,6 +34,8 @@ tags:
     description: Combat simulation operations
   - name: health
     description: System health checks
+  - name: ascii
+    description: Utilities for generating ASCII art from images
 
 paths:
   /health:
@@ -54,6 +56,51 @@ paths:
                   status:
                     type: string
                     example: ok
+
+  /ascii/render:
+    post:
+      summary: Render an image as ASCII art
+      description: Convert an uploaded image or remote image URL into fixed-width ASCII art.
+      operationId: renderAscii
+      tags:
+        - ascii
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Image file to convert to ASCII art
+                image_url:
+                  type: string
+                  format: uri
+                  description: Remote image URL to fetch and convert
+                resolution:
+                  type: integer
+                  minimum: 16
+                  maximum: 400
+                  default: 120
+                  description: Target character width for the ASCII art output
+                contrast:
+                  type: number
+                  format: float
+                  minimum: 0.1
+                  maximum: 5.0
+                  default: 1.0
+                  description: Contrast multiplier applied before conversion
+      responses:
+        '200':
+          description: ASCII art generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsciiRenderResponse'
+        '400':
+          description: Invalid image input
 
   /characters:
     get:
@@ -405,6 +452,64 @@ paths:
 
 components:
   schemas:
+    AsciiMetadata:
+      type: object
+      required:
+        - width
+        - height
+        - original_width
+        - original_height
+        - character_set
+        - contrast
+        - resolution
+        - source_type
+      properties:
+        width:
+          type: integer
+          description: Width of the generated ASCII art in characters
+          example: 120
+        height:
+          type: integer
+          description: Height of the generated ASCII art in rows
+          example: 66
+        original_width:
+          type: integer
+          description: Width of the source image in pixels
+          example: 600
+        original_height:
+          type: integer
+          description: Height of the source image in pixels
+          example: 330
+        character_set:
+          type: string
+          description: Characters used for rendering ordered from darkest to lightest
+          example: "@%#*+=-:. "
+        contrast:
+          type: number
+          format: float
+          description: Contrast multiplier applied before conversion
+          example: 1.2
+        resolution:
+          type: integer
+          description: Target width in characters used for rendering
+          example: 120
+        source_type:
+          type: string
+          description: Indicates whether the image was loaded from an upload or URL
+          example: upload
+
+    AsciiRenderResponse:
+      type: object
+      required:
+        - ascii_art
+        - metadata
+      properties:
+        ascii_art:
+          type: string
+          description: Rendered ASCII art using the configured character set
+        metadata:
+          $ref: '#/components/schemas/AsciiMetadata'
+
     Character:
       type: object
       required:
