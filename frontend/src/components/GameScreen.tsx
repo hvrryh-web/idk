@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Play, Pause, SkipForward, Volume2 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function GameScreen() {
   const [isPlaying, setIsPlaying] = useState(false);

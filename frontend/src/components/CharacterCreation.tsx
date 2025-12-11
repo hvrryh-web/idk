@@ -434,7 +434,7 @@ function ReviewStep({ data }: { data: CharacterCreationData }) {
 
       <div className="review-section">
         <div className="review-avatar">
-          <CharacterAvatar avatar={data.avatar} name={data.name} size="large" showName />
+          <CharacterAvatar avatar={data.avatar} name={data.name || ""} size="large" showName />
         </div>
 
         <div className="review-basic">
