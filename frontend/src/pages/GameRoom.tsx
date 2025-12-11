@@ -230,14 +230,16 @@ export default function GameRoom() {
           </div>
         </aside>
 
-      <div className="quick-nav">
-        <h3>Quick Navigation</h3>
-        <nav>
-          <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
-          <button onClick={() => navigate("/help")}>❓ Help & Search</button>
-          <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
-          <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
-        </nav>
+        {/* Main Content or additional quick nav */}
+        <div className="quick-nav">
+          <h3>Quick Navigation</h3>
+          <nav>
+            <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
+            <button onClick={() => navigate("/help")}>❓ Help & Search</button>
+            <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
+            <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
+          </nav>
+        </div>
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ export default function CharacterAvatar({
           ...getPatternStyle(currentAvatar.backgroundPattern),
         }}
       >
-        <div className="avatar-icon">{getIconSymbol(currentAvatar.icon)}</div>
+        <div className="avatar-icon">{getIconSymbol(currentAvatar.icon || "")}</div>
         {currentAvatar.portraitUrl && (
           <img
             src={currentAvatar.portraitUrl}

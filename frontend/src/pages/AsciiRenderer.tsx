@@ -31,9 +31,9 @@ export default function AsciiRenderer() {
     let key = 0;
     let match: RegExpExecArray | null;
 
-    while ((match = regex.exec(result.ascii)) !== null) {
+    while ((match = regex.exec(result.ascii || "")) !== null) {
       if (match.index > lastIndex) {
-        const chunk = result.ascii.slice(lastIndex, match.index);
+        const chunk = (result.ascii || "").slice(lastIndex, match.index);
         nodes.push(
           <span key={`chunk-${key++}`} style={{ color: currentColor }}>
             {chunk}
@@ -50,10 +50,10 @@ export default function AsciiRenderer() {
       lastIndex = regex.lastIndex;
     }
 
-    if (lastIndex < result.ascii.length) {
+    if (lastIndex < (result.ascii || "").length) {
       nodes.push(
         <span key={`tail-${key}`} style={{ color: currentColor }}>
-          {result.ascii.slice(lastIndex)}
+          {(result.ascii || "").slice(lastIndex)}
         </span>
       );
     }
@@ -87,7 +87,7 @@ export default function AsciiRenderer() {
       setStatus(
         response.cached
           ? "Served from cache. Rendering skipped for identical input."
-          : `Rendered in ${response.duration_ms.toFixed(1)} ms.`
+          : `Rendered in ${response.duration_ms ? response.duration_ms.toFixed(1) : "0"} ms.`
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to render image.");
