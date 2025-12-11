@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, type ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { fetchCharacters, type ApiDiagnostics } from "../api";
-import { saveAsciiArt, loadAsciiArt } from "../asciiStore";
 import type { Character } from "../types";
 import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog, RefreshCcw } from "lucide-react";
 import Button from "../components/Button";
@@ -12,52 +11,6 @@ import FullScreenMenu from "../components/FullScreenMenu";
 
 const densityRamp = "@%#*+=-:. ";
 const maxAsciiWidth = 80;
-
-const convertImageToAscii = (src: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.crossOrigin = "anonymous";
-
-    image.onload = () => {
-      const scale = Math.min(maxAsciiWidth / image.width, 1);
-      const width = Math.max(1, Math.floor(image.width * scale));
-      const height = Math.max(1, Math.floor(image.height * scale * 0.5));
-
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext("2d");
-
-      if (!ctx) {
-        reject(new Error("Canvas context unavailable"));
-        return;
-      }
-
-      ctx.drawImage(image, 0, 0, width, height);
-      const imageData = ctx.getImageData(0, 0, width, height).data;
-      let ascii = "";
-
-      for (let y = 0; y < height; y += 1) {
-        let row = "";
-        for (let x = 0; x < width; x += 1) {
-          const offset = (y * width + x) * 4;
-          const r = imageData[offset];
-          const g = imageData[offset + 1];
-          const b = imageData[offset + 2];
-          const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-          const densityIndex = Math.floor((luminance / 255) * (densityRamp.length - 1));
-          row += densityRamp[densityRamp.length - 1 - densityIndex];
-        }
-        ascii += `${row}\n`;
-      }
-
-      resolve(ascii.trimEnd());
-    };
-
-    image.onerror = () => reject(new Error("Failed to load image for conversion"));
-    image.src = src;
-  });
-};
 
 type GameRoomProps = {
   systemStatus?: ApiDiagnostics;
