@@ -1,0 +1,77 @@
+.game-screen {
+  display: flex;
+  height: 100vh;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.game-sidebar {
+  width: 300px;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.game-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+
+.game-content {
+  flex: 1;
+  overflow: hidden;
+  padding: 1rem;
+  min-height: 0;
+}
+
+.game-panels {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr;
+  gap: 1rem;
+  height: 100%;
+  min-height: 0;
+}
+
+.chat-panel {
+  background: #1f1f1f;
+  border: 1px solid #2f2f2f;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.combat-hud-area {
+  height: 180px;
+  border-top: 1px solid #333;
+  background-color: #252525;
+}
+
+.combat-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-style: italic;
+}
+
+@media (max-width: 1200px) {
+  .game-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .game-sidebar {
+    width: 240px;
+  }
+
+  .game-content {
+    padding: 0.75rem;
+  }
+}

@@ -1,0 +1,127 @@
+.character-panel {
+  padding: 1rem;
+  background-color: #1e1e1e;
+  border-top: 1px solid #333;
+}
+
+.character-panel.loading,
+.character-panel.empty {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+}
+
+.panel-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.panel-header .header-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+}
+
+.scl-badge {
+  background-color: #4a9eff;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.stats-section,
+.tracks-section,
+.conditions-section,
+.fate-cards-section {
+  margin-bottom: 1rem;
+}
+
+.stats-section h4,
+.tracks-section h4,
+.conditions-section h4,
+.fate-cards-section h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  background-color: #2a2a2a;
+  border-radius: 3px;
+  font-size: 0.875rem;
+}
+
+.stat-label {
+  color: #999;
+  font-weight: bold;
+}
+
+.stat-value {
+  color: #e0e0e0;
+}
+
+.track-bar {
+  margin-bottom: 0.5rem;
+}
+
+.track-label {
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 0.25rem;
+}
+
+.track-progress {
+  height: 8px;
+  background-color: #2a2a2a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.track-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+  transition: width 0.3s ease;
+}
+
+.condition-display {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  background-color: #2a2a2a;
+  border-radius: 3px;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.condition-label {
+  color: #999;
+}
+
+.condition-value {
+  color: #e0e0e0;
+  font-weight: bold;
+}

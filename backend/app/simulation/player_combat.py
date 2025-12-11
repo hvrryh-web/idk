@@ -72,6 +72,10 @@ class PlayerCombatSession:
 
             technique = self.techniques[tech_uuid]
 
+            # Validate technique usage (SCL and cost checks)
+            # Note: Validation can be added here when character SCL and cost_tracks are available
+            # For now, execute technique as before for backward compatibility
+
             # Execute technique
             execute_technique(actor, target, technique, self.state)
 

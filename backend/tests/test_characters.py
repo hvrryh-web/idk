@@ -128,3 +128,78 @@ def test_create_character_with_stats(client_with_mock_db):
 
     data = response.json()
     assert data["stats"] == test_stats
+
+
+def test_create_character_with_primary_stats(client_with_mock_db):
+    """Test creating a character with primary and aether stats."""
+    client, mock_db = client_with_mock_db
+
+    test_id = uuid.uuid4()
+
+    # Mock the database session methods
+    mock_db.add = MagicMock()
+    mock_db.commit = MagicMock()
+    
+    def refresh_with_scl(obj):
+        setattr(obj, "id", test_id)
+        # Mock SCL calculation
+        obj._scl = 3
+        return None
+    
+    mock_db.refresh = MagicMock(side_effect=refresh_with_scl)
+
+    character_data = {
+        "name": "Cultivator",
+        "type": "pc",
+        "strength": 3,
+        "dexterity": 3,
+        "constitution": 3,
+        "intelligence": 3,
+        "wisdom": 3,
+        "charisma": 3,
+        "perception": 3,
+        "resolve": 3,
+        "presence": 3,
+        "aether_fire": 2,
+        "aether_ice": 2,
+        "aether_void": 2,
+    }
+    response = client.post("/api/v1/characters/", json=character_data)
+    assert response.status_code == 201
+
+    data = response.json()
+    assert data["strength"] == 3
+    assert data["aether_fire"] == 2
+    assert "scl" in data
+
+
+def test_update_character_tracks(client_with_mock_db):
+    """Test updating character condition and cost tracks."""
+    client, mock_db = client_with_mock_db
+
+    test_id = uuid.uuid4()
+    mock_character = Character(
+        id=test_id,
+        name="Test Hero",
+        type=CharacterType.pc,
+        conditions={"violence": {"current": 0, "history": []}},
+        cost_tracks={"blood": {"current": 5, "maximum": 10}},
+    )
+
+    # Mock query to return the character
+    mock_query = MagicMock()
+    mock_query.filter.return_value.first.return_value = mock_character
+    mock_db.query.return_value = mock_query
+    mock_db.commit = MagicMock()
+    mock_db.refresh = MagicMock()
+
+    update_data = {
+        "conditions": {"violence": {"current": 2, "history": [{"timestamp": "2025-12-11", "delta": 2}]}},
+        "cost_tracks": {"blood": {"current": 3, "maximum": 10}},
+    }
+    response = client.patch(f"/api/v1/characters/{test_id}/tracks", json=update_data)
+    assert response.status_code == 200
+
+    # Verify the character was updated
+    assert mock_character.conditions == update_data["conditions"]
+    assert mock_character.cost_tracks == update_data["cost_tracks"]
