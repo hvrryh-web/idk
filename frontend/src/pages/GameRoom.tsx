@@ -2,15 +2,19 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchCharacters } from "../api";
 import type { Character } from "../types";
-import { BookOpen, HelpCircle, Users, Rocket } from "lucide-react";
+import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu } from "lucide-react";
 import Button from "../components/Button";
 import GameScreen from "../components/GameScreen";
 import ChatBox from "../components/ChatBox";
+import HUD from "../components/HUD";
+import FullScreenMenu from "../components/FullScreenMenu";
 
 export default function GameRoom() {
   const navigate = useNavigate();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     loadCharacters();
@@ -36,11 +40,55 @@ export default function GameRoom() {
     }
   };
 
+  const toggleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
+  };
+
+  const handleMenuSelect = (optionId: string) => {
+    console.log('Menu option selected:', optionId);
+    // Handle menu navigation here
+    if (optionId === 'character' && characters.length > 0) {
+      navigate(`/profile/${characters[0].id}`);
+    } else if (optionId === 'codex') {
+      navigate('/wiki');
+    }
+  };
+
+  if (isFullScreen) {
+    return (
+      <div className="game-room-fullscreen">
+        <HUD />
+        <GameScreen />
+        <ChatBox />
+        
+        {/* Full Screen Controls */}
+        <div className="fullscreen-controls">
+          <button className="fs-control-btn" onClick={() => setShowMenu(true)}>
+            <Menu size={24} strokeWidth={2} />
+          </button>
+          <button className="fs-control-btn" onClick={toggleFullScreen}>
+            <Maximize size={24} strokeWidth={2} />
+          </button>
+        </div>
+
+        <FullScreenMenu 
+          isOpen={showMenu} 
+          onClose={() => setShowMenu(false)}
+          onSelectOption={handleMenuSelect}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="game-room">
       <div className="hero-section">
         <h1>WuXuxian TTRPG</h1>
         <p className="subtitle">A Fire Emblem–inspired, Xianxia-themed Visual Novel TTRPG</p>
+        <button className="fullscreen-toggle" onClick={toggleFullScreen}>
+          <Maximize size={20} strokeWidth={2} />
+          <span>Enter Full Screen Mode</span>
+        </button>
       </div>
 
       <div className="game-room-layout">
