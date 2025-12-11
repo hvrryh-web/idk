@@ -62,10 +62,22 @@ export interface Technique {
   damage?: number;
   cost?: number;
   ae_cost?: number;
-  base_damage?: number;
+  base_damage?: number;  // Kept for backward compatibility
   self_strain?: number;
   damage_routing?: string;
   technique_type?: string;
+  
+  // Phase 2: New fields for data-driven combat
+  attack_bonus?: number;  // Modifier applied to attack roll/damage
+  effect_rank?: number;   // Non-damage effect magnitude (0-10)
+  max_scl?: number;       // Maximum SCL allowed to use this technique
+  
+  // Phase 2: Cost requirements
+  cost_requirements?: {
+    blood?: number;
+    fate?: number;
+    stain?: number;
+  };
 }
 
 export interface SimulationRequest {

@@ -72,12 +72,20 @@ CREATE TABLE techniques (
     
     -- Combat mechanics
     technique_type technique_type,
-    base_damage INTEGER DEFAULT 0,
+    base_damage INTEGER DEFAULT 0,  -- Kept for backward compatibility
     ae_cost INTEGER DEFAULT 0,
     self_strain INTEGER DEFAULT 0,
     damage_routing damage_routing DEFAULT 'THP',
     boss_strain_on_hit INTEGER DEFAULT 0,
     dr_debuff FLOAT DEFAULT 0.0,
+    
+    -- Phase 2: New fields for data-driven combat
+    attack_bonus INTEGER DEFAULT 0,  -- Modifier applied to attack roll/damage
+    effect_rank INTEGER DEFAULT 0,   -- Non-damage effect magnitude (0-10)
+    max_scl INTEGER,                 -- Maximum SCL allowed to use this technique
+    
+    -- Phase 2: Cost requirements (JSONB for flexibility)
+    cost JSONB DEFAULT '{"blood": 0, "fate": 0, "stain": 0}'::jsonb,
     
     -- Quick action flag (0 = major action, 1 = quick action)
     is_quick_action INTEGER DEFAULT 0,
