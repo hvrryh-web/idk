@@ -26,6 +26,28 @@ CREATE TABLE characters (
     description TEXT,
     stats JSONB,
     
+    -- Primary stats (9)
+    strength INTEGER DEFAULT 0,
+    dexterity INTEGER DEFAULT 0,
+    constitution INTEGER DEFAULT 0,
+    intelligence INTEGER DEFAULT 0,
+    wisdom INTEGER DEFAULT 0,
+    charisma INTEGER DEFAULT 0,
+    perception INTEGER DEFAULT 0,
+    resolve INTEGER DEFAULT 0,
+    presence INTEGER DEFAULT 0,
+    
+    -- Aether stats (3)
+    aether_fire INTEGER DEFAULT 0,
+    aether_ice INTEGER DEFAULT 0,
+    aether_void INTEGER DEFAULT 0,
+    
+    -- Condition tracks (stored as JSONB for history)
+    conditions JSONB DEFAULT '{"violence": {"current": 0, "history": []}, "influence": {"current": 0, "history": []}, "revelation": {"current": 0, "history": []}}'::jsonb,
+    
+    -- Cost tracks (stored as JSONB)
+    cost_tracks JSONB DEFAULT '{"blood": {"current": 0, "maximum": 10}, "fate": {"current": 0, "maximum": 10}, "stain": {"current": 0, "maximum": 10}}'::jsonb,
+    
     -- Combat stats
     thp INTEGER,
     ae INTEGER,

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GameRoom from "./pages/GameRoom";
+import GameScreen from "./pages/GameScreen";
 import ProfileSheet from "./pages/ProfileSheet";
 import CultivationSheet from "./pages/CultivationSheet";
 import SoulCoreSheet from "./pages/SoulCoreSheet";
@@ -17,6 +18,7 @@ export default function App() {
       <div className="app">
         <Routes>
           <Route path="/" element={<GameRoom />} />
+          <Route path="/game" element={<GameScreen />} />
           <Route path="/profile/:id" element={<ProfileSheet />} />
           <Route path="/cultivation/:id" element={<CultivationSheet />} />
           <Route path="/soul-core/:id" element={<SoulCoreSheet />} />

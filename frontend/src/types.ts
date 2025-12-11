@@ -5,6 +5,54 @@ export interface Character {
   description?: string;
   rank?: string;
   techniques?: Technique[];
+  
+  // Primary stats
+  strength?: number;
+  dexterity?: number;
+  constitution?: number;
+  intelligence?: number;
+  wisdom?: number;
+  charisma?: number;
+  perception?: number;
+  resolve?: number;
+  presence?: number;
+  
+  // Aether stats
+  aether_fire?: number;
+  aether_ice?: number;
+  aether_void?: number;
+  
+  // Computed stat
+  scl?: number;
+  
+  // Condition and cost tracks
+  conditions?: {
+    violence?: ConditionTrack;
+    influence?: ConditionTrack;
+    revelation?: ConditionTrack;
+  };
+  cost_tracks?: {
+    blood?: CostTrack;
+    fate?: CostTrack;
+    stain?: CostTrack;
+  };
+}
+
+export interface ConditionTrack {
+  current: number;
+  history: ConditionEvent[];
+}
+
+export interface ConditionEvent {
+  timestamp: string;
+  cause: string;
+  delta: number;
+  note?: string;
+}
+
+export interface CostTrack {
+  current: number;
+  maximum: number;
 }
 
 export interface Technique {
