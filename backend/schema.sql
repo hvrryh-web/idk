@@ -1,3 +1,46 @@
+-- Death Cards Table
+CREATE TABLE death_cards (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    summary TEXT,
+    tags JSONB,
+    mechanical_hooks JSONB
+);
+
+-- Body Cards Table
+CREATE TABLE body_cards (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    summary TEXT,
+    stat_mods JSONB,
+    spd_mod INTEGER,
+    archetype_hint VARCHAR(255),
+    mechanical_hooks JSONB
+);
+
+-- Seed Cards Table
+CREATE TABLE seed_cards (
+    id UUID PRIMARY KEY,
+    colour VARCHAR(50),
+    aspect VARCHAR(50),
+    keywords JSONB,
+    mechanical_bias JSONB
+);
+
+-- Character Seed Cards (many-to-many)
+CREATE TABLE character_seed_cards (
+    character_id UUID REFERENCES characters(id) ON DELETE CASCADE,
+    seed_card_id UUID REFERENCES seed_cards(id) ON DELETE CASCADE,
+    PRIMARY KEY (character_id, seed_card_id)
+);
+
+-- Character Techniques (many-to-many)
+CREATE TABLE character_techniques (
+    character_id UUID REFERENCES characters(id) ON DELETE CASCADE,
+    technique_id UUID REFERENCES techniques(id) ON DELETE CASCADE,
+    category VARCHAR(50),
+    PRIMARY KEY (character_id, technique_id, category)
+);
 -- WuXuxian TTRPG Database Schema
 -- PostgreSQL 15+
 
@@ -24,9 +67,31 @@ CREATE TABLE characters (
     level INTEGER,
     lineage VARCHAR(255),
     description TEXT,
-    stats JSONB,
+
+    soul_capacity INTEGER,
+    seq_lvl INTEGER,
+    realm_lvl INTEGER,
+    bod INTEGER,
+    mnd INTEGER,
+    sol INTEGER,
+    ae_max INTEGER,
+    ae_reg INTEGER,
+    strain_cap INTEGER,
+    thp_max INTEGER,
+    php_max INTEGER,
+    mshp_max INTEGER,
+    guard_base_charges INTEGER,
+    guard_prr INTEGER,
+    guard_mrr INTEGER,
+    guard_srr INTEGER,
+    spd_raw INTEGER,
+    death_card_id UUID REFERENCES death_cards(id) ON DELETE SET NULL,
+    body_card_id UUID REFERENCES body_cards(id) ON DELETE SET NULL,
+    soul_thesis TEXT,
     
-    -- Primary stats (9)
+    -- Legacy D&D-style primary stats (9): retained for migration/reference only.
+    -- Canonical stat system is bod/mnd/sol/etc. (see lines 74-87 above).
+    -- If not needed, these fields can be removed in a future schema update.
     strength INTEGER DEFAULT 0,
     dexterity INTEGER DEFAULT 0,
     constitution INTEGER DEFAULT 0,
@@ -66,18 +131,28 @@ CREATE TABLE characters (
 
 -- Techniques table
 CREATE TABLE techniques (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
+    tier VARCHAR(50),
+    archetype VARCHAR(50),
+    axis VARCHAR(50),
+    target_pool VARCHAR(50),
+    base_offrank_bias INTEGER,
     
     -- Combat mechanics
     technique_type technique_type,
     base_damage INTEGER DEFAULT 0,  -- Kept for backward compatibility
     ae_cost INTEGER DEFAULT 0,
     self_strain INTEGER DEFAULT 0,
+    damage_to_thp INTEGER,
+    damage_to_php INTEGER,
+    damage_to_mshp INTEGER,
     damage_routing damage_routing DEFAULT 'THP',
     boss_strain_on_hit INTEGER DEFAULT 0,
     dr_debuff FLOAT DEFAULT 0.0,
+    ally_shield INTEGER,
+    build_meta JSONB,
     
     -- Phase 2: New fields for data-driven combat
     attack_bonus INTEGER DEFAULT 0,  -- Modifier applied to attack roll/damage
@@ -112,8 +187,8 @@ CREATE TABLE boss_templates (
     spike_threshold INTEGER,
     
     -- Techniques
-    basic_technique_id UUID REFERENCES techniques(id),
-    spike_technique_id UUID REFERENCES techniques(id),
+    basic_technique_id VARCHAR(50) REFERENCES techniques(id),
+    spike_technique_id VARCHAR(50) REFERENCES techniques(id),
     techniques JSONB,
     
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,

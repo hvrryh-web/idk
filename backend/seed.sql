@@ -62,8 +62,8 @@ INSERT INTO techniques (
     0,
     0,
     0,
-    '{"type": "temp_hp", "value": 2}',
-    '{"role": "burst"}'
+    2,
+    '{"role": "burst"}'::jsonb
 ) ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO techniques (
@@ -100,8 +100,8 @@ INSERT INTO techniques (
     0,
     0,
     1,
-    '{"type": "guard", "value": 1}',
-    '{"role": "tank"}'
+    1,
+    '{"role": "tank"}'::jsonb
 ) ON CONFLICT (id) DO NOTHING;
 
 WITH dc AS (
@@ -138,7 +138,7 @@ INSERT INTO characters (
 ) SELECT
     '33333333-3333-3333-3333-333333333333',
     'Yin River Monk',
-    'PC',
+    'pc',
     2,
     1,
     1,
