@@ -3,6 +3,12 @@ import { useState, useEffect, type ChangeEvent } from "react";
 import { fetchCharacters } from "../api";
 import { saveAsciiArt, loadAsciiArt } from "../asciiStore";
 import type { Character } from "../types";
+import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu } from "lucide-react";
+import Button from "../components/Button";
+import GameScreen from "../components/GameScreen";
+import ChatBox from "../components/ChatBox";
+import HUD from "../components/HUD";
+import FullScreenMenu from "../components/FullScreenMenu";
 
 const densityRamp = "@%#*+=-:. ";
 const maxAsciiWidth = 80;
@@ -57,11 +63,8 @@ export default function GameRoom() {
   const navigate = useNavigate();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [conversionStatus, setConversionStatus] = useState("Idle");
-  const [asciiArt, setAsciiArt] = useState(() => loadAsciiArt());
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [isConverting, setIsConverting] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     loadCharacters();
@@ -94,136 +97,144 @@ export default function GameRoom() {
     }
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] ?? null;
-    setSelectedFile(file);
-    setConversionStatus(file ? `Selected ${file.name}` : "Idle");
-    setAsciiArt(loadAsciiArt());
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
-    setPreviewUrl(file ? URL.createObjectURL(file) : null);
+  const toggleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
   };
 
-  const handleConvertToAscii = () => {
-    if (!selectedFile) {
-      setConversionStatus("Please select an image to convert.");
-      return;
+  const handleMenuSelect = (optionId: string) => {
+    console.log('Menu option selected:', optionId);
+    // Handle menu navigation here
+    if (optionId === 'character' && characters.length > 0) {
+      navigate(`/profile/${characters[0].id}`);
+    } else if (optionId === 'codex') {
+      navigate('/wiki');
     }
-
-    setIsConverting(true);
-    setConversionStatus("Reading image...");
-
-    const reader = new FileReader();
-    reader.onload = async () => {
-      try {
-        setConversionStatus("Processing pixels...");
-        const ascii = await convertImageToAscii(reader.result as string);
-        setAsciiArt(ascii);
-        setConversionStatus("Conversion complete. Preview ready.");
-      } catch (error) {
-        console.error(error);
-        setConversionStatus("Conversion failed. Please try a different image.");
-      } finally {
-        setIsConverting(false);
-      }
-    };
-    reader.onerror = () => {
-      setIsConverting(false);
-      setConversionStatus("Could not read file. Please try again.");
-    };
-
-    reader.readAsDataURL(selectedFile);
   };
 
-  const handleSendToGameScreen = () => {
-    if (!asciiArt) {
-      setConversionStatus("Generate ASCII art before sending to the game screen.");
-      return;
-    }
+  if (isFullScreen) {
+    return (
+      <div className="game-room-fullscreen-persona">
+        {/* HUD Top Bar */}
+        <HUD />
+        
+        {/* Main Game Content */}
+        <div className="fullscreen-game-content">
+          <GameScreen />
+        </div>
 
-    saveAsciiArt(asciiArt);
-    setConversionStatus("ASCII art saved for the game screen.");
-  };
+        {/* Chat Box - Fixed Height Bottom */}
+        <div className="fullscreen-chat-wrapper">
+          <ChatBox />
+        </div>
+        
+        {/* Full Screen Controls */}
+        <div className="fullscreen-controls">
+          <button className="fs-control-btn" onClick={() => setShowMenu(true)}>
+            <Menu size={24} strokeWidth={2} />
+          </button>
+          <button className="fs-control-btn" onClick={toggleFullScreen}>
+            <Maximize size={24} strokeWidth={2} />
+          </button>
+        </div>
+
+        <FullScreenMenu 
+          isOpen={showMenu} 
+          onClose={() => setShowMenu(false)}
+          onSelectOption={handleMenuSelect}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="game-room">
       <div className="hero-section">
         <h1>WuXuxian TTRPG</h1>
         <p className="subtitle">A Fire Emblem–inspired, Xianxia-themed Visual Novel TTRPG</p>
-      </div>
-
-      <div className="action-section">
-        <button className="launch-button" onClick={handleLaunchAlphaTest} disabled={loading}>
-          🚀 LAUNCH ALPHA TEST
+        <button className="fullscreen-toggle" onClick={toggleFullScreen}>
+          <Maximize size={20} strokeWidth={2} />
+          <span>Enter Full Screen Mode</span>
         </button>
-        {loading && <p>Loading characters...</p>}
-        {!loading && characters.length === 0 && (
-          <p className="warning">No characters found. Create a character to begin.</p>
-        )}
       </div>
 
-      <div className="character-roster">
-        <h2>Available Characters</h2>
-        {characters.length > 0 ? (
-          <ul className="character-list">
-            {characters.map((char) => (
-              <li key={char.id}>
-                <button onClick={() => navigate(`/profile/${char.id}`)}>
-                  {char.name} ({char.type})
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          !loading && <p>No characters yet.</p>
-        )}
-      </div>
-
-      <div className="tv-panel">
-        <div className="tv-header">
-          <div>
-            <h2>Broadcast to Game Room Screen</h2>
-            <p className="tv-subtitle">Upload an image, convert it to ASCII, and beam it to the in-room TV.</p>
+      <div className="game-room-layout">
+        {/* Left Sidebar */}
+        <aside className="game-sidebar">
+          <div className="action-section">
+            <Button
+              variant="primary"
+              size="large"
+              icon={Rocket}
+              onClick={handleLaunchAlphaTest}
+              disabled={loading}
+              className="launch-button-new"
+            >
+              LAUNCH ALPHA TEST
+            </Button>
+            {loading && <p className="loading-text">Loading characters...</p>}
+            {!loading && characters.length === 0 && (
+              <p className="warning">No characters found. Create a character to begin.</p>
+            )}
           </div>
-          <span className="tv-indicator" aria-label="TV power indicator" />
-        </div>
 
-        <div className="tv-controls">
-          <label className="file-picker">
-            <span role="img" aria-label="satellite">🛰️</span> Load Reference Image
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-          </label>
-          <div className="control-buttons">
-            <button onClick={handleConvertToAscii} disabled={!selectedFile || isConverting}>
-              {isConverting ? "Converting..." : "Convert to ASCII"}
-            </button>
-            <button onClick={handleSendToGameScreen} disabled={!asciiArt}>Send to Game Screen</button>
+          <div className="character-roster">
+            <h2>Available Characters</h2>
+            {characters.length > 0 ? (
+              <ul className="character-list">
+                {characters.map((char) => (
+                  <li key={char.id}>
+                    <Button
+                      variant="secondary"
+                      size="medium"
+                      icon={Users}
+                      onClick={() => navigate(`/profile/${char.id}`)}
+                    >
+                      {char.name} ({char.type})
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              !loading && <p className="empty-state">No characters yet.</p>
+            )}
           </div>
-          <p className="conversion-status">Status: {conversionStatus}</p>
-        </div>
 
-        <div className="tv-body">
-          {previewUrl && (
-            <div className="preview-window">
-              <p className="preview-title">Input Preview</p>
-              <img src={previewUrl} alt={selectedFile?.name ?? "Selected asset"} />
-            </div>
-          )}
-          <div className="ascii-window">
-            <p className="preview-title">ASCII Output</p>
-            <pre className="ascii-preview" aria-live="polite">{asciiArt || "Awaiting conversion..."}</pre>
+          <div className="quick-nav">
+            <h3>Quick Navigation</h3>
+            <nav>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={BookOpen}
+                onClick={() => navigate("/wiki")}
+              >
+                Knowledge Wiki
+              </Button>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={HelpCircle}
+                onClick={() => navigate("/help")}
+              >
+                Help & Search
+              </Button>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={Users}
+                onClick={() => navigate("/characters")}
+              >
+                Character Manager
+              </Button>
+            </nav>
           </div>
-        </div>
-      </div>
+        </aside>
 
-      <div className="quick-nav">
-        <h3>Quick Navigation</h3>
-        <nav>
-          <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
-          <button onClick={() => navigate("/help")}>❓ Help & Search</button>
-          <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
-        </nav>
+        {/* Center Content - Game Screen and Chat */}
+        <main className="game-main-content">
+          <GameScreen />
+          <ChatBox />
+        </main>
       </div>
     </div>
   );
