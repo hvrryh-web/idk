@@ -33,6 +33,12 @@ app.include_router(techniques_router, prefix=settings.API_PREFIX)
 app.include_router(ascii_art_router, prefix=settings.API_PREFIX)
 
 
+
+# Root endpoint for easier server status checking
+@app.get("/")
+def root():
+    return {"status": "WuXuxian backend running", "api_prefix": settings.API_PREFIX}
+
 @app.get("/health")
 def health():
     return {"status": "ok"}

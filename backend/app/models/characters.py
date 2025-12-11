@@ -45,6 +45,27 @@ class Character(Base):
     resolve = Column(Integer, nullable=True, default=0)
     presence = Column(Integer, nullable=True, default=0)
 
+    # Extra columns from schema
+    sc = Column(Integer, nullable=True)
+    seq_lvl = Column(Integer, nullable=True)
+    realm_lvl = Column(Integer, nullable=True)
+    bod = Column(Integer, nullable=True)
+    mnd = Column(Integer, nullable=True)
+    sol = Column(Integer, nullable=True)
+    ae_max = Column(Integer, nullable=True)
+    strain_cap = Column(Integer, nullable=True)
+    thp_max = Column(Integer, nullable=True)
+    php_max = Column(Integer, nullable=True)
+    mshp_max = Column(Integer, nullable=True)
+    guard_base_charges = Column(Integer, nullable=True)
+    guard_prr = Column(Integer, nullable=True)
+    guard_mrr = Column(Integer, nullable=True)
+    guard_srr = Column(Integer, nullable=True)
+    spd_raw = Column(Integer, nullable=True)
+    death_card_id = Column(UUID(as_uuid=True), nullable=True)
+    body_card_id = Column(UUID(as_uuid=True), nullable=True)
+    soul_thesis = Column(Text, nullable=True)
+
     # Aether stats (3)
     aether_fire = Column(Integer, nullable=True, default=0)
     aether_ice = Column(Integer, nullable=True, default=0)
@@ -79,23 +100,33 @@ class Character(Base):
         Calculate Soul Cultivation Level (SCL) based on primary and aether stats.
         Formula: floor(sum(primary_stats)/9) + floor((sum(aether_stats)/3) * 0.5)
         """
-        # Get primary stats, defaulting to 0 if None
-        primary_sum = sum([
-            self.strength or 0,
-            self.dexterity or 0,
-            self.constitution or 0,
-            self.intelligence or 0,
-            self.wisdom or 0,
-            self.charisma or 0,
-            self.perception or 0,
-            self.resolve or 0,
-            self.presence or 0,
-        ])
+        def safe_int(val):
+            if hasattr(val, 'key'):
+                return 0
+            return int(val) if val is not None else 0
 
-        # Get aether stats, defaulting to 0 if None
-        aether_sum = (self.aether_fire or 0) + (self.aether_ice or 0) + (self.aether_void or 0)
-
+        primary_stats = [
+            safe_int(self.strength),
+            safe_int(self.dexterity),
+            safe_int(self.constitution),
+            safe_int(self.intelligence),
+            safe_int(self.wisdom),
+            safe_int(self.charisma),
+            safe_int(self.perception),
+            safe_int(self.resolve),
+            safe_int(self.presence),
+        ]
+        primary_sum = sum(primary_stats)
+        aether_sum = safe_int(self.aether_fire) + safe_int(self.aether_ice) + safe_int(self.aether_void)
         scl_primary = math.floor(primary_sum / 9)
         scl_aether = math.floor((aether_sum / 3) * 0.5)
-
         return scl_primary + scl_aether
+
+    @scl.expression
+    def scl_expr(cls):
+        primary_sum = (
+            (cls.strength + cls.dexterity + cls.constitution + cls.intelligence +
+             cls.wisdom + cls.charisma + cls.perception + cls.resolve + cls.presence)
+        )
+        aether_sum = cls.aether_fire + cls.aether_ice + cls.aether_void
+        return func.floor(primary_sum / 9) + func.floor((aether_sum / 3) * 0.5)
