@@ -1,0 +1,8 @@
+{
+  "name": "attack_slash",
+  "width": 8,
+  "height": 3,
+  "anchor": { "x": 0, "y": 1 },
+  "type": "effect",
+  "tags": ["attack", "melee", "combat", "effect"]
+}
