@@ -1,0 +1,11 @@
+{
+  "name": "forest",
+  "width": 48,
+  "height": 6,
+  "anchor": {
+    "x": 24,
+    "y": 5
+  },
+  "type": "background",
+  "tags": ["nature", "outdoor", "peaceful"]
+}

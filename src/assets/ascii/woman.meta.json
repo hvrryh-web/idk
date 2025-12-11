@@ -1,0 +1,11 @@
+{
+  "name": "woman",
+  "width": 7,
+  "height": 4,
+  "anchor": {
+    "x": 3,
+    "y": 3
+  },
+  "type": "character",
+  "tags": ["female", "human", "person"]
+}

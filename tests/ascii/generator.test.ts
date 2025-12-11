@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { composeScene } from '../../src/backend/ascii/generator';
+import { composeScene, loadAssetMetadata, listAssets } from '../../src/backend/ascii/generator';
 
 describe('ASCII Generator', () => {
   describe('composeScene', () => {
@@ -63,6 +63,75 @@ describe('ASCII Generator', () => {
       const scene = await composeScene(spec);
       expect(scene).toEqual(expect.any(String));
       expect(scene).toMatch(/\(man\)/);
+    });
+
+    test('composes scene with new assets', async () => {
+      const spec = {
+        background: 'cave',
+        overlays: [{ assetName: 'elder', x: 9, y: 8 }],
+      };
+      const scene = await composeScene(spec);
+      expect(scene).toEqual(expect.any(String));
+      expect(scene).toMatch(/elder/);
+    });
+
+    test('composes scene with effects', async () => {
+      const spec = {
+        background: 'temple',
+        overlays: [
+          { assetName: 'cultivator', x: 17, y: 7 },
+          { assetName: 'sparkles', x: 17, y: 3 },
+        ],
+      };
+      const scene = await composeScene(spec);
+      expect(scene).toEqual(expect.any(String));
+      expect(scene).toMatch(/\*/); // sparkles contain asterisks
+    });
+  });
+
+  describe('Asset Metadata', () => {
+    test('loads metadata for asset with metadata file', async () => {
+      const metadata = await loadAssetMetadata('forest');
+      expect(metadata).not.toBeNull();
+      expect(metadata?.name).toBe('forest');
+      expect(metadata?.type).toBe('background');
+      expect(metadata?.tags).toContain('nature');
+    });
+
+    test('returns null for asset without metadata', async () => {
+      const metadata = await loadAssetMetadata('nonexistent');
+      expect(metadata).toBeNull();
+    });
+
+    test('lists all assets', async () => {
+      const assets = await listAssets();
+      expect(assets).toBeInstanceOf(Array);
+      expect(assets.length).toBeGreaterThan(0);
+      expect(assets).toContain('forest');
+      expect(assets).toContain('man');
+    });
+
+    test('lists assets by type - backgrounds', async () => {
+      const backgrounds = await listAssets('background');
+      expect(backgrounds).toBeInstanceOf(Array);
+      expect(backgrounds).toContain('forest');
+      expect(backgrounds).toContain('cave');
+      expect(backgrounds).toContain('temple');
+    });
+
+    test('lists assets by type - characters', async () => {
+      const characters = await listAssets('character');
+      expect(characters).toBeInstanceOf(Array);
+      expect(characters).toContain('man');
+      expect(characters).toContain('cultivator');
+      expect(characters).toContain('elder');
+    });
+
+    test('lists assets by type - effects', async () => {
+      const effects = await listAssets('effect');
+      expect(effects).toBeInstanceOf(Array);
+      expect(effects).toContain('sparkles');
+      expect(effects).toContain('energy');
     });
   });
 });

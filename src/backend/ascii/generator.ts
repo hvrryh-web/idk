@@ -2,6 +2,18 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 /**
+ * Metadata for an ASCII asset
+ */
+export type AssetMetadata = {
+  name: string;
+  width: number;
+  height: number;
+  anchor: { x: number; y: number };
+  type: 'background' | 'character' | 'effect';
+  tags: string[];
+};
+
+/**
  * Represents an ASCII art asset with its content and dimensions
  */
 export type AsciiAsset = {
@@ -11,6 +23,7 @@ export type AsciiAsset = {
   height: number;
   // Optional anchor metadata for future use
   anchor?: { x: number; y: number };
+  metadata?: AssetMetadata;
 };
 
 /**
@@ -34,8 +47,25 @@ export type SceneSpec = {
 const ASSETS_DIR = path.resolve(process.cwd(), 'src', 'assets', 'ascii');
 
 /**
- * Load an ASCII asset from disk.
+ * Load metadata for an ASCII asset if it exists
+ * 
+ * @param name - Name of the asset
+ * @returns Promise resolving to metadata or null if not found
+ */
+export async function loadAssetMetadata(name: string): Promise<AssetMetadata | null> {
+  try {
+    const metaPath = path.join(ASSETS_DIR, `${name}.meta.json`);
+    const raw = await fs.readFile(metaPath, 'utf-8');
+    return JSON.parse(raw) as AssetMetadata;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Load an ASCII asset from disk with optional metadata.
  * Asset file expected at src/assets/ascii/{name}.txt
+ * Metadata file expected at src/assets/ascii/{name}.meta.json
  * 
  * @param name - Name of the asset file (without .txt extension)
  * @returns Promise resolving to the loaded ASCII asset
@@ -46,7 +76,45 @@ export async function loadAssetFromDisk(name: string): Promise<AsciiAsset> {
   const lines = raw.replace(/\r\n/g, '\n').split('\n');
   const width = Math.max(...lines.map((l) => l.length));
   const height = lines.length;
-  return { name, lines, width, height };
+  
+  // Load metadata if available
+  const metadata = await loadAssetMetadata(name);
+  
+  return {
+    name,
+    lines,
+    width,
+    height,
+    anchor: metadata?.anchor,
+    metadata: metadata || undefined,
+  };
+}
+
+/**
+ * List all available assets by type
+ * 
+ * @param type - Optional type filter (background, character, effect)
+ * @returns Promise resolving to array of asset names
+ */
+export async function listAssets(type?: string): Promise<string[]> {
+  const files = await fs.readdir(ASSETS_DIR);
+  const assetNames = files
+    .filter((f) => f.endsWith('.txt'))
+    .map((f) => f.replace('.txt', ''));
+  
+  if (!type) {
+    return assetNames;
+  }
+  
+  // Filter by type using metadata
+  const filtered: string[] = [];
+  for (const name of assetNames) {
+    const metadata = await loadAssetMetadata(name);
+    if (metadata && metadata.type === type) {
+      filtered.push(name);
+    }
+  }
+  return filtered;
 }
 
 /**
@@ -60,6 +128,11 @@ function computeAnchorOffset(
   asset: AsciiAsset,
   anchor: Overlay['anchor']
 ): { ax: number; ay: number } {
+  // Use metadata anchor if available and no override is specified
+  if (!anchor && asset.anchor) {
+    return { ax: asset.anchor.x, ay: asset.anchor.y };
+  }
+  
   if (!anchor || anchor === 'bottom-center') {
     return { ax: Math.floor(asset.width / 2), ay: asset.height - 1 };
   }
@@ -83,9 +156,7 @@ function computeAnchorOffset(
  * Simple overlay rules:
  * - Non-space characters from overlays replace whatever is at that position in the background.
  * - Overlays with parts outside the background are clipped.
- * 
- * TODO: Add integration hooks for chat-driven scene generation
- * TODO: Support metadata files for more complex asset positioning
+ * - Uses metadata anchor points if available
  * 
  * @param spec - Scene specification with background and overlays
  * @returns Promise resolving to the composed ASCII scene as a string
