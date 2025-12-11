@@ -1,0 +1,80 @@
+.fate-card-deck {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.fate-card-deck.empty {
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  color: #888;
+  font-style: italic;
+}
+
+/* Layout variants */
+.fate-card-deck.deck-layout-horizontal {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.fate-card-deck.deck-layout-vertical {
+  flex-direction: column;
+}
+
+.fate-card-deck.deck-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Deck sections */
+.deck-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.deck-section-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #b0b0b0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Seed cards container */
+.seed-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.deck-layout-horizontal .seed-cards-container {
+  flex-direction: row;
+}
+
+/* Scrollbar styling for horizontal layout */
+.fate-card-deck.deck-layout-horizontal::-webkit-scrollbar {
+  height: 8px;
+}
+
+.fate-card-deck.deck-layout-horizontal::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.fate-card-deck.deck-layout-horizontal::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.fate-card-deck.deck-layout-horizontal::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

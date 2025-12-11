@@ -6,6 +6,12 @@ export interface Character {
   rank?: string;
   techniques?: Technique[];
   
+  // Alpha testing: Avatar/visual representation
+  avatar?: CharacterAvatar;
+  
+  // Alpha testing: Fate cards
+  fateCards?: FateCardSet;
+  
   // Primary stats
   strength?: number;
   dexterity?: number;
@@ -148,15 +154,66 @@ export interface ActionPreview {
   warnings: string[];
 }
 
-export interface AsciiRenderOptions {
-  width?: number;
-  height?: number;
-  invert?: boolean;
-  palette?: string;
+// Alpha Testing: Character Avatar and Visual Representation
+export interface CharacterAvatar {
+  color: string; // Primary color theme (hex)
+  icon: string; // Icon identifier (e.g., "warrior", "mage", "monk")
+  portraitUrl?: string; // Optional portrait image URL
+  backgroundPattern?: string; // Optional background pattern
 }
 
-export interface AsciiRenderResponse {
-  ascii: string;
-  request_id?: string;
-  status?: string;
+// Alpha Testing: Fate Card System
+export interface FateCard {
+  id: string;
+  name: string;
+  type: FateCardType;
+  description: string;
+  summary: string;
+  rarity?: string; // "common", "uncommon", "rare", "legendary"
+  mechanicalHooks?: Record<string, number>; // e.g., {"resilience": 1, "guard_bonus": 1}
+  statMods?: Record<string, number>; // e.g., {"bod": 1, "sol": 1}
+  keywords?: string[];
+  aspect?: string; // For Seed cards: "Mind", "Body", "Soul"
+  colour?: string; // For Seed cards: "Red", "Blue", "Green"
+  archetype?: string; // For Body cards: "Striker", "Defender", "Controller"
+}
+
+export type FateCardType = "death" | "body" | "seed";
+
+export interface FateCardSet {
+  deathCard?: FateCard;
+  bodyCard?: FateCard;
+  seedCards?: FateCard[]; // Array to allow multiple seed cards
+}
+
+// Alpha Testing: Character Creation State
+export interface CharacterCreationData {
+  step: number;
+  name: string;
+  type: string;
+  description: string;
+  
+  // Stats
+  strength: number;
+  dexterity: number;
+  constitution: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
+  perception: number;
+  resolve: number;
+  presence: number;
+  
+  aether_fire: number;
+  aether_ice: number;
+  aether_void: number;
+  
+  // Techniques
+  selectedTechniqueIds: number[];
+  
+  // Fate cards
+  selectedFateCards: FateCardSet;
+  
+  // Avatar
+  avatar: CharacterAvatar;
 }
