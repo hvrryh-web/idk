@@ -42,97 +42,84 @@ export default function HUD({ character, gameState }: HUDProps) {
   const aePercent = (char.ae / char.maxAe) * 100;
 
   return (
-    <div className="game-hud">
-      {/* Top HUD Bar - Game State */}
-      <div className="hud-top-bar">
-        <div className="hud-round-indicator">
-          <span className="hud-label">ROUND</span>
-          <span className="hud-value">{state.round}</span>
-        </div>
-        <div className="hud-phase-indicator">
-          <span className="hud-phase-text">{state.phase}</span>
-        </div>
-        <div className="hud-scl-indicator">
-          <span className="hud-label">SCL</span>
-          <span className="hud-value scl-badge">{char.scl}</span>
-        </div>
-      </div>
-
-      {/* Bottom Left HUD - Character Stats */}
-      <div className="hud-character-panel">
-        <div className="hud-character-header">
-          <div className="character-avatar">
-            <div className="avatar-placeholder">{char.name[0]}</div>
+    <div className="game-hud-persona">
+      {/* Top Status Bar - Persona Style */}
+      <div className="hud-top-status-bar">
+        <div className="hud-status-left">
+          <div className="status-badge">
+            <span className="badge-label">ROUND</span>
+            <span className="badge-value">{state.round}</span>
           </div>
-          <div className="character-info">
-            <h3 className="character-name">{char.name}</h3>
-            <span className="character-level">Level {char.level}</span>
+          <div className="status-phase">
+            <span className="phase-text">{state.phase}</span>
           </div>
         </div>
-
-        {/* HP Bar */}
-        <div className="hud-stat-row">
-          <div className="stat-icon hp-icon">
-            <Heart size={20} strokeWidth={2} />
-          </div>
-          <div className="stat-bar-container">
-            <div className="stat-label-row">
-              <span className="stat-label">HP</span>
-              <span className="stat-value">{char.hp}/{char.maxHp}</span>
-            </div>
-            <div className="stat-bar">
-              <div 
-                className="stat-bar-fill hp-fill" 
-                style={{ width: `${hpPercent}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* AE Bar */}
-        <div className="hud-stat-row">
-          <div className="stat-icon ae-icon">
-            <Zap size={20} strokeWidth={2} />
-          </div>
-          <div className="stat-bar-container">
-            <div className="stat-label-row">
-              <span className="stat-label">AE</span>
-              <span className="stat-value">{char.ae}/{char.maxAe}</span>
-            </div>
-            <div className="stat-bar">
-              <div 
-                className="stat-bar-fill ae-fill" 
-                style={{ width: `${aePercent}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Secondary Stats */}
-        <div className="hud-secondary-stats">
-          <div className="secondary-stat">
-            <Shield size={16} strokeWidth={2} />
-            <span className="secondary-stat-label">Guard</span>
-            <span className="secondary-stat-value">{char.guard}</span>
-          </div>
-          <div className="secondary-stat">
-            <Target size={16} strokeWidth={2} />
-            <span className="secondary-stat-label">Strain</span>
-            <span className="secondary-stat-value strain-value">{char.strain}</span>
+        <div className="hud-status-right">
+          <div className="status-badge scl-badge-wrapper">
+            <span className="badge-label">SCL</span>
+            <span className="badge-value scl-value">{char.scl}</span>
           </div>
         </div>
       </div>
 
-      {/* Bottom Right HUD - Quick Actions */}
-      <div className="hud-quick-actions">
-        <button className="quick-action-btn">
-          <Wind size={20} strokeWidth={2} />
-          <span>Quick Action</span>
-        </button>
-        <button className="quick-action-btn">
-          <Target size={20} strokeWidth={2} />
-          <span>Technique</span>
-        </button>
+      {/* Bottom HUD Bar - Character Info (Persona 4/5 Style) */}
+      <div className="hud-bottom-bar">
+        {/* Left Section - Character Identity */}
+        <div className="hud-char-identity">
+          <div className="char-avatar-box">
+            <div className="avatar-inner">{char.name[0]}</div>
+          </div>
+          <div className="char-name-level">
+            <h3 className="char-name-text">{char.name}</h3>
+            <span className="char-level-text">LV.{char.level}</span>
+          </div>
+        </div>
+
+        {/* Center Section - HP and AE Bars */}
+        <div className="hud-stats-bars">
+          <div className="stat-bar-item">
+            <div className="stat-bar-header">
+              <Heart size={18} strokeWidth={2.5} />
+              <span className="stat-bar-label">HP</span>
+              <span className="stat-bar-value">{char.hp}<span className="stat-max">/{char.maxHp}</span></span>
+            </div>
+            <div className="stat-progress-bar">
+              <div className="stat-progress-fill hp-progress" style={{ width: `${hpPercent}%` }} />
+            </div>
+          </div>
+          <div className="stat-bar-item">
+            <div className="stat-bar-header">
+              <Zap size={18} strokeWidth={2.5} />
+              <span className="stat-bar-label">AE</span>
+              <span className="stat-bar-value">{char.ae}<span className="stat-max">/{char.maxAe}</span></span>
+            </div>
+            <div className="stat-progress-bar">
+              <div className="stat-progress-fill ae-progress" style={{ width: `${aePercent}%` }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Right Section - Secondary Stats and Actions */}
+        <div className="hud-right-section">
+          <div className="hud-mini-stats">
+            <div className="mini-stat-box">
+              <Shield size={14} strokeWidth={2} />
+              <span className="mini-stat-value">{char.guard}</span>
+            </div>
+            <div className="mini-stat-box strain-box">
+              <Target size={14} strokeWidth={2} />
+              <span className="mini-stat-value">{char.strain}</span>
+            </div>
+          </div>
+          <div className="hud-action-buttons">
+            <button className="hud-action-btn action-primary">
+              <Wind size={16} strokeWidth={2.5} />
+            </button>
+            <button className="hud-action-btn action-secondary">
+              <Target size={16} strokeWidth={2.5} />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

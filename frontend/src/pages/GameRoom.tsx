@@ -56,10 +56,19 @@ export default function GameRoom() {
 
   if (isFullScreen) {
     return (
-      <div className="game-room-fullscreen">
+      <div className="game-room-fullscreen-persona">
+        {/* HUD Top Bar */}
         <HUD />
-        <GameScreen />
-        <ChatBox />
+        
+        {/* Main Game Content */}
+        <div className="fullscreen-game-content">
+          <GameScreen />
+        </div>
+
+        {/* Chat Box - Fixed Height Bottom */}
+        <div className="fullscreen-chat-wrapper">
+          <ChatBox />
+        </div>
         
         {/* Full Screen Controls */}
         <div className="fullscreen-controls">
