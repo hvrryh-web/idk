@@ -1,0 +1,11 @@
+{
+  "name": "guardian",
+  "width": 11,
+  "height": 9,
+  "anchor": {
+    "x": 5,
+    "y": 8
+  },
+  "type": "character",
+  "tags": ["guardian", "protector", "strong"]
+}

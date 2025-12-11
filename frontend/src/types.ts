@@ -6,6 +6,12 @@ export interface Character {
   rank?: string;
   techniques?: Technique[];
   
+  // Alpha testing: Avatar/visual representation
+  avatar?: CharacterAvatar;
+  
+  // Alpha testing: Fate cards
+  fateCards?: FateCardSet;
+  
   // Primary stats
   strength?: number;
   dexterity?: number;
@@ -148,15 +154,30 @@ export interface ActionPreview {
   warnings: string[];
 }
 
-export interface AsciiRenderOptions {
-  width?: number;
-  height?: number;
-  invert?: boolean;
-  palette?: string;
+// ASCII Art Types
+export interface ASCIIArtifact {
+  id: string;
+  ascii_art: string;
+  width: number;
+  height: number;
+  style: string;
+  preset_name: string;
+  content_hash: string;
+  use_color: boolean;
 }
 
-export interface AsciiRenderResponse {
-  ascii: string;
-  request_id?: string;
-  status?: string;
+export interface ASCIIPreset {
+  name: string;
+  description: string;
+  use_color: boolean;
+}
+
+export interface ASCIIListItem {
+  id: string;
+  width: number;
+  height: number;
+  style: string;
+  preset_name: string;
+  content_hash: string;
+  created_at: string;
 }

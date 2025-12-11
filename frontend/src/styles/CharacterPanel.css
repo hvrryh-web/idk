@@ -13,11 +13,18 @@
 
 .panel-header {
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #333;
+}
+
+.panel-header .header-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .panel-header h3 {
@@ -37,13 +44,15 @@
 
 .stats-section,
 .tracks-section,
-.conditions-section {
+.conditions-section,
+.fate-cards-section {
   margin-bottom: 1rem;
 }
 
 .stats-section h4,
 .tracks-section h4,
-.conditions-section h4 {
+.conditions-section h4,
+.fate-cards-section h4 {
   margin: 0 0 0.5rem 0;
   font-size: 0.875rem;
   color: #999;

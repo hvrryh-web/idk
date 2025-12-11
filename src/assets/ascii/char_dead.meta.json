@@ -1,0 +1,8 @@
+{
+  "name": "char_dead",
+  "width": 5,
+  "height": 3,
+  "anchor": { "x": 2, "y": 2 },
+  "type": "character",
+  "tags": ["character", "dead", "combat", "pose"]
+}

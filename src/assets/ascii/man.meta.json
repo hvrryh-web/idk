@@ -1,0 +1,11 @@
+{
+  "name": "man",
+  "width": 5,
+  "height": 4,
+  "anchor": {
+    "x": 2,
+    "y": 3
+  },
+  "type": "character",
+  "tags": ["male", "human", "person"]
+}

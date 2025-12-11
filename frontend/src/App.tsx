@@ -10,8 +10,9 @@ import WikiIndex from "./pages/WikiIndex";
 import WikiArticle from "./pages/WikiArticle";
 import SRDBook from "./pages/SRDBook";
 import CharacterManager from "./pages/CharacterManager";
+import ASCIIArtManager from "./pages/ASCIIArtManager";
 import CombatView from "./components/combat/CombatView";
-import AsciiRenderer from "./pages/AsciiRenderer";
+import AsciiVisualizer from "./pages/AsciiVisualizer";
 
 export default function App() {
   return (
@@ -29,8 +30,9 @@ export default function App() {
           <Route path="/wiki/:id" element={<WikiArticle />} />
           <Route path="/srd" element={<SRDBook />} />
           <Route path="/characters" element={<CharacterManager />} />
-          <Route path="/ascii" element={<AsciiRenderer />} />
+          <Route path="/ascii-art" element={<ASCIIArtManager />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
+          <Route path="/ascii" element={<AsciiVisualizer />} />
         </Routes>
       </div>
     </BrowserRouter>

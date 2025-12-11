@@ -13,7 +13,12 @@ export default function CharacterManager() {
     <div className="character-manager">
       <header className="page-header">
         <h1>Character & Simulation Manager</h1>
-        <button onClick={() => navigate("/")}>← Back to Game Room</button>
+        <div className="header-actions">
+          <button onClick={() => navigate("/characters/create")} className="btn-create">
+            + Create Character
+          </button>
+          <button onClick={() => navigate("/")}>← Back to Game Room</button>
+        </div>
       </header>
 
       <div className="grid" id="characters">
