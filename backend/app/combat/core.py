@@ -3,7 +3,7 @@ Combat primitives and reusable functions for the combat system.
 These functions provide the building blocks for both simulation and player combat.
 """
 import random
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Tuple
 from dataclasses import dataclass
 
 
@@ -175,7 +175,7 @@ def validate_technique_usage(
     technique_max_scl: Optional[int],
     character_cost_tracks: Dict[str, Dict[str, int]],
     technique_cost: Dict[str, int]
-) -> tuple[bool, str]:
+) -> Tuple[bool, str]:
     """
     Validate if a character can use a technique based on SCL and costs.
     
