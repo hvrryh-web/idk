@@ -70,31 +70,27 @@ async def convert_image_to_ascii(
     # Validate style
     try:
         ascii_style = ASCIIStyle(style)
-    except ValueError:
+    except ValueError as e:
         raise HTTPException(
             status_code=400,
             detail=f"Invalid style. Must be one of: {[s.value for s in ASCIIStyle]}",
-        )
+        ) from e
 
     # Validate file type
     if not file.content_type or not file.content_type.startswith("image/"):
-        raise HTTPException(
-            status_code=400, detail="File must be an image (JPEG, PNG, etc.)"
-        )
+        raise HTTPException(status_code=400, detail="File must be an image (JPEG, PNG, etc.)")
 
     # Read image data
     try:
         image_data = await file.read()
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to read image: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Failed to read image: {str(e)}") from e
 
     # Convert to ASCII
     try:
         result = converter.convert_image(image_data, ascii_style, width, height)
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Failed to convert image: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Failed to convert image: {str(e)}") from e
 
     # Check if already cached
     existing = (
@@ -184,9 +180,7 @@ async def get_ascii_artifact(artifact_id: UUID, db: Session = Depends(get_db)):
 
 
 @router.get("/")
-async def list_ascii_artifacts(
-    skip: int = 0, limit: int = 20, db: Session = Depends(get_db)
-):
+async def list_ascii_artifacts(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
     """
     List recently generated ASCII art artifacts.
 
