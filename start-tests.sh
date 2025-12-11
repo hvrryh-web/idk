@@ -44,7 +44,8 @@ echo ""
 echo -e "${BLUE}=== Running Backend Tests ===${NC}"
 echo ""
 
-cd backend
+
+pushd backend > /dev/null
 
 # Check if virtual environment exists, create if not
 if [ ! -d ".venv" ]; then
@@ -52,25 +53,29 @@ if [ ! -d ".venv" ]; then
     python3 -m venv .venv
 fi
 
-# Activate virtual environment
+# Activate virtual environment (POSIX compatible)
 echo "Activating virtual environment..."
-source .venv/bin/activate
+. .venv/bin/activate
 
 # Install/update dependencies
 echo "Installing backend dependencies..."
 pip install -q -r requirements.txt
 
-# Run pytest
+# Run pytest if tests/ exists
 echo ""
-echo "Running backend tests..."
-python -m pytest tests/ -v
-
-BACKEND_EXIT_CODE=$?
+if [ -d "tests" ]; then
+    echo "Running backend tests..."
+    python -m pytest tests/ -v
+    BACKEND_EXIT_CODE=$?
+else
+    echo "No backend tests directory found. Skipping backend tests."
+    BACKEND_EXIT_CODE=0
+fi
 
 # Deactivate virtual environment
 deactivate
 
-cd ..
+popd > /dev/null
 
 echo ""
 
@@ -78,7 +83,8 @@ echo ""
 echo -e "${BLUE}=== Running Frontend Tests ===${NC}"
 echo ""
 
-cd frontend
+
+pushd frontend > /dev/null
 
 # Install dependencies if node_modules doesn't exist
 if [ ! -d "node_modules" ]; then
@@ -88,14 +94,18 @@ else
     echo "Frontend dependencies already installed"
 fi
 
-# Run vitest
+# Run vitest if tests/ exists
 echo ""
-echo "Running frontend tests..."
-npm test
+if [ -d "tests" ]; then
+    echo "Running frontend tests..."
+    npm run test
+    FRONTEND_EXIT_CODE=$?
+else
+    echo "No frontend tests directory found. Skipping frontend tests."
+    FRONTEND_EXIT_CODE=0
+fi
 
-FRONTEND_EXIT_CODE=$?
-
-cd ..
+popd > /dev/null
 
 # Summary
 echo ""

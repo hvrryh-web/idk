@@ -60,17 +60,14 @@ export default function GameRoom() {
       <div className="game-room-fullscreen-persona">
         {/* HUD Top Bar */}
         <HUD />
-        
         {/* Main Game Content */}
         <div className="fullscreen-game-content">
           <GameScreen />
         </div>
-
         {/* Chat Box - Fixed Height Bottom */}
         <div className="fullscreen-chat-wrapper">
           <ChatBox />
         </div>
-        
         {/* Full Screen Controls */}
         <div className="fullscreen-controls">
           <button className="fs-control-btn" onClick={() => setShowMenu(true)}>
@@ -80,7 +77,6 @@ export default function GameRoom() {
             <Maximize size={24} strokeWidth={2} />
           </button>
         </div>
-
         <FullScreenMenu 
           isOpen={showMenu} 
           onClose={() => setShowMenu(false)}
@@ -100,7 +96,6 @@ export default function GameRoom() {
           <span>Enter Full Screen Mode</span>
         </button>
       </div>
-
       <div className="game-room-layout">
         {/* Left Sidebar */}
         <aside className="game-sidebar">
@@ -120,7 +115,6 @@ export default function GameRoom() {
               <p className="warning">No characters found. Create a character to begin.</p>
             )}
           </div>
-
           <div className="character-roster">
             <h2>Available Characters</h2>
             {characters.length > 0 ? (

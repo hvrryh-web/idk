@@ -1,5 +1,10 @@
 import CharacterPreview from './components/CharacterPreview';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ErrorBoundary } from "./ErrorBoundary";
+import { ApiErrorBanner } from "./ApiErrorBanner";
+import React from "react";
+import { useApi } from "./api";
+import { DebugPanel } from "./DebugPanel";
 import GameRoom from "./pages/GameRoom";
 import GameScreen from "./pages/GameScreen";
 import ProfileSheet from "./pages/ProfileSheet";
@@ -24,6 +29,9 @@ import PersonalViewScreen from "./screens/PersonalViewScreen";
 import ConversationScreen from "./screens/ConversationScreen";
 
 export default function App() {
+  // Use global API hook for error/debug info
+  const { apiError, lastApiCall, lastStatus } = useApi();
+
   return (
     <BrowserRouter>
       <div className="app">

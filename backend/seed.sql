@@ -28,6 +28,27 @@ VALUES (
     '{"ae_reg": 1}'
 ) ON CONFLICT (id) DO NOTHING;
 
+INSERT INTO characters (
+    id, name, type, level, lineage, description, stats,
+    strength, dexterity, constitution, intelligence, wisdom, charisma, perception, resolve, presence,
+    aether_fire, aether_ice, aether_void,
+    conditions, cost_tracks,
+    created_at, updated_at
+) VALUES (
+    '11111111-1111-1111-1111-111111111111',
+    'Alpha Main Player',
+    'pc',
+    10,
+    'Azure Crane Sect',
+    'Insurance test character for alpha loading.',
+    '{"might": 5, "cunning": 4, "spirit": 6}',
+    5, 4, 6, 5, 4, 6, 5, 4, 6,
+    2, 2, 2,
+    '{"violence": {"current": 0, "history": []}, "influence": {"current": 0, "history": []}, "revelation": {"current": 0, "history": []}}',
+    '{"blood": {"current": 0, "maximum": 10}, "fate": {"current": 0, "maximum": 10}, "stain": {"current": 0, "maximum": 10}}',
+    NOW(), NOW()
+) ON CONFLICT (id) DO NOTHING;
+
 INSERT INTO techniques (
     id,
     name,
@@ -62,8 +83,8 @@ INSERT INTO techniques (
     0,
     0,
     0,
-    '{"type": "temp_hp", "value": 2}',
-    '{"role": "burst"}'
+    2,
+    '{"role": "burst"}'::jsonb
 ) ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO techniques (
@@ -100,8 +121,8 @@ INSERT INTO techniques (
     0,
     0,
     1,
-    '{"type": "guard", "value": 1}',
-    '{"role": "tank"}'
+    1,
+    '{"role": "tank"}'::jsonb
 ) ON CONFLICT (id) DO NOTHING;
 
 WITH dc AS (
@@ -138,7 +159,7 @@ INSERT INTO characters (
 ) SELECT
     '33333333-3333-3333-3333-333333333333',
     'Yin River Monk',
-    'PC',
+    'pc',
     2,
     1,
     1,
