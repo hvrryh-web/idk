@@ -15,6 +15,7 @@
 ---
 
 ## Notes
+
 - Confirm choice selection and asset slots
 - Annotate FX overlays and dialogue triggers
 - Document accessibility features

@@ -14,6 +14,7 @@
 ---
 
 ## Notes
+
 - Confirm scene transitions and asset slots
 - Annotate dialogue overlays and FX triggers
 - Document accessibility features

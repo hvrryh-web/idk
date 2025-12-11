@@ -14,6 +14,7 @@
 ---
 
 ## Notes
+
 - Confirm navigation between banners and asset slots
 - Annotate fog-of-war overlays and banner triggers
 - Document accessibility features

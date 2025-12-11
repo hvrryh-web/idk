@@ -15,6 +15,7 @@
 ---
 
 ## Notes
+
 - Confirm navigation from map to region/city screens
 - Annotate asset slots for ComfyUI integration
 - Document UX flow and accessibility features

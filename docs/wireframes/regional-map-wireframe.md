@@ -14,6 +14,7 @@
 ---
 
 ## Notes
+
 - Confirm navigation between locations and asset slots
 - Annotate event overlays and heatmap triggers
 - Document accessibility features

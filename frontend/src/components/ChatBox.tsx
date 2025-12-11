@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Send } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
 
 type Message = {
   id: number;

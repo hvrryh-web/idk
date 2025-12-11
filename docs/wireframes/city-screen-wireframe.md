@@ -14,6 +14,7 @@
 ---
 
 ## Notes
+
 - Confirm district navigation and asset slots
 - Annotate tooltip and FX overlays
 - Document accessibility features

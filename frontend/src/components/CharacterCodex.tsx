@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { characters } from "../data/characters";
+import { useState } from "react";
+import { characters } from "../data/characters"; // Removed unused Send import
 
 const designIterations = [
   { label: "Yuto Sano", suffix: "-yuto-sano.jpg" },

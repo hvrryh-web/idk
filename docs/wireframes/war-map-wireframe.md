@@ -15,6 +15,7 @@
 ---
 
 ## Notes
+
 - Confirm campaign planning flow and asset slots
 - Annotate FX triggers for ComfyUI overlays
 - Document accessibility features
