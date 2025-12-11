@@ -14,6 +14,7 @@ router = APIRouter(prefix="/techniques", tags=["techniques"])
 
 class TechniqueBase(BaseModel):
     """Base model for technique."""
+
     name: str = Field(..., example="Thunder Strike")
     description: Optional[str] = Field(None, example="A powerful lightning-based attack")
     technique_type: Optional[TechniqueType] = Field(None, example=TechniqueType.standard)
@@ -28,11 +29,13 @@ class TechniqueBase(BaseModel):
 
 class TechniqueCreate(TechniqueBase):
     """Request body for creating a technique."""
+
     pass
 
 
 class TechniqueUpdate(BaseModel):
     """Request body for updating a technique."""
+
     name: Optional[str] = Field(None, example="Thunder Strike")
     description: Optional[str] = Field(None, example="A powerful lightning-based attack")
     technique_type: Optional[TechniqueType] = Field(None, example=TechniqueType.standard)
@@ -47,6 +50,7 @@ class TechniqueUpdate(BaseModel):
 
 class TechniqueRead(TechniqueBase):
     """Response model for technique."""
+
     id: uuid.UUID
 
     class Config:
@@ -66,7 +70,7 @@ def create_technique(payload: TechniqueCreate, db: Session = Depends(get_db)):
         damage_routing=payload.damage_routing,
         boss_strain_on_hit=payload.boss_strain_on_hit,
         dr_debuff=payload.dr_debuff,
-        is_quick_action=payload.is_quick_action
+        is_quick_action=payload.is_quick_action,
     )
     db.add(technique)
     db.commit()
@@ -78,17 +82,17 @@ def create_technique(payload: TechniqueCreate, db: Session = Depends(get_db)):
 def list_techniques(
     technique_type: Optional[TechniqueType] = None,
     is_quick_action: Optional[bool] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     """List all techniques with optional filters."""
     query = db.query(Technique)
-    
+
     if technique_type is not None:
         query = query.filter(Technique.technique_type == technique_type)
-    
+
     if is_quick_action is not None:
         query = query.filter(Technique.is_quick_action == (1 if is_quick_action else 0))
-    
+
     return query.all()
 
 
@@ -103,20 +107,18 @@ def get_technique(technique_id: uuid.UUID, db: Session = Depends(get_db)):
 
 @router.patch("/{technique_id}", response_model=TechniqueRead)
 def update_technique(
-    technique_id: uuid.UUID,
-    payload: TechniqueUpdate,
-    db: Session = Depends(get_db)
+    technique_id: uuid.UUID, payload: TechniqueUpdate, db: Session = Depends(get_db)
 ):
     """Update a technique."""
     technique = db.query(Technique).filter(Technique.id == technique_id).first()
     if not technique:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Technique not found")
-    
+
     # Update only provided fields
     update_data = payload.dict(exclude_unset=True)
     for field, value in update_data.items():
         setattr(technique, field, value)
-    
+
     db.commit()
     db.refresh(technique)
     return technique
@@ -128,7 +130,7 @@ def delete_technique(technique_id: uuid.UUID, db: Session = Depends(get_db)):
     technique = db.query(Technique).filter(Technique.id == technique_id).first()
     if not technique:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Technique not found")
-    
+
     db.delete(technique)
     db.commit()
     return None

@@ -3,7 +3,7 @@ import random
 from typing import Dict, List, Optional
 from uuid import UUID
 
-from app.simulation.combat_state import CombatState, CombatantState
+from app.simulation.combat_state import CombatantState, CombatState
 from app.simulation.engine import TechniqueData, execute_technique
 
 
@@ -42,7 +42,11 @@ class PlayerCombatSession:
         return not self.combat_ended and self.get_active_character() is not None
 
     def execute_player_action(
-        self, actor_id: str, action_type: str, technique_id: Optional[str] = None, target_id: Optional[str] = None
+        self,
+        actor_id: str,
+        action_type: str,
+        technique_id: Optional[str] = None,
+        target_id: Optional[str] = None,
     ) -> List[Dict]:
         """Execute a player action (technique or quick action)."""
         new_log_entries = []
@@ -101,11 +105,15 @@ class PlayerCombatSession:
         if not self.state.party_alive():
             self.combat_ended = True
             self.victor = "enemies"
-            new_log_entries.append({"timestamp": 0, "actor": "Combat", "action": "ended", "result": "Party defeated!"})
+            new_log_entries.append(
+                {"timestamp": 0, "actor": "Combat", "action": "ended", "result": "Party defeated!"}
+            )
         elif not any(e.is_alive() for e in self.enemies):
             self.combat_ended = True
             self.victor = "party"
-            new_log_entries.append({"timestamp": 0, "actor": "Combat", "action": "ended", "result": "Victory!"})
+            new_log_entries.append(
+                {"timestamp": 0, "actor": "Combat", "action": "ended", "result": "Victory!"}
+            )
 
         self.log_entries.extend(new_log_entries)
         return new_log_entries
@@ -126,26 +134,48 @@ class PlayerCombatSession:
         if quick_action_type == "GUARD_SHIFT":
             actor.guard += 10
             new_log_entries.append(
-                {"timestamp": 0, "actor": actor.name, "action": "Guard Shift", "result": "Guard +10"}
+                {
+                    "timestamp": 0,
+                    "actor": actor.name,
+                    "action": "Guard Shift",
+                    "result": "Guard +10",
+                }
             )
         elif quick_action_type == "DODGE":
             actor.temp_dr_modifier += 0.2
             new_log_entries.append(
-                {"timestamp": 0, "actor": actor.name, "action": "Dodge", "result": "DR +20% this round"}
+                {
+                    "timestamp": 0,
+                    "actor": actor.name,
+                    "action": "Dodge",
+                    "result": "DR +20% this round",
+                }
             )
         elif quick_action_type == "BRACE":
             actor.guard += 5
             actor.temp_dr_modifier += 0.1
             new_log_entries.append(
-                {"timestamp": 0, "actor": actor.name, "action": "Brace", "result": "Guard +5, DR +10%"}
+                {
+                    "timestamp": 0,
+                    "actor": actor.name,
+                    "action": "Brace",
+                    "result": "Guard +5, DR +10%",
+                }
             )
         elif quick_action_type == "AE_PULSE":
             actor.ae = min(actor.max_ae, actor.ae + 3)
-            new_log_entries.append({"timestamp": 0, "actor": actor.name, "action": "AE Pulse", "result": "AE +3"})
+            new_log_entries.append(
+                {"timestamp": 0, "actor": actor.name, "action": "AE Pulse", "result": "AE +3"}
+            )
         elif quick_action_type == "STRAIN_VENT":
             actor.strain = max(0, actor.strain - 1)
             new_log_entries.append(
-                {"timestamp": 0, "actor": actor.name, "action": "Strain Vent", "result": "Strain -1"}
+                {
+                    "timestamp": 0,
+                    "actor": actor.name,
+                    "action": "Strain Vent",
+                    "result": "Strain -1",
+                }
             )
 
         # Advance turn
@@ -224,7 +254,14 @@ class PlayerCombatSession:
         self.current_phase = "Quick1" if self.enable_3_stage else "Major"
         self.active_character_index = 0
 
-        self.log_entries.append({"timestamp": 0, "actor": "Round", "action": "starts", "result": f"Round {self.state.round_number}"})
+        self.log_entries.append(
+            {
+                "timestamp": 0,
+                "actor": "Round",
+                "action": "starts",
+                "result": f"Round {self.state.round_number}",
+            }
+        )
 
     def get_combat_state_dict(self) -> Dict:
         """Return the current combat state as a dictionary."""
@@ -257,6 +294,8 @@ class PlayerCombatSession:
             "strain": combatant.strain,
             "guard": combatant.guard,
             "spd_band": combatant.spd_band,
-            "technique_ids": [str(tid) for tid in combatant.technique_ids] if combatant.technique_ids else [],
+            "technique_ids": [str(tid) for tid in combatant.technique_ids]
+            if combatant.technique_ids
+            else [],
             "conditions": [],  # TODO: Implement conditions
         }

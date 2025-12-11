@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import CharacterDetail from '../components/CharacterDetail';
-import CharacterList from '../components/CharacterList';
-import SimulationRunner from '../components/SimulationRunner';
-import TechniqueList from '../components/TechniqueList';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CharacterDetail from "../components/CharacterDetail";
+import CharacterList from "../components/CharacterList";
+import SimulationRunner from "../components/SimulationRunner";
+import TechniqueList from "../components/TechniqueList";
 
 export default function CharacterManager() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function CharacterManager() {
     <div className="character-manager">
       <header className="page-header">
         <h1>Character & Simulation Manager</h1>
-        <button onClick={() => navigate('/')}>← Back to Game Room</button>
+        <button onClick={() => navigate("/")}>← Back to Game Room</button>
       </header>
 
       <div className="grid" id="characters">
@@ -21,11 +21,11 @@ export default function CharacterManager() {
         <CharacterDetail id={selectedCharacterId} />
       </div>
 
-      <section id="techniques" style={{ marginTop: '1rem' }}>
+      <section id="techniques" style={{ marginTop: "1rem" }}>
         <TechniqueList />
       </section>
 
-      <section id="simulation" style={{ marginTop: '1rem' }}>
+      <section id="simulation" style={{ marginTop: "1rem" }}>
         <SimulationRunner />
       </section>
     </div>

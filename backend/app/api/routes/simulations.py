@@ -15,6 +15,7 @@ router = APIRouter(prefix="/simulations", tags=["simulations"])
 
 class SimulationConfigCreate(BaseModel):
     """Request body for creating a simulation configuration."""
+
     name: Optional[str] = Field(None, example="Test Combat")
     description: Optional[str] = Field(None, example="Testing party vs boss")
     party_character_ids: List[str] = Field(..., example=["uuid1", "uuid2"])
@@ -29,6 +30,7 @@ class SimulationConfigCreate(BaseModel):
 
 class SimulationConfigRead(BaseModel):
     """Response model for simulation configuration."""
+
     id: uuid.UUID
     name: Optional[str]
     description: Optional[str]
@@ -47,6 +49,7 @@ class SimulationConfigRead(BaseModel):
 
 class SimulationResultRead(BaseModel):
     """Response model for simulation results."""
+
     id: uuid.UUID
     simulation_config_id: uuid.UUID
     win_rate: float
@@ -75,7 +78,7 @@ def create_simulation_config(payload: SimulationConfigCreate, db: Session = Depe
         random_seed=payload.random_seed,
         enable_3_stage=payload.enable_3_stage,
         quick_actions_mode=payload.quick_actions_mode,
-        decision_policy=payload.decision_policy
+        decision_policy=payload.decision_policy,
     )
     db.add(config)
     db.commit()
@@ -99,18 +102,17 @@ def run_simulation_endpoint(config_id: uuid.UUID, db: Session = Depends(get_db))
     config = db.query(SimulationConfig).filter(SimulationConfig.id == config_id).first()
     if not config:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Config not found")
-    
+
     # Run simulation
     try:
         results = run_simulation(config, db)
     except ValueError as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)) from e
     except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Simulation failed: {str(e)}"
-        )
-    
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Simulation failed: {str(e)}"
+        ) from e
+
     # Store results
     result_record = SimulationResult(
         simulation_config_id=config.id,
@@ -121,12 +123,12 @@ def run_simulation_endpoint(config_id: uuid.UUID, db: Session = Depends(get_db))
         strain_curves=results["strain_curves"],
         boss_kills=results["boss_kills"],
         party_wipes=results["party_wipes"],
-        timeouts=results["timeouts"]
+        timeouts=results["timeouts"],
     )
     db.add(result_record)
     db.commit()
     db.refresh(result_record)
-    
+
     return result_record
 
 
@@ -142,7 +144,10 @@ def get_simulation_result(result_id: uuid.UUID, db: Session = Depends(get_db)):
 @router.get("/configs/{config_id}/results", response_model=List[SimulationResultRead])
 def list_results_for_config(config_id: uuid.UUID, db: Session = Depends(get_db)):
     """List all results for a given simulation configuration."""
-    results = db.query(SimulationResult).filter(
-        SimulationResult.simulation_config_id == config_id
-    ).order_by(SimulationResult.completed_at.desc()).all()
+    results = (
+        db.query(SimulationResult)
+        .filter(SimulationResult.simulation_config_id == config_id)
+        .order_by(SimulationResult.completed_at.desc())
+        .all()
+    )
     return results

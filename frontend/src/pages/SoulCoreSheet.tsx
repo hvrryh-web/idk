@@ -1,7 +1,7 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { fetchCharacter } from '../api';
-import type { Character } from '../types';
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchCharacter } from "../api";
+import type { Character } from "../types";
 
 export default function SoulCoreSheet() {
   const { id } = useParams<{ id: string }>();
@@ -20,7 +20,7 @@ export default function SoulCoreSheet() {
       const data = await fetchCharacter(Number(characterId));
       setCharacter(data);
     } catch (err) {
-      console.error('Failed to load character:', err);
+      console.error("Failed to load character:", err);
     } finally {
       setLoading(false);
     }
@@ -40,8 +40,8 @@ export default function SoulCoreSheet() {
         <h2>Core Essence</h2>
         <div className="essence-description placeholder">
           <p>
-            Your Soul Core is the manifestation of your cultivation path and inner dao.
-            It defines your unique abilities and how you interact with the world's qi.
+            Your Soul Core is the manifestation of your cultivation path and inner dao. It defines
+            your unique abilities and how you interact with the world's qi.
           </p>
           <p>
             <strong>Core Type:</strong> Elemental Manifestation
@@ -59,11 +59,12 @@ export default function SoulCoreSheet() {
             <h3>Flame Step</h3>
             <p className="ability-type">Movement Ability</p>
             <p className="ability-description">
-              Channel qi through your legs to create explosive bursts of speed,
-              leaving trails of flame in your wake.
+              Channel qi through your legs to create explosive bursts of speed, leaving trails of
+              flame in your wake.
             </p>
             <div className="ability-mechanics">
-              <strong>Effect:</strong> +2 SPD band for one round, deal 5 fire damage to adjacent enemies
+              <strong>Effect:</strong> +2 SPD band for one round, deal 5 fire damage to adjacent
+              enemies
             </div>
           </div>
 
@@ -71,7 +72,8 @@ export default function SoulCoreSheet() {
             <h3>Phoenix Heart</h3>
             <p className="ability-type">Passive Ability</p>
             <p className="ability-description">
-              Your core burns with eternal flame. When reduced below 30% HP, gain temporary DR boost.
+              Your core burns with eternal flame. When reduced below 30% HP, gain temporary DR
+              boost.
             </p>
             <div className="ability-mechanics">
               <strong>Effect:</strong> +0.2 DR when HP &lt; 30%
@@ -85,8 +87,10 @@ export default function SoulCoreSheet() {
               Concentrate your soul core's power into a devastating fire attack.
             </p>
             <div className="ability-mechanics">
-              <strong>Cost:</strong> 8 AE<br />
-              <strong>Effect:</strong> Deal 30 fire damage, apply burning (5 damage/round for 3 rounds)
+              <strong>Cost:</strong> 8 AE
+              <br />
+              <strong>Effect:</strong> Deal 30 fire damage, apply burning (5 damage/round for 3
+              rounds)
             </div>
           </div>
         </div>

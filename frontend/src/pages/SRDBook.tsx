@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Full SRD content as a "book"
 const srdContent = `# WuXuxian TTRPG - System Reference Document
 
 ## ⚠️ ALPHA DOCUMENTATION AVAILABLE
 
-**NEW**: Comprehensive SRD Alpha documentation is now available in `/docs/wuxiaxian-reference/`
+**NEW**: Comprehensive SRD Alpha documentation is now available in \`/docs/wuxiaxian-reference/\`
 
 ### Complete SRD Alpha Patches:
 - **SRD History**: Evolution of game design from concept to current state
@@ -84,11 +84,11 @@ Welcome to WuXuxian, a Fire Emblem-inspired, xianxia-themed tactical RPG. This S
 ## 3. Cultivation System
 
 ### Soul Core Level (SCL)
-```
+\`\`\`
 SCL = Core Level (CL) + Soul Level (SL)
 CL = floor((Body Core + Mind Core + Soul Core) / 3)
 SL = floor((Control + Fate + Spirit) / 3)
-```
+\`\`\`
 
 ### Sequence Bands
 - **Cursed-Sequence** (SCL 1-2): Broken, collapsing powers
@@ -227,7 +227,7 @@ Cost tracks can be reduced through narrative actions (redemption, sacrifices, sp
 
 ---
 
-*This is an abbreviated reference. For complete rules, see SRD Alpha Patches 0.1 and 0.2 in `/docs/wuxiaxian-reference/`*
+*This is an abbreviated reference. For complete rules, see SRD Alpha Patches 0.1 and 0.2 in \`/docs/wuxiaxian-reference/\`*
 
 **Next Patches**:
 - **Patch 0.3**: Technique system, equipment, cultivation advancement
@@ -238,38 +238,42 @@ Cost tracks can be reduced through narrative actions (redemption, sacrifices, sp
 
 export default function SRDBook() {
   const navigate = useNavigate();
-  const [viewMode, setViewMode] = useState<'rendered' | 'raw'>('rendered');
+  const [viewMode, setViewMode] = useState<"rendered" | "raw">("rendered");
 
   const renderContent = () => {
-    if (viewMode === 'raw') {
+    if (viewMode === "raw") {
       return <pre className="raw-content">{srdContent}</pre>;
     }
 
     // Simple markdown-like rendering
     return (
       <div className="rendered-content">
-        {srdContent.split('\n').map((line, index) => {
-          if (line.startsWith('# ')) {
+        {srdContent.split("\n").map((line, index) => {
+          if (line.startsWith("# ")) {
             return <h1 key={index}>{line.substring(2)}</h1>;
-          } else if (line.startsWith('## ')) {
+          } else if (line.startsWith("## ")) {
             return <h2 key={index}>{line.substring(3)}</h2>;
-          } else if (line.startsWith('### ')) {
+          } else if (line.startsWith("### ")) {
             return <h3 key={index}>{line.substring(4)}</h3>;
-          } else if (line.startsWith('- ')) {
+          } else if (line.startsWith("- ")) {
             return <li key={index}>{line.substring(2)}</li>;
-          } else if (line.trim() === '---') {
+          } else if (line.trim() === "---") {
             return <hr key={index} />;
-          } else if (line.trim() === '') {
+          } else if (line.trim() === "") {
             return <br key={index} />;
-          } else if (line.startsWith('**') && line.includes('**')) {
-            const parts = line.split('**');
+          } else if (line.startsWith("**") && line.includes("**")) {
+            const parts = line.split("**");
             return (
               <p key={index}>
                 {parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))}
               </p>
             );
-          } else if (line.startsWith('*') && line.endsWith('*')) {
-            return <p key={index} className="italic">{line.slice(1, -1)}</p>;
+          } else if (line.startsWith("*") && line.endsWith("*")) {
+            return (
+              <p key={index} className="italic">
+                {line.slice(1, -1)}
+              </p>
+            );
           } else {
             return <p key={index}>{line}</p>;
           }
@@ -284,27 +288,22 @@ export default function SRDBook() {
         <h1>System Reference Document</h1>
         <div className="srd-controls">
           <button
-            className={viewMode === 'rendered' ? 'active' : ''}
-            onClick={() => setViewMode('rendered')}
+            className={viewMode === "rendered" ? "active" : ""}
+            onClick={() => setViewMode("rendered")}
           >
             📖 Rendered
           </button>
-          <button
-            className={viewMode === 'raw' ? 'active' : ''}
-            onClick={() => setViewMode('raw')}
-          >
+          <button className={viewMode === "raw" ? "active" : ""} onClick={() => setViewMode("raw")}>
             📝 Raw Markdown
           </button>
         </div>
       </header>
 
-      <div className="srd-content">
-        {renderContent()}
-      </div>
+      <div className="srd-content">{renderContent()}</div>
 
       <nav className="srd-navigation">
-        <button onClick={() => navigate('/wiki')}>← Back to Wiki</button>
-        <button onClick={() => navigate('/')}>🏠 Game Room</button>
+        <button onClick={() => navigate("/wiki")}>← Back to Wiki</button>
+        <button onClick={() => navigate("/")}>🏠 Game Room</button>
       </nav>
     </div>
   );

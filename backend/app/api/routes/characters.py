@@ -17,9 +17,7 @@ class CharacterBase(BaseModel):
     level: Optional[int] = Field(None, example=5)
     lineage: Optional[str] = Field(None, example="Azure Crane Sect")
     description: Optional[str] = Field(None, example="A daring wandering cultivator.")
-    stats: Optional[Dict[str, int]] = Field(
-        None, example={"might": 3, "cunning": 2, "spirit": 4}
-    )
+    stats: Optional[Dict[str, int]] = Field(None, example={"might": 3, "cunning": 2, "spirit": 4})
 
 
 class CharacterCreate(CharacterBase):

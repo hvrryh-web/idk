@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { fetchCharacters, fetchTechniques, runSimulation } from '../api';
-import type { Character, SimulationResult, Technique } from '../types';
+import { useEffect, useMemo, useState } from "react";
+import { fetchCharacters, fetchTechniques, runSimulation } from "../api";
+import type { Character, SimulationResult, Technique } from "../types";
 
 export default function SimulationRunner() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -10,19 +10,23 @@ export default function SimulationRunner() {
   const [result, setResult] = useState<SimulationResult | null>(null);
 
   const [form, setForm] = useState({
-    attacker_id: '',
-    defender_id: '',
-    technique_id: '',
+    attacker_id: "",
+    defender_id: "",
+    technique_id: "",
   });
 
   useEffect(() => {
-    fetchCharacters().then(setCharacters).catch((err: Error) => setError(err.message));
-    fetchTechniques().then(setTechniques).catch((err: Error) => setError(err.message));
+    fetchCharacters()
+      .then(setCharacters)
+      .catch((err: Error) => setError(err.message));
+    fetchTechniques()
+      .then(setTechniques)
+      .catch((err: Error) => setError(err.message));
   }, []);
 
   const optionsReady = useMemo(
     () => characters.length > 0 && techniques.length > 0,
-    [characters.length, techniques.length],
+    [characters.length, techniques.length]
   );
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -40,7 +44,7 @@ export default function SimulationRunner() {
       const data = await runSimulation(payload);
       setResult(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Simulation failed');
+      setError(err instanceof Error ? err.message : "Simulation failed");
     } finally {
       setLoading(false);
     }
@@ -48,7 +52,7 @@ export default function SimulationRunner() {
 
   return (
     <div className="panel">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2>Simulation</h2>
         <span className="badge">POST /simulations</span>
       </div>
@@ -102,14 +106,14 @@ export default function SimulationRunner() {
         </label>
 
         <button type="submit" disabled={!optionsReady || loading}>
-          {loading ? 'Running…' : 'Run simulation'}
+          {loading ? "Running…" : "Run simulation"}
         </button>
       </form>
 
       {error && <p className="highlight">{error}</p>}
 
       {result && (
-        <div className="highlight" style={{ marginTop: '1rem' }}>
+        <div className="highlight" style={{ marginTop: "1rem" }}>
           <h3>Result</h3>
           <p>{result.outcome}</p>
           <p>

@@ -1,21 +1,21 @@
 """Tests for 3-stage combat system and quick actions."""
 import uuid
 
+from app.models.techniques import Technique
 from app.simulation.combat_state import CombatantState, CombatState
+from app.simulation.engine import TechniqueData, run_3stage_round
 from app.simulation.quick_actions import (
     QuickActionType,
-    execute_guard_shift,
-    execute_dodge,
-    execute_brace,
-    execute_ae_pulse,
-    execute_strain_vent,
-    execute_stance_switch,
-    execute_counter_prep,
     choose_quick_action,
-    execute_quick_action
+    execute_ae_pulse,
+    execute_brace,
+    execute_counter_prep,
+    execute_dodge,
+    execute_guard_shift,
+    execute_quick_action,
+    execute_stance_switch,
+    execute_strain_vent,
 )
-from app.simulation.engine import run_3stage_round, TechniqueData
-from app.models.techniques import Technique
 
 
 def test_execute_guard_shift():
@@ -31,9 +31,9 @@ def test_execute_guard_shift():
         ae_reg=2,
         dr=0.0,
         strain=0,
-        guard=10
+        guard=10,
     )
-    
+
     execute_guard_shift(combatant, amount=20)
     assert combatant.guard == 30
 
@@ -51,9 +51,9 @@ def test_execute_dodge():
         ae_reg=2,
         dr=0.2,
         strain=0,
-        guard=0
+        guard=0,
     )
-    
+
     execute_dodge(combatant, dr_bonus=0.15)
     assert combatant.temp_dr_modifier == 0.15
     assert combatant.get_effective_dr() == 0.35  # 0.2 + 0.15
@@ -72,9 +72,9 @@ def test_execute_brace():
         ae_reg=2,
         dr=0.1,
         strain=0,
-        guard=5
+        guard=5,
     )
-    
+
     execute_brace(combatant, guard_bonus=30, dr_bonus=0.10)
     assert combatant.guard == 35
     assert combatant.temp_dr_modifier == 0.10
@@ -94,12 +94,12 @@ def test_execute_ae_pulse():
         ae_reg=2,
         dr=0.0,
         strain=0,
-        guard=0
+        guard=0,
     )
-    
+
     execute_ae_pulse(combatant, ae_gain=3)
     assert combatant.ae == 8
-    
+
     # Should cap at max_ae
     execute_ae_pulse(combatant, ae_gain=5)
     assert combatant.ae == 10
@@ -118,12 +118,12 @@ def test_execute_strain_vent():
         ae_reg=2,
         dr=0.0,
         strain=25,
-        guard=0
+        guard=0,
     )
-    
+
     execute_strain_vent(combatant, strain_reduction=5)
     assert combatant.strain == 20
-    
+
     # Should floor at 0
     execute_strain_vent(combatant, strain_reduction=30)
     assert combatant.strain == 0
@@ -142,13 +142,13 @@ def test_execute_stance_switch():
         ae_reg=2,
         dr=0.2,
         strain=0,
-        guard=0
+        guard=0,
     )
-    
+
     # Defensive stance
     execute_stance_switch(combatant, dr_change=0.05)
     assert combatant.temp_dr_modifier == 0.05
-    
+
     # Could also go aggressive (negative)
     combatant.temp_dr_modifier = 0
     execute_stance_switch(combatant, dr_change=-0.05)
@@ -168,9 +168,9 @@ def test_execute_counter_prep():
         ae_reg=2,
         dr=0.0,
         strain=0,
-        guard=5
+        guard=5,
     )
-    
+
     execute_counter_prep(combatant, guard_bonus=15)
     assert combatant.guard == 20
 
@@ -188,24 +188,24 @@ def test_choose_quick_action():
         ae_reg=2,
         dr=0.0,
         strain=0,
-        guard=15
+        guard=15,
     )
-    
+
     # Default case: should dodge
     action = choose_quick_action(combatant)
     assert action == QuickActionType.DODGE
-    
+
     # High strain: should vent
     combatant.strain = 25
     action = choose_quick_action(combatant)
     assert action == QuickActionType.STRAIN_VENT
-    
+
     # Low AE: should pulse
     combatant.strain = 0
     combatant.ae = 2
     action = choose_quick_action(combatant)
     assert action == QuickActionType.AE_PULSE
-    
+
     # Low guard and good AE: should brace
     combatant.ae = 10
     combatant.guard = 5
@@ -226,17 +226,17 @@ def test_execute_quick_action():
         ae_reg=2,
         dr=0.0,
         strain=20,
-        guard=10
+        guard=10,
     )
-    
+
     # Test AE pulse
     execute_quick_action(combatant, QuickActionType.AE_PULSE)
     assert combatant.ae == 8
-    
+
     # Test strain vent
     execute_quick_action(combatant, QuickActionType.STRAIN_VENT)
     assert combatant.strain == 15
-    
+
     # Test guard shift
     execute_quick_action(combatant, QuickActionType.GUARD_SHIFT)
     assert combatant.guard == 30
@@ -246,7 +246,7 @@ def test_3stage_round_all_normal_spd():
     """Test 3-stage round with all Normal SPD_band (should behave like 1-beat)."""
     # When all actors have Normal SPD_band, there should be no quick actions
     # Only the major actions stage should execute
-    
+
     pc1 = CombatantState(
         id=uuid.uuid4(),
         name="PC1",
@@ -260,9 +260,9 @@ def test_3stage_round_all_normal_spd():
         strain=0,
         guard=0,
         spd_band="Normal",
-        technique_ids=[]
+        technique_ids=[],
     )
-    
+
     boss = CombatantState(
         id=uuid.uuid4(),
         name="Boss",
@@ -276,34 +276,21 @@ def test_3stage_round_all_normal_spd():
         strain=0,
         guard=0,
         spd_band="Normal",
-        technique_ids=[]
+        technique_ids=[],
     )
-    
-    tech1 = Technique(
-        id=uuid.uuid4(),
-        name="PC Attack",
-        base_damage=50,
-        ae_cost=3
-    )
-    tech2 = Technique(
-        id=uuid.uuid4(),
-        name="Boss Attack",
-        base_damage=30,
-        ae_cost=4
-    )
-    
+
+    tech1 = Technique(id=uuid.uuid4(), name="PC Attack", base_damage=50, ae_cost=3)
+    tech2 = Technique(id=uuid.uuid4(), name="Boss Attack", base_damage=30, ae_cost=4)
+
     pc1.technique_ids = [tech1.id]
     boss.technique_ids = [tech2.id]
-    
-    techniques = {
-        tech1.id: TechniqueData(tech1),
-        tech2.id: TechniqueData(tech2)
-    }
-    
+
+    techniques = {tech1.id: TechniqueData(tech1), tech2.id: TechniqueData(tech2)}
+
     state = CombatState(party=[pc1], boss=boss)
-    
+
     run_3stage_round(state, techniques)
-    
+
     # Same expectations as 1-beat round
     assert state.round_number == 1
     # PC: 10 - 3 + 2 = 9
@@ -331,9 +318,9 @@ def test_3stage_round_with_fast_actor():
         strain=0,
         guard=0,
         spd_band="Fast",  # Fast actor gets quick action in Stage 1
-        technique_ids=[]
+        technique_ids=[],
     )
-    
+
     boss = CombatantState(
         id=uuid.uuid4(),
         name="Boss",
@@ -347,36 +334,23 @@ def test_3stage_round_with_fast_actor():
         strain=0,
         guard=0,
         spd_band="Normal",
-        technique_ids=[]
+        technique_ids=[],
     )
-    
-    tech1 = Technique(
-        id=uuid.uuid4(),
-        name="PC Attack",
-        base_damage=50,
-        ae_cost=3
-    )
-    tech2 = Technique(
-        id=uuid.uuid4(),
-        name="Boss Attack",
-        base_damage=30,
-        ae_cost=4
-    )
-    
+
+    tech1 = Technique(id=uuid.uuid4(), name="PC Attack", base_damage=50, ae_cost=3)
+    tech2 = Technique(id=uuid.uuid4(), name="Boss Attack", base_damage=30, ae_cost=4)
+
     pc1.technique_ids = [tech1.id]
     boss.technique_ids = [tech2.id]
-    
-    techniques = {
-        tech1.id: TechniqueData(tech1),
-        tech2.id: TechniqueData(tech2)
-    }
-    
+
+    techniques = {tech1.id: TechniqueData(tech1), tech2.id: TechniqueData(tech2)}
+
     state = CombatState(party=[pc1], boss=boss)
-    
+
     # Fast PC should get a quick action before major actions
     # Based on choose_quick_action logic with default stats, should DODGE
     run_3stage_round(state, techniques)
-    
+
     assert state.round_number == 1
     # PC should have executed both quick action and major action
     # The quick action (DODGE) should have given temp DR bonus during the round
@@ -401,9 +375,9 @@ def test_3stage_round_with_slow_actor():
         strain=0,
         guard=0,
         spd_band="Normal",
-        technique_ids=[]
+        technique_ids=[],
     )
-    
+
     boss = CombatantState(
         id=uuid.uuid4(),
         name="Slow Boss",
@@ -417,35 +391,22 @@ def test_3stage_round_with_slow_actor():
         strain=0,
         guard=0,
         spd_band="Slow",  # Slow actor gets quick action in Stage 3
-        technique_ids=[]
+        technique_ids=[],
     )
-    
-    tech1 = Technique(
-        id=uuid.uuid4(),
-        name="PC Attack",
-        base_damage=50,
-        ae_cost=3
-    )
-    tech2 = Technique(
-        id=uuid.uuid4(),
-        name="Boss Attack",
-        base_damage=30,
-        ae_cost=4
-    )
-    
+
+    tech1 = Technique(id=uuid.uuid4(), name="PC Attack", base_damage=50, ae_cost=3)
+    tech2 = Technique(id=uuid.uuid4(), name="Boss Attack", base_damage=30, ae_cost=4)
+
     pc1.technique_ids = [tech1.id]
     boss.technique_ids = [tech2.id]
-    
-    techniques = {
-        tech1.id: TechniqueData(tech1),
-        tech2.id: TechniqueData(tech2)
-    }
-    
+
+    techniques = {tech1.id: TechniqueData(tech1), tech2.id: TechniqueData(tech2)}
+
     state = CombatState(party=[pc1], boss=boss)
-    
+
     # Slow boss should get a quick action after major actions
     run_3stage_round(state, techniques)
-    
+
     assert state.round_number == 1
     # Combat should proceed normally
     assert boss.thp < 200

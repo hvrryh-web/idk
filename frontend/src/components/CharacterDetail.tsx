@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { fetchCharacter } from '../api';
-import type { Character } from '../types';
+import { useEffect, useState } from "react";
+import { fetchCharacter } from "../api";
+import type { Character } from "../types";
 
 type Props = {
   id?: number;

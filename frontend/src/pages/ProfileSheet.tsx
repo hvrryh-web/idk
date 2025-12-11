@@ -1,7 +1,7 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { fetchCharacter } from '../api';
-import type { Character } from '../types';
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchCharacter } from "../api";
+import type { Character } from "../types";
 
 export default function ProfileSheet() {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +23,7 @@ export default function ProfileSheet() {
       setCharacter(data);
       setError(null);
     } catch (err) {
-      setError('Failed to load character');
+      setError("Failed to load character");
       console.error(err);
     } finally {
       setLoading(false);
@@ -82,16 +82,10 @@ export default function ProfileSheet() {
       </section>
 
       <nav className="sheet-navigation">
-        <button onClick={() => navigate(`/cultivation/${id}`)}>
-          → Cultivation Sheet
-        </button>
-        <button onClick={() => navigate(`/soul-core/${id}`)}>
-          → Soul Core Sheet
-        </button>
-        <button onClick={() => navigate(`/domain-source/${id}`)}>
-          → Domain Source Sheet
-        </button>
-        <button onClick={() => navigate('/')}>← Back to Game Room</button>
+        <button onClick={() => navigate(`/cultivation/${id}`)}>→ Cultivation Sheet</button>
+        <button onClick={() => navigate(`/soul-core/${id}`)}>→ Soul Core Sheet</button>
+        <button onClick={() => navigate(`/domain-source/${id}`)}>→ Domain Source Sheet</button>
+        <button onClick={() => navigate("/")}>← Back to Game Room</button>
       </nav>
     </div>
   );

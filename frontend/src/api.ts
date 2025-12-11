@@ -1,11 +1,18 @@
-import type { Character, Technique, SimulationResult, CombatState, LogEntry, ActionPreview } from './types';
+import type {
+  Character,
+  Technique,
+  SimulationResult,
+  CombatState,
+  LogEntry,
+  ActionPreview,
+} from "./types";
 
-const API_BASE = 'http://localhost:8000/api/v1';
+const API_BASE = "http://localhost:8000/api/v1";
 
 async function handle<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const message = await response.text();
-    throw new Error(message || 'Request failed');
+    throw new Error(message || "Request failed");
   }
   return response.json() as Promise<T>;
 }
@@ -27,8 +34,8 @@ export async function fetchTechniques(): Promise<Technique[]> {
 
 export async function runSimulation(body: unknown): Promise<SimulationResult> {
   const res = await fetch(`${API_BASE}/simulations`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
   return handle<SimulationResult>(res);
@@ -41,8 +48,8 @@ export async function createCombatEncounter(
   enable3Stage: boolean = true
 ): Promise<{ encounter_id: string; combat_state: CombatState }> {
   const res = await fetch(`${API_BASE}/combat/encounters`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       party_ids: partyIds,
       enemy_ids: enemyIds,
@@ -65,8 +72,8 @@ export async function executeAction(
   targetId?: string
 ): Promise<{ combat_state: CombatState; log_entries: LogEntry[] }> {
   const res = await fetch(`${API_BASE}/combat/encounters/${encounterId}/actions`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       actor_id: actorId,
       action_type: actionType,
@@ -83,8 +90,8 @@ export async function executeQuickAction(
   quickActionType: string
 ): Promise<{ combat_state: CombatState; log_entries: LogEntry[] }> {
   const res = await fetch(`${API_BASE}/combat/encounters/${encounterId}/quick-actions`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       actor_id: actorId,
       quick_action_type: quickActionType,
@@ -93,9 +100,11 @@ export async function executeQuickAction(
   return handle(res);
 }
 
-export async function endTurn(encounterId: string): Promise<{ combat_state: CombatState; log_entries: LogEntry[] }> {
+export async function endTurn(
+  encounterId: string
+): Promise<{ combat_state: CombatState; log_entries: LogEntry[] }> {
   const res = await fetch(`${API_BASE}/combat/encounters/${encounterId}/end-turn`, {
-    method: 'POST',
+    method: "POST",
   });
   return handle(res);
 }

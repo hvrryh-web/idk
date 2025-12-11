@@ -1,7 +1,7 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { fetchCharacter } from '../api';
-import type { Character } from '../types';
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchCharacter } from "../api";
+import type { Character } from "../types";
 
 export default function CultivationSheet() {
   const { id } = useParams<{ id: string }>();
@@ -20,7 +20,7 @@ export default function CultivationSheet() {
       const data = await fetchCharacter(Number(characterId));
       setCharacter(data);
     } catch (err) {
-      console.error('Failed to load character:', err);
+      console.error("Failed to load character:", err);
     } finally {
       setLoading(false);
     }
@@ -41,7 +41,9 @@ export default function CultivationSheet() {
           <div className="orientation-axis">
             <h3>Offensive vs Defensive</h3>
             <div className="axis-bar">
-              <span className="marker placeholder" style={{ left: '65%' }}>●</span>
+              <span className="marker placeholder" style={{ left: "65%" }}>
+                ●
+              </span>
             </div>
             <div className="axis-labels">
               <span>Defensive</span>
@@ -53,7 +55,9 @@ export default function CultivationSheet() {
           <div className="orientation-axis">
             <h3>Mind vs Body</h3>
             <div className="axis-bar">
-              <span className="marker placeholder" style={{ left: '40%' }}>●</span>
+              <span className="marker placeholder" style={{ left: "40%" }}>
+                ●
+              </span>
             </div>
             <div className="axis-labels">
               <span>Mind</span>
@@ -65,7 +69,9 @@ export default function CultivationSheet() {
           <div className="orientation-axis">
             <h3>Yin vs Yang</h3>
             <div className="axis-bar">
-              <span className="marker placeholder" style={{ left: '50%' }}>●</span>
+              <span className="marker placeholder" style={{ left: "50%" }}>
+                ●
+              </span>
             </div>
             <div className="axis-labels">
               <span>Yin</span>

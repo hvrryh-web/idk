@@ -1,50 +1,50 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 // Table of contents for the wiki
 const wikiToc = [
   {
-    section: 'SRD Alpha (NEW)',
+    section: "SRD Alpha (NEW)",
     articles: [
-      { id: 'srd-history', title: '📖 SRD History - Game Dev Evolution' },
-      { id: 'srd-structure', title: '🏗️ SRD Alpha Structure' },
-      { id: 'srd-patch-01', title: '📄 Patch 0.1 - Introduction, Stats & SCL' },
-      { id: 'srd-patch-02', title: '📄 Patch 0.2 - Combat & Conflict Types' },
+      { id: "srd-history", title: "📖 SRD History - Game Dev Evolution" },
+      { id: "srd-structure", title: "🏗️ SRD Alpha Structure" },
+      { id: "srd-patch-01", title: "📄 Patch 0.1 - Introduction, Stats & SCL" },
+      { id: "srd-patch-02", title: "📄 Patch 0.2 - Combat & Conflict Types" },
     ],
   },
   {
-    section: 'Getting Started',
+    section: "Getting Started",
     articles: [
-      { id: 'character-creation', title: 'Character Creation' },
-      { id: 'cultivation-basics', title: 'Cultivation Basics' },
-      { id: 'first-session', title: 'Your First Session' },
+      { id: "character-creation", title: "Character Creation" },
+      { id: "cultivation-basics", title: "Cultivation Basics" },
+      { id: "first-session", title: "Your First Session" },
     ],
   },
   {
-    section: 'Core Mechanics',
+    section: "Core Mechanics",
     articles: [
-      { id: 'soul-core', title: 'Soul Core System' },
-      { id: 'combat-system', title: 'Combat System' },
-      { id: 'techniques', title: 'Techniques Guide' },
-      { id: 'quick-actions', title: 'Quick Actions' },
-      { id: 'action-economy', title: 'Action Economy (AE)' },
+      { id: "soul-core", title: "Soul Core System" },
+      { id: "combat-system", title: "Combat System" },
+      { id: "techniques", title: "Techniques Guide" },
+      { id: "quick-actions", title: "Quick Actions" },
+      { id: "action-economy", title: "Action Economy (AE)" },
     ],
   },
   {
-    section: 'Setting & Lore',
+    section: "Setting & Lore",
     articles: [
-      { id: 'domain-source', title: 'Domain Sources' },
-      { id: 'cultivation-stages', title: 'Cultivation Stages' },
-      { id: 'world-overview', title: 'World Overview' },
-      { id: 'factions', title: 'Factions & Organizations' },
+      { id: "domain-source", title: "Domain Sources" },
+      { id: "cultivation-stages", title: "Cultivation Stages" },
+      { id: "world-overview", title: "World Overview" },
+      { id: "factions", title: "Factions & Organizations" },
     ],
   },
   {
-    section: 'Advanced Rules',
+    section: "Advanced Rules",
     articles: [
-      { id: 'fate-cards', title: 'Fate Cards System' },
-      { id: 'boss-battles', title: 'Boss Battle Mechanics' },
-      { id: 'effect-modules', title: 'Effect Modules' },
-      { id: 'simulation', title: 'Combat Simulation' },
+      { id: "fate-cards", title: "Fate Cards System" },
+      { id: "boss-battles", title: "Boss Battle Mechanics" },
+      { id: "effect-modules", title: "Effect Modules" },
+      { id: "simulation", title: "Combat Simulation" },
     ],
   },
 ];
@@ -61,12 +61,10 @@ export default function WikiIndex() {
 
       <div className="wiki-intro">
         <p>
-          Welcome to the WuXuxian TTRPG knowledge base. This wiki contains all the
-          rules, mechanics, and setting information you need to play the game.
+          Welcome to the WuXuxian TTRPG knowledge base. This wiki contains all the rules, mechanics,
+          and setting information you need to play the game.
         </p>
-        <button onClick={() => navigate('/help')}>
-          🔍 Search the Wiki
-        </button>
+        <button onClick={() => navigate("/help")}>🔍 Search the Wiki</button>
       </div>
 
       <div className="toc">
@@ -76,9 +74,7 @@ export default function WikiIndex() {
             <ul>
               {section.articles.map((article) => (
                 <li key={article.id}>
-                  <button onClick={() => navigate(`/wiki/${article.id}`)}>
-                    {article.title}
-                  </button>
+                  <button onClick={() => navigate(`/wiki/${article.id}`)}>{article.title}</button>
                 </li>
               ))}
             </ul>
@@ -87,8 +83,8 @@ export default function WikiIndex() {
       </div>
 
       <div className="wiki-footer">
-        <button onClick={() => navigate('/')}>← Back to Game Room</button>
-        <button onClick={() => navigate('/srd')}>View as SRD Book</button>
+        <button onClick={() => navigate("/")}>← Back to Game Room</button>
+        <button onClick={() => navigate("/srd")}>View as SRD Book</button>
       </div>
     </div>
   );

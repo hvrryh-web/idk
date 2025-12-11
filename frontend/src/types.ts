@@ -64,7 +64,7 @@ export interface CombatState {
   victor: string | null;
 }
 
-export type CombatPhase = 'Quick1' | 'Major' | 'Quick2';
+export type CombatPhase = "Quick1" | "Major" | "Quick2";
 
 export interface LogEntry {
   timestamp: number;

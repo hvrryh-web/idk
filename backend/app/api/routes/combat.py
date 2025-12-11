@@ -9,7 +9,11 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db
 from app.models.boss_template import BossTemplate
 from app.models.characters import Character
-from app.simulation.engine import create_combatant_from_boss, create_combatant_from_character, load_techniques
+from app.simulation.engine import (
+    create_combatant_from_boss,
+    create_combatant_from_character,
+    load_techniques,
+)
 from app.simulation.player_combat import PlayerCombatSession
 
 router = APIRouter()
@@ -55,13 +59,19 @@ def create_combat_encounter(request: CreateCombatRequest, db: Session = Depends(
     Returns the encounter ID and initial combat state.
     """
     # Load party characters
-    party_chars = db.query(Character).filter(Character.id.in_([UUID(cid) for cid in request.party_ids])).all()
+    party_chars = (
+        db.query(Character).filter(Character.id.in_([UUID(cid) for cid in request.party_ids])).all()
+    )
 
     if len(party_chars) != len(request.party_ids):
         raise HTTPException(status_code=404, detail="Some party character IDs not found")
 
     # Load enemies (boss templates)
-    enemies = db.query(BossTemplate).filter(BossTemplate.id.in_([UUID(eid) for eid in request.enemy_ids])).all()
+    enemies = (
+        db.query(BossTemplate)
+        .filter(BossTemplate.id.in_([UUID(eid) for eid in request.enemy_ids]))
+        .all()
+    )
 
     if len(enemies) != len(request.enemy_ids):
         raise HTTPException(status_code=404, detail="Some enemy IDs not found")
@@ -139,7 +149,9 @@ def execute_quick_action(encounter_id: str, request: ExecuteQuickActionRequest):
     if not session:
         raise HTTPException(status_code=404, detail="Combat encounter not found")
 
-    log_entries = session.execute_quick_action(actor_id=request.actor_id, quick_action_type=request.quick_action_type)
+    log_entries = session.execute_quick_action(
+        actor_id=request.actor_id, quick_action_type=request.quick_action_type
+    )
 
     return {"combat_state": session.get_combat_state_dict(), "log_entries": log_entries}
 
@@ -157,7 +169,10 @@ def end_turn(encounter_id: str):
 
     session.end_round()
 
-    return {"combat_state": session.get_combat_state_dict(), "log_entries": session.log_entries[-10:]}
+    return {
+        "combat_state": session.get_combat_state_dict(),
+        "log_entries": session.log_entries[-10:],
+    }
 
 
 @router.get("/encounters/{encounter_id}/log")

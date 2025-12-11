@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { fetchCharacters } from '../api';
-import type { Character } from '../types';
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchCharacters } from "../api";
+import type { Character } from "../types";
 
 export default function GameRoom() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function GameRoom() {
       const data = await fetchCharacters();
       setCharacters(data);
     } catch (error) {
-      console.error('Failed to load characters:', error);
+      console.error("Failed to load characters:", error);
     } finally {
       setLoading(false);
     }
@@ -28,7 +28,7 @@ export default function GameRoom() {
     if (characters.length > 0) {
       navigate(`/profile/${characters[0].id}`);
     } else {
-      alert('No characters available. Please create a character first.');
+      alert("No characters available. Please create a character first.");
     }
   };
 
@@ -40,11 +40,7 @@ export default function GameRoom() {
       </div>
 
       <div className="action-section">
-        <button
-          className="launch-button"
-          onClick={handleLaunchAlphaTest}
-          disabled={loading}
-        >
+        <button className="launch-button" onClick={handleLaunchAlphaTest} disabled={loading}>
           🚀 LAUNCH ALPHA TEST
         </button>
         {loading && <p>Loading characters...</p>}
@@ -73,9 +69,9 @@ export default function GameRoom() {
       <div className="quick-nav">
         <h3>Quick Navigation</h3>
         <nav>
-          <button onClick={() => navigate('/wiki')}>📚 Knowledge Wiki</button>
-          <button onClick={() => navigate('/help')}>❓ Help & Search</button>
-          <button onClick={() => navigate('/characters')}>👥 Character Manager</button>
+          <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
+          <button onClick={() => navigate("/help")}>❓ Help & Search</button>
+          <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
         </nav>
       </div>
     </div>

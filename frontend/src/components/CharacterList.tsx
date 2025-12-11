@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { fetchCharacters } from '../api';
-import type { Character } from '../types';
+import { useEffect, useState } from "react";
+import { fetchCharacters } from "../api";
+import type { Character } from "../types";
 
 type Props = {
   selectedId?: number;
@@ -26,9 +26,9 @@ export default function CharacterList({ selectedId, onSelect }: Props) {
           <li key={character.id}>
             <button
               style={{
-                width: '100%',
-                textAlign: 'left',
-                background: selectedId === character.id ? '#1d4ed8' : '#2563eb',
+                width: "100%",
+                textAlign: "left",
+                background: selectedId === character.id ? "#1d4ed8" : "#2563eb",
               }}
               onClick={() => onSelect(character.id)}
             >

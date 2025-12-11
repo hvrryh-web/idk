@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import App from "./App";
 
 // Mock fetch globally
@@ -20,7 +19,7 @@ describe("App Component", () => {
 
     render(<App />);
     expect(screen.getByText(/WuXuxian TTRPG/i)).toBeInTheDocument();
-    
+
     // Wait for the fetch to complete to avoid act warnings
     await waitFor(() => {
       expect(globalThis.fetch).toHaveBeenCalled();
@@ -44,7 +43,7 @@ describe("App Component", () => {
 
     render(<App />);
     expect(screen.getByText(/Loading characters.../i)).toBeInTheDocument();
-    
+
     // Wait for the fetch to complete to avoid act warnings
     await waitFor(() => {
       expect(screen.queryByText(/Loading characters.../i)).not.toBeInTheDocument();

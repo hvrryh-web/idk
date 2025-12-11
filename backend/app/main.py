@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes.characters import router as characters_router
 from app.api.routes.boss_templates import router as boss_templates_router
+from app.api.routes.characters import router as characters_router
 from app.api.routes.combat import router as combat_router
 from app.api.routes.simulations import router as simulations_router
 from app.api.routes.techniques import router as techniques_router
