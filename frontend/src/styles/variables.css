@@ -1,0 +1,304 @@
+/**
+ * Design System Variables
+ * 
+ * This file contains all design tokens for the WuXuxian TTRPG application.
+ * Based on the UI/UX Redesign Plan - Modern Xianxia/Cultivation Theme
+ * 
+ * @see docs/UI_UX_REDESIGN_PLAN.md
+ */
+
+:root {
+  /* ============================================
+     COLOR PALETTE
+     ============================================ */
+  
+  /* Primary Palette - Aether/Cultivation Energy */
+  --aether-primary: #6366f1;
+  --aether-dark: #4f46e5;
+  --aether-light: #818cf8;
+  --aether-glow: #c7d2fe;
+  
+  /* Cultivation Stage Colors */
+  --cursed-red: #dc2626;
+  --low-orange: #f97316;
+  --mid-amber: #f59e0b;
+  --high-cyan: #06b6d4;
+  --transcendent-purple: #a855f7;
+  
+  /* Soul Cluster Colors */
+  --soul-essence: #8b5cf6;    /* Violet */
+  --soul-resolve: #6366f1;    /* Indigo */
+  --soul-presence: #ec4899;   /* Pink */
+  
+  /* Body Cluster Colors */
+  --body-strength: #ef4444;   /* Red */
+  --body-endurance: #f97316;  /* Orange */
+  --body-agility: #10b981;    /* Green */
+  
+  /* Mind Cluster Colors */
+  --mind-technique: #3b82f6;  /* Blue */
+  --mind-willpower: #8b5cf6;  /* Purple */
+  --mind-focus: #06b6d4;      /* Cyan */
+  
+  /* Neutral Palette - Backgrounds */
+  --bg-primary: #0f172a;      /* Dark slate - Main background */
+  --bg-secondary: #1e293b;    /* Slate - Panels */
+  --bg-tertiary: #334155;     /* Light slate - Cards */
+  --bg-overlay: rgba(15, 23, 42, 0.95); /* Modal overlay */
+  --bg-hover: rgba(51, 65, 85, 0.5);    /* Hover state */
+  
+  /* Neutral Palette - Text */
+  --text-primary: #f8fafc;    /* Almost white */
+  --text-secondary: #cbd5e1;  /* Light gray */
+  --text-muted: #64748b;      /* Medium gray */
+  --text-inverse: #1e293b;    /* Dark text for light backgrounds */
+  
+  /* Neutral Palette - Borders & Dividers */
+  --border-primary: #475569;           /* Medium slate */
+  --border-accent: #6366f1;            /* Aether accent */
+  --border-glow: rgba(99, 102, 241, 0.5); /* Subtle glow */
+  --border-light: rgba(203, 213, 225, 0.1); /* Very subtle */
+  
+  /* Accent Colors - Status & Feedback */
+  --success-green: #10b981;
+  --warning-amber: #f59e0b;
+  --error-red: #ef4444;
+  --info-blue: #3b82f6;
+  
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  
+  /* Font Families */
+  --font-heading: 'Cinzel', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-special: 'Noto Serif SC', Georgia, serif;
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  --leading-loose: 2;
+  
+  /* ============================================
+     SPACING
+     ============================================ */
+  
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  
+  /* ============================================
+     BORDERS & RADIUS
+     ============================================ */
+  
+  /* Border Widths */
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+  --border-width-lg: 4px;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;  /* Fully rounded */
+  
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Glow Effects */
+  --glow-sm: 0 0 10px rgba(99, 102, 241, 0.3);
+  --glow-md: 0 0 20px rgba(99, 102, 241, 0.4);
+  --glow-lg: 0 0 30px rgba(99, 102, 241, 0.5);
+  
+  /* Inner Shadows */
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  
+  /* ============================================
+     TRANSITIONS & ANIMATIONS
+     ============================================ */
+  
+  /* Durations */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  
+  /* Easing Functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Standard Transitions */
+  --transition-fast: all var(--duration-fast) var(--ease-in-out);
+  --transition-base: all var(--duration-base) var(--ease-in-out);
+  --transition-slow: all var(--duration-slow) var(--ease-in-out);
+  
+  /* ============================================
+     COMPONENT-SPECIFIC
+     ============================================ */
+  
+  /* Buttons */
+  --button-padding-x: var(--space-4);
+  --button-padding-y: var(--space-2);
+  --button-radius: var(--radius-md);
+  --button-font-size: var(--text-base);
+  --button-font-weight: var(--font-semibold);
+  
+  /* Panels & Cards */
+  --panel-padding: var(--space-6);
+  --panel-radius: var(--radius-lg);
+  --panel-border: var(--border-width-sm) solid var(--border-primary);
+  --panel-shadow: var(--shadow-md);
+  
+  /* HUD Elements */
+  --hud-bar-height: 8px;
+  --hud-bar-radius: var(--radius-full);
+  --hud-icon-size: 32px;
+  
+  /* Modal */
+  --modal-max-width: 600px;
+  --modal-padding: var(--space-8);
+  --modal-backdrop: var(--bg-overlay);
+  
+  /* ============================================
+     GRADIENTS
+     ============================================ */
+  
+  /* Aether Gradients */
+  --gradient-aether: linear-gradient(135deg, var(--aether-primary) 0%, var(--aether-dark) 100%);
+  --gradient-aether-horizontal: linear-gradient(to right, var(--aether-primary), var(--aether-light));
+  
+  /* Cultivation Stage Gradients */
+  --gradient-cultivation: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-transcendent: linear-gradient(135deg, var(--transcendent-purple), var(--aether-primary));
+  
+  /* Energy Gradients (for bars and effects) */
+  --gradient-energy: linear-gradient(to right, var(--aether-primary), var(--aether-light), var(--aether-primary));
+  
+  /* Background Gradients */
+  --gradient-bg-dark: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  
+  /* ============================================
+     BREAKPOINTS (for reference in JS)
+     ============================================ */
+  
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ============================================
+   DARK THEME (default)
+   ============================================ */
+
+/* Dark theme is the default - no additional selectors needed */
+
+/* ============================================
+   LIGHT THEME (optional future implementation)
+   ============================================ */
+
+[data-theme="light"] {
+  /* Override variables for light theme if needed */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-primary: #cbd5e1;
+}
+
+/* ============================================
+   ACCESSIBILITY: Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE (accessibility)
+   ============================================ */
+
+@media (prefers-contrast: high) {
+  :root {
+    --border-width-sm: 2px;
+    --border-width-md: 3px;
+    --border-width-lg: 5px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8fafc;
+    --text-primary: #000000;
+    --text-secondary: #374151;
+  }
+}
