@@ -11,6 +11,7 @@ import WikiArticle from "./pages/WikiArticle";
 import SRDBook from "./pages/SRDBook";
 import CharacterManager from "./pages/CharacterManager";
 import CombatView from "./components/combat/CombatView";
+import CharacterCreation from "./components/CharacterCreation";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/wiki/:id" element={<WikiArticle />} />
           <Route path="/srd" element={<SRDBook />} />
           <Route path="/characters" element={<CharacterManager />} />
+          <Route path="/characters/create" element={<CharacterCreation />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
         </Routes>
       </div>

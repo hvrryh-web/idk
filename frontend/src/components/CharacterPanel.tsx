@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { fetchCharacters } from "../api";
 import type { Character } from "../types";
+import CharacterAvatar from "./CharacterAvatar";
+import FateCardDeck from "./FateCardDeck";
 import "../styles/CharacterPanel.css";
 
 export default function CharacterPanel() {
@@ -36,9 +38,24 @@ export default function CharacterPanel() {
   return (
     <div className="character-panel">
       <div className="panel-header">
-        <h3>{character.name}</h3>
-        <span className="scl-badge">SCL: {character.scl || 0}</span>
+        <CharacterAvatar
+          avatar={character.avatar}
+          name={character.name}
+          size="medium"
+          showName={false}
+        />
+        <div className="header-text">
+          <h3>{character.name}</h3>
+          <span className="scl-badge">SCL: {character.scl || 0}</span>
+        </div>
       </div>
+
+      {character.fateCards && (
+        <div className="fate-cards-section">
+          <h4>Fate Cards</h4>
+          <FateCardDeck fateCards={character.fateCards} size="small" layout="vertical" />
+        </div>
+      )}
 
       <div className="stats-section">
         <h4>Primary Stats</h4>
