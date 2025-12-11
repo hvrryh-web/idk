@@ -125,3 +125,43 @@ export async function getActionPreview(
   );
   return handle<ActionPreview>(res);
 }
+
+// ASCII Art API Functions
+export async function convertImageToASCII(
+  file: File,
+  style: string = "retro_terminal",
+  width?: number,
+  height?: number
+): Promise<import("./types").ASCIIArtifact> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const params = new URLSearchParams();
+  params.append("style", style);
+  if (width) params.append("width", width.toString());
+  if (height) params.append("height", height.toString());
+
+  const res = await fetch(`${API_BASE}/ascii/convert?${params}`, {
+    method: "POST",
+    body: formData,
+  });
+  return handle(res);
+}
+
+export async function getASCIIPresets(): Promise<Record<string, import("./types").ASCIIPreset>> {
+  const res = await fetch(`${API_BASE}/ascii/presets`);
+  return handle(res);
+}
+
+export async function getASCIIArtifact(id: string): Promise<import("./types").ASCIIArtifact> {
+  const res = await fetch(`${API_BASE}/ascii/${id}`);
+  return handle(res);
+}
+
+export async function listASCIIArtifacts(
+  skip: number = 0,
+  limit: number = 20
+): Promise<import("./types").ASCIIListItem[]> {
+  const res = await fetch(`${API_BASE}/ascii?skip=${skip}&limit=${limit}`);
+  return handle(res);
+}

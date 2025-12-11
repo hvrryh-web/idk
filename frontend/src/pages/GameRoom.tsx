@@ -72,6 +72,7 @@ export default function GameRoom() {
           <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
           <button onClick={() => navigate("/help")}>❓ Help & Search</button>
           <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
+          <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
         </nav>
       </div>
     </div>

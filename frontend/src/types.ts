@@ -147,3 +147,31 @@ export interface ActionPreview {
   stain_marks: number;
   warnings: string[];
 }
+
+// ASCII Art Types
+export interface ASCIIArtifact {
+  id: string;
+  ascii_art: string;
+  width: number;
+  height: number;
+  style: string;
+  preset_name: string;
+  content_hash: string;
+  use_color: boolean;
+}
+
+export interface ASCIIPreset {
+  name: string;
+  description: string;
+  use_color: boolean;
+}
+
+export interface ASCIIListItem {
+  id: string;
+  width: number;
+  height: number;
+  style: string;
+  preset_name: string;
+  content_hash: string;
+  created_at: string;
+}
