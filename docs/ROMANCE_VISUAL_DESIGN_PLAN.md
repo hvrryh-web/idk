@@ -8,17 +8,22 @@ This plan revises the earlier Romance of the Three Kingdoms visual design bluepr
 - **Typography:** Brush-style headers for flavor, paired with clean sans-serif for body text. Maintain stroke outlines/shadows for legibility on textured backdrops.
 
 ## Screen Concepts
-- **Map Screen:** Ink-wash world map on parchment with animated clouds; province nodes as lacquered plaques; resource ribbons on bamboo slips.
-- **War Map Screen:** War-room tabletop diorama with miniature terrain; lantern side-lighting and vignette; toggles for supply, morale, weather, elevation.
-- **City Screen:** Elevated walled-city overview; districts marked with hanging lantern pins; ambient market/smoke loops; tooltips on bamboo strips.
-- **Regional Map Screen:** Roads as ink strokes; forts/farms/cities marked; faction influence heatmap; margin stamps for events.
-- **World Map Screen:** Antique atlas frame; drifting sumi-e fog-of-war; animated banners for major warlords.
+- **Map Screen:** Ink-wash world map on parchment with animated clouds; province nodes as lacquered plaques; resource ribbons on bamboo slips plus date/season indicator.
+- **War Map Screen:** War-room tabletop diorama with miniature terrain; lantern side-lighting, soft vignette to focus the tabletop; toggles for supply, morale, weather, elevation.
+- **City Screen:** Elevated walled-city overview; districts marked with hanging lantern pins; ambient market/smoke loops and crowd life; tooltips on bamboo strips.
+- **Regional Map Screen:** Roads as ink strokes; forts/farms/cities marked; faction influence heatmap; margin stamps for events and calligraphic status notes.
+- **World Map Screen:** Antique atlas frame; drifting sumi-e fog-of-war with sharpened discovered areas; animated banners for major warlords.
 - **City Personal View:** Ground-level scenes with depth-of-field; silk-scroll dialogue boxes; busts with painterly rim light.
 - **Heroes Conversation:** 2–3 busts with parallax; animated cloth/flags; brushstroke FX, petals/embers; choices as jade plaques or wax-sealed slips.
 
+## UI/UX System Notes
+- **Navigation Rhythm:** World → Region → City → Personal scenes; War Map accessible from World/Region hubs.
+- **State Communication:** Calligraphic stamps for status (At War, Truce, Siege, Famine) with color-coded borders on panels for faction.
+- **Accessibility:** High-contrast scrolls, scalable text, optional outlines, and SFX toggles for audio comfort.
+
 ## ComfyUI Asset Pipeline (Yuto Sano-Inspired Conversion)
 1. **Style Control Setup**
-   - Use a Yuto Sano-inspired LoRA/style embedding; apply consistent LUTs, bloom, and film grain in a shared post-process node.
+   - Use a Yuto Sano-inspired LoRA/style embedding; apply consistent LUTs, bloom, and film grain in a shared post-process node (look-library node group).
    - Keep a style board: soft gradients, luminous rim light, crisp silhouettes against misty or parchment-toned backgrounds.
 
 2. **Character Portraits**
@@ -54,6 +59,7 @@ This plan revises the earlier Romance of the Three Kingdoms visual design bluepr
 
 ## Deliverables
 - Updated style bible with Yuto Sano-inspired palettes and lighting.
+- ComfyUI look-library node preset for LUT/grain/vignette/border frames.
 - AI-assisted asset packs: character busts, backgrounds, maps, FX overlays.
 - UI components: scroll panels, jade plaques, banners, stamps, buttons, cursors.
 - Map pack: world/regional/city tabletop variants plus markers and banners.

@@ -28,11 +28,11 @@
 
 ## Map & Screen Concepts
 
-- **Map Screen:** Ink-wash world map, parchment, animated clouds, lacquered province plaques
-- **War Map:** Tabletop diorama, lantern lighting, toggles for supply/morale/weather/elevation
-- **City Screen:** Walled city overview, lantern pins, bamboo strip tooltips
-- **Regional Map:** Ink-stroke roads, heatmap, margin stamps
-- **World Map:** Atlas frame, fog-of-war, animated banners
+- **Map Screen:** Ink-wash world map, parchment, animated clouds, lacquered province plaques, resource/date/season ribbon
+- **War Map:** Tabletop diorama, lantern lighting, soft vignette, toggles for supply/morale/weather/elevation
+- **City Screen:** Walled city overview, lantern pins, bamboo strip tooltips, ambient market/smoke loops
+- **Regional Map:** Ink-stroke roads, heatmap, margin stamps for events
+- **World Map:** Atlas frame, sumi-e fog-of-war with sharpened discovered areas, animated banners
 - **Personal View:** Ground-level vignette, silk scroll dialogue, painterly busts
 - **Conversation:** Parallax busts, animated cloth/flags, brushstroke FX, jade plaques for choices
 
