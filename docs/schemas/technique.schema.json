@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Technique",
+  "description": "Schema for combat techniques in WuXuxian TTRPG",
+  "type": "object",
+  "required": ["id", "name", "type"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the technique"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the technique"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the technique"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["attack", "defense", "utility", "heal"],
+      "description": "Type of technique"
+    },
+    "attack_bonus": {
+      "type": "number",
+      "minimum": -10,
+      "maximum": 50,
+      "default": 0,
+      "description": "Modifier applied to attack roll/damage"
+    },
+    "effect_rank": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "default": 0,
+      "description": "Non-damage effect magnitude"
+    },
+    "max_scl": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum Soul Cultivation Level allowed"
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "blood": {"type": "integer", "minimum": 0, "default": 0},
+        "fate": {"type": "integer", "minimum": 0, "default": 0},
+        "stain": {"type": "integer", "minimum": 0, "default": 0}
+      },
+      "description": "Cost track requirements"
+    }
+  }
+}

@@ -26,6 +26,28 @@ CREATE TABLE characters (
     description TEXT,
     stats JSONB,
     
+    -- Primary stats (9)
+    strength INTEGER DEFAULT 0,
+    dexterity INTEGER DEFAULT 0,
+    constitution INTEGER DEFAULT 0,
+    intelligence INTEGER DEFAULT 0,
+    wisdom INTEGER DEFAULT 0,
+    charisma INTEGER DEFAULT 0,
+    perception INTEGER DEFAULT 0,
+    resolve INTEGER DEFAULT 0,
+    presence INTEGER DEFAULT 0,
+    
+    -- Aether stats (3)
+    aether_fire INTEGER DEFAULT 0,
+    aether_ice INTEGER DEFAULT 0,
+    aether_void INTEGER DEFAULT 0,
+    
+    -- Condition tracks (stored as JSONB for history)
+    conditions JSONB DEFAULT '{"violence": {"current": 0, "history": []}, "influence": {"current": 0, "history": []}, "revelation": {"current": 0, "history": []}}'::jsonb,
+    
+    -- Cost tracks (stored as JSONB)
+    cost_tracks JSONB DEFAULT '{"blood": {"current": 0, "maximum": 10}, "fate": {"current": 0, "maximum": 10}, "stain": {"current": 0, "maximum": 10}}'::jsonb,
+    
     -- Combat stats
     thp INTEGER,
     ae INTEGER,
@@ -50,12 +72,20 @@ CREATE TABLE techniques (
     
     -- Combat mechanics
     technique_type technique_type,
-    base_damage INTEGER DEFAULT 0,
+    base_damage INTEGER DEFAULT 0,  -- Kept for backward compatibility
     ae_cost INTEGER DEFAULT 0,
     self_strain INTEGER DEFAULT 0,
     damage_routing damage_routing DEFAULT 'THP',
     boss_strain_on_hit INTEGER DEFAULT 0,
     dr_debuff FLOAT DEFAULT 0.0,
+    
+    -- Phase 2: New fields for data-driven combat
+    attack_bonus INTEGER DEFAULT 0,  -- Modifier applied to attack roll/damage
+    effect_rank INTEGER DEFAULT 0,   -- Non-damage effect magnitude (0-10)
+    max_scl INTEGER,                 -- Maximum SCL allowed to use this technique
+    
+    -- Phase 2: Cost requirements (JSONB for flexibility)
+    cost JSONB DEFAULT '{"blood": 0, "fate": 0, "stain": 0}'::jsonb,
     
     -- Quick action flag (0 = major action, 1 = quick action)
     is_quick_action INTEGER DEFAULT 0,
