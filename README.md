@@ -18,6 +18,7 @@ See **[docs/wuxiaxian-reference/](./docs/wuxiaxian-reference/)** for:
 - Backend: FastAPI application with settings in `app/core/config.py`, DB session management in `app/db/session.py`, and SQLAlchemy models in `app/models/`. Character CRUD lives under `app/api/routes/characters.py` and is mounted at `/api/v1`.
 - Frontend: Vite + React + TypeScript in `frontend/`, calling the backend at `http://localhost:8000/api/v1`.
 - Infra: Docker Compose in `infra/` to start a local Postgres instance; optionally connect the backend to it via `DATABASE_URL`.
+- **ASCII Visual Component**: Separate Node.js backend for ASCII art generation (see [ASCII_COMPONENT_README.md](./ASCII_COMPONENT_README.md))
 - **Design Docs**: See [WUXUXIANXIA TTRPG/](./WUXUXIANXIA%20TTRPG/) for original design documents and [docs/wuxiaxian-reference/](./docs/wuxiaxian-reference/) for implementation analysis.
 
 ## 🚀 LAUNCH ALPHA TEST
@@ -71,6 +72,7 @@ The alpha test includes:
 - ✅ Character and simulation management
 - ✅ Backend API with FastAPI + SQLAlchemy
 - ✅ Full CORS support for local development
+- ✅ **NEW**: ASCII Visual Image Generator (PoC) - See [ASCII_COMPONENT_README.md](./ASCII_COMPONENT_README.md)
 
 ## Getting started (Detailed)
 1. **Start Postgres**
@@ -102,6 +104,17 @@ The alpha test includes:
 5. **Open the app**
    - Frontend: http://localhost:5173
    - API: http://localhost:8000 (characters at `/api/v1/characters`)
+
+6. **(Optional) Run the ASCII Visual Server**
+   ```bash
+   # Install ASCII backend dependencies (one-time)
+   npm install --prefix . cors express tsx @types/cors @types/express @types/node
+   
+   # Start ASCII server on port 3001
+   npx tsx watch src/backend/ascii/server.ts
+   ```
+   - ASCII Visualizer: http://localhost:5173/ascii
+   - See [ASCII_COMPONENT_README.md](./ASCII_COMPONENT_README.md) for details
 
 ## Tasks
 
