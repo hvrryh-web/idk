@@ -148,12 +148,15 @@ export interface ActionPreview {
   warnings: string[];
 }
 
+export interface AsciiRenderOptions {
+  width?: number;
+  height?: number;
+  invert?: boolean;
+  palette?: string;
+}
+
 export interface AsciiRenderResponse {
   ascii: string;
-  cached: boolean;
-  duration_ms: number;
-  charset: string;
-  brightness_threshold: number;
-  width: number;
-  colorized: boolean;
+  request_id?: string;
+  status?: string;
 }

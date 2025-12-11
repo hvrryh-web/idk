@@ -5,6 +5,7 @@ import type {
   CombatState,
   LogEntry,
   ActionPreview,
+  AsciiRenderOptions,
   AsciiRenderResponse,
 } from "./types";
 
@@ -16,6 +17,65 @@ async function handle<T>(response: Response): Promise<T> {
     throw new Error(message || "Request failed");
   }
   return response.json() as Promise<T>;
+}
+
+async function handleAsciiResponse(
+  response: Response
+): Promise<AsciiRenderResponse> {
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || "Request failed");
+  }
+
+  const contentType = response.headers.get("content-type") ?? "";
+  if (contentType.includes("application/json")) {
+    return response.json() as Promise<AsciiRenderResponse>;
+  }
+
+  const ascii = await response.text();
+  return { ascii };
+}
+
+function appendAsciiOptions(
+  formData: FormData,
+  options?: AsciiRenderOptions
+): void {
+  if (!options) return;
+
+  Object.entries(options).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, String(value));
+    }
+  });
+}
+
+export async function renderAsciiFromUrl(
+  imageUrl: string,
+  options?: AsciiRenderOptions
+): Promise<AsciiRenderResponse> {
+  const res = await fetch(`${API_BASE}/ascii/render`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ image_url: imageUrl, ...options }),
+  });
+
+  return handleAsciiResponse(res);
+}
+
+export async function renderAsciiFromFile(
+  image: File,
+  options?: AsciiRenderOptions
+): Promise<AsciiRenderResponse> {
+  const formData = new FormData();
+  formData.append("image", image);
+  appendAsciiOptions(formData, options);
+
+  const res = await fetch(`${API_BASE}/ascii/render`, {
+    method: "POST",
+    body: formData,
+  });
+
+  return handleAsciiResponse(res);
 }
 
 export async function fetchCharacters(): Promise<Character[]> {
@@ -127,10 +187,11 @@ export async function getActionPreview(
   return handle<ActionPreview>(res);
 }
 
-export async function renderAsciiArt(formData: FormData): Promise<AsciiRenderResponse> {
-  const res = await fetch(`${API_BASE}/render/ascii`, {
-    method: "POST",
-    body: formData,
-  });
-  return handle<AsciiRenderResponse>(res);
+export interface AsciiArtResponse {
+  art: string;
+}
+
+export async function fetchAsciiArt(): Promise<AsciiArtResponse> {
+  const res = await fetch(`${API_BASE}/ascii-art`);
+  return handle<AsciiArtResponse>(res);
 }
