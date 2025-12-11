@@ -20,13 +20,7 @@ export default function GameRoom() {
     loadCharacters();
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
+  // Removed previewUrl cleanup effect (was causing ReferenceError)
 
   const loadCharacters = async () => {
     try {
@@ -158,7 +152,7 @@ export default function GameRoom() {
                 icon={BookOpen}
                 onClick={() => navigate("/wiki")}
               >
-                Knowledge Wiki
+                Open Knowledge Wiki
               </Button>
               <Button
                 variant="secondary"
@@ -184,9 +178,9 @@ export default function GameRoom() {
         <div className="quick-nav">
           <h3>Quick Navigation</h3>
           <nav>
-            <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
-            <button onClick={() => navigate("/help")}>❓ Help & Search</button>
-            <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
+            <button onClick={() => navigate("/wiki")}>Wiki Home</button>
+            <button onClick={() => navigate("/help")}>Help Center</button>
+            <button onClick={() => navigate("/characters")}>Manage Characters</button>
             <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
           </nav>
         </div>
