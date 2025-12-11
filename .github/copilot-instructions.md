@@ -22,7 +22,7 @@
 
 ## Developer Workflows
 - **Start Postgres:**
-  `cd infra && docker-compose up -d`
+  `cd infra && docker compose up -d`
 - **Apply DB Schema:**
   `psql postgresql://postgres:postgres@localhost:5432/wuxuxian -f ../backend/schema.sql`
 - **Backend:**

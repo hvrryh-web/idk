@@ -117,72 +117,72 @@ export default function GameRoom() {
         {/* HUD Top Bar */}
         <HUD />
         
-        {/* Main Game Content */}
-        <div className="fullscreen-game-content">
-          <GameScreen />
-        </div>
-
-        {/* Chat Box - Fixed Height Bottom */}
-        <div className="fullscreen-chat-wrapper">
-          <ChatBox />
-        </div>
-        
-        {/* Full Screen Controls */}
-        <div className="fullscreen-controls">
-          <button className="fs-control-btn" onClick={() => setShowMenu(true)}>
-            <Menu size={24} strokeWidth={2} />
-          </button>
-          <button className="fs-control-btn" onClick={toggleFullScreen}>
-            <Maximize size={24} strokeWidth={2} />
-          </button>
-        </div>
-
-        <FullScreenMenu 
-          isOpen={showMenu} 
-          onClose={() => setShowMenu(false)}
-          onSelectOption={handleMenuSelect}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="game-room">
-      <div className="hero-section">
-        <h1>WuXuxian TTRPG</h1>
-        <p className="subtitle">A Fire Emblem–inspired, Xianxia-themed Visual Novel TTRPG</p>
-        <button className="fullscreen-toggle" onClick={toggleFullScreen}>
-          <Maximize size={20} strokeWidth={2} />
-          <span>Enter Full Screen Mode</span>
-        </button>
-      </div>
-
-      <div className="game-room-layout">
-        {/* Left Sidebar */}
-        <aside className="game-sidebar">
-          <div className="action-section">
-            <Button
-              variant="primary"
-              size="large"
-              icon={Rocket}
-              onClick={handleLaunchAlphaTest}
-              disabled={loading}
-              className="launch-button-new"
-            >
-              LAUNCH ALPHA TEST
-            </Button>
-            {loading && <p className="loading-text">Loading characters...</p>}
-            {!loading && characters.length === 0 && (
-              <p className="warning">No characters found. Create a character to begin.</p>
-            )}
+        <div className="game-room">
+          <div className="hero-section">
+            <h1>WuXuxian TTRPG</h1>
+            <p className="subtitle">A Fire Emblem–inspired, Xianxia-themed Visual Novel TTRPG</p>
+            <button className="fullscreen-toggle" onClick={toggleFullScreen}>
+              <Maximize size={20} strokeWidth={2} />
+              <span>Enter Full Screen Mode</span>
+            </button>
           </div>
 
-          <div className="character-roster">
-            <h2>Available Characters</h2>
-            {characters.length > 0 ? (
-              <ul className="character-list">
-                {characters.map((char) => (
-                  <li key={char.id}>
+          <div className="game-room-layout">
+            {/* Left Sidebar */}
+            <aside className="game-sidebar">
+              <div className="action-section">
+                <Button
+                  variant="primary"
+                  size="large"
+                  icon={Rocket}
+                  onClick={handleLaunchAlphaTest}
+                  disabled={loading}
+                  className="launch-button-new"
+                >
+                  LAUNCH ALPHA TEST
+                </Button>
+                {loading && <p className="loading-text">Loading characters...</p>}
+                {!loading && characters.length === 0 && (
+                  <p className="warning">No characters found. Create a character to begin.</p>
+                )}
+              </div>
+
+              <div className="character-roster">
+                <h2>Available Characters</h2>
+                {characters.length > 0 ? (
+                  <ul className="character-list">
+                    {characters.map((char) => (
+                      <li key={char.id}>
+                        <Button
+                          variant="secondary"
+                          size="medium"
+                          icon={Users}
+                          onClick={() => navigate(`/profile/${char.id}`)}
+                        >
+                          {char.name} ({char.type})
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  !loading && <p className="empty-state">No characters yet.</p>
+                )}
+              </div>
+            </aside>
+
+            <div className="quick-nav">
+              <h3>Quick Navigation</h3>
+              <nav>
+                <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
+                <button onClick={() => navigate("/help")}>❓ Help & Search</button>
+                <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
+                <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      );
+    }
                     <Button
                       variant="secondary"
                       size="medium"
@@ -230,13 +230,34 @@ export default function GameRoom() {
           </div>
         </aside>
 
+
       <div className="quick-nav">
         <h3>Quick Navigation</h3>
         <nav>
-          <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
-          <button onClick={() => navigate("/help")}>❓ Help & Search</button>
-          <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
-          <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
+          <Button
+            variant="secondary"
+            size="medium"
+            icon={BookOpen}
+            onClick={() => navigate("/wiki")}
+          >
+            Knowledge Wiki
+          </Button>
+          <Button
+            variant="secondary"
+            size="medium"
+            icon={HelpCircle}
+            onClick={() => navigate("/help")}
+          >
+            Help & Search
+          </Button>
+          <Button
+            variant="secondary"
+            size="medium"
+            icon={Users}
+            onClick={() => navigate("/characters")}
+          >
+            Character Manager
+          </Button>
         </nav>
       </div>
     </div>
