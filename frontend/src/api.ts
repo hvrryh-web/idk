@@ -5,6 +5,7 @@ import type {
   CombatState,
   LogEntry,
   ActionPreview,
+  AsciiRenderResponse,
 } from "./types";
 
 const API_BASE = "http://localhost:8000/api/v1";
@@ -124,4 +125,12 @@ export async function getActionPreview(
     `${API_BASE}/combat/encounters/${encounterId}/preview?actor_id=${actorId}&technique_id=${techniqueId}&target_id=${targetId}`
   );
   return handle<ActionPreview>(res);
+}
+
+export async function renderAsciiArt(formData: FormData): Promise<AsciiRenderResponse> {
+  const res = await fetch(`${API_BASE}/render/ascii`, {
+    method: "POST",
+    body: formData,
+  });
+  return handle<AsciiRenderResponse>(res);
 }

@@ -147,3 +147,13 @@ export interface ActionPreview {
   stain_marks: number;
   warnings: string[];
 }
+
+export interface AsciiRenderResponse {
+  ascii: string;
+  cached: boolean;
+  duration_ms: number;
+  charset: string;
+  brightness_threshold: number;
+  width: number;
+  colorized: boolean;
+}
