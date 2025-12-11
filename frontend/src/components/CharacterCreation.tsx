@@ -469,19 +469,17 @@ function ReviewStep({ data }: { data: CharacterCreationData }) {
         </div>
       </div>
 
-      {(data.selectedFateCards.deathCard ||
-        data.selectedFateCards.bodyCard ||
-        data.selectedFateCards.seedCards) && (
+      {(data.selectedFateCards?.deathCard || data.selectedFateCards?.bodyCard || data.selectedFateCards?.seedCards) && (
         <div className="review-section">
           <h3>Fate Cards</h3>
           <div className="review-fate-cards">
-            {data.selectedFateCards.deathCard && (
+            {data.selectedFateCards?.deathCard && (
               <FateCardDisplay card={data.selectedFateCards.deathCard} size="small" />
             )}
-            {data.selectedFateCards.bodyCard && (
+            {data.selectedFateCards?.bodyCard && (
               <FateCardDisplay card={data.selectedFateCards.bodyCard} size="small" />
             )}
-            {data.selectedFateCards.seedCards?.map((card, index) => (
+            {data.selectedFateCards?.seedCards?.map((card, index) => (
               <FateCardDisplay key={index} card={card} size="small" />
             ))}
           </div>
