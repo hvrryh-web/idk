@@ -1,0 +1,11 @@
+{
+  "name": "ocean",
+  "width": 32,
+  "height": 4,
+  "anchor": {
+    "x": 16,
+    "y": 3
+  },
+  "type": "background",
+  "tags": ["ocean", "water", "nature"]
+}

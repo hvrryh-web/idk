@@ -1,0 +1,11 @@
+{
+  "name": "energy",
+  "width": 9,
+  "height": 5,
+  "anchor": {
+    "x": 4,
+    "y": 2
+  },
+  "type": "effect",
+  "tags": ["energy", "power", "effect"]
+}

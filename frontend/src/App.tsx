@@ -11,7 +11,7 @@ import WikiArticle from "./pages/WikiArticle";
 import SRDBook from "./pages/SRDBook";
 import CharacterManager from "./pages/CharacterManager";
 import CombatView from "./components/combat/CombatView";
-import CharacterCreation from "./components/CharacterCreation";
+import AsciiVisualizer from "./pages/AsciiVisualizer";
 
 export default function App() {
   return (
@@ -31,6 +31,7 @@ export default function App() {
           <Route path="/characters" element={<CharacterManager />} />
           <Route path="/characters/create" element={<CharacterCreation />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
+          <Route path="/ascii" element={<AsciiVisualizer />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -1,0 +1,11 @@
+{
+  "name": "temple",
+  "width": 35,
+  "height": 8,
+  "anchor": {
+    "x": 17,
+    "y": 7
+  },
+  "type": "background",
+  "tags": ["temple", "sacred", "building"]
+}
