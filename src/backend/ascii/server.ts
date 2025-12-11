@@ -3,8 +3,9 @@ import cors from 'cors';
 import path from 'path';
 import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
-import { composeScene, listAssets } from './generator';
+import { composeScene, listAssets, preloadCommonAssets, getCacheStats } from './generator';
 import { chatToSceneSpec } from './chat-tagger';
+import { validateSceneSpec, generateQualityReport } from './validator';
 
 const app = express();
 app.use(cors());
@@ -13,6 +14,11 @@ app.use(express.json());
 // Serve static frontend files if needed
 const staticDir = path.resolve(process.cwd(), 'frontend', 'dist');
 app.use(express.static(staticDir));
+
+// Preload common assets on startup
+preloadCommonAssets().then(() => {
+  console.log('Asset cache initialized');
+});
 
 // Create HTTP server
 const server = createServer(app);
@@ -118,10 +124,13 @@ app.get('/scene', async (req, res) => {
 app.post('/scene', async (req, res) => {
   try {
     const spec = req.body;
-    // Basic validation
-    if (!spec.background || !Array.isArray(spec.overlays)) {
-      return res.status(400).json({ error: 'Invalid scene specification' });
+    
+    // Validate scene spec
+    const validation = await validateSceneSpec(spec);
+    if (!validation.valid) {
+      return res.status(400).json({ error: 'Invalid scene specification', details: validation.errors });
     }
+    
     const scene = await composeScene(spec);
     res.type('text/plain').send(scene);
   } catch (err: any) {
@@ -164,6 +173,28 @@ app.post('/chat', async (req, res) => {
     broadcastScene(scene, text);
     
     res.json({ scene, spec });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || String(err) });
+  }
+});
+
+/**
+ * GET /cache/stats
+ * Get cache statistics
+ */
+app.get('/cache/stats', (req, res) => {
+  const stats = getCacheStats();
+  res.json(stats);
+});
+
+/**
+ * GET /quality-report
+ * Get asset quality report
+ */
+app.get('/quality-report', async (req, res) => {
+  try {
+    const report = await generateQualityReport();
+    res.type('text/plain').send(report);
   } catch (err: any) {
     res.status(500).json({ error: err.message || String(err) });
   }

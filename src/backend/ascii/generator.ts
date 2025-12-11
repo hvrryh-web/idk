@@ -27,6 +27,11 @@ export type AsciiAsset = {
 };
 
 /**
+ * Blend mode for overlay composition
+ */
+export type BlendMode = 'replace' | 'transparent' | 'blend';
+
+/**
  * Defines how to overlay an ASCII asset on a scene
  */
 export type Overlay = {
@@ -34,6 +39,8 @@ export type Overlay = {
   x: number; // column index (0-based) where the asset's anchor will be placed
   y: number; // row index (0-based)
   anchor?: 'bottom-center' | 'center' | { x: number; y: number };
+  blendMode?: BlendMode; // How to blend with background (default: 'replace')
+  opacity?: number; // For future use (0-1, default: 1)
 };
 
 /**
@@ -42,9 +49,16 @@ export type Overlay = {
 export type SceneSpec = {
   background: string;
   overlays: Overlay[];
+  transparentChar?: string; // Character to treat as transparent (default: '.')
 };
 
 const ASSETS_DIR = path.resolve(process.cwd(), 'src', 'assets', 'ascii');
+
+// Asset cache
+const assetCache = new Map<string, { asset: AsciiAsset; timestamp: number }>();
+const MAX_CACHE_SIZE = 50;
+let cacheHits = 0;
+let cacheMisses = 0;
 
 /**
  * Load metadata for an ASCII asset if it exists
@@ -63,14 +77,25 @@ export async function loadAssetMetadata(name: string): Promise<AssetMetadata | n
 }
 
 /**
- * Load an ASCII asset from disk with optional metadata.
+ * Load an ASCII asset from disk with optional metadata and caching.
  * Asset file expected at src/assets/ascii/{name}.txt
  * Metadata file expected at src/assets/ascii/{name}.meta.json
  * 
  * @param name - Name of the asset file (without .txt extension)
+ * @param useCache - Whether to use cache (default: true)
  * @returns Promise resolving to the loaded ASCII asset
  */
-export async function loadAssetFromDisk(name: string): Promise<AsciiAsset> {
+export async function loadAssetFromDisk(name: string, useCache: boolean = true): Promise<AsciiAsset> {
+  // Check cache
+  if (useCache && assetCache.has(name)) {
+    const entry = assetCache.get(name)!;
+    entry.timestamp = Date.now(); // Update LRU
+    cacheHits++;
+    return entry.asset;
+  }
+  
+  cacheMisses++;
+  
   const assetPath = path.join(ASSETS_DIR, `${name}.txt`);
   const raw = await fs.readFile(assetPath, 'utf-8');
   const lines = raw.replace(/\r\n/g, '\n').split('\n');
@@ -80,7 +105,7 @@ export async function loadAssetFromDisk(name: string): Promise<AsciiAsset> {
   // Load metadata if available
   const metadata = await loadAssetMetadata(name);
   
-  return {
+  const asset: AsciiAsset = {
     name,
     lines,
     width,
@@ -88,6 +113,71 @@ export async function loadAssetFromDisk(name: string): Promise<AsciiAsset> {
     anchor: metadata?.anchor,
     metadata: metadata || undefined,
   };
+  
+  // Store in cache
+  if (useCache) {
+    // Evict oldest if at capacity
+    if (assetCache.size >= MAX_CACHE_SIZE) {
+      let oldestKey: string | null = null;
+      let oldestTime = Infinity;
+      for (const [key, entry] of assetCache.entries()) {
+        if (entry.timestamp < oldestTime) {
+          oldestTime = entry.timestamp;
+          oldestKey = key;
+        }
+      }
+      if (oldestKey) {
+        assetCache.delete(oldestKey);
+      }
+    }
+    
+    assetCache.set(name, { asset, timestamp: Date.now() });
+  }
+  
+  return asset;
+}
+
+/**
+ * Get cache statistics
+ */
+export function getCacheStats() {
+  const total = cacheHits + cacheMisses;
+  return {
+    size: assetCache.size,
+    hits: cacheHits,
+    misses: cacheMisses,
+    hitRate: total > 0 ? cacheHits / total : 0,
+  };
+}
+
+/**
+ * Clear the asset cache
+ */
+export function clearCache() {
+  assetCache.clear();
+  cacheHits = 0;
+  cacheMisses = 0;
+}
+
+/**
+ * Preload common assets into cache
+ */
+export async function preloadCommonAssets() {
+  const commonAssets = [
+    'forest', 'cave', 'temple', 'ocean',
+    'man', 'woman', 'cultivator', 'elder', 'guardian',
+    'sparkles', 'energy', 'smoke',
+  ];
+
+  for (const name of commonAssets) {
+    try {
+      await loadAssetFromDisk(name);
+    } catch (err) {
+      console.warn(`Failed to preload asset '${name}':`, err);
+    }
+  }
+  
+  console.log(`Preloaded ${commonAssets.length} common assets into cache`);
 }
 
 /**
@@ -153,9 +243,11 @@ function computeAnchorOffset(
 /**
  * Compose a scene by overlaying ASCII assets on a background.
  * 
- * Simple overlay rules:
- * - Non-space characters from overlays replace whatever is at that position in the background.
- * - Overlays with parts outside the background are clipped.
+ * Overlay rules:
+ * - 'replace' mode: Non-space characters replace background (default)
+ * - 'transparent' mode: Uses transparentChar (default '.') as transparent
+ * - 'blend' mode: Only overlay where background is space
+ * - Overlays with parts outside the background are clipped
  * - Uses metadata anchor points if available
  * 
  * @param spec - Scene specification with background and overlays
@@ -163,6 +255,7 @@ function computeAnchorOffset(
  */
 export async function composeScene(spec: SceneSpec): Promise<string> {
   const background = await loadAssetFromDisk(spec.background);
+  const transparentChar = spec.transparentChar || '.';
 
   // Create 2D buffer initialized with background characters (pad with spaces)
   const canvas: string[][] = [];
@@ -179,6 +272,8 @@ export async function composeScene(spec: SceneSpec): Promise<string> {
   for (const ov of spec.overlays) {
     const asset = await loadAssetFromDisk(ov.assetName);
     const { ax, ay } = computeAnchorOffset(asset, ov.anchor);
+    const blendMode = ov.blendMode || 'replace';
+    
     // Asset position: top-left corner where we'll start drawing
     const top = ov.y - ay;
     const left = ov.x - ax;
@@ -191,9 +286,23 @@ export async function composeScene(spec: SceneSpec): Promise<string> {
         const destC = left + c;
         if (destC < 0 || destC >= background.width) continue;
         const ch = assetLine[c] ?? ' ';
-        // Only overlay non-space characters
-        if (ch !== ' ') {
-          canvas[destR][destC] = ch;
+        
+        // Apply blend mode
+        if (blendMode === 'transparent') {
+          // Treat transparentChar as transparent
+          if (ch !== ' ' && ch !== transparentChar) {
+            canvas[destR][destC] = ch;
+          }
+        } else if (blendMode === 'blend') {
+          // Only overlay where background is space
+          if (ch !== ' ' && canvas[destR][destC] === ' ') {
+            canvas[destR][destC] = ch;
+          }
+        } else {
+          // Default 'replace' mode: non-space characters replace background
+          if (ch !== ' ') {
+            canvas[destR][destC] = ch;
+          }
         }
       }
     }
