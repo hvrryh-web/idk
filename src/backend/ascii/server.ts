@@ -1,15 +1,26 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import multer from 'multer';
 import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 import { composeScene, listAssets, preloadCommonAssets, getCacheStats } from './generator';
 import { chatToSceneSpec } from './chat-tagger';
 import { validateSceneSpec, generateQualityReport } from './validator';
+import { ImageToASCIIConverter, PALETTES, type ImageToASCIIConfig } from './image-to-ascii';
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+
+// Configure multer for file uploads
+const upload = multer({
+  dest: '/tmp/uploads/',
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+});
+
+// Initialize image-to-ASCII converter
+const asciiConverter = new ImageToASCIIConverter();
 
 // Serve static frontend files if needed
 const staticDir = path.resolve(process.cwd(), 'frontend', 'dist');
@@ -200,8 +211,117 @@ app.get('/quality-report', async (req, res) => {
   }
 });
 
+/**
+ * POST /image-to-ascii
+ * Convert uploaded image to ASCII art
+ */
+app.post('/image-to-ascii', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+    
+    const config: ImageToASCIIConfig = {
+      width: parseInt(req.body.width) || 80,
+      height: req.body.height ? parseInt(req.body.height) : undefined,
+      palette: req.body.palette || PALETTES.balanced,
+      invert: req.body.invert === 'true',
+      algorithm: req.body.algorithm || 'brightness',
+      contrast: parseFloat(req.body.contrast) || 0,
+      brightness: parseFloat(req.body.brightness) || 0,
+    };
+    
+    const result = await asciiConverter.convertImage(req.file.path, config);
+    
+    // Clean up uploaded file
+    try {
+      const fs = await import('fs/promises');
+      await fs.unlink(req.file.path);
+    } catch (err) {
+      console.warn('Failed to clean up uploaded file:', err);
+    }
+    
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || String(err) });
+  }
+});
+
+/**
+ * POST /image-to-ascii/url
+ * Convert image from URL to ASCII art
+ */
+app.post('/image-to-ascii/url', async (req, res) => {
+  try {
+    const { url, ...configParams } = req.body;
+    
+    if (!url) {
+      return res.status(400).json({ error: 'No URL provided' });
+    }
+    
+    const config: ImageToASCIIConfig = {
+      width: configParams.width || 80,
+      height: configParams.height,
+      palette: configParams.palette || PALETTES.balanced,
+      invert: configParams.invert || false,
+      algorithm: configParams.algorithm || 'brightness',
+      contrast: configParams.contrast || 0,
+      brightness: configParams.brightness || 0,
+    };
+    
+    const result = await asciiConverter.convertURL(url, config);
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || String(err) });
+  }
+});
+
+/**
+ * POST /image-to-ascii/base64
+ * Convert base64 image to ASCII art
+ */
+app.post('/image-to-ascii/base64', async (req, res) => {
+  try {
+    const { base64, ...configParams } = req.body;
+    
+    if (!base64) {
+      return res.status(400).json({ error: 'No base64 data provided' });
+    }
+    
+    const config: ImageToASCIIConfig = {
+      width: configParams.width || 80,
+      height: configParams.height,
+      palette: configParams.palette || PALETTES.balanced,
+      invert: configParams.invert || false,
+      algorithm: configParams.algorithm || 'brightness',
+      contrast: configParams.contrast || 0,
+      brightness: configParams.brightness || 0,
+    };
+    
+    const result = await asciiConverter.convertBase64(base64, config);
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || String(err) });
+  }
+});
+
+/**
+ * GET /palettes
+ * List available character palettes
+ */
+app.get('/palettes', (req, res) => {
+  res.json({
+    palettes: Object.keys(PALETTES).map(name => ({
+      name,
+      characters: (PALETTES as any)[name],
+      length: (PALETTES as any)[name].length,
+    })),
+  });
+});
+
 const PORT = process.env.ASCII_PORT || 3001;
 server.listen(PORT, () => {
   console.log(`ASCII server running at http://localhost:${PORT}`);
   console.log(`WebSocket server running at ws://localhost:${PORT}/ws`);
+  console.log(`Image-to-ASCII endpoints available`);
 });
