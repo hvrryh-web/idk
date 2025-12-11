@@ -125,3 +125,12 @@ export async function getActionPreview(
   );
   return handle<ActionPreview>(res);
 }
+
+export interface AsciiArtResponse {
+  art: string;
+}
+
+export async function fetchAsciiArt(): Promise<AsciiArtResponse> {
+  const res = await fetch(`${API_BASE}/ascii-art`);
+  return handle<AsciiArtResponse>(res);
+}
