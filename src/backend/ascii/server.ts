@@ -27,9 +27,9 @@ app.get('/scene', async (req, res) => {
       background: 'forest',
       overlays: [
         // Place man slightly left of center
-        { assetName: 'man', x: 20, y: 6, anchor: 'bottom-center' as const },
+        { assetName: 'man', x: 15, y: 6, anchor: 'bottom-center' as const },
         // Place woman to the right
-        { assetName: 'woman', x: 36, y: 6, anchor: 'bottom-center' as const },
+        { assetName: 'woman', x: 30, y: 6, anchor: 'bottom-center' as const },
       ],
     };
     const scene = await composeScene(spec);

@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { composeScene } from '../src/backend/ascii/generator';
+import { composeScene } from '../../src/backend/ascii/generator';
 
 describe('ASCII Generator', () => {
   describe('composeScene', () => {
@@ -20,8 +20,8 @@ describe('ASCII Generator', () => {
       const spec = {
         background: 'forest',
         overlays: [
-          { assetName: 'man', x: 20, y: 6, anchor: 'bottom-center' as const },
-          { assetName: 'woman', x: 36, y: 6, anchor: 'bottom-center' as const },
+          { assetName: 'man', x: 15, y: 6, anchor: 'bottom-center' as const },
+          { assetName: 'woman', x: 30, y: 6, anchor: 'bottom-center' as const },
         ],
       };
       const scene = await composeScene(spec);
