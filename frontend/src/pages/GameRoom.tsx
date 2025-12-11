@@ -20,13 +20,13 @@ export default function GameRoom() {
     loadCharacters();
   }, []);
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (previewUrl) {
-  //       URL.revokeObjectURL(previewUrl);
-  //     }
-  //   };
-  // }, [previewUrl]);
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const loadCharacters = async () => {
     try {
