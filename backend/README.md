@@ -24,6 +24,12 @@ export DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/wuxux
 uvicorn app.main:app --reload --port 8000
 ```
 
+## Environment Variables
+
+- Set `DATABASE_URL` for backend DB connection (see example in README above)
+- Use `.env.example` and `backend/.env.example` as templates for local development
+- Never commit production secrets
+
 ## Structure
 - `app/core/config.py` – environment-driven settings
 - `app/db/session.py` – SQLAlchemy engine and session factory

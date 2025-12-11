@@ -71,6 +71,16 @@ class LoggingMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(LoggingMiddleware)
 
+class APIError(Exception):
+    def __init__(self, detail: str, code: int = 400):
+        self.detail = detail
+        self.code = code
+
+@app.exception_handler(APIError)
+async def api_error_handler(request: Request, exc: APIError):
+    logging.error(f"APIError: {exc.detail} (code {exc.code})")
+    return JSONResponse(status_code=exc.code, content={"detail": exc.detail, "code": exc.code})
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     tb = traceback.format_exc()
@@ -123,3 +133,11 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = datetime.now()
+    response = await call_next(request)
+    duration = (datetime.now() - start_time).total_seconds()
+    logging.info(f"{request.method} {request.url.path} {response.status_code} [{duration:.3f}s]")
+    return response

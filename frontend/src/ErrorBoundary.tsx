@@ -18,6 +18,8 @@ export class ErrorBoundary extends React.Component<{}, ErrorBoundaryState> {
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Log error to console or external service
     console.error("ErrorBoundary caught an error:", error, errorInfo);
+    // Optionally send to external logging service
+    // fetch('/api/log', { method: 'POST', body: JSON.stringify({ error, errorInfo }) });
   }
 
   render() {

@@ -119,6 +119,27 @@ function Navigation() {
 6. **Test** - Verify appearance and performance
 7. **Commit** - Add to version control
 
+## Asset Update Workflow
+
+1. Add new assets using the naming convention above.
+2. Run the asset naming linter (see scripts/asset_lint.py) before committing:
+   ```bash
+   python3 scripts/asset_lint.py
+   ```
+3. Document new assets in this README if they introduce new categories or variants.
+4. Remove unused assets to keep the directory clean.
+
+## Asset Naming Linter Example
+
+```python
+# scripts/asset_lint.py
+import os, re
+PATTERN = re.compile(r"^[a-z]+-[a-z0-9-]+-[a-z0-9]+_[1-2]x\.(png|svg|webp|woff2|json)$")
+for fname in os.listdir("frontend/public/assets"):
+    if not PATTERN.match(fname):
+        print(f"Invalid asset name: {fname}")
+```
+
 ## Quality Checklist
 
 Before committing assets:
