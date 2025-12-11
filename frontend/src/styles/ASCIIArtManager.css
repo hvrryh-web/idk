@@ -1,0 +1,76 @@
+.ascii-art-manager {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  color: #eee;
+}
+
+.ascii-manager-header {
+  background: #16213e;
+  padding: 20px;
+  border-bottom: 2px solid #00d4ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ascii-manager-header h1 {
+  margin: 0;
+  color: #00d4ff;
+  font-size: 24px;
+}
+
+.ascii-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.ascii-nav button {
+  padding: 10px 20px;
+  background: #00d4ff;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ascii-nav button:hover {
+  background: #00a8cc;
+}
+
+.ascii-manager-layout {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ascii-manager-layout.with-tv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.gm-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.tv-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tv-panel h2 {
+  margin: 0;
+  color: #00d4ff;
+  font-size: 20px;
+}
+
+@media (max-width: 1400px) {
+  .ascii-manager-layout.with-tv {
+    grid-template-columns: 1fr;
+  }
+}

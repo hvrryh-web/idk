@@ -230,11 +230,14 @@ export default function GameRoom() {
           </div>
         </aside>
 
-        {/* Center Content - Game Screen and Chat */}
-        <main className="game-main-content">
-          <GameScreen />
-          <ChatBox />
-        </main>
+      <div className="quick-nav">
+        <h3>Quick Navigation</h3>
+        <nav>
+          <button onClick={() => navigate("/wiki")}>📚 Knowledge Wiki</button>
+          <button onClick={() => navigate("/help")}>❓ Help & Search</button>
+          <button onClick={() => navigate("/characters")}>👥 Character Manager</button>
+          <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
+        </nav>
       </div>
     </div>
   );

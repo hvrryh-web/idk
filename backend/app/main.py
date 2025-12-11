@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes.ascii import router as ascii_router
+from app.api.routes.ascii_art import router as ascii_art_router
 from app.api.routes.boss_templates import router as boss_templates_router
 from app.api.routes.characters import router as characters_router
 from app.api.routes.combat import router as combat_router
@@ -25,6 +25,7 @@ app.include_router(boss_templates_router, prefix=settings.API_PREFIX)
 app.include_router(combat_router, prefix=f"{settings.API_PREFIX}/combat", tags=["combat"])
 app.include_router(simulations_router, prefix=settings.API_PREFIX)
 app.include_router(techniques_router, prefix=settings.API_PREFIX)
+app.include_router(ascii_art_router, prefix=settings.API_PREFIX)
 
 
 @app.get("/health")

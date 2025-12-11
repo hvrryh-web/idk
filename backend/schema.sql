@@ -227,3 +227,20 @@ VALUES (
     '{"might": 3, "cunning": 2, "spirit": 4}'::jsonb
 );
 */
+
+-- ASCII Artifacts table for storing generated ASCII art
+CREATE TABLE ascii_artifacts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    content_hash VARCHAR(16) UNIQUE NOT NULL,
+    ascii_art TEXT NOT NULL,
+    width INTEGER NOT NULL,
+    height INTEGER NOT NULL,
+    style VARCHAR(50) NOT NULL,
+    preset_name VARCHAR(100) NOT NULL,
+    use_color BOOLEAN DEFAULT false NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+-- Create index on content_hash for fast lookups
+CREATE INDEX idx_ascii_artifacts_content_hash ON ascii_artifacts(content_hash);
+CREATE INDEX idx_ascii_artifacts_created_at ON ascii_artifacts(created_at DESC);
