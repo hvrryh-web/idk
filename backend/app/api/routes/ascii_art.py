@@ -83,14 +83,18 @@ async def convert_image_to_ascii(
     # Read image data
     try:
         image_data = await file.read()
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to read image: {str(e)}") from e
+    except Exception:
+        raise HTTPException(
+            status_code=400, detail="Failed to read image file"
+        ) from None
 
     # Convert to ASCII
     try:
         result = converter.convert_image(image_data, ascii_style, width, height)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to convert image: {str(e)}") from e
+    except Exception:
+        raise HTTPException(
+            status_code=500, detail="Failed to convert image to ASCII"
+        ) from None
 
     # Check if already cached
     existing = (
@@ -109,7 +113,7 @@ async def convert_image_to_ascii(
             style=existing.style,
             preset_name=existing.preset_name,
             content_hash=existing.content_hash,
-            use_color=existing.use_color == "true",
+            use_color=existing.use_color,
         )
 
     # Save to database
@@ -120,7 +124,7 @@ async def convert_image_to_ascii(
         height=result["height"],
         style=result["style"],
         preset_name=result["preset_name"],
-        use_color="true" if result["use_color"] else "false",
+        use_color=result["use_color"],
     )
 
     db.add(artifact)
@@ -135,7 +139,7 @@ async def convert_image_to_ascii(
         style=artifact.style,
         preset_name=artifact.preset_name,
         content_hash=artifact.content_hash,
-        use_color=artifact.use_color == "true",
+        use_color=artifact.use_color,
     )
 
 
@@ -175,7 +179,7 @@ async def get_ascii_artifact(artifact_id: UUID, db: Session = Depends(get_db)):
         style=artifact.style,
         preset_name=artifact.preset_name,
         content_hash=artifact.content_hash,
-        use_color=artifact.use_color == "true",
+        use_color=artifact.use_color,
     )
 
 

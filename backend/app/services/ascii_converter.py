@@ -39,6 +39,8 @@ PRESETS = {
     ),
     ASCIIStyle.WUXIA: ASCIIPreset(
         name="Wuxia Ink",
+        # Extended character ramp for detailed ink brush aesthetic
+        # Ordered from lightest to darkest for proper grayscale mapping
         char_ramp=" .'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
         description="Flowing brush-stroke aesthetic inspired by ink paintings",
         invert=True,

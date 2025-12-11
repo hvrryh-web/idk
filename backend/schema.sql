@@ -237,7 +237,7 @@ CREATE TABLE ascii_artifacts (
     height INTEGER NOT NULL,
     style VARCHAR(50) NOT NULL,
     preset_name VARCHAR(100) NOT NULL,
-    use_color VARCHAR(10) DEFAULT 'false',
+    use_color BOOLEAN DEFAULT false NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 

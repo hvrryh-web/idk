@@ -20,7 +20,14 @@ export default function ASCIIArtBrowser({ onSendToTV }: ASCIIArtBrowserProps) {
   useEffect(() => {
     loadPresets();
     loadRecentArtifacts();
-  }, []);
+
+    // Cleanup: revoke preview URL on unmount
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   const loadPresets = async () => {
     try {
@@ -50,6 +57,11 @@ export default function ASCIIArtBrowser({ onSendToTV }: ASCIIArtBrowserProps) {
       }
       setSelectedFile(file);
       setError(null);
+
+      // Revoke old preview URL to prevent memory leak
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
 
       // Create preview URL
       const url = URL.createObjectURL(file);

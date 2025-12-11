@@ -3,7 +3,7 @@
 from datetime import datetime
 from uuid import uuid4
 
-from sqlalchemy import Column, DateTime, Integer, String, Text
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 
 from app.models.base import Base
@@ -21,7 +21,7 @@ class ASCIIArtifact(Base):
     height = Column(Integer, nullable=False)
     style = Column(String(50), nullable=False)
     preset_name = Column(String(100), nullable=False)
-    use_color = Column(String(10), default="false")
+    use_color = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     def __repr__(self):
