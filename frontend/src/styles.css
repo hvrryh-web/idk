@@ -727,3 +727,145 @@ textarea {
   background: #fef2f2;
   border-radius: 0.75rem;
 }
+
+/* Game Room TV Panel */
+.tv-panel {
+  margin: 2rem 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1), transparent),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.08), transparent),
+    #0b1220;
+  color: #e5e7eb;
+  border: 2px solid #111827;
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+}
+
+.tv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tv-header h2 {
+  margin: 0 0 0.35rem;
+  color: #f9fafb;
+}
+
+.tv-subtitle {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+.tv-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #34d399 0%, #059669 60%, #064e3b 100%);
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.75);
+  display: inline-block;
+}
+
+.tv-controls {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.file-picker {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  color: #e5e7eb;
+}
+
+.file-picker input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.control-buttons button {
+  flex: 1;
+  min-width: 160px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border: none;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+}
+
+.control-buttons button:disabled {
+  box-shadow: none;
+}
+
+.conversion-status {
+  margin: 0;
+  color: #a5b4fc;
+  font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+}
+
+.tv-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.preview-window,
+.ascii-window {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.preview-window img {
+  width: 100%;
+  display: block;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.preview-title {
+  margin: 0 0 0.5rem;
+  color: #9ca3af;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.ascii-preview {
+  margin: 0;
+  background: #0b1220;
+  color: #d1d5db;
+  font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  white-space: pre;
+  max-height: 420px;
+  overflow: auto;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
+}
