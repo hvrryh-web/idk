@@ -67,10 +67,14 @@ function computeAnchorOffset(
     return { ax: Math.floor(asset.width / 2), ay: Math.floor(asset.height / 2) };
   }
   // explicit coordinates
-  return {
-    ax: Math.floor((anchor as any).x ?? asset.width / 2),
-    ay: Math.floor((anchor as any).y ?? asset.height / 2),
-  };
+  if (typeof anchor === 'object' && 'x' in anchor && 'y' in anchor) {
+    return {
+      ax: Math.floor(anchor.x ?? asset.width / 2),
+      ay: Math.floor(anchor.y ?? asset.height / 2),
+    };
+  }
+  // fallback to bottom-center
+  return { ax: Math.floor(asset.width / 2), ay: asset.height - 1 };
 }
 
 /**

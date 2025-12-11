@@ -17,8 +17,9 @@ export default function AsciiVisualizer() {
     setLoading(true);
     setError(null);
     try {
-      // TODO: Make this URL configurable via environment variable
-      const response = await fetch('http://localhost:3001/scene');
+      // Use environment variable or fallback to localhost for development
+      const baseUrl = import.meta.env.VITE_ASCII_SERVER_URL || 'http://localhost:3001';
+      const response = await fetch(`${baseUrl}/scene`);
       if (!response.ok) {
         throw new Error(`Failed to fetch scene: ${response.statusText}`);
       }
