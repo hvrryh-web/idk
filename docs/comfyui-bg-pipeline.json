@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    {"id": "prompt", "type": "TextPrompt", "params": {"prompt": "Romance of the Three Kingdoms, ink-wash + semi-realistic hybrid, city market, palace hall, war room, battlefield plains, river crossing, depth map for parallax, gentle bloom, vignette, warm highlights, parchment texture", "negative_prompt": "blurry, low quality, watermark, extra limbs, distorted perspective"}},
+    {"id": "lora", "type": "LoRAStyleEmbedding", "params": {"embedding": "YutoSanoStyleLoRA"}, "inputs": ["prompt"]},
+    {"id": "txt2img", "type": "TextToImage", "params": {"width": 1024, "height": 512, "steps": 30, "cfg_scale": 7.5, "sampler": "Euler a"}, "inputs": ["lora"]},
+    {"id": "lut", "type": "ColorGradeLUT", "params": {"lut_file": "three-kingdoms-bg.cube"}, "inputs": ["txt2img"]},
+    {"id": "grain", "type": "Overlay", "params": {"overlay_file": "grain-overlay.png", "opacity": 0.12}, "inputs": ["lut"]},
+    {"id": "vignette", "type": "Vignette", "params": {"strength": 0.25}, "inputs": ["grain"]},
+    {"id": "bloom", "type": "Bloom", "params": {"intensity": 0.18}, "inputs": ["vignette"]},
+    {"id": "save", "type": "SaveImage", "params": {"output_dir": "frontend/public/assets/backgrounds"}, "inputs": ["bloom"]}
+  ],
+  "description": "ComfyUI pipeline for Three Kingdoms backgrounds: ink-wash, semi-realistic, depth map, Yuto Sano style, LUT, grain, vignette, bloom."
+}

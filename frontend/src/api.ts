@@ -226,3 +226,13 @@ export async function listASCIIArtifacts(
   const res = await fetch(`${API_BASE}/ascii?skip=${skip}&limit=${limit}`);
   return handle(res);
 }
+
+export function renderAsciiArt(_options: import("./types").AsciiRenderOptions): Promise<import("./types").AsciiRenderResponse> {
+  // Stub implementation
+  return Promise.resolve({ ascii: "", meta: {} });
+}
+
+export function fetchAsciiArt(_id: string): Promise<{ art: string }> {
+  // Stub implementation
+  return Promise.resolve({ art: "" });
+}

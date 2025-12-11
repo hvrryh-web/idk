@@ -47,7 +47,7 @@ export default function FateCardDisplay({
           <h3>{card.name}</h3>
           {card.rarity && <span className="card-rarity">{card.rarity}</span>}
         </div>
-        <div className="card-type-badge">{card.type.toUpperCase()}</div>
+        <div className="card-type-badge">{card.type ? card.type.toUpperCase() : ""}</div>
       </div>
 
       <div className="card-body">
@@ -87,7 +87,7 @@ export default function FateCardDisplay({
               {Object.entries(card.mechanicalHooks).map(([key, value]) => (
                 <div key={key} className="mechanic-item">
                   <span className="mechanic-name">{key.replace(/_/g, " ")}:</span>
-                  <span className="mechanic-value">+{value}</span>
+                  <span className="mechanic-value">+{String(value)}</span>
                 </div>
               ))}
             </div>
@@ -101,7 +101,7 @@ export default function FateCardDisplay({
               {Object.entries(card.statMods).map(([key, value]) => (
                 <div key={key} className="stat-item">
                   <span className="stat-name">{key.toUpperCase()}:</span>
-                  <span className="stat-value">+{value}</span>
+                  <span className="stat-value">+{String(value)}</span>
                 </div>
               ))}
             </div>

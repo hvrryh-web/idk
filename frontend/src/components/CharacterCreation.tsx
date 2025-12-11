@@ -282,8 +282,8 @@ function FateCardsStep({
               key={card.id}
               card={card}
               size="small"
-              onClick={() => selectDeathCard(card.id)}
-              selected={data.selectedFateCards.deathCard?.id === card.id}
+              onClick={() => selectDeathCard(card.id || "")}
+              selected={data.selectedFateCards?.deathCard?.id === card.id}
             />
           ))}
         </div>
@@ -298,8 +298,8 @@ function FateCardsStep({
               key={card.id}
               card={card}
               size="small"
-              onClick={() => selectBodyCard(card.id)}
-              selected={data.selectedFateCards.bodyCard?.id === card.id}
+              onClick={() => selectBodyCard(card.id || "")}
+              selected={data.selectedFateCards?.bodyCard?.id === card.id}
             />
           ))}
         </div>
@@ -314,9 +314,9 @@ function FateCardsStep({
               key={card.id}
               card={card}
               size="small"
-              onClick={() => selectSeedCard(card.id)}
+              onClick={() => selectSeedCard(card.id || "")}
               selected={
-                data.selectedFateCards.seedCards?.[0]?.id === card.id
+                data.selectedFateCards?.seedCards?.[0]?.id === card.id
               }
             />
           ))}
@@ -354,7 +354,7 @@ function AppearanceStep({
       <h2>Customize Appearance</h2>
 
       <div className="appearance-preview">
-        <CharacterAvatar avatar={data.avatar} name={data.name || "Character"} size="large" showName />
+        <CharacterAvatar avatar={data.avatar} name={data.name || ""} size="large" showName />
       </div>
 
       <div className="appearance-options">
@@ -364,7 +364,7 @@ function AppearanceStep({
             {colors.map((color) => (
               <button
                 key={color}
-                className={`color-swatch ${data.avatar.color === color ? "selected" : ""}`}
+                className={`color-swatch ${data.avatar?.color === color ? "selected" : ""}`}
                 style={{ backgroundColor: color }}
                 onClick={() =>
                   updateData({ avatar: { ...data.avatar, color } })
@@ -380,7 +380,7 @@ function AppearanceStep({
             {icons.map((icon) => (
               <button
                 key={icon}
-                className={`icon-option ${data.avatar.icon === icon ? "selected" : ""}`}
+                className={`icon-option ${data.avatar?.icon === icon ? "selected" : ""}`}
                 onClick={() => updateData({ avatar: { ...data.avatar, icon } })}
               >
                 {icon}
@@ -395,7 +395,7 @@ function AppearanceStep({
             {patterns.map((pattern) => (
               <button
                 key={pattern}
-                className={`pattern-option ${data.avatar.backgroundPattern === pattern ? "selected" : ""}`}
+                className={`pattern-option ${data.avatar?.backgroundPattern === pattern ? "selected" : ""}`}
                 onClick={() =>
                   updateData({
                     avatar: { ...data.avatar, backgroundPattern: pattern },
@@ -434,7 +434,7 @@ function ReviewStep({ data }: { data: CharacterCreationData }) {
 
       <div className="review-section">
         <div className="review-avatar">
-          <CharacterAvatar avatar={data.avatar} name={data.name} size="large" showName />
+          <CharacterAvatar avatar={data.avatar} name={data.name || ""} size="large" showName />
         </div>
 
         <div className="review-basic">
@@ -469,19 +469,17 @@ function ReviewStep({ data }: { data: CharacterCreationData }) {
         </div>
       </div>
 
-      {(data.selectedFateCards.deathCard ||
-        data.selectedFateCards.bodyCard ||
-        data.selectedFateCards.seedCards) && (
+      {(data.selectedFateCards?.deathCard || data.selectedFateCards?.bodyCard || data.selectedFateCards?.seedCards) && (
         <div className="review-section">
           <h3>Fate Cards</h3>
           <div className="review-fate-cards">
-            {data.selectedFateCards.deathCard && (
+            {data.selectedFateCards?.deathCard && (
               <FateCardDisplay card={data.selectedFateCards.deathCard} size="small" />
             )}
-            {data.selectedFateCards.bodyCard && (
+            {data.selectedFateCards?.bodyCard && (
               <FateCardDisplay card={data.selectedFateCards.bodyCard} size="small" />
             )}
-            {data.selectedFateCards.seedCards?.map((card, index) => (
+            {data.selectedFateCards?.seedCards?.map((card, index) => (
               <FateCardDisplay key={index} card={card} size="small" />
             ))}
           </div>

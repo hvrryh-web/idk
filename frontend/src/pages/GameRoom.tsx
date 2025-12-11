@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, type ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { fetchCharacters } from "../api";
-import { saveAsciiArt, loadAsciiArt } from "../asciiStore";
 import type { Character } from "../types";
 import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu } from "lucide-react";
 import Button from "../components/Button";
@@ -9,55 +8,6 @@ import GameScreen from "../components/GameScreen";
 import ChatBox from "../components/ChatBox";
 import HUD from "../components/HUD";
 import FullScreenMenu from "../components/FullScreenMenu";
-
-const densityRamp = "@%#*+=-:. ";
-const maxAsciiWidth = 80;
-
-const convertImageToAscii = (src: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.crossOrigin = "anonymous";
-
-    image.onload = () => {
-      const scale = Math.min(maxAsciiWidth / image.width, 1);
-      const width = Math.max(1, Math.floor(image.width * scale));
-      const height = Math.max(1, Math.floor(image.height * scale * 0.5));
-
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext("2d");
-
-      if (!ctx) {
-        reject(new Error("Canvas context unavailable"));
-        return;
-      }
-
-      ctx.drawImage(image, 0, 0, width, height);
-      const imageData = ctx.getImageData(0, 0, width, height).data;
-      let ascii = "";
-
-      for (let y = 0; y < height; y += 1) {
-        let row = "";
-        for (let x = 0; x < width; x += 1) {
-          const offset = (y * width + x) * 4;
-          const r = imageData[offset];
-          const g = imageData[offset + 1];
-          const b = imageData[offset + 2];
-          const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-          const densityIndex = Math.floor((luminance / 255) * (densityRamp.length - 1));
-          row += densityRamp[densityRamp.length - 1 - densityIndex];
-        }
-        ascii += `${row}\n`;
-      }
-
-      resolve(ascii.trimEnd());
-    };
-
-    image.onerror = () => reject(new Error("Failed to load image for conversion"));
-    image.src = src;
-  });
-};
 
 export default function GameRoom() {
   const navigate = useNavigate();
@@ -70,13 +20,7 @@ export default function GameRoom() {
     loadCharacters();
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-    };
-  }, [previewUrl]);
+  // Removed previewUrl cleanup effect (was causing ReferenceError)
 
   const loadCharacters = async () => {
     try {
@@ -143,7 +87,7 @@ export default function GameRoom() {
   }
 
   return (
-    <div className="game-room">
+    <div className="game-room" style={{background: 'var(--parchment)', borderRadius: '18px', boxShadow: '0 4px 24px rgba(124,63,0,0.08)', border: '6px solid #c9b18a', fontFamily: 'Cinzel, serif', color: '#3a2c13', padding: '2rem', margin: '2rem 0'}}>
       <div className="hero-section">
         <h1>WuXuxian TTRPG</h1>
         <p className="subtitle">A Fire Emblem–inspired, Xianxia-themed Visual Novel TTRPG</p>
@@ -192,34 +136,46 @@ export default function GameRoom() {
               !loading && <p className="empty-state">No characters yet.</p>
             )}
           </div>
+
+          <div className="quick-nav">
+            <h3>Quick Navigation</h3>
+            <nav>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={BookOpen}
+                onClick={() => navigate("/wiki")}
+              >
+                Open Knowledge Wiki
+              </Button>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={HelpCircle}
+                onClick={() => navigate("/help")}
+              >
+                Help & Search
+              </Button>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={Users}
+                onClick={() => navigate("/characters")}
+              >
+                Character Manager
+              </Button>
+            </nav>
+          </div>
         </aside>
+
+        {/* Main Content or additional quick nav */}
         <div className="quick-nav">
           <h3>Quick Navigation</h3>
           <nav>
-            <Button
-              variant="secondary"
-              size="medium"
-              icon={BookOpen}
-              onClick={() => navigate("/wiki")}
-            >
-              Knowledge Wiki
-            </Button>
-            <Button
-              variant="secondary"
-              size="medium"
-              icon={HelpCircle}
-              onClick={() => navigate("/help")}
-            >
-              Help & Search
-            </Button>
-            <Button
-              variant="secondary"
-              size="medium"
-              icon={Users}
-              onClick={() => navigate("/characters")}
-            >
-              Character Manager
-            </Button>
+            <button onClick={() => navigate("/wiki")}>Wiki Home</button>
+            <button onClick={() => navigate("/help")}>Help Center</button>
+            <button onClick={() => navigate("/characters")}>Manage Characters</button>
+            <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
           </nav>
         </div>
       </div>
