@@ -1,0 +1,8 @@
+{
+  "name": "effect_heal",
+  "width": 7,
+  "height": 5,
+  "anchor": { "x": 3, "y": 2 },
+  "type": "effect",
+  "tags": ["heal", "support", "combat", "effect"]
+}

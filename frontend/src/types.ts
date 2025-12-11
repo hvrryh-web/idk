@@ -6,6 +6,12 @@ export interface Character {
   rank?: string;
   techniques?: Technique[];
   
+  // Alpha testing: Avatar/visual representation
+  avatar?: CharacterAvatar;
+  
+  // Alpha testing: Fate cards
+  fateCards?: FateCardSet;
+  
   // Primary stats
   strength?: number;
   dexterity?: number;

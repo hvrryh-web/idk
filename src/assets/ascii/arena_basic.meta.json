@@ -1,0 +1,8 @@
+{
+  "name": "arena_basic",
+  "width": 63,
+  "height": 8,
+  "anchor": { "x": 31, "y": 7 },
+  "type": "background",
+  "tags": ["arena", "combat", "neutral"]
+}

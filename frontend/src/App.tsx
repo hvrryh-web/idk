@@ -12,6 +12,7 @@ import SRDBook from "./pages/SRDBook";
 import CharacterManager from "./pages/CharacterManager";
 import ASCIIArtManager from "./pages/ASCIIArtManager";
 import CombatView from "./components/combat/CombatView";
+import AsciiVisualizer from "./pages/AsciiVisualizer";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/characters" element={<CharacterManager />} />
           <Route path="/ascii-art" element={<ASCIIArtManager />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
+          <Route path="/ascii" element={<AsciiVisualizer />} />
         </Routes>
       </div>
     </BrowserRouter>

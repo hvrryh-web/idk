@@ -1,0 +1,11 @@
+{
+  "name": "cultivator",
+  "width": 11,
+  "height": 10,
+  "anchor": {
+    "x": 5,
+    "y": 9
+  },
+  "type": "character",
+  "tags": ["cultivator", "powerful", "mystical"]
+}

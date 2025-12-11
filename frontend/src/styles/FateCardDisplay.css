@@ -1,0 +1,210 @@
+.fate-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 3px solid #444;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  color: #e0e0e0;
+}
+
+.fate-card.clickable {
+  cursor: pointer;
+}
+
+.fate-card.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.fate-card.selected {
+  border-width: 4px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  transform: scale(1.02);
+}
+
+/* Card sizes */
+.fate-card.card-small {
+  padding: 0.5rem;
+  max-width: 200px;
+}
+
+.fate-card.card-medium {
+  max-width: 300px;
+}
+
+.fate-card.card-large {
+  max-width: 400px;
+}
+
+/* Card header */
+.card-header {
+  padding: 0.75rem;
+  margin: -1rem -1rem 1rem -1rem;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-small .card-header {
+  margin: -0.5rem -0.5rem 0.5rem -0.5rem;
+  padding: 0.5rem;
+}
+
+.card-title h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-small .card-title h3 {
+  font-size: 1rem;
+}
+
+.card-rarity {
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.card-type-badge {
+  font-size: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Card body */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card-small .card-body {
+  gap: 0.5rem;
+}
+
+.card-archetype,
+.card-aspect {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+}
+
+.seed-color {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.card-summary {
+  font-size: 0.95rem;
+  color: #d0d0d0;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: #c0c0c0;
+  line-height: 1.5;
+  border-left: 3px solid rgba(255, 255, 255, 0.2);
+  padding-left: 0.75rem;
+}
+
+/* Keywords */
+.card-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.keyword-tag {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Mechanics and stats */
+.card-mechanics,
+.card-stats {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.card-mechanics strong,
+.card-stats strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #f0f0f0;
+}
+
+.mechanics-list,
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mechanic-item,
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+
+.mechanic-name,
+.stat-name {
+  color: #b0b0b0;
+  text-transform: capitalize;
+}
+
+.mechanic-value,
+.stat-value {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+/* Rarity styling */
+.fate-card.rarity-common {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.fate-card.rarity-uncommon {
+  background: linear-gradient(135deg, #1a2a3e 0%, #16314e 100%);
+}
+
+.fate-card.rarity-rare {
+  background: linear-gradient(135deg, #2a1a3e 0%, #31165e 100%);
+}
+
+.fate-card.rarity-legendary {
+  background: linear-gradient(135deg, #3e1a1a 0%, #5e1616 100%);
+  border-color: #ff6b6b;
+}
+
+/* Type-specific accents */
+.fate-card.card-type-death .card-header {
+  background: linear-gradient(135deg, #7F8C8D 0%, #5F6C6D 100%);
+}
+
+.fate-card.card-type-body .card-header {
+  background: linear-gradient(135deg, #D35400 0%, #A04000 100%);
+}
+
+.fate-card.card-type-seed .card-header {
+  background: linear-gradient(135deg, #4A90E2 0%, #2070C2 100%);
+}

@@ -1,0 +1,11 @@
+{
+  "name": "sparkles",
+  "width": 10,
+  "height": 5,
+  "anchor": {
+    "x": 5,
+    "y": 2
+  },
+  "type": "effect",
+  "tags": ["sparkle", "magic", "effect"]
+}

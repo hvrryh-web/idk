@@ -1,0 +1,8 @@
+{
+  "name": "char_attack",
+  "width": 3,
+  "height": 3,
+  "anchor": { "x": 1, "y": 2 },
+  "type": "character",
+  "tags": ["character", "attack", "combat", "pose"]
+}

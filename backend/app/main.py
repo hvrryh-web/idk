@@ -19,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(ascii_router, prefix=f"{settings.API_PREFIX}")
 app.include_router(characters_router, prefix=settings.API_PREFIX)
 app.include_router(boss_templates_router, prefix=settings.API_PREFIX)
 app.include_router(combat_router, prefix=f"{settings.API_PREFIX}/combat", tags=["combat"])

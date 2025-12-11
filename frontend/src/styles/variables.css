@@ -1,0 +1,351 @@
+/**
+ * Design System Variables
+ * 
+ * This file contains all design tokens for the WuXuxian TTRPG application.
+ * Based on the UI/UX Redesign Plan - Modern Xianxia/Cultivation Theme
+ * 
+ * @see docs/UI_UX_REDESIGN_PLAN.md
+ */
+
+:root {
+  /* ============================================
+     COLOR PALETTE - Chinese Period Piece with Horror Elements
+     Inspired by Romance of the Three Kingdoms games
+     ============================================ */
+  
+  /* Primary Palette - Dynasty Red & Imperial Gold (Horror-tinged) */
+  --dynasty-red: #8b0000;        /* Deep blood red */
+  --dynasty-crimson: #dc143c;    /* Crimson accent */
+  --imperial-gold: #d4af37;      /* Ancient gold */
+  --imperial-bronze: #cd7f32;    /* Weathered bronze */
+  --jade-green: #00a86b;         /* Imperial jade */
+  --jade-dark: #006b3f;          /* Deep jade */
+  
+  /* Horror Elements - Dark & Ominous */
+  --shadow-black: #0a0a0a;       /* Nearly pure black */
+  --void-gray: #1a1a1a;          /* Deep void */
+  --ash-gray: #2d2d2d;           /* Ash and soot */
+  --blood-red: #660000;          /* Dried blood */
+  --ghost-white: #e8e8e8;        /* Pale ghost */
+  --bone-white: #f5f5dc;         /* Ancient bone */
+  
+  /* Traditional Chinese Ink Colors */
+  --ink-black: #000000;          /* Pure ink */
+  --ink-gray: #424242;           /* Diluted ink */
+  --ink-wash: #757575;           /* Light ink wash */
+  --parchment: #fdf6e3;          /* Old parchment */
+  --burnt-parchment: #d4c5a9;    /* Aged parchment */
+  
+  /* Cultivation Stage Colors - Chinese Five Elements */
+  --wood-green: #228b22;         /* Wood element */
+  --fire-red: #ff4500;           /* Fire element */
+  --earth-yellow: #daa520;       /* Earth element */
+  --metal-silver: #c0c0c0;       /* Metal element */
+  --water-blue: #4682b4;         /* Water element */
+  
+  /* Soul Cluster Colors - Spiritual Energy */
+  --soul-essence: #9370db;       /* Spirit purple */
+  --soul-resolve: #8b4513;       /* Resolve brown */
+  --soul-presence: #800020;      /* Burgundy presence */
+  
+  /* Body Cluster Colors - Physical Power */
+  --body-strength: #8b0000;      /* Dark red */
+  --body-endurance: #b8860b;     /* Dark goldenrod */
+  --body-agility: #2e8b57;       /* Sea green */
+  
+  /* Mind Cluster Colors - Mental Power */
+  --mind-technique: #4169e1;     /* Royal blue */
+  --mind-willpower: #483d8b;     /* Dark slate blue */
+  --mind-focus: #20b2aa;         /* Light sea green */
+  
+  /* Neutral Palette - Backgrounds (Horror-themed) */
+  --bg-primary: #0a0a0a;         /* Shadow black - Main background */
+  --bg-secondary: #1a1a1a;       /* Void gray - Panels */
+  --bg-tertiary: #2d2d2d;        /* Ash gray - Cards */
+  --bg-overlay: rgba(10, 10, 10, 0.98);  /* Nearly opaque overlay */
+  --bg-hover: rgba(45, 45, 45, 0.6);     /* Hover state */
+  
+  /* Neutral Palette - Text (Parchment on Dark) */
+  --text-primary: #fdf6e3;       /* Parchment white */
+  --text-secondary: #d4c5a9;     /* Burnt parchment */
+  --text-muted: #8b7355;         /* Faded ink */
+  --text-inverse: #1a1a1a;       /* Dark text */
+  
+  /* Neutral Palette - Borders & Dividers */
+  --border-primary: #cd7f32;              /* Bronze */
+  --border-accent: #d4af37;               /* Gold accent */
+  --border-glow: rgba(212, 175, 55, 0.4); /* Gold glow */
+  --border-light: rgba(205, 127, 50, 0.2); /* Subtle bronze */
+  
+  /* Accent Colors - Status & Feedback */
+  --success-green: #228b22;      /* Forest green */
+  --warning-amber: #daa520;      /* Goldenrod */
+  --error-red: #8b0000;          /* Dark red */
+  --info-blue: #4682b4;          /* Steel blue */
+  
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  
+  /* Font Families */
+  --font-heading: 'Cinzel', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-special: 'Noto Serif SC', Georgia, serif;
+  
+  /* Font Sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  --leading-loose: 2;
+  
+  /* ============================================
+     SPACING
+     ============================================ */
+  
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  
+  /* ============================================
+     BORDERS & RADIUS
+     ============================================ */
+  
+  /* Border Widths */
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+  --border-width-lg: 4px;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;  /* Fully rounded */
+  
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Glow Effects - Horror/Ominous */
+  --glow-sm: 0 0 10px rgba(212, 175, 55, 0.25), 0 0 5px rgba(139, 0, 0, 0.15);
+  --glow-md: 0 0 20px rgba(212, 175, 55, 0.35), 0 0 10px rgba(139, 0, 0, 0.2);
+  --glow-lg: 0 0 30px rgba(212, 175, 55, 0.45), 0 0 15px rgba(139, 0, 0, 0.25);
+  --glow-blood: 0 0 20px rgba(139, 0, 0, 0.6), 0 0 40px rgba(102, 0, 0, 0.3);
+  --glow-jade: 0 0 15px rgba(0, 168, 107, 0.5), 0 0 30px rgba(0, 107, 63, 0.3);
+  
+  /* Inner Shadows */
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  
+  /* ============================================
+     TRANSITIONS & ANIMATIONS
+     ============================================ */
+  
+  /* Durations */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  
+  /* Easing Functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* Standard Transitions */
+  --transition-fast: all var(--duration-fast) var(--ease-in-out);
+  --transition-base: all var(--duration-base) var(--ease-in-out);
+  --transition-slow: all var(--duration-slow) var(--ease-in-out);
+  
+  /* ============================================
+     COMPONENT-SPECIFIC
+     ============================================ */
+  
+  /* Buttons */
+  --button-padding-x: var(--space-4);
+  --button-padding-y: var(--space-2);
+  --button-radius: var(--radius-md);
+  --button-font-size: var(--text-base);
+  --button-font-weight: var(--font-semibold);
+  
+  /* Panels & Cards */
+  --panel-padding: var(--space-6);
+  --panel-radius: var(--radius-lg);
+  --panel-border: var(--border-width-sm) solid var(--border-primary);
+  --panel-shadow: var(--shadow-md);
+  
+  /* HUD Elements */
+  --hud-bar-height: 8px;
+  --hud-bar-radius: var(--radius-full);
+  --hud-icon-size: 32px;
+  
+  /* Modal */
+  --modal-max-width: 600px;
+  --modal-padding: var(--space-8);
+  --modal-backdrop: var(--bg-overlay);
+  
+  /* ============================================
+     GRADIENTS - Chinese Ink Wash & Horror Elements
+     ============================================ */
+  
+  /* Dynasty Gradients - Imperial Red & Gold */
+  --gradient-dynasty: linear-gradient(135deg, var(--dynasty-red) 0%, var(--dynasty-crimson) 100%);
+  --gradient-imperial: linear-gradient(135deg, var(--imperial-gold) 0%, var(--imperial-bronze) 100%);
+  
+  /* Ink Wash Gradients - Traditional Chinese Painting */
+  --gradient-ink: linear-gradient(180deg, var(--ink-black) 0%, var(--ink-gray) 50%, var(--ink-wash) 100%);
+  --gradient-ink-horizontal: linear-gradient(to right, var(--ink-black), var(--ink-gray), var(--ink-wash));
+  
+  /* Horror Gradients - Dark & Ominous */
+  --gradient-horror: linear-gradient(135deg, var(--shadow-black) 0%, var(--blood-red) 100%);
+  --gradient-void: linear-gradient(180deg, var(--void-gray) 0%, var(--shadow-black) 100%);
+  
+  /* Five Elements Gradients */
+  --gradient-five-elements: linear-gradient(90deg, 
+    var(--wood-green) 0%, 
+    var(--fire-red) 25%, 
+    var(--earth-yellow) 50%, 
+    var(--metal-silver) 75%, 
+    var(--water-blue) 100%
+  );
+  
+  /* Background Gradients */
+  --gradient-bg-dark: radial-gradient(ellipse at top, var(--void-gray), var(--shadow-black));
+  --gradient-bg-horror: radial-gradient(ellipse at center, var(--blood-red) 0%, var(--shadow-black) 70%);
+  --gradient-parchment: linear-gradient(135deg, var(--parchment) 0%, var(--burnt-parchment) 100%);
+  
+  /* Jade Gradients - Mystical Power */
+  --gradient-jade: linear-gradient(135deg, var(--jade-green) 0%, var(--jade-dark) 100%);
+  
+  /* Blood/Death Gradients - Horror Element */
+  --gradient-blood: linear-gradient(135deg, var(--dynasty-red) 0%, var(--blood-red) 100%);
+  --gradient-death: linear-gradient(180deg, var(--ash-gray) 0%, var(--ink-black) 100%);
+  
+  /* Energy Gradients (for bars and effects) */
+  --gradient-energy: linear-gradient(to right, var(--aether-primary), var(--aether-light), var(--aether-primary));
+  
+  /* Background Gradients */
+  --gradient-bg-dark: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  
+  /* ============================================
+     BREAKPOINTS (for documentation reference only)
+     Note: CSS variables cannot be used in @media queries.
+     Use these values directly in your media queries.
+     ============================================ */
+  
+  --breakpoint-sm: 640px;   /* Use in @media: (min-width: 640px) */
+  --breakpoint-md: 768px;   /* Use in @media: (min-width: 768px) */
+  --breakpoint-lg: 1024px;  /* Use in @media: (min-width: 1024px) */
+  --breakpoint-xl: 1280px;  /* Use in @media: (min-width: 1280px) */
+  --breakpoint-2xl: 1536px; /* Use in @media: (min-width: 1536px) */
+}
+
+/* ============================================
+   DARK THEME (default)
+   ============================================ */
+
+/* Dark theme is the default - no additional selectors needed */
+
+/* ============================================
+   LIGHT THEME (optional future implementation)
+   ============================================ */
+
+[data-theme="light"] {
+  /* Override variables for light theme if needed */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-primary: #cbd5e1;
+}
+
+/* ============================================
+   ACCESSIBILITY: Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE (accessibility)
+   ============================================ */
+
+@media (prefers-contrast: high) {
+  :root {
+    --border-width-sm: 2px;
+    --border-width-md: 3px;
+    --border-width-lg: 5px;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f8fafc;
+    --text-primary: #000000;
+    --text-secondary: #374151;
+  }
+}
