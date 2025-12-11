@@ -1,5 +1,6 @@
 -- Sample data for local development
 INSERT INTO death_cards (id, name, summary, tags, mechanical_hooks)
+VALUES (
     '11111111-1111-1111-1111-111111111111',
     'Silent River',
     'A calm acceptance of endings that creates resilience.',
@@ -20,30 +21,32 @@ VALUES (
 
 INSERT INTO seed_cards (id, colour, aspect, keywords, mechanical_bias)
 VALUES (
-INSERT INTO characters (
-     id, name, type, level, lineage, description, stats,
-     strength, dexterity, constitution, intelligence, wisdom, charisma, perception, resolve, presence,
-     aether_fire, aether_ice, aether_void,
-     conditions, cost_tracks,
-     created_at, updated_at
-) VALUES (
-     '11111111-1111-1111-1111-111111111111',
-     'Alpha Main Player',
-     'pc',
-     10,
-     'Azure Crane Sect',
-     'Insurance test character for alpha loading.',
-     '{"might": 5, "cunning": 4, "spirit": 6}',
-     5, 4, 6, 5, 4, 6, 5, 4, 6,
-     2, 2, 2,
-     '{"violence": {"current": 0, "history": []}, "influence": {"current": 0, "history": []}, "revelation": {"current": 0, "history": []}}',
-     '{"blood": {"current": 0, "maximum": 10}, "fate": {"current": 0, "maximum": 10}, "stain": {"current": 0, "maximum": 10}}',
-     NOW(), NOW()
-);
+    '99999999-9999-9999-9999-999999999999',
     'Blue',
     'Mind',
     '["insight", "flow"]',
     '{"ae_reg": 1}'
+) ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO characters (
+    id, name, type, level, lineage, description, stats,
+    strength, dexterity, constitution, intelligence, wisdom, charisma, perception, resolve, presence,
+    aether_fire, aether_ice, aether_void,
+    conditions, cost_tracks,
+    created_at, updated_at
+) VALUES (
+    '11111111-1111-1111-1111-111111111111',
+    'Alpha Main Player',
+    'pc',
+    10,
+    'Azure Crane Sect',
+    'Insurance test character for alpha loading.',
+    '{"might": 5, "cunning": 4, "spirit": 6}',
+    5, 4, 6, 5, 4, 6, 5, 4, 6,
+    2, 2, 2,
+    '{"violence": {"current": 0, "history": []}, "influence": {"current": 0, "history": []}, "revelation": {"current": 0, "history": []}}',
+    '{"blood": {"current": 0, "maximum": 10}, "fate": {"current": 0, "maximum": 10}, "stain": {"current": 0, "maximum": 10}}',
+    NOW(), NOW()
 ) ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO techniques (
