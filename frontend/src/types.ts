@@ -5,6 +5,54 @@ export interface Character {
   description?: string;
   rank?: string;
   techniques?: Technique[];
+  
+  // Primary stats
+  strength?: number;
+  dexterity?: number;
+  constitution?: number;
+  intelligence?: number;
+  wisdom?: number;
+  charisma?: number;
+  perception?: number;
+  resolve?: number;
+  presence?: number;
+  
+  // Aether stats
+  aether_fire?: number;
+  aether_ice?: number;
+  aether_void?: number;
+  
+  // Computed stat
+  scl?: number;
+  
+  // Condition and cost tracks
+  conditions?: {
+    violence?: ConditionTrack;
+    influence?: ConditionTrack;
+    revelation?: ConditionTrack;
+  };
+  cost_tracks?: {
+    blood?: CostTrack;
+    fate?: CostTrack;
+    stain?: CostTrack;
+  };
+}
+
+export interface ConditionTrack {
+  current: number;
+  history: ConditionEvent[];
+}
+
+export interface ConditionEvent {
+  timestamp: string;
+  cause: string;
+  delta: number;
+  note?: string;
+}
+
+export interface CostTrack {
+  current: number;
+  maximum: number;
 }
 
 export interface Technique {
@@ -14,10 +62,22 @@ export interface Technique {
   damage?: number;
   cost?: number;
   ae_cost?: number;
-  base_damage?: number;
+  base_damage?: number;  // Kept for backward compatibility
   self_strain?: number;
   damage_routing?: string;
   technique_type?: string;
+  
+  // Phase 2: New fields for data-driven combat
+  attack_bonus?: number;  // Modifier applied to attack roll/damage
+  effect_rank?: number;   // Non-damage effect magnitude (0-10)
+  max_scl?: number;       // Maximum SCL allowed to use this technique
+  
+  // Phase 2: Cost requirements
+  cost_requirements?: {
+    blood?: number;
+    fate?: number;
+    stain?: number;
+  };
 }
 
 export interface SimulationRequest {
