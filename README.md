@@ -2,6 +2,26 @@
 
 FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Postgres via Docker Compose.
 
+---
+
+## 🌐 Alpha Test Web Application (GitHub Pages)
+
+**Try the Alpha Test Landing Page online!**
+
+🔗 **Live Demo**: [https://hvrryh-web.github.io/idk/](https://hvrryh-web.github.io/idk/)
+
+The landing page provides:
+- ✅ Server status monitoring
+- ✅ One-click game entry (when server is running locally)
+- ✅ Service diagnostics
+- ✅ GitHub integration for bug reporting
+
+> **Note**: The landing page is hosted on GitHub Pages. To actually play the game, you'll need to run the game server locally (see instructions below).
+
+📖 **New to this project?** See the [Complete Beginner's Guide](./docs/README.md) for step-by-step instructions!
+
+---
+
 ## 🎮 Alpha Test Controls
 
 **One-Click Launch:**
@@ -442,6 +462,13 @@ The full OpenAPI specification is also available in `backend/openapi.yaml`.
 ## Repository layout
 ```
 wuxuxian-ttrpg-webapp/
+  docs/                    # Static GitHub Pages site
+    index.html             # Landing page with server controls
+    game.html              # Game interface page
+    styles.css             # Styling
+    config.js              # Configuration
+    app.js                 # Application logic
+    README.md              # Beginner's guide
   backend/
     app/
       api/
@@ -466,5 +493,11 @@ wuxuxian-ttrpg-webapp/
     vite.config.ts
   infra/
     docker-compose.yml
+  .github/
+    workflows/
+      ci.yml               # CI/CD pipeline
+      deploy-pages.yml     # GitHub Pages deployment
+  start-alpha.sh           # One-click alpha test start
+  stop-alpha.sh            # Stop all services
   README.md
 ```
