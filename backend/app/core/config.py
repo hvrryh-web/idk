@@ -1,7 +1,11 @@
 from functools import lru_cache
 import os
 
-from pydantic import BaseSettings, Field
+try:
+    from pydantic_settings import BaseSettings
+    from pydantic import Field
+except ImportError:
+    from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
