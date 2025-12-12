@@ -1,0 +1,300 @@
+{
+  "version": "1.0.0",
+  "name": "ROTK UI Asset Manifest",
+  "description": "Romance of the Three Kingdoms themed UI assets for WuXuxian TTRPG",
+  "generatedAt": "2025-12-12T18:00:00Z",
+  "theme": {
+    "name": "Romance of the Three Kingdoms",
+    "style": "Chinese Period-Piece (Han/Three Kingdoms Era)",
+    "primaryColors": {
+      "gold": "#D4AF37",
+      "bronze": "#CD7F32",
+      "cinnabar": "#C41E3A",
+      "jade": "#00A86B",
+      "parchment": "#FDF6E3",
+      "ink": "#1A1A1A"
+    }
+  },
+  "components": {
+    "panels": [
+      {
+        "id": "panel-parchment",
+        "name": "Parchment Panel",
+        "type": "9-slice",
+        "variants": ["normal"],
+        "usage": "Light background panels, tooltips, info displays",
+        "cssClass": "rotk-panel-parchment"
+      },
+      {
+        "id": "panel-lacquer",
+        "name": "Lacquer Panel",
+        "type": "9-slice",
+        "variants": ["normal"],
+        "usage": "Primary action panels, important notices",
+        "cssClass": "rotk-panel-lacquer"
+      },
+      {
+        "id": "panel-ink",
+        "name": "Ink Panel",
+        "type": "9-slice",
+        "variants": ["normal"],
+        "usage": "Dark background panels, HUD elements",
+        "cssClass": "rotk-panel-ink"
+      }
+    ],
+    "buttons": [
+      {
+        "id": "btn-primary",
+        "name": "Primary Button",
+        "states": ["normal", "hover", "pressed", "disabled"],
+        "usage": "Main actions, confirmations",
+        "cssClass": "rotk-button-primary"
+      },
+      {
+        "id": "btn-secondary",
+        "name": "Secondary Button",
+        "states": ["normal", "hover", "pressed", "disabled"],
+        "usage": "Secondary actions, cancellations",
+        "cssClass": "rotk-button-secondary"
+      },
+      {
+        "id": "btn-gold",
+        "name": "Gold Button",
+        "states": ["normal", "hover", "pressed", "disabled"],
+        "usage": "Premium actions, special features",
+        "cssClass": "rotk-button-gold"
+      }
+    ],
+    "bars": [
+      {
+        "id": "bar-hp",
+        "name": "HP Bar",
+        "type": "progress",
+        "color": "#8B0000 → #CC3333",
+        "usage": "Health points display",
+        "sizes": ["small", "medium", "large"]
+      },
+      {
+        "id": "bar-ae",
+        "name": "AE Bar",
+        "type": "progress",
+        "color": "#4169E1 → #6B8DEF",
+        "usage": "Action Energy display",
+        "sizes": ["small", "medium", "large"]
+      },
+      {
+        "id": "bar-guard",
+        "name": "Guard Bar",
+        "type": "progress",
+        "color": "#A0A0A0 → #C0C0C0",
+        "usage": "Guard/shield display",
+        "sizes": ["small", "medium", "large"]
+      },
+      {
+        "id": "bar-strain",
+        "name": "Strain Bar",
+        "type": "progress",
+        "color": "#B8860B → #DAA520",
+        "usage": "Strain accumulation display",
+        "sizes": ["small", "medium", "large"]
+      }
+    ],
+    "chips": [
+      {
+        "id": "chip-buff",
+        "name": "Buff Chip",
+        "color": "jade",
+        "usage": "Positive status effects",
+        "cssClass": "rotk-chip-buff"
+      },
+      {
+        "id": "chip-debuff",
+        "name": "Debuff Chip",
+        "color": "cinnabar-dark",
+        "usage": "Negative status effects",
+        "cssClass": "rotk-chip-debuff"
+      },
+      {
+        "id": "chip-neutral",
+        "name": "Neutral Chip",
+        "color": "blue",
+        "usage": "Neutral/informational status",
+        "cssClass": "rotk-chip-neutral"
+      }
+    ],
+    "pins": [
+      {
+        "id": "pin-building",
+        "name": "Building Pin",
+        "type": "circular",
+        "states": ["default", "hover", "selected", "disabled"],
+        "usage": "City view building markers"
+      },
+      {
+        "id": "pin-map-marker",
+        "name": "Map Marker",
+        "type": "circular",
+        "sizes": ["small", "medium", "large"],
+        "factions": ["red", "blue", "green", "yellow", "purple", "neutral"],
+        "usage": "War map location markers"
+      }
+    ],
+    "navigation": [
+      {
+        "id": "nav-tab",
+        "name": "Navigation Tab",
+        "states": ["default", "hover", "selected"],
+        "usage": "Bottom navigation bar tabs"
+      },
+      {
+        "id": "resource-hud",
+        "name": "Resource HUD",
+        "type": "composite",
+        "elements": ["date-display", "action-points", "resource-counters", "system-buttons"],
+        "usage": "Top HUD bar"
+      }
+    ],
+    "battle": [
+      {
+        "id": "character-plate",
+        "name": "Character Plate",
+        "type": "composite",
+        "sides": ["left", "right"],
+        "elements": ["portrait", "name", "unit-type", "hp-bar", "stats", "skill-banner", "status-chips"],
+        "usage": "Battle HUD character panels"
+      },
+      {
+        "id": "clash-indicator",
+        "name": "Clash Indicator",
+        "type": "composite",
+        "elements": ["crossed-swords", "advantage-arrows", "status-chip", "combo-counter"],
+        "usage": "Center battle clash display"
+      },
+      {
+        "id": "damage-number",
+        "name": "Damage Number",
+        "types": ["damage", "critical", "heal", "block"],
+        "animated": true,
+        "usage": "Floating combat numbers"
+      }
+    ],
+    "overlays": [
+      {
+        "id": "portrait-overlay",
+        "name": "Character Portrait Overlay",
+        "type": "composite",
+        "elements": ["portrait-frame", "name-plate", "dialogue-box"],
+        "usage": "Left-side character portrait with dialogue"
+      },
+      {
+        "id": "tooltip",
+        "name": "Tooltip",
+        "positions": ["top", "bottom", "left", "right"],
+        "usage": "Contextual information popups"
+      }
+    ]
+  },
+  "animations": [
+    {
+      "id": "rotk-shimmer",
+      "name": "Gold Shimmer",
+      "duration": "3s",
+      "timing": "ease-in-out",
+      "loop": true,
+      "usage": "Selected gold trim highlights"
+    },
+    {
+      "id": "rotk-damage-float",
+      "name": "Damage Float",
+      "duration": "1s",
+      "timing": "ease-out",
+      "usage": "Standard damage number animation"
+    },
+    {
+      "id": "rotk-damage-critical",
+      "name": "Critical Damage",
+      "duration": "1.2s",
+      "timing": "ease-out",
+      "usage": "Critical hit damage animation"
+    },
+    {
+      "id": "rotk-heal-float",
+      "name": "Heal Float",
+      "duration": "1s",
+      "timing": "ease-out",
+      "usage": "Healing number animation"
+    },
+    {
+      "id": "rotk-panel-enter",
+      "name": "Panel Enter",
+      "duration": "250ms",
+      "timing": "ease-out",
+      "usage": "Panel appearance animation"
+    },
+    {
+      "id": "rotk-pulse-glow",
+      "name": "Pulse Glow",
+      "duration": "1.5s",
+      "timing": "ease-in-out",
+      "loop": true,
+      "usage": "Selection ring pulse"
+    }
+  ],
+  "demoScenes": [
+    {
+      "id": "city-hub",
+      "name": "City Hub Scene",
+      "route": "/rotk/city",
+      "description": "City management view with building pins, resource HUD, and character portrait overlay",
+      "components": ["resource-hud", "building-pin", "portrait-overlay", "panel-parchment"]
+    },
+    {
+      "id": "war-council",
+      "name": "War Council Scene",
+      "route": "/rotk/war",
+      "description": "Strategic map view with faction markers, navigation bar, and war room atmosphere",
+      "components": ["resource-hud", "nav-bar", "map-marker", "panel-lacquer"]
+    },
+    {
+      "id": "battle-hud",
+      "name": "Battle HUD Scene",
+      "route": "/rotk/battle",
+      "description": "Combat interface with character plates, clash indicator, and floating damage numbers",
+      "components": ["character-plate", "clash-indicator", "damage-number", "btn-primary", "btn-gold"]
+    },
+    {
+      "id": "siege-overlay",
+      "name": "Siege Overlay Scene",
+      "route": "/rotk/siege",
+      "description": "Tactical siege view with city map, point markers, and action panels",
+      "components": ["panel-ink", "panel-parchment", "bar-hp", "bar-strain", "chip-buff", "chip-debuff"]
+    }
+  ],
+  "typography": {
+    "heading": {
+      "fontFamily": "Cinzel, Georgia, 'Times New Roman', serif",
+      "weights": [400, 600, 700],
+      "license": "OFL"
+    },
+    "headingCjk": {
+      "fontFamily": "Noto Serif SC, SimSun, serif",
+      "weights": [400, 600, 700],
+      "license": "OFL"
+    },
+    "body": {
+      "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      "weights": [400, 500, 600, 700],
+      "license": "OFL"
+    },
+    "mono": {
+      "fontFamily": "JetBrains Mono, 'Courier New', monospace",
+      "weights": [400, 600, 700],
+      "license": "OFL"
+    }
+  },
+  "licensing": {
+    "assets": "Original work - MIT License",
+    "fonts": "Open Font License (OFL)",
+    "icons": "Lucide React - ISC License"
+  }
+}
