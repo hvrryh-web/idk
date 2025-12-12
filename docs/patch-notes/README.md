@@ -25,6 +25,7 @@ Patches are categorized by type:
 
 | Patch ID | Date | Category | Description |
 |----------|------|----------|-------------|
+| PATCH-20251212-001 | 2025-12-12 | DOCS | Unified SRD Alpha v0.3 - Complete mechanical systems |
 | PATCH-20251210-001 | 2025-12-10 | FEATURE | Combat UI Implementation - Initial Release |
 
 ## How to Add a Patch

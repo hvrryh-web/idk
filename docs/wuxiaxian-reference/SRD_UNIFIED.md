@@ -10,6 +10,56 @@
 
 ---
 
+# Patch Notes History
+
+## Live Patch: ALPHA-0.3-20251212
+
+**Status**: 🟢 LIVE
+
+### What's New in v0.3
+- **Unified SRD**: Combined all previous patches into single comprehensive document
+- **Complete Cap System**: Full OffCap/DefCap math with 4×SCL formula
+- **Power Draws Blood Profiles**: Balanced, Blood-Forward, Ward-Forward options
+- **Layered Durability**: Resolve Charges + DR Tiers system
+- **Meta-Currency System**: Fury/Clout/Insight pools with spend/generate rules
+- **Cost Track Integration**: Blood/Fate/Stain tracks with box counts
+- **Boss Scaling**: Ranks 1-5 with multipliers and multi-stage support
+- **OVR/DVR Mapping**: HERO-style combat values for to-hit/to-be-hit
+
+### Changes from v0.2
+- Rescaled cap formula from 2×SCL to 4×SCL for finer granularity
+- Added Resolve Charges as damage buffer layer
+- Formalized SCP (Soul Core Points) as character creation currency
+- Added OVR/DVR terminology alongside Attack/Defense
+
+---
+
+## Patch History Index
+
+| Patch ID | Date | Status | Sections | Description |
+|----------|------|--------|----------|-------------|
+| ALPHA-0.3-20251212 | 2025-12-12 | 🟢 LIVE | 0-8 + Appendices | Unified SRD with caps, durability, meta-currencies |
+| ALPHA-0.2-20251210 | 2025-12-10 | 📦 Archived | 3-4 | Combat Resources, Conflict Types |
+| ALPHA-0.1-20251210 | 2025-12-10 | 📦 Archived | 0-2 | Introduction, Character Creation, Stats |
+| ALPHA-0.0-20251210 | 2025-12-10 | 📦 Archived | Structure | SRD Structure Definition |
+
+### Archived Patch Locations
+- `SRD_ALPHA_PATCH_0.1.md` - Original Sections 0-2
+- `SRD_ALPHA_PATCH_0.2.md` - Original Sections 3-4
+- `SRD_ALPHA_STRUCTURE.md` - Structure template
+
+---
+
+## Upcoming Patches
+
+| Patch ID | Target | Sections | Description |
+|----------|--------|----------|-------------|
+| ALPHA-0.4 | TBD | 9-10 | Techniques & Effects, Equipment |
+| ALPHA-0.5 | TBD | 11-12 | GM Guidelines, Setting & Cosmology |
+| BETA-1.0 | TBD | All | Full playtest release |
+
+---
+
 # Table of Contents
 
 1. [Introduction & Core Concepts](#section-0-introduction--core-concepts)
