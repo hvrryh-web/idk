@@ -29,6 +29,7 @@ import PersonalViewScreen from "./screens/PersonalViewScreen";
 import ConversationScreen from "./screens/ConversationScreen";
 import CharacterCreation from "./components/CharacterCreation";
 import CharacterCodex from "./components/CharacterCodex";
+import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 
 export default function App() {
   // Use global API hook for error/debug info
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="/srd" element={<SRDBook />} />
           <Route path="/characters" element={<CharacterManager />} />
           <Route path="/characters/create" element={<CharacterCreation />} />
+          <Route path="/character/create" element={<CharacterCreatorPage />} />
           <Route path="/ascii-art" element={<ASCIIArtManager />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
           <Route path="/ascii" element={<AsciiVisualizer />} />
