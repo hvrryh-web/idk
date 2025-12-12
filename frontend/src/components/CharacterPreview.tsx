@@ -1,4 +1,3 @@
-import React from "react";
 import { characters } from "../data/characters";
 import { techniques } from "../data/techniques";
 

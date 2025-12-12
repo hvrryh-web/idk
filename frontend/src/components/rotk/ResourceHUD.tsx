@@ -48,7 +48,6 @@ const seasonLabels: Record<Season, { en: string; cjk: string }> = {
 
 export function ResourceHUD({
   year = 200,
-  month = 1,
   season = 'spring',
   actionPoints = { current: 3, max: 5 },
   resources = [],
