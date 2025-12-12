@@ -4,6 +4,12 @@
 
 This directory contains all patch notes for the Wuxianxia TTRPG system and combat UI implementation. Each patch is tagged with a unique ID for tracking changes.
 
+## Current Live Version
+
+**Version**: ALPHA-0.3.0
+**Date**: 2025-12-12
+**Status**: 🟢 LIVE
+
 ## Patch ID System
 
 Patch IDs follow the format: `PATCH-YYYYMMDD-NNN`
@@ -23,10 +29,20 @@ Patches are categorized by type:
 
 ## Patch Index
 
-| Patch ID | Date | Category | Description |
-|----------|------|----------|-------------|
-| PATCH-20251212-001 | 2025-12-12 | DOCS | Unified SRD Alpha v0.3 - Complete mechanical systems |
-| PATCH-20251210-001 | 2025-12-10 | FEATURE | Combat UI Implementation - Initial Release |
+| Patch ID | Date | Category | Description | Status |
+|----------|------|----------|-------------|--------|
+| PATCH-20251212-001 | 2025-12-12 | DOCS | Unified SRD Alpha v0.3 - Complete mechanical systems | 🟢 LIVE |
+| PATCH-20251210-001 | 2025-12-10 | FEATURE | Combat UI Implementation - Initial Release | ✅ Active |
+
+## Patch 0.3 Documentation
+
+The latest release includes comprehensive documentation:
+
+| Document | Description |
+|----------|-------------|
+| [PATCH-20251212-001.md](./PATCH-20251212-001.md) | Technical change log |
+| [PATCH-20251212-001_ANNOUNCEMENT.md](./PATCH-20251212-001_ANNOUNCEMENT.md) | Community announcement |
+| [SRD_v0.3_DEV_DISCUSSION.md](../wuxiaxian-reference/SRD_v0.3_DEV_DISCUSSION.md) | Design rationale & dev notes |
 
 ## How to Add a Patch
 

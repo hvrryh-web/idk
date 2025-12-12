@@ -5,8 +5,25 @@
 This directory contains the **System Reference Document (SRD) Alpha** for the WUXUXIANXIA TTRPG - a comprehensive, game-ready reference for players and Game Masters.
 
 **Created**: 2025-12-10
-**Status**: Alpha Release
-**Completeness**: 42% (5 of 12 sections complete)
+**Last Updated**: 2025-12-12
+**Status**: Alpha Release - Unified SRD v0.3
+**Completeness**: 55% (7 of 12 sections complete)
+
+---
+
+## 🆕 What's New: Unified SRD v0.3
+
+**As of 2025-12-12**, all previous patches have been unified into a single comprehensive document:
+
+### ➡️ [SRD_UNIFIED.md](./SRD_UNIFIED.md) - The Complete Reference
+
+This is now the **primary SRD document** containing:
+- All content from Patches 0.1 and 0.2
+- New Sections 5-8 (Caps, Durability, Meta-Currencies, Boss Scaling)
+- Backend integration specifications
+- Patch notes history with live/archived status
+
+**Previous patch files are archived for reference but superseded by SRD_UNIFIED.md**
 
 ---
 
@@ -14,7 +31,7 @@ This directory contains the **System Reference Document (SRD) Alpha** for the WU
 
 The SRD Alpha is a **complete, playable rules reference** for the WUXUXIANXIA tactical TTRPG system. It synthesizes design documents, chat logs, and implementation notes into game-ready documentation.
 
-**Key Features**:
+**Key Features (v0.3)**:
 - ✅ Complete character creation rules
 - ✅ Full stat system (9 Primary + 3 Core + 3 Aether)
 - ✅ SCL (Soul Core Level) progression system
@@ -22,9 +39,16 @@ The SRD Alpha is a **complete, playable rules reference** for the WUXUXIANXIA ta
 - ✅ Three conflict pillars (Violence, Influence, Revelation)
 - ✅ 4-Step condition ladders
 - ✅ Seven Quick Actions
-- ⏳ Technique system (coming in Patch 0.3)
-- ⏳ Equipment and artifacts (coming in Patch 0.3)
-- ⏳ Full GM guidelines (coming in Patches 0.4-0.5)
+- ✅ **NEW: Complete cap system (4×SCL formula)**
+- ✅ **NEW: Power Draws Blood profiles**
+- ✅ **NEW: Layered durability model (Resolve Charges + DR)**
+- ✅ **NEW: Meta-currency system (Fury/Clout/Insight)**
+- ✅ **NEW: Cost tracks (Blood/Fate/Stain)**
+- ✅ **NEW: Boss scaling guidelines (Ranks 1-5)**
+- ✅ **NEW: Backend integration with validation**
+- ⏳ Technique system (coming in Patch 0.4)
+- ⏳ Equipment and artifacts (coming in Patch 0.4)
+- ⏳ Full GM guidelines (coming in Patches 0.5)
 
 ---
 
@@ -209,7 +233,7 @@ The SRD Alpha is a **complete, playable rules reference** for the WUXUXIANXIA ta
 
 ## Quick Reference: What's Complete
 
-### ✅ Sections 0-4 (42% Complete)
+### ✅ Sections 0-8 (55% Complete) - v0.3
 
 **You can play with**:
 - Character creation (full system)
@@ -218,6 +242,10 @@ The SRD Alpha is a **complete, playable rules reference** for the WUXUXIANXIA ta
 - Horror conflict (Revelation pillar rules complete)
 - Resource management (all 4 resources)
 - Quick Actions (all 7 types)
+- **Cap system (4×SCL formula with PDB profiles)**
+- **Layered durability (Resolve Charges + DR tiers)**
+- **Meta-currencies (Fury/Clout/Insight)**
+- **Boss scaling (Ranks 1-5 with multipliers)**
 
 **You CANNOT yet fully play**:
 - Technique building (framework exists, examples limited)
@@ -225,26 +253,22 @@ The SRD Alpha is a **complete, playable rules reference** for the WUXUXIANXIA ta
 - Cultivation advancement (breakthrough mechanics not detailed)
 - GM encounter building (guidelines not written)
 
-### ⏳ Coming in Patch 0.3
+### ⏳ Coming in Patch 0.4
 
-**Sections 5-7**:
+**Sections 9-10**:
 - Complete technique system with effect framework
 - Equipment and artifact rules
-- Cultivation and advancement mechanics
-- Breakthrough and tribulation systems
 
-**Estimated**: +40,000 characters, ~17% additional completeness
+**Estimated**: +30,000 characters, ~15% additional completeness
 
-### ⏳ Coming in Patches 0.4-0.5
+### ⏳ Coming in Patch 0.5
 
-**Sections 8-12**:
-- Complete combat rules (detailed resolution)
-- Non-combat rules (clocks, fronts, etc.)
+**Sections 11-12**:
 - GM guidelines (encounter building, adjudication)
 - Setting & cosmology (realms, factions, threats)
-- Appendices (tables, quick reference, glossary)
+- Complete appendices
 
-**Estimated**: +60,000 characters, ~41% additional completeness
+**Estimated**: +40,000 characters, ~30% additional completeness
 
 ---
 
@@ -252,27 +276,27 @@ The SRD Alpha is a **complete, playable rules reference** for the WUXUXIANXIA ta
 
 ### Version Numbering
 
-**Format**: ALPHA-X.Y-YYYYMMDD
+**Format**: ALPHA-X.Y.Z-YYYYMMDD (semantic versioning)
 
-**Example**: ALPHA-0.1-20251210
+**Example**: ALPHA-0.3.0-20251212
 - **ALPHA**: Pre-release status
-- **0.1**: Patch number (0.1, 0.2, etc.)
-- **20251210**: Date (2025-12-10)
+- **0.3.0**: Major.Minor.Patch version
+- **20251212**: Date (2025-12-12)
 
 ### Release Schedule
 
-**Patch 0.1**: 2025-12-10 ✅ Released
-**Patch 0.2**: 2025-12-10 ✅ Released
-**Patch 0.3**: TBD (Sections 5-7)
-**Patch 0.4**: TBD (Sections 8-9)
-**Patch 0.5**: TBD (Sections 10-12)
+**Patch 0.1**: 2025-12-10 ✅ Released → Archived
+**Patch 0.2**: 2025-12-10 ✅ Released → Archived
+**Patch 0.3**: 2025-12-12 ✅ Released (LIVE - Unified SRD)
+**Patch 0.4**: TBD (Sections 9-10: Techniques & Equipment)
+**Patch 0.5**: TBD (Sections 11-12: GM Guidelines & Setting)
 **v1.0 Full**: TBD (After all patches + comprehensive review)
 
 ### When to Upgrade
 
-**From Patch 0.1 to 0.2**: Immediately (0.2 adds, doesn't change 0.1)
-**From 0.2 to 0.3**: When released (techniques needed for full play)
-**From 0.3 to v1.0**: After playtesting period (expect rule refinements)
+**From Patch 0.1/0.2 to 0.3**: Immediately - Use SRD_UNIFIED.md
+**From 0.3 to 0.4**: When techniques/equipment needed
+**From 0.4 to v1.0**: After playtesting period (expect rule refinements)
 
 ---
 
@@ -297,12 +321,16 @@ The SRD Alpha is a **complete, playable rules reference** for the WUXUXIANXIA ta
 
 ### Playtesting Focus
 
-**Patch 0.1-0.2 Playtest Goals**:
+**Patch 0.3 Playtest Goals**:
 - Can players create characters in <1 hour?
 - Is SCL calculation intuitive?
 - Do the 4 combat resources create interesting choices?
 - Are Quick Actions useful and clear?
 - Do all three conflict pillars feel equally viable?
+- **NEW: Is the 4×SCL cap system balanced?**
+- **NEW: Do Power Draws Blood profiles create interesting tradeoffs?**
+- **NEW: Is Resolve Charge damage buffer intuitive?**
+- **NEW: Are meta-currency spends impactful?**
 
 **What to Track**:
 - Character creation time
@@ -416,11 +444,26 @@ Located in `/WUXUXIANXIA TTRPG/`:
 **Design Philosophy**:
 → [SRD History, Design Philosophy sections](./SRD_HISTORY.md)
 
+**Caps & Tradeoffs**:
+→ [Unified SRD, Section 5](./SRD_UNIFIED.md#section-5-caps-tradeoffs--power-draws-blood)
+
+**Durability Model**:
+→ [Unified SRD, Section 6](./SRD_UNIFIED.md#section-6-durability-model--damage-reduction)
+
+**Meta-Currencies**:
+→ [Unified SRD, Section 7](./SRD_UNIFIED.md#section-7-meta-currencies--cost-tracks)
+
+**Boss Scaling**:
+→ [Unified SRD, Section 8](./SRD_UNIFIED.md#section-8-boss-scaling-guidelines)
+
+**Backend Integration**:
+→ [SRD Integration Guide](./SRD_INTEGRATION_GUIDE.md)
+
 ---
 
-**Last Updated**: 2025-12-10
-**Current Patch**: 0.2
-**Completeness**: 42%
+**Last Updated**: 2025-12-12
+**Current Version**: 0.3.0 (Unified SRD)
+**Completeness**: 55%
 **Status**: Alpha - Ready for Playtesting
 
 ---
