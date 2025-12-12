@@ -228,7 +228,7 @@ export const GROWTH_AWAKENING_DECK: AnswerTokenDeck = {
       tags: {
         [Side.NORTH]: ["near-death", "trigger"],
         [Side.EAST]: ["danger", "surge"],
-        [Side.SOUTH]: "threshold", "unlock"],
+        [Side.SOUTH]: ["threshold", "unlock"],
         [Side.WEST]: ["survive", "fatal"]
       }
     },
