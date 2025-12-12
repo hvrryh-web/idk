@@ -1,0 +1,91 @@
+{
+  "nodes": [
+    {
+      "id": "prompt",
+      "type": "TextPrompt",
+      "params": {
+        "prompt": "Romance of the Three Kingdoms, semi-realistic, ornate Han armor or dynasty robes, painterly soft gradients, luminous rim light, delicate fabric detail, Yuto Sano illustration style, 3/4 bust, neutral/calm/angry/shocked expressions",
+        "negative_prompt": "blurry, low quality, watermark, extra limbs, distorted face"
+      }
+    },
+    {
+      "id": "lora",
+      "type": "LoRAStyleEmbedding",
+      "params": {
+        "embedding": "YutoSanoStyleLoRA"
+      },
+      "inputs": ["prompt"]
+    },
+    {
+      "id": "txt2img",
+      "type": "TextToImage",
+      "params": {
+        "width": 512,
+        "height": 768,
+        "steps": 30,
+        "cfg_scale": 7.5,
+        "sampler": "Euler a"
+      },
+      "inputs": ["lora"]
+    },
+    {
+      "id": "face_restore",
+      "type": "FaceRestore",
+      "params": {
+        "method": "GFPGAN"
+      },
+      "inputs": ["txt2img"]
+    },
+    {
+      "id": "upscale",
+      "type": "Upscale",
+      "params": {
+        "method": "ESRGAN",
+        "scale": 2
+      },
+      "inputs": ["face_restore"]
+    },
+    {
+      "id": "lut",
+      "type": "ColorGradeLUT",
+      "params": {
+        "lut_file": "three-kingdoms-palette.cube"
+      },
+      "inputs": ["upscale"]
+    },
+    {
+      "id": "grain",
+      "type": "Overlay",
+      "params": {
+        "overlay_file": "grain-overlay.png",
+        "opacity": 0.15
+      },
+      "inputs": ["lut"]
+    },
+    {
+      "id": "vignette",
+      "type": "Vignette",
+      "params": {
+        "strength": 0.3
+      },
+      "inputs": ["grain"]
+    },
+    {
+      "id": "bloom",
+      "type": "Bloom",
+      "params": {
+        "intensity": 0.2
+      },
+      "inputs": ["vignette"]
+    },
+    {
+      "id": "save",
+      "type": "SaveImage",
+      "params": {
+        "output_dir": "frontend/public/assets/characters"
+      },
+      "inputs": ["bloom"]
+    }
+  ],
+  "description": "ComfyUI pipeline for Romance of the Three Kingdoms asset generation (Yuto Sano-inspired). Includes LoRA style embedding, face restoration, upscaling, color grading, grain, vignette, bloom, and batch save."
+}

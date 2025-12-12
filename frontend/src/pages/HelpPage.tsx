@@ -78,7 +78,7 @@ export default function HelpPage() {
   };
 
   return (
-    <div className="help-page">
+    <div className="help-page" style={{background: 'var(--parchment)', borderRadius: '18px', boxShadow: '0 4px 24px rgba(124,63,0,0.08)', border: '6px solid #c9b18a', fontFamily: 'Cinzel, serif', color: '#3a2c13', padding: '2rem', margin: '2rem 0'}}>
       <header className="page-header">
         <h1>Help & Search</h1>
         <p>Search the knowledge base to find rules, mechanics, and setting information.</p>

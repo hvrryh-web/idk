@@ -12,8 +12,8 @@ export default function TechniqueList() {
       .catch((err: Error) => setError(err.message));
   }, []);
 
-  return (
-    <div className="panel">
+    return (
+      <div className="technique-list" style={{background: 'var(--parchment)', borderRadius: '14px', boxShadow: '0 2px 12px rgba(124,63,0,0.08)', border: '4px solid #c9b18a', fontFamily: 'Cinzel, serif', color: '#3a2c13', padding: '1rem', margin: '1rem 0'}}>
       <h2>Techniques</h2>
       {error && <p className="highlight">{error}</p>}
       <ul className="list">

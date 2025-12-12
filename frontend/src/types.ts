@@ -181,3 +181,61 @@ export interface ASCIIListItem {
   content_hash: string;
   created_at: string;
 }
+
+export interface AsciiRenderOptions {
+  width?: number;
+  height?: number;
+  contrast?: number;
+  invert?: boolean;
+  [key: string]: any;
+}
+
+export interface AsciiRenderResponse {
+  ascii?: string;
+  meta?: Record<string, any>;
+  colorized?: boolean;
+  cached?: boolean;
+  duration_ms?: number;
+  charset?: string;
+  brightness_threshold?: number;
+  width?: number;
+}
+
+export interface CharacterAvatar {
+  url?: string;
+  alt?: string;
+  color?: string;
+  backgroundPattern?: string;
+  icon?: string;
+  portraitUrl?: string;
+}
+
+export interface FateCard {
+  id?: string;
+  name?: string;
+  description?: string;
+  keywords?: string[];
+  rarity?: string;
+  type?: string;
+  colour?: string;
+  archetype?: string;
+  aspect?: string;
+  summary?: string;
+  mechanicalHooks?: Record<string, unknown>;
+  statMods?: Record<string, unknown>;
+}
+
+export interface FateCardSet {
+  seedCards?: FateCard[];
+  bonusCards?: FateCard[];
+  deathCard?: FateCard;
+  bodyCard?: FateCard;
+}
+
+export interface CharacterCreationData {
+  name?: string;
+  type?: string;
+  avatar?: CharacterAvatar;
+  selectedFateCards?: FateCardSet;
+  [key: string]: any;
+}

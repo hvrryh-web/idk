@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { fetchCharacters, type ApiDiagnostics } from "../api";
+import { fetchCharacters } from "../api";
 import type { Character } from "../types";
 import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog, RefreshCcw } from "lucide-react";
 import Button from "../components/Button";
@@ -9,14 +9,7 @@ import ChatBox from "../components/ChatBox";
 import HUD from "../components/HUD";
 import FullScreenMenu from "../components/FullScreenMenu";
 
-const densityRamp = "@%#*+=-:. ";
-const maxAsciiWidth = 80;
-
-type GameRoomProps = {
-  systemStatus?: ApiDiagnostics;
-};
-
-export default function GameRoom({ systemStatus }: GameRoomProps) {
+export default function GameRoom() {
   const navigate = useNavigate();
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +19,8 @@ export default function GameRoom({ systemStatus }: GameRoomProps) {
   useEffect(() => {
     loadCharacters();
   }, []);
+
+  // Removed previewUrl cleanup effect (was causing ReferenceError)
 
   const loadCharacters = async () => {
     try {
@@ -103,7 +98,7 @@ export default function GameRoom({ systemStatus }: GameRoomProps) {
   }
 
   return (
-    <div className="game-room">
+    <div className="game-room" style={{background: 'var(--parchment)', borderRadius: '18px', boxShadow: '0 4px 24px rgba(124,63,0,0.08)', border: '6px solid #c9b18a', fontFamily: 'Cinzel, serif', color: '#3a2c13', padding: '2rem', margin: '2rem 0'}}>
       <div className="hero-section">
         <h1>WuXuxian TTRPG</h1>
         <p className="subtitle">A Fire Emblem–inspired, Xianxia-themed Visual Novel TTRPG</p>
@@ -211,34 +206,46 @@ export default function GameRoom({ systemStatus }: GameRoomProps) {
               !loading && <p className="empty-state">No characters yet.</p>
             )}
           </div>
+
+          <div className="quick-nav">
+            <h3>Quick Navigation</h3>
+            <nav>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={BookOpen}
+                onClick={() => navigate("/wiki")}
+              >
+                Open Knowledge Wiki
+              </Button>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={HelpCircle}
+                onClick={() => navigate("/help")}
+              >
+                Help & Search
+              </Button>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={Users}
+                onClick={() => navigate("/characters")}
+              >
+                Character Manager
+              </Button>
+            </nav>
+          </div>
         </aside>
+
+        {/* Main Content or additional quick nav */}
         <div className="quick-nav">
           <h3>Quick Navigation</h3>
           <nav>
-            <Button
-              variant="secondary"
-              size="medium"
-              icon={BookOpen}
-              onClick={() => navigate("/wiki")}
-            >
-              Knowledge Wiki
-            </Button>
-            <Button
-              variant="secondary"
-              size="medium"
-              icon={HelpCircle}
-              onClick={() => navigate("/help")}
-            >
-              Help & Search
-            </Button>
-            <Button
-              variant="secondary"
-              size="medium"
-              icon={Users}
-              onClick={() => navigate("/characters")}
-            >
-              Character Manager
-            </Button>
+            <button onClick={() => navigate("/wiki")}>Wiki Home</button>
+            <button onClick={() => navigate("/help")}>Help Center</button>
+            <button onClick={() => navigate("/characters")}>Manage Characters</button>
+            <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
           </nav>
         </div>
       </div>

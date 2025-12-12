@@ -1,4 +1,3 @@
-import React from 'react';
 import { Heart, Zap, Shield, Target, Wind } from 'lucide-react';
 
 interface HUDProps {

@@ -1,0 +1,10 @@
+{
+  "nodes": [
+    {"id": "prompt", "type": "TextPrompt", "params": {"prompt": "Romance of the Three Kingdoms, lacquered wood banners, jade plaques, dynasty crests, vector icons, parchment/ink base, imperial red/gold palette, isolated asset, transparent background", "negative_prompt": "blurry, low quality, watermark, background clutter"}},
+    {"id": "lora", "type": "LoRAStyleEmbedding", "params": {"embedding": "YutoSanoStyleLoRA"}, "inputs": ["prompt"]},
+    {"id": "txt2img", "type": "TextToImage", "params": {"width": 256, "height": 256, "steps": 25, "cfg_scale": 7.5, "sampler": "Euler a"}, "inputs": ["lora"]},
+    {"id": "lut", "type": "ColorGradeLUT", "params": {"lut_file": "three-kingdoms-banner.cube"}, "inputs": ["txt2img"]},
+    {"id": "save", "type": "SaveImage", "params": {"output_dir": "frontend/public/assets/banners"}, "inputs": ["lut"]}
+  ],
+  "description": "ComfyUI pipeline for Three Kingdoms banners and plaques: lacquered wood, jade, dynasty crests, vector icons, LUT, transparent background."
+}

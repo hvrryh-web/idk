@@ -1,0 +1,10 @@
+{
+  "nodes": [
+    {"id": "prompt", "type": "TextPrompt", "params": {"prompt": "Romance of the Three Kingdoms, brushstroke slashes, aura glows, embers, falling petals, transparent PNG, bloom, chromatic drift, isolated asset", "negative_prompt": "blurry, low quality, watermark, background clutter"}},
+    {"id": "lora", "type": "LoRAStyleEmbedding", "params": {"embedding": "YutoSanoStyleLoRA"}, "inputs": ["prompt"]},
+    {"id": "txt2img", "type": "TextToImage", "params": {"width": 128, "height": 128, "steps": 20, "cfg_scale": 7.5, "sampler": "Euler a"}, "inputs": ["lora"]},
+    {"id": "bloom", "type": "Bloom", "params": {"intensity": 0.25}, "inputs": ["txt2img"]},
+    {"id": "save", "type": "SaveImage", "params": {"output_dir": "frontend/public/assets/fx"}, "inputs": ["bloom"]}
+  ],
+  "description": "ComfyUI pipeline for Three Kingdoms FX overlays: brushstroke slashes, aura glows, embers, petals, bloom, transparent PNG."
+}

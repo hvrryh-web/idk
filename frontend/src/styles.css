@@ -25,10 +25,50 @@ a:hover {
   text-decoration: underline;
 }
 
+
 .app {
-  display: grid;
-  grid-template-columns: 260px 1fr;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+}
+
+.global-nav {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--parchment, #fdf6e3);
+  border-bottom: 2px solid var(--imperial-gold, #d4af37);
+  padding: 0.75rem 2rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.global-nav a {
+  color: var(--dynasty-red, #8b0000);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.global-nav a:hover {
+  background: var(--imperial-gold, #d4af37);
+  color: #fff;
+}
+
+/* Sample asset placeholders for screens */
+.map-background, .province-nodes, .ui-ribbon, .cloud-overlay, .navigation-controls,
+.diorama-background, .unit-markers, .layer-toggles, .lighting,
+.city-background, .districts, .tooltips,
+.regional-background, .roads-heatmap, .events,
+.atlas-background, .banners, .fog-of-war,
+.personal-background, .dialogue-boxes, .depth-of-field,
+.conversation-background, .reaction-fx, .choices-ui {
+  background: #eee;
+  border: 1px dashed #bbb;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
 }
 
 .sidebar {
