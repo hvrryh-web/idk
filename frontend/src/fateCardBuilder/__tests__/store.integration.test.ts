@@ -4,7 +4,7 @@
  * Tests the complete flow of the Fate Card Builder.
  */
 
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { useFateCardBuilderStore } from "../store/useFateCardBuilderStore";
 import { BuildStep, CategoryId, Side } from "../types";
 

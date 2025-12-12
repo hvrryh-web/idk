@@ -38,7 +38,7 @@ export default function FateCardGenerator({
         },
         body: JSON.stringify({
           card_type: card.type,
-          card_id: card.id.replace(`${card.type}-`, "").replace(/-/g, "_"),
+          card_id: (card.id ?? "").replace(`${card.type}-`, "").replace(/-/g, "_"),
           card_name: card.name,
           rarity: card.rarity,
           color_scheme: card.colour,

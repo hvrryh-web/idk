@@ -166,7 +166,7 @@ describe("Answer Token Decks", () => {
             Object.values(token.tags).forEach(tagArray => {
               if (tagArray) {
                 expect(Array.isArray(tagArray)).toBe(true);
-                tagArray.forEach(tag => {
+                tagArray.forEach((tag: string) => {
                   expect(typeof tag).toBe("string");
                   expect(tag.length).toBeGreaterThan(0);
                 });

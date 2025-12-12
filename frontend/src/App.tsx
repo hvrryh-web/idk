@@ -1,10 +1,6 @@
 import CharacterPreview from './components/CharacterPreview';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ErrorBoundary } from "./ErrorBoundary";
-import { ApiErrorBanner } from "./ApiErrorBanner";
-import React from "react";
 import { useApi } from "./api";
-import { DebugPanel } from "./DebugPanel";
 import GameRoom from "./pages/GameRoom";
 import GameScreen from "./pages/GameScreen";
 import ProfileSheet from "./pages/ProfileSheet";
@@ -34,8 +30,8 @@ import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage
 
 export default function App() {
   // Use global API hook for error/debug info
-  const apiDiagnostics = useApi();
-  const { apiError, lastApiCall, lastStatus } = apiDiagnostics;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _apiDiagnostics = useApi();
 
   return (
     <BrowserRouter>

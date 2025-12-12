@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import DiceTray from "./DiceTray";
 
@@ -53,7 +53,7 @@ describe("DiceTray Component - Fix Validation", () => {
     });
 
     it("handles different dice configurations", () => {
-      const { container } = render(<DiceTray />);
+      render(<DiceTray />);
       
       // Try rolling with different settings
       const rollButton = screen.getByRole("button", { name: /Roll/i });

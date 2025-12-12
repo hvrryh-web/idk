@@ -60,7 +60,9 @@ export const LayerProgressView: React.FC<LayerProgressViewProps> = ({
   onError,
 }) => {
   const [status, setStatus] = useState<JobStatus | null>(null);
-  const [previews, setPreviews] = useState<Record<string, string>>({});
+  // previews can be extended in the future for layer preview images
+  // const [previews, setPreviews] = useState<Record<string, string>>({});
+  const previews: Record<string, string> = {};
   const [isConnected, setIsConnected] = useState(false);
 
   // Poll for status updates
@@ -228,7 +230,8 @@ export const LayerProgressView: React.FC<LayerProgressViewProps> = ({
           const layerNum = index + 1;
           const isCompleted = layerNum < currentLayer || isComplete;
           const isActive = layerNum === currentLayer && !isComplete && !isFailed;
-          const isPending = layerNum > currentLayer && !isComplete;
+          // isPending could be used for additional styling in the future
+          // const isPending = layerNum > currentLayer && !isComplete;
 
           return (
             <div
