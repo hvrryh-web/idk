@@ -6,7 +6,7 @@ This directory contains all patch notes for the Wuxianxia TTRPG system and comba
 
 ## Current Live Version
 
-**Version**: ALPHA-0.3.0
+**Version**: ALPHA-0.4.0
 **Date**: 2025-12-12
 **Status**: 🟢 LIVE
 
@@ -31,8 +31,21 @@ Patches are categorized by type:
 
 | Patch ID | Date | Category | Description | Status |
 |----------|------|----------|-------------|--------|
-| PATCH-20251212-001 | 2025-12-12 | DOCS | Unified SRD Alpha v0.3 - Complete mechanical systems | 🟢 LIVE |
+| PATCH-20251212-002 | 2025-12-12 | SYSTEM | ADR Integration - Core Resolution Engine, Stat Model, Skills/Tags | 🟢 LIVE |
+| PATCH-20251212-001 | 2025-12-12 | DOCS | Unified SRD Alpha v0.3 - Complete mechanical systems | 📦 Archived |
 | PATCH-20251210-001 | 2025-12-10 | FEATURE | Combat UI Implementation - Initial Release | ✅ Active |
+
+## Patch 0.4 Documentation
+
+The latest release includes Architecture Decision Records:
+
+| Document | Description |
+|----------|-------------|
+| [PATCH-20251212-002.md](./PATCH-20251212-002.md) | Technical change log for v0.4 |
+| [ADR-0001](../adr/ADR-0001-core-resolution-engine.md) | Core Resolution Engine |
+| [ADR-0002](../adr/ADR-0002-canonical-stat-model.md) | Canonical Stat Model |
+| [ADR-0003](../adr/ADR-0003-bonus-composition-contest-roles.md) | Bonus Composition and Contest Roles |
+| [ADR-0004](../adr/ADR-0004-skill-layer-tagging.md) | Skill Layer and Tagging |
 
 ## Patch 0.3 Documentation
 

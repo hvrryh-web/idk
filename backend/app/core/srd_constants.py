@@ -1,25 +1,26 @@
 """
 SRD Constants Module
 
-This module contains all game constants derived from the Unified SRD (v0.3).
+This module contains all game constants derived from the Unified SRD (v0.4).
 These constants define the core mechanical rules for character creation,
 combat, and progression.
 
 Reference: docs/wuxiaxian-reference/SRD_UNIFIED.md
-Patch: ALPHA-0.3-20251212
+ADRs: docs/adr/ADR-0001, ADR-0002, ADR-0003, ADR-0004
+Patch: ALPHA-0.4-20251212
 """
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 
 # =============================================================================
 # SRD Version Information
 # =============================================================================
 
-SRD_VERSION = "0.3.0"
-SRD_PATCH_ID = "ALPHA-0.3-20251212"
+SRD_VERSION = "0.4.0"
+SRD_PATCH_ID = "ALPHA-0.4-20251212"
 SRD_DATE = "2025-12-12"
 
 
@@ -541,3 +542,331 @@ def get_spd_band(spd: int) -> SPDBand:
     if spd < SPD_SLOW_THRESHOLD:
         return SPDBand.SLOW
     return SPDBand.NORMAL
+
+
+# =============================================================================
+# ADR-0002: Canonical Stat Model
+# =============================================================================
+
+class Pillar(str, Enum):
+    """The three conflict pillars."""
+    VIOLENCE = "Violence"
+    INFLUENCE = "Influence"
+    REVELATION = "Revelation"
+
+
+# Pillar -> Defense/Resilience mapping per ADR-0002
+PILLAR_DEFENSE_MAPPING = {
+    Pillar.VIOLENCE: "BodyDefense",
+    Pillar.INFLUENCE: "SoulDefense",
+    Pillar.REVELATION: "MindDefense",
+}
+
+PILLAR_RESILIENCE_MAPPING = {
+    Pillar.VIOLENCE: "BodyResilience",
+    Pillar.INFLUENCE: "SoulResilience",
+    Pillar.REVELATION: "MindResilience",
+}
+
+PILLAR_ATTACK_MAPPING = {
+    Pillar.VIOLENCE: "ViolenceAttack",
+    Pillar.INFLUENCE: "InfluenceAttack",
+    Pillar.REVELATION: "RevelationAttack",
+}
+
+
+def calculate_cl(body: int, mind: int, soul: int) -> int:
+    """
+    Calculate Core Level (CL) per ADR-0002.
+    
+    CL = floor((Body + Mind + Soul) / 3)
+    """
+    return (body + mind + soul) // 3
+
+
+def calculate_sl(control: int, fate: int, spirit: int) -> int:
+    """
+    Calculate Soul Level (SL) per ADR-0002.
+    
+    SL = floor((Control + Fate + Spirit) / 3)
+    """
+    return (control + fate + spirit) // 3
+
+
+def calculate_scl_from_stats(body: int, mind: int, soul: int,
+                              control: int, fate: int, spirit: int) -> int:
+    """
+    Calculate Soul Core Level (SCL) per ADR-0002.
+    
+    SCL = CL + SL
+    """
+    return calculate_cl(body, mind, soul) + calculate_sl(control, fate, spirit)
+
+
+def get_martial_rank(cl: int) -> int:
+    """
+    Get Martial Rank per ADR-0002.
+    
+    MartialRank = CL
+    """
+    return cl
+
+
+def get_sorcery_rank(sl: int) -> int:
+    """
+    Get Sorcery Rank per ADR-0002.
+    
+    SorceryRank = SL
+    """
+    return sl
+
+
+# Root stat cost per ADR-0002
+ROOT_STAT_COST = 2  # SCP per +1 (Body, Mind, Soul, Control, Fate, Spirit)
+
+# Pillar trait cost per ADR-0002
+PILLAR_TRAIT_COST = 1  # SCP per +1 (Attack, Defense, Resilience)
+
+
+# =============================================================================
+# ADR-0003: Contest Types and Bonus Composition
+# =============================================================================
+
+class ContestType(str, Enum):
+    """Contest types per ADR-0003."""
+    ATTACK = "Attack"
+    COUNTER_NEGATE = "Counter_Negate"
+    COUNTER_RESIST = "Counter_Resist"
+    ENDURANCE = "Endurance"
+    SOCIAL_CONTEST = "Social_Contest"
+    SOCIAL_DUEL = "Social_Duel"
+    INVESTIGATION = "Investigation"
+    SEARCH_VS_CONCEALMENT = "Search_vs_Concealment"
+    OBSTACLE_TASK = "Obstacle_Task"
+
+
+class TraitRole(str, Enum):
+    """Which trait is used in a contest."""
+    ATTACK = "Attack"
+    DEFENSE = "Defense"
+    RESILIENCE = "Resilience"
+
+
+# Contest type -> Actor trait mapping
+CONTEST_ACTOR_TRAIT: Dict[ContestType, TraitRole] = {
+    ContestType.ATTACK: TraitRole.ATTACK,
+    ContestType.COUNTER_NEGATE: TraitRole.DEFENSE,
+    ContestType.COUNTER_RESIST: TraitRole.RESILIENCE,
+    ContestType.ENDURANCE: TraitRole.RESILIENCE,
+    ContestType.SOCIAL_CONTEST: TraitRole.ATTACK,
+    ContestType.SOCIAL_DUEL: TraitRole.ATTACK,
+    ContestType.INVESTIGATION: TraitRole.ATTACK,
+    ContestType.SEARCH_VS_CONCEALMENT: TraitRole.ATTACK,
+    ContestType.OBSTACLE_TASK: TraitRole.ATTACK,  # Varies by context
+}
+
+# Contest type -> Opposition trait mapping
+CONTEST_OPP_TRAIT: Dict[ContestType, TraitRole] = {
+    ContestType.ATTACK: TraitRole.DEFENSE,
+    ContestType.COUNTER_NEGATE: TraitRole.ATTACK,
+    ContestType.COUNTER_RESIST: TraitRole.ATTACK,
+    ContestType.ENDURANCE: TraitRole.ATTACK,  # Or static potency
+    ContestType.SOCIAL_CONTEST: TraitRole.DEFENSE,
+    ContestType.SOCIAL_DUEL: TraitRole.ATTACK,
+    ContestType.INVESTIGATION: TraitRole.DEFENSE,
+    ContestType.SEARCH_VS_CONCEALMENT: TraitRole.ATTACK,
+    ContestType.OBSTACLE_TASK: TraitRole.DEFENSE,  # TN mode
+}
+
+
+def get_actor_trait_for_contest(contest_type: ContestType, pillar: Pillar) -> str:
+    """Get the trait name the actor uses for a contest type."""
+    role = CONTEST_ACTOR_TRAIT.get(contest_type, TraitRole.ATTACK)
+    
+    if role == TraitRole.ATTACK:
+        return PILLAR_ATTACK_MAPPING[pillar]
+    elif role == TraitRole.DEFENSE:
+        return PILLAR_DEFENSE_MAPPING[pillar]
+    else:
+        return PILLAR_RESILIENCE_MAPPING[pillar]
+
+
+def get_opp_trait_for_contest(contest_type: ContestType, pillar: Pillar) -> str:
+    """Get the trait name the opposition uses for a contest type."""
+    role = CONTEST_OPP_TRAIT.get(contest_type, TraitRole.DEFENSE)
+    
+    if role == TraitRole.ATTACK:
+        return PILLAR_ATTACK_MAPPING[pillar]
+    elif role == TraitRole.DEFENSE:
+        return PILLAR_DEFENSE_MAPPING[pillar]
+    else:
+        return PILLAR_RESILIENCE_MAPPING[pillar]
+
+
+# =============================================================================
+# ADR-0004: Skills
+# =============================================================================
+
+class SkillID(str, Enum):
+    """Canonical skill list per ADR-0004."""
+    # Violence-anchored
+    ATHLETICS = "Athletics"
+    ARMS = "Arms"
+    STEALTH = "Stealth"
+    SURVIVAL = "Survival"
+    
+    # Influence-anchored
+    COMMAND = "Command"
+    DECEIVE = "Deceive"
+    RAPPORT = "Rapport"
+    ETIQUETTE = "Etiquette"
+    
+    # Revelation-anchored
+    OBSERVE = "Observe"
+    INVESTIGATE = "Investigate"
+    OCCULT = "Occult"
+    ARTIFICE = "Artifice"
+
+
+# Skill -> Default pillar mapping
+SKILL_PILLAR_MAPPING: Dict[SkillID, Pillar] = {
+    # Violence-anchored
+    SkillID.ATHLETICS: Pillar.VIOLENCE,
+    SkillID.ARMS: Pillar.VIOLENCE,
+    SkillID.STEALTH: Pillar.VIOLENCE,
+    SkillID.SURVIVAL: Pillar.VIOLENCE,
+    # Influence-anchored
+    SkillID.COMMAND: Pillar.INFLUENCE,
+    SkillID.DECEIVE: Pillar.INFLUENCE,
+    SkillID.RAPPORT: Pillar.INFLUENCE,
+    SkillID.ETIQUETTE: Pillar.INFLUENCE,
+    # Revelation-anchored
+    SkillID.OBSERVE: Pillar.REVELATION,
+    SkillID.INVESTIGATE: Pillar.REVELATION,
+    SkillID.OCCULT: Pillar.REVELATION,
+    SkillID.ARTIFICE: Pillar.REVELATION,
+}
+
+# Skill descriptions
+SKILL_DESCRIPTIONS: Dict[SkillID, str] = {
+    SkillID.ATHLETICS: "Movement, climbing, jumps, grapples, pursuit",
+    SkillID.ARMS: "Weapon forms, martial discipline, drills, disarms",
+    SkillID.STEALTH: "Infiltration, ambush, conceal presence",
+    SkillID.SURVIVAL: "Tracking, navigation, harsh terrain, fieldcraft",
+    SkillID.COMMAND: "Authority, intimidation, coercive presence",
+    SkillID.DECEIVE: "Lies, feints, disguise, misdirection",
+    SkillID.RAPPORT: "Charm, empathy, bargaining, reading the room",
+    SkillID.ETIQUETTE: "Protocol, faction politics, court maneuver",
+    SkillID.OBSERVE: "Awareness, scouting, threat read",
+    SkillID.INVESTIGATE: "Analysis, research, deduction",
+    SkillID.OCCULT: "Cultivation theory, spirits, seals, metaphysics",
+    SkillID.ARTIFICE: "Alchemy, talismans, arrays, medicine-as-technique",
+}
+
+# Skill costs and caps per ADR-0004
+SKILL_COST_PER_RANK = 1  # 1 SCP per +1
+SPECIALTY_COST = 1       # 1 SCP for +2 in narrow specialty
+SPECIALTY_BONUS = 2      # Specialty grants +2
+
+SKILL_RATING_MIN = 0
+SKILL_RATING_MAX = 6
+SKILL_CAP_OFFSET = 2     # SkillRating <= SCL + 2
+
+
+def calculate_skill_cap(scl: int) -> int:
+    """Calculate maximum skill rating for a given SCL."""
+    return scl + SKILL_CAP_OFFSET
+
+
+def validate_skill_rating(rating: int, scl: int) -> bool:
+    """Check if a skill rating is valid for a given SCL."""
+    return SKILL_RATING_MIN <= rating <= min(SKILL_RATING_MAX, calculate_skill_cap(scl))
+
+
+# =============================================================================
+# ADR-0004: Tags
+# =============================================================================
+
+class TagType(str, Enum):
+    """Tag types per ADR-0004."""
+    TECHNIQUE = "Technique"
+    GEAR = "Gear"
+    CHARACTER = "Character"
+    SCENE = "Scene"
+    COMPLICATION = "Complication"
+
+
+class InvokeEffect(str, Enum):
+    """What invoking a tag provides."""
+    REROLL = "Reroll"
+    PLUS_THREE = "+3"
+    BOTH = "Both"
+
+
+# Tag invocation costs and limits per ADR-0004
+TAG_INVOKE_COST = 1           # Meta-currency cost per invoke
+TAG_INVOKE_BONUS = 3          # +3 bonus when invoking for bonus
+MAX_TAG_INVOKES_PER_CHECK = 2 # Maximum invokes per check
+
+
+@dataclass
+class TagOverrides:
+    """Optional tag override fields per ADR-0004."""
+    approach_override: Optional[str] = None  # "Martial" or "Sorcerous"
+    pillar_override: Optional[str] = None    # "Violence", "Influence", "Revelation"
+    contest_type_override: Optional[str] = None
+    skill_allow_in_combat: bool = False
+
+
+@dataclass
+class Tag:
+    """Tag data structure per ADR-0004."""
+    tag_id: str
+    tag_type: TagType
+    name: str
+    description: str = ""
+    pillar: Optional[Pillar] = None
+    stack_group: Optional[str] = None
+    invoke_allowed: bool = True
+    invoke_effect: InvokeEffect = InvokeEffect.BOTH
+    passive_mods: List[Dict] = field(default_factory=list)
+    virtual_ranks: int = 0
+    overrides: Optional[TagOverrides] = None
+    free_invoke_count: int = 0
+
+
+def create_scene_tag_from_advantage(dos: int, tag_name: str, target: str) -> Tag:
+    """
+    Create a tag from a Create Advantage action per ADR-0004.
+    
+    Args:
+        dos: Degrees of Success from the contest
+        tag_name: Name for the new tag
+        target: What the tag attaches to
+    
+    Returns:
+        Tag object (Scene or Complication type)
+    """
+    if dos >= 1:
+        # Success - create Scene Tag
+        free_invokes = 2 if dos >= 3 else 1
+        return Tag(
+            tag_id=f"scene_{tag_name.lower().replace(' ', '_')}",
+            tag_type=TagType.SCENE,
+            name=tag_name,
+            description=f"Created by advantage action on {target}",
+            invoke_allowed=True,
+            invoke_effect=InvokeEffect.BOTH,
+            free_invoke_count=free_invokes
+        )
+    else:
+        # Failure - create Complication Tag (for opposition)
+        return Tag(
+            tag_id=f"complication_{tag_name.lower().replace(' ', '_')}",
+            tag_type=TagType.COMPLICATION,
+            name=tag_name,
+            description=f"Complication from failed advantage on {target}",
+            invoke_allowed=True,
+            invoke_effect=InvokeEffect.BOTH,
+            free_invoke_count=1
+        )

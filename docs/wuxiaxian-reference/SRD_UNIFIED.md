@@ -1,36 +1,50 @@
 # WUXUXIANXIA TTRPG - Unified System Reference Document
 
 ## Document Information
-- **Version**: Alpha v0.3
-- **Patch ID**: ALPHA-0.3-20251212
+- **Version**: Alpha v0.4
+- **Patch ID**: ALPHA-0.4-20251212
 - **Date**: 2025-12-12
-- **Status**: Alpha Release - Unified SRD
-- **Completeness**: 55% (7 of 12 sections)
+- **Status**: Alpha Release - Unified SRD with ADR Foundation
+- **Completeness**: 60% (8 of 12 sections + ADR appendices)
 - **Purpose**: Unified, comprehensive game reference combining all alpha patches
+
+## Canonical References (ADRs)
+
+This SRD is governed by the following Architecture Decision Records:
+
+| ADR | Title | Description |
+|-----|-------|-------------|
+| [ADR-0001](../adr/ADR-0001-core-resolution-engine.md) | Core Resolution Engine | Opposed d20 + Rank Dice, ±4 DoS |
+| [ADR-0002](../adr/ADR-0002-canonical-stat-model.md) | Canonical Stat Model | 6 Root Stats, Pillar→Defense Mapping |
+| [ADR-0003](../adr/ADR-0003-bonus-composition-contest-roles.md) | Bonus Composition | Contest Roles and Trait Selection |
+| [ADR-0004](../adr/ADR-0004-skill-layer-tagging.md) | Skills and Tags | 12 Skills, Tag Invocation System |
+| [ADR-0005](../adr/ADR-0005-technique-tag-taxonomy.md) | Technique Tags | v1.0 Tag Taxonomy, VirtualRanks, Validation |
+
+**ADR Immutability Rule**: ADRs are immutable records. Future changes must be made via superseding ADRs that explicitly reference and replace earlier decisions.
 
 ---
 
 # Patch Notes History
 
-## Live Patch: ALPHA-0.3-20251212
+## Live Patch: ALPHA-0.4-20251212
 
 **Status**: 🟢 LIVE
 
-### What's New in v0.3
-- **Unified SRD**: Combined all previous patches into single comprehensive document
-- **Complete Cap System**: Full OffCap/DefCap math with 4×SCL formula
-- **Power Draws Blood Profiles**: Balanced, Blood-Forward, Ward-Forward options
-- **Layered Durability**: Resolve Charges + DR Tiers system
-- **Meta-Currency System**: Fury/Clout/Insight pools with spend/generate rules
-- **Cost Track Integration**: Blood/Fate/Stain tracks with box counts
-- **Boss Scaling**: Ranks 1-5 with multipliers and multi-stage support
-- **OVR/DVR Mapping**: HERO-style combat values for to-hit/to-be-hit
+### What's New in v0.4
+- **ADR Foundation**: Four canonical Architecture Decision Records established
+- **Core Resolution Engine (ADR-0001)**: Unified opposed-roll system with rank dice
+- **Canonical Stat Model (ADR-0002)**: 6 root stats replace 9 primary stats
+- **Contest Roles (ADR-0003)**: Explicit Actor/Opposition trait selection
+- **Skills and Tags (ADR-0004)**: 12 skills and 5 tag types with invoke mechanics
+- **Backend Implementation**: Resolution engine with 58 unit tests
 
-### Changes from v0.2
-- Rescaled cap formula from 2×SCL to 4×SCL for finer granularity
-- Added Resolve Charges as damage buffer layer
-- Formalized SCP (Soul Core Points) as character creation currency
-- Added OVR/DVR terminology alongside Attack/Defense
+### Changes from v0.3
+- Adopted ADR-0001 as the single resolution engine (replaces separate DC systems)
+- Simplified to 6 root stats per ADR-0002 (Body, Mind, Soul, Control, Fate, Spirit)
+- Fixed pillar mapping: Influence→Soul, Revelation→Mind (per ADR-0002)
+- Added MartialRank=CL, SorceryRank=SL for rank dice (per ADR-0002)
+- Added 12 canonical skills with pillar anchoring (per ADR-0004)
+- Added tag invocation system (Reroll or +3 for meta-currency)
 
 ---
 
@@ -38,7 +52,8 @@
 
 | Patch ID | Date | Status | Sections | Description |
 |----------|------|--------|----------|-------------|
-| ALPHA-0.3-20251212 | 2025-12-12 | 🟢 LIVE | 0-8 + Appendices | Unified SRD with caps, durability, meta-currencies |
+| ALPHA-0.4-20251212 | 2025-12-12 | 🟢 LIVE | 0-8 + ADR Appendices | ADR Foundation, Resolution Engine |
+| ALPHA-0.3-20251212 | 2025-12-12 | 📦 Archived | 0-8 + Appendices | Unified SRD with caps, durability, meta-currencies |
 | ALPHA-0.2-20251210 | 2025-12-10 | 📦 Archived | 3-4 | Combat Resources, Conflict Types |
 | ALPHA-0.1-20251210 | 2025-12-10 | 📦 Archived | 0-2 | Introduction, Character Creation, Stats |
 | ALPHA-0.0-20251210 | 2025-12-10 | 📦 Archived | Structure | SRD Structure Definition |
@@ -54,8 +69,8 @@
 
 | Patch ID | Target | Sections | Description |
 |----------|--------|----------|-------------|
-| ALPHA-0.4 | TBD | 9-10 | Techniques & Effects, Equipment |
-| ALPHA-0.5 | TBD | 11-12 | GM Guidelines, Setting & Cosmology |
+| ALPHA-0.5 | TBD | 9-10 | Techniques & Effects, Equipment |
+| ALPHA-0.6 | TBD | 11-12 | GM Guidelines, Setting & Cosmology |
 | BETA-1.0 | TBD | All | Full playtest release |
 
 ---
@@ -73,6 +88,9 @@
 9. [Boss Scaling Guidelines](#section-8-boss-scaling-guidelines)
 10. [Quick Reference Tables](#appendix-a-quick-reference-tables)
 11. [Glossary](#appendix-b-glossary)
+12. [Canonical Math Appendix (ADR-0001)](#appendix-c-canonical-math-appendix)
+13. [Canonical Stat Appendix (ADR-0002)](#appendix-d-canonical-stat-appendix)
+14. [Skills and Tags Appendix (ADR-0004)](#appendix-e-skills-and-tags-appendix)
 
 ---
 
@@ -124,27 +142,66 @@ You play as **cultivators** - individuals who refine their body, mind, and soul 
 
 ## 0.3 Core Mechanics Summary
 
-### Roll Resolution
+> **Canonical Reference**: [ADR-0001 Core Resolution Engine](../adr/ADR-0001-core-resolution-engine.md)
 
-**d20 + modifier vs. Difficulty Class (DC)**
+### Roll Resolution (ADR-0001)
 
-- **Natural 1**: Always failure (even if total exceeds DC)
-- **Natural 20**: Always success (even if total below DC)
-- **Success by 5+**: Extra success (critical hit, or additional effect)
-- **Failure by 5+**: Extra failure (fumble, or worsened consequence)
+**Opposed Rolls (Default)**: Every check is Actor Total vs Opposition Total.
 
-**Opposed Rolls**: Both sides roll d20 + modifier; highest wins.
+```
+Total = d20 + Bonus + KeptRankDie
+```
+
+Where:
+- **d20**: Standard twenty-sided die roll
+- **Bonus**: All numeric modifiers (Pillar Trait + Skill + Edge + Situational)
+- **KeptRankDie**: Highest result from rank dice pool (XdY based on Martial/Sorcery Rank)
+
+**TN Mode (Static Opposition)**: When no opposing actor, use Target Number as opposition total (no opponent roll).
+
+### Degrees of Success (DoS)
+
+DoS is computed from the margin using K=4 (locked constant):
+
+| Margin | DoS | Outcome |
+|--------|-----|---------|
+| 0 | 0 | Tie (defender wins, status quo holds) |
+| +1 to +4 | +1 | Minor Success |
+| +5 to +8 | +2 | Moderate Success |
+| +9 to +12 | +3 | Major Success |
+| +13+ | +4 | Critical Success (capped) |
+| -1 to -4 | -1 | Minor Failure |
+| -5 to -8 | -2 | Moderate Failure |
+| -9 to -12 | -3 | Major Failure |
+| -13- | -4 | Critical Failure (capped) |
+
+**Natural 20/1 Shift (Optional but Canonical)**: After computing base DoS, actor's nat 20 adds +1, actor's nat 1 subtracts -1 (opponent's naturals shift inversely). Final DoS clamped to [-4, +4].
+
+### Rank Dice
+
+Rank dice are keyed by Approach (per ADR-0002: MartialRank = CL, SorceryRank = SL):
+
+| Rank | Pool | Formula |
+|------|------|---------|
+| 0 | 1d4 | X=1, Y=4 |
+| 1 | 1d6 | X=1, Y=6 |
+| 2 | 2d8 | X=2, Y=8 |
+| 3 | 2d10 | X=2, Y=10 |
+| 4 | 3d12 | X=3, Y=12 |
+| 5+ | 3d12+ | Y capped at 12 |
+
+Roll X dice of size Y, keep highest as **KeptRankDie**.
 
 ### The Balance Dial: Soul Core Level (SCL)
 
-**SCL is the hidden number that caps your power.**
+**SCL is the number that caps your power.**
 
 Similar to Mutants & Masterminds' Power Level (PL), SCL determines:
 - How high your attack and effect ranks can be
 - What your maximum defenses can reach
 - Roughly how dangerous you are compared to others
 
-**Key Formula**: `Attack Bonus + Effect Rank ≈ 2 × SCL` per conflict type
+**Key Formula**: `Attack + EffectRank ≤ 4 × SCL` per pillar (cap formula)
 
 **SCL ranges**:
 - SCL 1-2: Cursed-Sequence (broken, collapsing)
@@ -153,7 +210,7 @@ Similar to Mutants & Masterminds' Power Level (PL), SCL determines:
 - SCL 8-10: High-Sequence (national heroes, demigods)
 - SCL 11+: Transcendent (gods, cosmic entities)
 
-### HERO-Style Combat Values
+### Combat Values (OVR/DVR)
 
 The system uses **OVR/DVR ratings** inspired by HERO System's OCV/DCV:
 
@@ -161,7 +218,6 @@ The system uses **OVR/DVR ratings** inspired by HERO System's OCV/DCV:
 |------|-----------|---------|---------------|
 | **OVR** | Offense Value Rating | To-hit bonus / attack accuracy | OCV |
 | **DVR** | Defense Value Rating | Defense / evade value | DCV |
-| **MCV** | Mental Combat Value | Mental attack/defense | OMCV/DMCV |
 
 **OVR and DVR** are calculated per pillar (Violence, Influence, Revelation) and work within the cap system.
 
@@ -169,21 +225,24 @@ The system uses **OVR/DVR ratings** inspired by HERO System's OCV/DCV:
 
 ## 0.4 Key Terminology
 
-### Character Statistics
+> **Canonical Reference**: [ADR-0002 Canonical Stat Model](../adr/ADR-0002-canonical-stat-model.md)
 
-**Primary Stats (9 total)**:
-- **Soul Cluster**: Essence, Resolve, Presence
-- **Body Cluster**: Strength, Endurance, Agility
-- **Mind Cluster**: Technique, Willpower, Focus
-- Range: -1 to +11
+### Character Statistics (ADR-0002 Canonical Model)
 
-**Core Stats (3 total)**:
-- **Body Core**, **Mind Core**, **Soul Core**
-- Automatically derived (average of their cluster's Primary Stats)
+**Root Stats (6 total)**:
+- **Core**: Body, Mind, Soul
+- **Aether**: Control, Fate, Spirit
+- Range: 0 to SCL+2 (default start at 0; -1 only if campaign allows)
 
-**Aether Stats (3 total)**:
-- **Control**, **Fate**, **Spirit**
-- High-tier cultivation stats, purchased separately
+**Derived Tiers**:
+- **CL (Core Level)**: `floor((Body + Mind + Soul) / 3)`
+- **SL (Soul Level)**: `floor((Control + Fate + Spirit) / 3)`
+- **SCL (Soul Core Level)**: `CL + SL`
+
+**Pillar Traits (9 total)** - Purchased separately at 1 SCP each:
+- **Violence**: ViolenceAttack, BodyDefense, BodyResilience
+- **Influence**: InfluenceAttack, SoulDefense, SoulResilience
+- **Revelation**: RevelationAttack, MindDefense, MindResilience
 
 ### Progression Terms
 
@@ -318,48 +377,34 @@ Pre-configured templates for faster character creation:
 
 # Section 2: Stats & Soul Core Level
 
-## 2.1 Primary Stats (9 Stats)
+> **Canonical Reference**: [ADR-0002 Canonical Stat Model](../adr/ADR-0002-canonical-stat-model.md)
 
-Primary Stats are the foundation of your character.
+## 2.1 Root Stats (6 Stats) - ADR-0002 Canonical Model
 
-### Soul Cluster
-- **Essence**: Raw soul potency, aura presence, mystic pressure
-- **Resolve**: Grit, conviction, refusal to yield
-- **Presence**: Charisma, command, how people perceive you
+Root Stats are the foundation of your character. Per ADR-0002, the game uses **6 root stats only**.
 
-### Body Cluster
-- **Strength**: Lifting capacity, striking power, physical force
-- **Endurance**: Toughness, stamina, resistance to wear
-- **Agility**: Reflexes, movement, fine physical control
+### Core Stats (3)
+- **Body**: Physical prowess, health, martial capability
+- **Mind**: Mental acuity, perception, analysis
+- **Soul**: Spiritual presence, charisma, willpower
 
-### Mind Cluster
-- **Technique**: Learned skill, trained combat forms, optimization
-- **Willpower**: Mental resilience, focus under pressure
-- **Focus**: Precision, aim, channeling without bleed
+### Aether Stats (3)
+- **Control**: Command over power output, stability at high ranks
+- **Fate**: Destiny entanglement, luck manipulation, story weight
+- **Spirit**: Spiritual potency, capacity for celestial/cursed energies
 
 ### Stat Range and Cost
-- **Range**: -1 to +11
+- **Range**: 0 to SCL+2 (default start at 0; -1 only if campaign allows)
 - **Cost at Creation**: 2 SCP per rank
 - **Cost After Creation**: 3 SCP per rank
 
----
-
-## 2.2 Core Stats (3 Derived Stats)
-
-Core Stats are **not purchased** - they are automatically calculated.
-
-**Body Core** = round((Strength + Endurance + Agility) / 3)
-**Mind Core** = round((Technique + Willpower + Focus) / 3)
-**Soul Core** = round((Essence + Resolve + Presence) / 3)
+> **Note**: The 9-stat "Primary Stats" model (Essence/Resolve/Presence, Strength/Endurance/Agility, etc.) from v0.3 is superseded by this 6-stat model per ADR-0002. The 9-stat layer may be reintroduced as an optional "Advanced Character Options" module in a future patch.
 
 ---
 
-## 2.3 Aether Stats (3 Purchased Stats)
+## 2.2 Derived Tiers (CL, SL, SCL)
 
-High-tier cultivation stats:
-
-- **Control**: Command over power output, stability at high ranks
-- **Fate**: Destiny entanglement, luck manipulation, story weight
+Derived tiers are **not purchased** - they are automatically calculated from root stats.
 - **Spirit**: Spiritual potency, capacity for celestial/cursed energies
 
 ### Aether Stat Cost
@@ -368,13 +413,15 @@ High-tier cultivation stats:
 
 ---
 
-## 2.4 Soul Core Level (SCL) Calculation
+## 2.3 Soul Core Level (SCL) Calculation
+
+> **ADR-0002 Canonical Formulas**
 
 ### The Formula
 
 **Step 1**: Calculate Core Level (CL)
 ```
-CL = floor((Body Core + Mind Core + Soul Core) / 3)
+CL = floor((Body + Mind + Soul) / 3)
 ```
 
 **Step 2**: Calculate Soul Level (SL)
@@ -387,22 +434,44 @@ SL = floor((Control + Fate + Spirit) / 3)
 SCL = CL + SL
 ```
 
+### Rank Derivation (for ADR-0001 Resolution Engine)
+
+```
+MartialRank  = CL
+SorceryRank = SL
+```
+
 ### Detailed Example
 
 **Character**: "Crimson Blade", Sword Saint
 
-**Primary Stats**:
-- Strength 4, Endurance 3, Agility 5 → Body Core = 4
-- Technique 5, Willpower 3, Focus 4 → Mind Core = 4
-- Essence 2, Resolve 3, Presence 2 → Soul Core = 2
+**Root Stats**:
+- Body 4, Mind 4, Soul 3
 
 **Aether Stats**:
-- Control 2, Fate 1, Spirit 2 → SL = 1
+- Control 2, Fate 1, Spirit 2
 
 **Calculation**:
-- CL = (4 + 4 + 2) / 3 = 3
-- SL = 1
+- CL = floor((4 + 4 + 3) / 3) = 3
+- SL = floor((2 + 1 + 2) / 3) = 1
 - **SCL = 4** (Low-Sequence)
+- MartialRank = 3, SorceryRank = 1
+
+---
+
+## 2.4 Pillar Traits (ADR-0002)
+
+Each pillar has three associated traits (Attack, Defense, Resilience) purchased separately:
+
+| Pillar | Attack | Defense | Resilience |
+|--------|--------|---------|------------|
+| **Violence** | ViolenceAttack | BodyDefense | BodyResilience |
+| **Influence** | InfluenceAttack | SoulDefense | SoulResilience |
+| **Revelation** | RevelationAttack | MindDefense | MindResilience |
+
+**Cost**: 1 SCP per +1 in any pillar trait
+
+These traits are used in the ADR-0001 resolution engine as the base for Bonus computation (see ADR-0003).
 
 ---
 
@@ -1253,13 +1322,25 @@ Block Guard = Endurance × 2
 
 ## Design Contradictions Resolved
 
-### CL/SL Formula
-**Source Conflict**: Early documents showed `CL = (Body + Mind + Soul) / 3` while later documents specified Core Stats.
-**Resolution**: Implemented Core Stats version as it's the more refined, later design.
+### Stat Model (ADR-0002)
+**Source Conflict**: Early documents used 9 primary stats (clusters) while ADR-0002 specifies 6 root stats.
+**Resolution**: ADR-0002's 6 root stats (Body, Mind, Soul, Control, Fate, Spirit) is now canonical. The 9-stat model may be reintroduced as an optional module.
+
+### Pillar Mapping (ADR-0002)
+**Source Conflict**: Earlier drafts mapped Influence→Mind and Revelation→Soul.
+**Resolution**: ADR-0002 locks Influence→Soul and Revelation→Mind as canonical.
+
+### CL/SL Formula (ADR-0002)
+**Source Conflict**: Early documents showed various formulas for CL.
+**Resolution**: ADR-0002 locks `CL = floor((Body + Mind + Soul) / 3)`.
 
 ### Cap Math Scaling
 **Source Conflict**: Some docs used `2 × SCL` while others used `4 × SCL`.
-**Resolution**: Implemented `4 × SCL` as it provides finer granularity for tradeoffs.
+**Resolution**: ADR-0002 locks `4 × SCL` as it provides finer granularity for tradeoffs.
+
+### Resolution Engine (ADR-0001)
+**Source Conflict**: Separate DC systems, alternate DoS ladders, different tie rules.
+**Resolution**: ADR-0001 establishes a single opposed-roll engine with K=4 DoS banding.
 
 ### Meta-Currency Persistence
 **Source Conflict**: Early versions had all currencies reset; later added persistence for Clout/Insight.
@@ -1267,14 +1348,207 @@ Block Guard = Endurance × 2
 
 ---
 
-**Document Status**: Unified SRD Alpha v0.3
-**Completeness**: 55% (Sections 0-8, Appendices)
-**Next Steps**: 
-- Section 9: Techniques & Effects (Patch 0.4)
-- Section 10: Equipment & Artifacts (Patch 0.4)
-- Section 11: GM Guidelines (Patch 0.5)
-- Section 12: Setting & Cosmology (Patch 0.5)
+# Appendix C: Canonical Math Appendix (ADR-0001)
+
+> **Full Reference**: [ADR-0001 Core Resolution Engine](../adr/ADR-0001-core-resolution-engine.md)
+
+## Constants
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| K | 4 | DoS band width (locked) |
+| DOS_MIN | -4 | Minimum DoS |
+| DOS_MAX | +4 | Maximum DoS |
+
+## Total Computation
+
+```
+Total = d20 + Bonus + KeptRankDie
+```
+
+**Rolled Opposition**:
+```
+ActorTotal = d20_actor + Bonus_actor + KeptRankDie_actor
+OppTotal   = d20_opp   + Bonus_opp   + KeptRankDie_opp
+margin     = ActorTotal - OppTotal
+```
+
+**Static Opposition (TN mode)**:
+```
+OppTotal = TN  # Fixed integer; no opponent roll
+```
+
+## DoS Computation
+
+```
+If margin == 0: DoS = 0
+If margin > 0:  DoS = min(4, 1 + floor((margin - 1) / 4))
+If margin < 0:  DoS = -min(4, 1 + floor((|margin| - 1) / 4))
+```
+
+## Rank Dice Pool
+
+```
+X = 1 + floor(Rank / 2)
+Y = min(12, 4 + 2 * Rank)
+Roll XdY, keep highest
+```
+
+| Rank | Pool |
+|------|------|
+| 0 | 1d4 |
+| 1 | 1d6 |
+| 2 | 2d8 |
+| 3 | 2d10 |
+| 4 | 3d12 |
+| 5+ | 3d12 (Y capped) |
+
+## Natural Shift (Optional but Canonical)
+
+```
+NatShift(d20) = +1 if 20, -1 if 1, else 0
+FinalDoS = clamp(DoS + NatShift(actor_d20) - NatShift(opp_d20), -4, +4)
+```
 
 ---
 
-**END OF UNIFIED SRD ALPHA v0.3**
+# Appendix D: Canonical Stat Appendix (ADR-0002)
+
+> **Full Reference**: [ADR-0002 Canonical Stat Model](../adr/ADR-0002-canonical-stat-model.md)
+
+## Root Stats
+
+| Stat | Type | Description |
+|------|------|-------------|
+| Body | Core | Physical prowess |
+| Mind | Core | Mental acuity |
+| Soul | Core | Spiritual presence |
+| Control | Aether | Power stability |
+| Fate | Aether | Destiny manipulation |
+| Spirit | Aether | Celestial capacity |
+
+## Derived Tiers
+
+```
+CL  = floor((Body + Mind + Soul) / 3)
+SL  = floor((Control + Fate + Spirit) / 3)
+SCL = CL + SL
+```
+
+## Rank Derivation
+
+```
+MartialRank  = CL
+SorceryRank = SL
+```
+
+## Pillar Mapping
+
+| Pillar | Attack | Defense | Resilience |
+|--------|--------|---------|------------|
+| Violence | ViolenceAttack | BodyDefense | BodyResilience |
+| Influence | InfluenceAttack | SoulDefense | SoulResilience |
+| Revelation | RevelationAttack | MindDefense | MindResilience |
+
+## Costs
+
+| Item | Cost (SCP) |
+|------|------------|
+| Root stat +1 | 2 SCP |
+| Pillar trait +1 | 1 SCP |
+| Total budget | 30 × SCL |
+
+## Caps
+
+| Profile | OffCap | DefCap |
+|---------|--------|--------|
+| Balanced | 4×SCL | 4×SCL |
+| Blood-Forward | 4×SCL + 2 | 4×SCL - 2 |
+| Ward-Forward | 4×SCL - 2 | 4×SCL + 2 |
+
+---
+
+# Appendix E: Skills and Tags Appendix (ADR-0004)
+
+> **Full Reference**: [ADR-0004 Skill Layer and Tagging](../adr/ADR-0004-skill-layer-tagging.md)
+
+## Canonical Skills (12)
+
+### Violence-Anchored (Body-Facing Tasks)
+
+| Skill | Description |
+|-------|-------------|
+| Athletics | Movement, climbing, jumps, grapples, pursuit |
+| Arms | Weapon forms, martial discipline, drills, disarms |
+| Stealth | Infiltration, ambush, conceal presence |
+| Survival | Tracking, navigation, harsh terrain, fieldcraft |
+
+### Influence-Anchored (Soul-Facing Contests)
+
+| Skill | Description |
+|-------|-------------|
+| Command | Authority, intimidation, coercive presence |
+| Deceive | Lies, feints, disguise, misdirection |
+| Rapport | Charm, empathy, bargaining, reading the room |
+| Etiquette | Protocol, faction politics, court maneuver |
+
+### Revelation-Anchored (Mind-Facing Contests)
+
+| Skill | Description |
+|-------|-------------|
+| Observe | Awareness, scouting, threat read |
+| Investigate | Analysis, research, deduction |
+| Occult | Cultivation theory, spirits, seals, metaphysics |
+| Artifice | Alchemy, talismans, arrays, medicine-as-technique |
+
+## Skill Costs and Caps
+
+| Item | Value |
+|------|-------|
+| Rating range | 0-6 |
+| Cost per +1 | 1 SCP |
+| Rating cap | SCL + 2 |
+| Specialty | 1 SCP for +2 in narrow domain |
+
+## Tag Types
+
+| Type | Scope | Persistence |
+|------|-------|-------------|
+| Technique | On technique definition | Permanent |
+| Gear | On equipment | Permanent |
+| Character | Descriptors/perks | Permanent |
+| Scene | Situational states | Until scene ends |
+| Complication | Negative states | Until resolved |
+
+## Tag Invocation
+
+**Cost**: 1 meta-currency (Fury/Clout/Insight) or 1 Free Invoke
+
+**Effect** (choose one):
+- Reroll one d20 (keep better)
+- +3 to total after rolling
+
+**Limits**:
+- Max 2 invokes per check
+- Max 1 invoke per StackGroup
+
+## Create Advantage Action
+
+Roll appropriate contest:
+- **DoS ≥ +1**: Create Scene Tag with 1 Free Invoke
+- **DoS ≥ +3**: Create Scene Tag with 2 Free Invokes
+- **DoS ≤ -1**: Create Complication Tag (opposition gets 1 Free Invoke)
+
+---
+
+**Document Status**: Unified SRD Alpha v0.4
+**Completeness**: 60% (Sections 0-8, Appendices A-E)
+**Next Steps**: 
+- Section 9: Techniques & Effects (Patch 0.5)
+- Section 10: Equipment & Artifacts (Patch 0.5)
+- Section 11: GM Guidelines (Patch 0.6)
+- Section 12: Setting & Cosmology (Patch 0.6)
+
+---
+
+**END OF UNIFIED SRD ALPHA v0.4**
