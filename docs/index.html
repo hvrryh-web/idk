@@ -57,7 +57,7 @@
             <div class="instructions">
                 <h3>🚀 Quick Start</h3>
                 <ol>
-                    <li>Clone the repository: <code>git clone https://github.com/hvrryh-web/idk</code></li>
+                    <li>Clone the repository: <code id="cloneCommand">git clone https://github.com/hvrryh-web/idk</code></li>
                     <li>Start the services: <code>./start-alpha.sh</code></li>
                     <li>Wait for services to start (PostgreSQL, Backend, Frontend)</li>
                     <li>Click <strong>"Check Server Health"</strong> below to verify</li>
@@ -139,8 +139,8 @@
                 Quick access to repository resources and documentation.
             </p>
             
-            <div class="links-grid">
-                <a href="https://github.com/hvrryh-web/idk" class="link-card" target="_blank" rel="noopener noreferrer">
+            <div class="links-grid" id="githubLinksGrid">
+                <a href="#" class="link-card" target="_blank" rel="noopener noreferrer" data-link="repo">
                     <span class="link-card-icon">📖</span>
                     <div class="link-card-text">
                         <div class="link-card-title">Repository</div>
@@ -148,7 +148,7 @@
                     </div>
                 </a>
                 
-                <a href="https://github.com/hvrryh-web/idk/issues" class="link-card" target="_blank" rel="noopener noreferrer">
+                <a href="#" class="link-card" target="_blank" rel="noopener noreferrer" data-link="issues">
                     <span class="link-card-icon">🐛</span>
                     <div class="link-card-text">
                         <div class="link-card-title">Issues</div>
@@ -156,7 +156,7 @@
                     </div>
                 </a>
                 
-                <a href="https://github.com/hvrryh-web/idk/actions" class="link-card" target="_blank" rel="noopener noreferrer">
+                <a href="#" class="link-card" target="_blank" rel="noopener noreferrer" data-link="actions">
                     <span class="link-card-icon">⚙️</span>
                     <div class="link-card-text">
                         <div class="link-card-title">Actions</div>
@@ -164,7 +164,7 @@
                     </div>
                 </a>
                 
-                <a href="https://github.com/hvrryh-web/idk/wiki" class="link-card" target="_blank" rel="noopener noreferrer">
+                <a href="#" class="link-card" target="_blank" rel="noopener noreferrer" data-link="wiki">
                     <span class="link-card-icon">📚</span>
                     <div class="link-card-text">
                         <div class="link-card-title">Wiki</div>
@@ -172,7 +172,7 @@
                     </div>
                 </a>
                 
-                <a href="https://github.com/hvrryh-web/idk/releases" class="link-card" target="_blank" rel="noopener noreferrer">
+                <a href="#" class="link-card" target="_blank" rel="noopener noreferrer" data-link="releases">
                     <span class="link-card-icon">🏷️</span>
                     <div class="link-card-text">
                         <div class="link-card-title">Releases</div>
@@ -180,7 +180,7 @@
                     </div>
                 </a>
                 
-                <a href="https://github.com/hvrryh-web/idk/pulls" class="link-card" target="_blank" rel="noopener noreferrer">
+                <a href="#" class="link-card" target="_blank" rel="noopener noreferrer" data-link="pulls">
                     <span class="link-card-icon">🔀</span>
                     <div class="link-card-text">
                         <div class="link-card-title">Pull Requests</div>
@@ -197,8 +197,8 @@
                 <p>&copy; 2024 WuXuxian TTRPG Project</p>
                 <p style="margin-top: var(--spacing-sm);">
                     <a href="game.html">Game Page</a> |
-                    <a href="https://github.com/hvrryh-web/idk/blob/main/ALPHA_TEST.md" target="_blank">Alpha Test Guide</a> |
-                    <a href="https://github.com/hvrryh-web/idk/blob/main/ARCHITECTURE.md" target="_blank">Architecture</a>
+                    <a href="#" id="footerAlphaTestLink" target="_blank">Alpha Test Guide</a> |
+                    <a href="#" id="footerArchitectureLink" target="_blank">Architecture</a>
                 </p>
             </div>
         </div>
@@ -207,5 +207,43 @@
     <!-- Scripts -->
     <script src="config.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Set GitHub URLs from config
+        document.addEventListener('DOMContentLoaded', function() {
+            const linkMap = {
+                'repo': CONFIG.GITHUB_REPO_URL,
+                'issues': CONFIG.GITHUB_ISSUES_URL,
+                'actions': CONFIG.GITHUB_ACTIONS_URL,
+                'wiki': CONFIG.GITHUB_REPO_URL + '/wiki',
+                'releases': CONFIG.GITHUB_REPO_URL + '/releases',
+                'pulls': CONFIG.GITHUB_REPO_URL + '/pulls'
+            };
+            
+            // Update GitHub links
+            document.querySelectorAll('[data-link]').forEach(function(link) {
+                const linkType = link.getAttribute('data-link');
+                if (linkMap[linkType]) {
+                    link.href = linkMap[linkType];
+                }
+            });
+            
+            // Update clone command
+            const cloneCmd = document.getElementById('cloneCommand');
+            if (cloneCmd) {
+                cloneCmd.textContent = 'git clone ' + CONFIG.GITHUB_REPO_URL;
+            }
+            
+            // Update footer links
+            const alphaLink = document.getElementById('footerAlphaTestLink');
+            if (alphaLink) {
+                alphaLink.href = CONFIG.GITHUB_REPO_URL + '/blob/main/ALPHA_TEST.md';
+            }
+            
+            const archLink = document.getElementById('footerArchitectureLink');
+            if (archLink) {
+                archLink.href = CONFIG.GITHUB_REPO_URL + '/blob/main/ARCHITECTURE.md';
+            }
+        });
+    </script>
 </body>
 </html>

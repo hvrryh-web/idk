@@ -220,15 +220,25 @@
     <script>
         // Game page specific logic
         
+        // AbortController for cleanup of in-flight requests
+        let healthCheckController = null;
+        
         async function checkServerStatus() {
             const banner = document.getElementById('serverStatusBanner');
             const dot = document.getElementById('serverStatusDot');
             const text = document.getElementById('serverStatusText');
             
+            // Abort any previous in-flight request
+            if (healthCheckController) {
+                healthCheckController.abort();
+            }
+            healthCheckController = new AbortController();
+            
             try {
                 const response = await fetch(CONFIG.CONTROL_API_BASE_URL + CONFIG.HEALTH_PATH, {
                     method: 'GET',
-                    mode: 'cors'
+                    mode: 'cors',
+                    signal: healthCheckController.signal
                 });
                 
                 if (response.ok) {
@@ -239,7 +249,10 @@
                     return true;
                 }
             } catch (error) {
-                // Server not reachable
+                // Ignore abort errors, handle other errors as server not reachable
+                if (error.name === 'AbortError') {
+                    return false;
+                }
             }
             
             banner.className = 'server-status-banner disconnected';

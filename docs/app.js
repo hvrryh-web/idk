@@ -441,8 +441,10 @@ async function checkFrontendService() {
 // ========================================
 
 function openGitHubIssue() {
-    const escapedBrowser = escapeHtml(navigator.userAgent);
-    const escapedTimestamp = escapeHtml(new Date().toISOString());
+    // For GitHub markdown context, we don't need HTML escaping
+    // The values are URL-encoded when passed to the URL, which handles special characters
+    const browser = navigator.userAgent;
+    const timestamp = new Date().toISOString();
     
     const servicesText = Object.entries(app.diagnosticData.services)
         .map(([k, v]) => `- **${k}**: ${v.status} - ${v.message}`)
@@ -453,8 +455,8 @@ function openGitHubIssue() {
         : 'No errors detected';
 
     const body = `## Environment
-- **Browser**: ${escapedBrowser}
-- **Timestamp**: ${escapedTimestamp}
+- **Browser**: ${browser}
+- **Timestamp**: ${timestamp}
 
 ## Service Status
 ${servicesText || 'No services checked yet'}
@@ -477,6 +479,7 @@ ${errorsText}
 <!-- Paste any relevant console output or screenshots here -->
 `;
     
+    // encodeURIComponent handles all special characters for URL safety
     const url = `${CONFIG.GITHUB_ISSUES_URL}/new?title=${encodeURIComponent('[Alpha Test] Issue Report')}&body=${encodeURIComponent(body)}`;
     window.open(url, '_blank');
     logToConsole('🐛 Opened GitHub issue form', 'success');

@@ -127,6 +127,8 @@ h1 {
     font-family: var(--font-display);
     font-size: 3em;
     margin-bottom: var(--spacing-md);
+    /* Fallback color for browsers that don't support background-clip: text */
+    color: var(--color-primary);
     background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
