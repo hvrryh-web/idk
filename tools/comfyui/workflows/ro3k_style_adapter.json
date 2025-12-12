@@ -117,15 +117,6 @@
       },
       "_meta": {"title": "Load Style Reference 2 (Optional)"}
     },
-    "6": {
-      "class_type": "IPAdapterEncoder",
-      "inputs": {
-        "clip_vision": ["3", 0],
-        "image": ["4", 0],
-        "weight": "{IP_ADAPTER_STRENGTH}"
-      },
-      "_meta": {"title": "Encode Style Reference"}
-    },
     "7": {
       "class_type": "IPAdapterApply",
       "inputs": {
@@ -134,7 +125,7 @@
         "image": ["4", 0],
         "model": ["1", 0],
         "weight": "{IP_ADAPTER_STRENGTH}",
-        "weight_type": "style transfer"
+        "weight_type": "style"
       },
       "_meta": {"title": "Apply IP-Adapter Style"}
     },
