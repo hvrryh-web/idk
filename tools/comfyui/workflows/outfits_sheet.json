@@ -1,0 +1,288 @@
+{
+  "version": "1.0.0",
+  "description": "Character Outfits Sheet Generator - 2x3 grid of outfit variations for WuXuxian TTRPG",
+  "workflow_notes": "Generates 6 outfit variations with SCL-appropriate styling for cultivation progression",
+  
+  "output_config": {
+    "grid_layout": "2x3",
+    "output_size": {"width": 1536, "height": 2048},
+    "cell_size": {"width": 768, "height": 682},
+    "outfits_count": 6
+  },
+  
+  "outfits": [
+    {
+      "id": "cultivation_basic",
+      "name": "Cultivation Robes (Basic)",
+      "position": [0, 0],
+      "scl_range": [1, 3],
+      "prompt_addition": "simple cultivation robes, plain white hanfu, apprentice cultivator clothing, humble appearance, basic sect attire, simple embroidery"
+    },
+    {
+      "id": "cultivation_ornate",
+      "name": "Cultivation Robes (Ornate)",
+      "position": [1, 0],
+      "scl_range": [7, 10],
+      "prompt_addition": "ornate cultivation robes, elaborate hanfu, master cultivator clothing, golden embroidery, jade ornaments, high-status sect attire, flowing silk, intricate patterns"
+    },
+    {
+      "id": "combat_armor",
+      "name": "Combat Armor",
+      "position": [0, 1],
+      "prompt_addition": "martial arts combat armor, battle-ready attire, protective leather and metal, warrior cultivator outfit, practical fighting clothes, weapon holsters"
+    },
+    {
+      "id": "casual",
+      "name": "Casual/Civilian Clothing",
+      "position": [1, 1],
+      "prompt_addition": "casual traditional clothing, everyday hanfu, comfortable robes, civilian attire, relaxed appearance, simple but elegant"
+    },
+    {
+      "id": "formal",
+      "name": "Formal/Court Attire",
+      "position": [0, 2],
+      "prompt_addition": "formal court attire, elaborate ceremonial robes, imperial fashion, noble clothing, diplomatic dress, high status formal wear, crown or headpiece"
+    },
+    {
+      "id": "damaged",
+      "name": "Damaged Versions",
+      "position": [1, 2],
+      "prompt_addition": "battle-damaged clothing, torn robes, blood-stained attire, worn and weathered, post-combat appearance, tattered but dignified"
+    }
+  ],
+  
+  "scl_styling": {
+    "description": "SCL (Soul Cultivation Level) affects outfit quality and details",
+    "levels": {
+      "1-3": {
+        "quality_modifier": "simple, plain, humble, basic",
+        "material": "cotton, simple fabric",
+        "ornamentation": "minimal, no jewelry"
+      },
+      "4-6": {
+        "quality_modifier": "quality, well-made, respectable",
+        "material": "fine cotton, basic silk",
+        "ornamentation": "simple jade, sect emblem"
+      },
+      "7-9": {
+        "quality_modifier": "elaborate, ornate, prestigious",
+        "material": "fine silk, brocade",
+        "ornamentation": "jade ornaments, gold trim, intricate embroidery"
+      },
+      "10": {
+        "quality_modifier": "legendary, divine, transcendent",
+        "material": "celestial silk, spirit-infused fabric",
+        "ornamentation": "divine artifacts, glowing runes, ethereal accessories"
+      }
+    }
+  },
+  
+  "individual_outfit_workflow": {
+    "description": "Workflow for generating each individual outfit",
+    "nodes": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "{{checkpoint_name}}"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "{{base_prompt}}, {{outfit_prompt}}, {{scl_modifier}}, full body, standing pose, white background, wuxia manhwa style, character outfit showcase",
+          "clip": ["1", 1]
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "text": "{{negative_prompt}}, multiple outfits, accessories only, no character, busy background",
+          "clip": ["1", 1]
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "width": 512,
+          "height": 768,
+          "batch_size": 1
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "seed": "{{seed}}",
+          "steps": 28,
+          "cfg": 7.5,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 1.0,
+          "model": ["1", 0],
+          "positive": ["2", 0],
+          "negative": ["3", 0],
+          "latent_image": ["4", 0]
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": ["5", 0],
+          "vae": ["1", 2]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "{{output_prefix}}_outfit_{{outfit_id}}",
+          "images": ["6", 0]
+        }
+      }
+    }
+  },
+  
+  "grid_composition_workflow": {
+    "description": "Composite all 6 outfits into a 2x3 grid",
+    "nodes": {
+      "load_1": {
+        "class_type": "LoadImage",
+        "inputs": {"image": "{{outfit_cultivation_basic}}"}
+      },
+      "load_2": {
+        "class_type": "LoadImage",
+        "inputs": {"image": "{{outfit_cultivation_ornate}}"}
+      },
+      "load_3": {
+        "class_type": "LoadImage",
+        "inputs": {"image": "{{outfit_combat_armor}}"}
+      },
+      "load_4": {
+        "class_type": "LoadImage",
+        "inputs": {"image": "{{outfit_casual}}"}
+      },
+      "load_5": {
+        "class_type": "LoadImage",
+        "inputs": {"image": "{{outfit_formal}}"}
+      },
+      "load_6": {
+        "class_type": "LoadImage",
+        "inputs": {"image": "{{outfit_damaged}}"}
+      },
+      "resize_1": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": ["load_1", 0],
+          "width": 768,
+          "height": 682,
+          "upscale_method": "lanczos",
+          "crop": "center"
+        }
+      },
+      "resize_2": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": ["load_2", 0],
+          "width": 768,
+          "height": 682,
+          "upscale_method": "lanczos",
+          "crop": "center"
+        }
+      },
+      "resize_3": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": ["load_3", 0],
+          "width": 768,
+          "height": 682,
+          "upscale_method": "lanczos",
+          "crop": "center"
+        }
+      },
+      "resize_4": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": ["load_4", 0],
+          "width": 768,
+          "height": 682,
+          "upscale_method": "lanczos",
+          "crop": "center"
+        }
+      },
+      "resize_5": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": ["load_5", 0],
+          "width": 768,
+          "height": 682,
+          "upscale_method": "lanczos",
+          "crop": "center"
+        }
+      },
+      "resize_6": {
+        "class_type": "ImageScale",
+        "inputs": {
+          "image": ["load_6", 0],
+          "width": 768,
+          "height": 682,
+          "upscale_method": "lanczos",
+          "crop": "center"
+        }
+      },
+      "row1": {
+        "class_type": "ImageBatch",
+        "inputs": {
+          "image1": ["resize_1", 0],
+          "image2": ["resize_2", 0]
+        }
+      },
+      "row2": {
+        "class_type": "ImageBatch",
+        "inputs": {
+          "image1": ["resize_3", 0],
+          "image2": ["resize_4", 0]
+        }
+      },
+      "row3": {
+        "class_type": "ImageBatch",
+        "inputs": {
+          "image1": ["resize_5", 0],
+          "image2": ["resize_6", 0]
+        }
+      },
+      "grid_compose": {
+        "class_type": "ImageComposite",
+        "inputs": {
+          "images": [
+            ["row1", 0],
+            ["row2", 0],
+            ["row3", 0]
+          ],
+          "direction": "vertical"
+        }
+      },
+      "save_grid": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "{{output_prefix}}_outfits_sheet",
+          "images": ["grid_compose", 0]
+        }
+      }
+    }
+  },
+  
+  "template_variables": {
+    "checkpoint_name": "Model checkpoint filename",
+    "base_prompt": "Base character description (face, hair, body type)",
+    "outfit_prompt": "Specific outfit description (from outfits array)",
+    "scl_modifier": "SCL-based quality modifier",
+    "negative_prompt": "Negative prompt for generation",
+    "seed": "Base seed (each outfit uses seed + outfit_index)",
+    "output_prefix": "Prefix for output filenames",
+    "outfit_id": "Outfit identifier",
+    "outfit_cultivation_basic": "Path to basic cultivation outfit image",
+    "outfit_cultivation_ornate": "Path to ornate cultivation outfit image",
+    "outfit_combat_armor": "Path to combat armor outfit image",
+    "outfit_casual": "Path to casual outfit image",
+    "outfit_formal": "Path to formal outfit image",
+    "outfit_damaged": "Path to damaged outfit image"
+  }
+}

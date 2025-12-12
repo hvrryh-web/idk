@@ -1,0 +1,416 @@
+{
+  "name": "Wiki Character Full-Body - Detailed",
+  "description": "High-quality full-body render for Player Characters and Named Characters wiki pages",
+  "version": "1.0.0",
+  "workflow_type": "wiki_char_fullbody",
+  
+  "output_specifications": {
+    "resolutions": {
+      "portrait_orientation": {
+        "width": 1024,
+        "height": 1536,
+        "use_case": "standing pose, vertical composition"
+      },
+      "landscape_orientation": {
+        "width": 1216,
+        "height": 832,
+        "use_case": "dynamic pose, horizontal composition"
+      }
+    },
+    "default_resolution": "portrait_orientation",
+    "format": "png",
+    "transparency_option": true,
+    "naming_convention": "wiki_assets/characters/{char_id}/fullbody_{variant}_{seed}.png"
+  },
+  
+  "style_reference": {
+    "house_style": "Modern Manga-Illustration + RO3K",
+    "primary_qualities": [
+      "crisp confident ink lines",
+      "smooth cel-to-soft shading hybrid",
+      "high-fidelity facial features",
+      "costume detail emphasis with visible patterns",
+      "RO3K color palette",
+      "full figure visibility"
+    ]
+  },
+  
+  "pipeline_stages": {
+    "stage_1_base_generation": {
+      "name": "Base Full-Body Generation",
+      "description": "Initial high-quality full-body generation with house style",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "_comment": "Positive prompt with house style and full-body composition",
+          "inputs": {
+            "text": "{{positive_prompt}}",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "_comment": "Negative prompt block",
+          "inputs": {
+            "text": "{{negative_prompt}}",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "EmptyLatentImage",
+          "inputs": {
+            "width": "{{width}}",
+            "height": "{{height}}",
+            "batch_size": 1
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 30,
+            "cfg": 7.0,
+            "sampler_name": "dpmpp_2m",
+            "scheduler": "karras",
+            "denoise": 1.0,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "_comment": "Intermediate save for base generation",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_base",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "stage_2_hires_fix": {
+      "name": "Hi-Res Detail Enhancement",
+      "description": "Latent upscale with controlled denoise for garment detail preservation",
+      "optional": true,
+      "enabled_by_default": true,
+      "nodes": {
+        "10": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{stage_1_output}}"
+          }
+        },
+        "11": {
+          "class_type": "VAEEncode",
+          "inputs": {
+            "pixels": ["10", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "12": {
+          "class_type": "LatentUpscale",
+          "_comment": "Upscale latent for detail enhancement",
+          "inputs": {
+            "samples": ["11", 0],
+            "upscale_method": "nearest-exact",
+            "width": "{{upscale_width}}",
+            "height": "{{upscale_height}}",
+            "crop": "disabled"
+          }
+        },
+        "13": {
+          "class_type": "KSampler",
+          "_comment": "Controlled denoise to preserve garment details",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 20,
+            "cfg": 7.0,
+            "sampler_name": "dpmpp_2m",
+            "scheduler": "karras",
+            "denoise": 0.45,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["12", 0]
+          }
+        },
+        "14": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["13", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "15": {
+          "class_type": "ImageScale",
+          "_comment": "Scale back to target resolution",
+          "inputs": {
+            "image": ["14", 0],
+            "width": "{{width}}",
+            "height": "{{height}}",
+            "upscale_method": "lanczos",
+            "crop": "disabled"
+          }
+        },
+        "16": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_hires",
+            "images": ["15", 0]
+          }
+        }
+      }
+    },
+    
+    "stage_3_face_refinement": {
+      "name": "Face Refinement Pass",
+      "description": "Conservative face detail enhancement for full-body renders",
+      "optional": true,
+      "nodes": {
+        "20": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{stage_2_output}}"
+          }
+        },
+        "21": {
+          "class_type": "VAEEncode",
+          "inputs": {
+            "pixels": ["20", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "22": {
+          "class_type": "CLIPTextEncode",
+          "_comment": "Face-focused enhancement prompt",
+          "inputs": {
+            "text": "{{positive_prompt}}, highly detailed face, perfect facial features, expressive detailed eyes, clean skin texture, sharp focus on face",
+            "clip": ["1", 1]
+          }
+        },
+        "23": {
+          "class_type": "KSampler",
+          "_comment": "Very conservative refinement for full-body (smaller face area)",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 15,
+            "cfg": 6.0,
+            "sampler_name": "dpmpp_2m",
+            "scheduler": "karras",
+            "denoise": 0.25,
+            "model": ["1", 0],
+            "positive": ["22", 0],
+            "negative": ["3", 0],
+            "latent_image": ["21", 0]
+          }
+        },
+        "24": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["23", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "25": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_refined",
+            "images": ["24", 0]
+          }
+        }
+      }
+    },
+    
+    "stage_4_post_processing": {
+      "name": "Post-Processing",
+      "description": "Final polish with contrast and sharpening",
+      "optional": true,
+      "nodes": {
+        "30": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{stage_3_output}}"
+          }
+        },
+        "31": {
+          "class_type": "ImageSharpen",
+          "_comment": "Gentle sharpening for costume details",
+          "inputs": {
+            "image": ["30", 0],
+            "sharpen_radius": 1,
+            "sigma": 0.5,
+            "alpha": 0.25
+          }
+        },
+        "32": {
+          "class_type": "ImageContrastAdjust",
+          "_comment": "Mild contrast enhancement",
+          "inputs": {
+            "image": ["31", 0],
+            "contrast": 1.05,
+            "brightness": 1.0
+          }
+        },
+        "33": {
+          "class_type": "SaveImage",
+          "_comment": "Final output",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_final",
+            "images": ["32", 0]
+          }
+        }
+      }
+    },
+    
+    "stage_5_background_removal": {
+      "name": "Background Removal (Optional)",
+      "description": "Remove background for transparent PNG output",
+      "optional": true,
+      "enabled_by_default": false,
+      "nodes": {
+        "40": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{stage_4_output}}"
+          }
+        },
+        "41": {
+          "class_type": "RemBGSession",
+          "_comment": "Background removal using rembg if available",
+          "inputs": {
+            "model": "u2net_human_seg"
+          }
+        },
+        "42": {
+          "class_type": "RemoveBackground",
+          "inputs": {
+            "image": ["40", 0],
+            "rembg_session": ["41", 0]
+          }
+        },
+        "43": {
+          "class_type": "SaveImage",
+          "_comment": "Transparent output",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_transparent",
+            "images": ["42", 0]
+          }
+        }
+      }
+    }
+  },
+  
+  "controlnet_pose_support": {
+    "enabled": true,
+    "optional": true,
+    "description": "Optional ControlNet OpenPose support for pose stability",
+    "nodes": {
+      "50": {
+        "class_type": "ControlNetLoader",
+        "inputs": {
+          "control_net_name": "control_v11p_sd15_openpose.pth"
+        }
+      },
+      "51": {
+        "class_type": "LoadImage",
+        "_comment": "Optional pose reference image",
+        "inputs": {
+          "image": "{{pose_reference_image}}"
+        }
+      },
+      "52": {
+        "class_type": "ControlNetApply",
+        "inputs": {
+          "conditioning": ["2", 0],
+          "control_net": ["50", 0],
+          "image": ["51", 0],
+          "strength": 0.6
+        }
+      }
+    }
+  },
+  
+  "prompt_templates": {
+    "positive_base": "masterpiece, best quality, highly detailed illustration, modern manga illustration style, professional character art, crisp confident ink lines, clean linework, minimal sketchiness, smooth controlled shading, cel-to-soft shading hybrid, tasteful gradients, high-fidelity facial features, detailed expressive eyes, clean skin rendering, costume detail emphasis, embroidered trims, brocade patterns, intricate accessories, Romance of Three Kingdoms aesthetic, Han dynasty inspired, wuxia xianxia fantasy, rich saturated colors, controlled highlights, strong silhouette readability, studio lighting, professional game illustration, AAA character art quality, sharp focus, high contrast, vibrant yet tasteful color palette, three kingdoms color palette, rich reds, blacks, jade teal accents, gold trim",
+    
+    "positive_fullbody_composition": "full body character render, standing pose, dynamic stance, full figure visible from head to feet, clean studio background, subtle gradient, professional lighting setup, rim light accent, detailed costume, visible accessories, weapon if applicable, centered composition, strong silhouette",
+    
+    "negative_base": "lowres, bad anatomy, bad hands, missing fingers, extra fingers, extra digits, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, logo, text, typography, cover text, title text, blurry, out of focus, photoreal skin pores, overly realistic, hyper realistic, oversharp AI artifacts, noise, dithering, deformed, anime chibi, super deformed, cartoonish, heavy painterly smears, oil painting texture, impressionist blur, overexposed bloom, lens flare, chromatic aberration, western comic style, american cartoon, disney style, 3d render, cgi, uncanny valley, duplicate, multiple views on single canvas, split image, nsfw, nude, suggestive, revealing clothing, background clutter, busy background, noisy background, cut off feet, cropped body"
+  },
+  
+  "character_prompt_template": {
+    "format": "{positive_base}, {positive_fullbody_composition}, {character_name}, {character_description}, {visual_traits}, {outfit_description}, {signature_props}, {faction_colors}",
+    "variables": {
+      "character_name": "Character's display name",
+      "character_description": "Brief character role/archetype description",
+      "visual_traits": "Hair color, eye color, build, distinctive features",
+      "outfit_description": "Full clothing and costume details",
+      "signature_props": "Weapon, item, or signature accessory",
+      "faction_colors": "Faction-specific color accents"
+    }
+  },
+  
+  "lora_integration": {
+    "enabled": false,
+    "house_style_lora": {
+      "name": "wiki_house_style.safetensors",
+      "weight": 0.7,
+      "required": false,
+      "fallback_behavior": "continue_without_lora",
+      "placeholder_path": "models/loras/wiki_house_style.safetensors"
+    }
+  },
+  
+  "ip_adapter_integration": {
+    "enabled": false,
+    "description": "IP-Adapter style reference support for style consistency",
+    "settings": {
+      "style_strength": 0.5,
+      "structure_preservation": 0.8,
+      "max_reference_images": 3
+    }
+  },
+  
+  "metadata_output": {
+    "enabled": true,
+    "sidecar_format": "json",
+    "fields": [
+      "workflow_name",
+      "workflow_version",
+      "character_id",
+      "character_name",
+      "prompt_positive",
+      "prompt_negative",
+      "seed",
+      "checkpoint_model",
+      "lora_used",
+      "controlnet_used",
+      "pose_reference",
+      "generation_timestamp",
+      "output_resolution"
+    ]
+  },
+  
+  "quality_requirements": {
+    "minimum_resolution": {"width": 1024, "height": 1536},
+    "pose_options": ["standing", "dynamic", "combat_ready", "noble_pose"],
+    "background": "clean studio/gradient background",
+    "full_figure": "complete visibility from head to feet",
+    "garment_detail": "preserved through hi-res fix pass"
+  }
+}

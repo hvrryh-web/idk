@@ -1,6 +1,11 @@
 from functools import lru_cache
+import os
 
-from pydantic import BaseSettings, Field
+try:
+    from pydantic_settings import BaseSettings
+    from pydantic import Field
+except ImportError:
+    from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
@@ -10,6 +15,24 @@ class Settings(BaseSettings):
     DATABASE_URL: str = Field(
         "postgresql+psycopg2://postgres:postgres@localhost:5432/wuxuxian",
         env="DATABASE_URL",
+    )
+    
+    # ComfyUI settings
+    COMFYUI_URL: str = Field(
+        os.getenv("COMFYUI_URL", "http://localhost:8188"),
+        env="COMFYUI_URL",
+    )
+    COMFYUI_TIMEOUT: int = Field(
+        int(os.getenv("COMFYUI_TIMEOUT", "600")),
+        env="COMFYUI_TIMEOUT",
+    )
+    COMFYUI_POLLING_INTERVAL: int = Field(
+        int(os.getenv("COMFYUI_POLLING_INTERVAL", "2")),
+        env="COMFYUI_POLLING_INTERVAL",
+    )
+    GENERATION_OUTPUT_DIR: str = Field(
+        os.getenv("GENERATION_OUTPUT_DIR", "/app/generated"),
+        env="GENERATION_OUTPUT_DIR",
     )
 
     # ComfyUI Configuration

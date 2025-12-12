@@ -1,0 +1,691 @@
+# Generic NPC & Character Visual Asset Specification
+# Based on Romance of the Three Kingdoms Character Depth & Volume
+# Style Reference: KOEI Tecmo ROTK Series, Dynasty Warriors, Sangokushi
+
+version: "2.1.0"
+description: "Comprehensive visual asset generation specification for WuXuxian TTRPG NPCs and Characters, inspired by Romance of Three Kingdoms / KOEI Tecmo visual style"
+
+# Style Reference Notes (from provided ROTK inspiration images)
+style_reference:
+  primary_inspiration: "Romance of Three Kingdoms game series (KOEI Tecmo)"
+  visual_characteristics:
+    portrait_style: "Large detailed bust portraits, semi-realistic anime, painterly gradients, rim lighting"
+    combat_ui: "Character portraits on screen edges, damage bubbles, stat bars (ATK/DEF/INT/STR)"
+    location_icons: "Bronze circular medallions with Chinese symbols"
+    navigation: "Gilded ornate buttons with gradient backgrounds"
+  reference_characters:
+    generals: "Guan Yu (green/gold, red face), Cao Cao (dark/purple, strategic), Zhao Yun (white/blue, heroic)"
+    strategists: "Zhuge Liang (crane robes, feather fan), Sima Yi (dark robes, cunning)"
+    nobles: "Liu Bei (imperial yellow, compassionate), Sun Quan (tiger motifs, commanding)"
+  color_palette:
+    - "Imperial gold (#FFD700)"
+    - "Dynasty red (#8B0000)"
+    - "Jade green (#00A86B)"
+    - "Court blue (#1E3A5F)"
+    - "Bronze (#CD7F32)"
+    - "Silk cream (#F5F5DC)"
+
+# Asset Generation Limits & Safeguards
+safeguards:
+  max_concurrent_generations: 3
+  max_queued_jobs: 10
+  max_character_assets_per_session: 50
+  max_total_disk_usage_mb: 2048
+  cache_ttl_hours: 168  # 7 days
+  cleanup_orphan_files_days: 14
+  memory_warning_threshold_mb: 512
+  memory_hard_limit_mb: 1024
+  
+  # Rate limiting
+  rate_limits:
+    per_user_per_hour: 20
+    per_user_per_day: 100
+    global_per_minute: 10
+
+# Character Archetypes (Based on Romance of Three Kingdoms + Wuxia)
+# Total: ~40 base archetypes × 2 genders × 5 age variants × 4 expression sets = ~1600 base portraits
+character_archetypes:
+  # Military Characters (12 types)
+  military:
+    - id: general_elite
+      name: "Elite General"
+      description: "High-ranking military commander, ornate armor"
+      traits: ["authoritative", "battle-scarred", "noble bearing"]
+      outfit_tier: high
+      
+    - id: general_standard
+      name: "Standard General"
+      description: "Mid-ranking field commander"
+      traits: ["disciplined", "experienced", "practical armor"]
+      outfit_tier: medium
+      
+    - id: warrior_heavy
+      name: "Heavy Infantry Warrior"
+      description: "Frontline heavy armor fighter"
+      traits: ["burly", "scarred", "practical"]
+      outfit_tier: medium
+      
+    - id: warrior_light
+      name: "Light Infantry Scout"
+      description: "Quick reconnaissance fighter"
+      traits: ["agile", "alert", "minimal armor"]
+      outfit_tier: low
+      
+    - id: cavalry_officer
+      name: "Cavalry Officer"
+      description: "Mounted unit commander"
+      traits: ["athletic", "confident", "riding gear"]
+      outfit_tier: medium
+      
+    - id: archer_elite
+      name: "Elite Archer"
+      description: "Master marksman"
+      traits: ["focused", "lean", "specialized gear"]
+      outfit_tier: medium
+      
+    - id: bodyguard
+      name: "Personal Bodyguard"
+      description: "Elite protective detail"
+      traits: ["vigilant", "imposing", "functional armor"]
+      outfit_tier: high
+      
+    - id: mercenary
+      name: "Mercenary Fighter"
+      description: "Hired sword for pay"
+      traits: ["cynical", "practical", "mixed gear"]
+      outfit_tier: low
+      
+    - id: bandit_chief
+      name: "Bandit Chief"
+      description: "Outlaw leader"
+      traits: ["cunning", "weathered", "patchwork armor"]
+      outfit_tier: low
+      
+    - id: garrison_guard
+      name: "Garrison Guard"
+      description: "City/fort defender"
+      traits: ["dutiful", "standard issue", "local colors"]
+      outfit_tier: low
+      
+    - id: veteran_soldier
+      name: "Veteran Soldier"
+      description: "Experienced rank-and-file"
+      traits: ["weathered", "practical", "worn gear"]
+      outfit_tier: low
+      
+    - id: military_strategist
+      name: "Military Strategist"
+      description: "Tactical advisor, scholar-warrior"
+      traits: ["intelligent", "composed", "mixed robes/armor"]
+      outfit_tier: medium
+
+  # Nobility & Court (8 types)
+  nobility:
+    - id: emperor
+      name: "Emperor/Empress"
+      description: "Supreme ruler, divine mandate"
+      traits: ["regal", "imperious", "dragon motifs"]
+      outfit_tier: legendary
+      
+    - id: prince
+      name: "Prince/Princess"
+      description: "Royal heir"
+      traits: ["privileged", "refined", "phoenix/dragon motifs"]
+      outfit_tier: high
+      
+    - id: duke
+      name: "Duke/Duchess"
+      description: "High noble, regional power"
+      traits: ["proud", "wealthy", "family crests"]
+      outfit_tier: high
+      
+    - id: minister
+      name: "Imperial Minister"
+      description: "Government official, court politician"
+      traits: ["calculating", "formal", "official regalia"]
+      outfit_tier: high
+      
+    - id: lord
+      name: "Lord/Lady"
+      description: "Lesser nobility, landowner"
+      traits: ["dignified", "practical wealth", "regional style"]
+      outfit_tier: medium
+      
+    - id: noble_heir
+      name: "Noble Heir"
+      description: "Young aristocrat"
+      traits: ["entitled", "fashionable", "family colors"]
+      outfit_tier: medium
+      
+    - id: court_attendant
+      name: "Court Attendant"
+      description: "Palace servant, minor official"
+      traits: ["deferential", "neat", "uniform"]
+      outfit_tier: low
+      
+    - id: eunuch
+      name: "Palace Eunuch"
+      description: "Inner court official"
+      traits: ["shrewd", "soft features", "formal robes"]
+      outfit_tier: medium
+
+  # Scholars & Advisors (6 types)
+  scholars:
+    - id: grand_strategist
+      name: "Grand Strategist"
+      description: "Legendary advisor, master tactician"
+      traits: ["brilliant", "eccentric", "traditional robes"]
+      outfit_tier: high
+      
+    - id: scholar_official
+      name: "Scholar-Official"
+      description: "Confucian bureaucrat"
+      traits: ["refined", "bookish", "official robes"]
+      outfit_tier: medium
+      
+    - id: teacher
+      name: "Academy Teacher"
+      description: "Educator, knowledge keeper"
+      traits: ["patient", "wise", "simple robes"]
+      outfit_tier: low
+      
+    - id: scribe
+      name: "Scribe/Secretary"
+      description: "Record keeper, assistant"
+      traits: ["meticulous", "ink-stained", "practical"]
+      outfit_tier: low
+      
+    - id: physician
+      name: "Physician"
+      description: "Doctor, healer"
+      traits: ["calm", "observant", "medical accessories"]
+      outfit_tier: medium
+      
+    - id: astronomer
+      name: "Astronomer/Diviner"
+      description: "Star reader, fortune teller"
+      traits: ["mystical", "eccentric", "celestial motifs"]
+      outfit_tier: medium
+
+  # Cultivators (8 types - Wuxia/Xianxia specific)
+  cultivators:
+    - id: sect_elder
+      name: "Sect Elder"
+      description: "Senior cultivation master"
+      traits: ["venerable", "powerful aura", "sect robes"]
+      outfit_tier: high
+      
+    - id: sect_disciple
+      name: "Sect Disciple"
+      description: "Cultivation student"
+      traits: ["eager", "disciplined", "uniform robes"]
+      outfit_tier: low
+      
+    - id: rogue_cultivator
+      name: "Rogue Cultivator"
+      description: "Independent practitioner"
+      traits: ["mysterious", "weathered", "eclectic"]
+      outfit_tier: medium
+      
+    - id: demonic_cultivator
+      name: "Demonic Cultivator"
+      description: "Dark path practitioner"
+      traits: ["sinister", "corrupted features", "dark robes"]
+      outfit_tier: medium
+      
+    - id: immortal_candidate
+      name: "Immortal Candidate"
+      description: "Near-ascension cultivator"
+      traits: ["ethereal", "otherworldly", "celestial robes"]
+      outfit_tier: legendary
+      
+    - id: alchemist
+      name: "Pill Alchemist"
+      description: "Cultivation pill crafter"
+      traits: ["focused", "herb-stained", "lab attire"]
+      outfit_tier: medium
+      
+    - id: weapon_master
+      name: "Weapon Grandmaster"
+      description: "Supreme martial artist"
+      traits: ["deadly calm", "scarred", "practical robes"]
+      outfit_tier: medium
+      
+    - id: formation_master
+      name: "Formation Master"
+      description: "Array/barrier specialist"
+      traits: ["studious", "marked hands", "runic robes"]
+      outfit_tier: medium
+
+  # Common Folk (6 types)
+  commoners:
+    - id: merchant_wealthy
+      name: "Wealthy Merchant"
+      description: "Successful trader"
+      traits: ["shrewd", "prosperous", "fine but gaudy"]
+      outfit_tier: medium
+      
+    - id: merchant_common
+      name: "Common Merchant"
+      description: "Shop owner, trader"
+      traits: ["practical", "friendly", "simple but clean"]
+      outfit_tier: low
+      
+    - id: farmer
+      name: "Farmer/Peasant"
+      description: "Agricultural worker"
+      traits: ["weathered", "simple", "work clothes"]
+      outfit_tier: minimal
+      
+    - id: craftsman
+      name: "Craftsman/Artisan"
+      description: "Skilled laborer"
+      traits: ["practical", "calloused hands", "work apron"]
+      outfit_tier: low
+      
+    - id: innkeeper
+      name: "Innkeeper"
+      description: "Hospitality worker"
+      traits: ["welcoming", "observant", "clean apron"]
+      outfit_tier: low
+      
+    - id: servant
+      name: "Servant/Domestic"
+      description: "Household worker"
+      traits: ["deferential", "neat", "uniform"]
+      outfit_tier: minimal
+
+# Gender Variants
+genders:
+  - id: male
+    name: "Male"
+  - id: female
+    name: "Female"
+
+# Age Variants
+age_variants:
+  - id: youth
+    name: "Youth"
+    age_range: "15-22"
+    modifiers: ["youthful features", "smooth skin", "bright eyes"]
+    
+  - id: young_adult
+    name: "Young Adult"
+    age_range: "23-35"
+    modifiers: ["mature features", "prime condition"]
+    
+  - id: middle_aged
+    name: "Middle Aged"
+    age_range: "36-50"
+    modifiers: ["experienced look", "some lines", "distinguished"]
+    
+  - id: elder
+    name: "Elder"
+    age_range: "51-70"
+    modifiers: ["aged features", "gray hair", "wisdom lines"]
+    
+  - id: ancient
+    name: "Ancient"
+    age_range: "70+"
+    modifiers: ["very aged", "white hair", "weathered skin"]
+
+# Expression Sets (for dialogue/cutscenes)
+expressions:
+  - id: neutral
+    name: "Neutral"
+    prompt_mod: "neutral expression, calm face"
+    
+  - id: happy
+    name: "Happy/Pleased"
+    prompt_mod: "gentle smile, warm eyes, pleased expression"
+    
+  - id: angry
+    name: "Angry/Hostile"
+    prompt_mod: "angry expression, fierce eyes, gritted teeth"
+    
+  - id: sad
+    name: "Sad/Concerned"
+    prompt_mod: "sad expression, downcast eyes, worried look"
+    
+  - id: surprised
+    name: "Surprised/Shocked"
+    prompt_mod: "surprised expression, wide eyes, open mouth"
+    
+  - id: determined
+    name: "Determined/Resolute"
+    prompt_mod: "determined expression, focused eyes, set jaw"
+    
+  - id: scheming
+    name: "Scheming/Cunning"
+    prompt_mod: "sly smile, narrowed eyes, calculating look"
+    
+  - id: fearful
+    name: "Fearful/Distressed"
+    prompt_mod: "fearful expression, wide eyes, pale face"
+
+# Outfit Tiers (SCL integration)
+outfit_tiers:
+  minimal:
+    scl_range: [1, 2]
+    quality: "worn, patched, simple"
+    materials: "rough cotton, hemp"
+    ornamentation: "none"
+    
+  low:
+    scl_range: [2, 4]
+    quality: "plain, functional, clean"
+    materials: "cotton, basic linen"
+    ornamentation: "minimal, practical"
+    
+  medium:
+    scl_range: [4, 6]
+    quality: "quality, well-made, respectable"
+    materials: "fine cotton, silk blend"
+    ornamentation: "simple embroidery, bronze fittings"
+    
+  high:
+    scl_range: [6, 8]
+    quality: "elaborate, ornate, prestigious"
+    materials: "fine silk, brocade"
+    ornamentation: "intricate embroidery, jade accessories, gold trim"
+    
+  legendary:
+    scl_range: [8, 10]
+    quality: "divine, transcendent, legendary"
+    materials: "celestial silk, spirit-thread"
+    ornamentation: "glowing runes, divine artifacts, ethereal accessories"
+
+# Fate Card Visual Integration
+fate_card_visuals:
+  death_cards:
+    - id: silent_river
+      visual_mod: "serene aura, water ripple effects, blue-gray tones"
+      icon_prompt: "flowing water, peaceful river, misty"
+      
+    - id: burning_phoenix
+      visual_mod: "flame aura, phoenix feather effects, orange-gold tones"
+      icon_prompt: "rising phoenix, flames, rebirth"
+      
+    - id: void_mirror
+      visual_mod: "mirror reflections, distorted shadows, silver-void tones"
+      icon_prompt: "cracked mirror, void space, reflections"
+      
+    - id: eternal_watcher
+      visual_mod: "watchful eye motif, enduring stone, gray tones"
+      icon_prompt: "ancient eye, stone pillar, eternal"
+      
+  body_cards:
+    - id: stone_anchor
+      visual_mod: "rocky textures, grounded stance, earth tones"
+      icon_prompt: "stone anchor, mountain base, roots"
+      
+    - id: lightning_step
+      visual_mod: "electric crackling, motion blur, blue-white tones"
+      icon_prompt: "lightning bolt, swift movement, speed lines"
+      
+    - id: iron_mountain
+      visual_mod: "metallic sheen, massive presence, iron-gray tones"
+      icon_prompt: "iron mountain, unbreakable, fortress"
+      
+    - id: serpent_coil
+      visual_mod: "serpentine patterns, flexible pose, green scales"
+      icon_prompt: "coiled serpent, flowing movement, scales"
+      
+    - id: crane_stance
+      visual_mod: "elegant pose, crane feathers, white-silver tones"
+      icon_prompt: "crane bird, balance, grace"
+      
+  seed_cards:
+    - id: azure_flow
+      visual_mod: "water-mind connection, flowing aura, azure blue"
+      color: "#4A90E2"
+      icon_prompt: "flowing water, mental clarity, blue stream"
+      
+    - id: crimson_fury
+      visual_mod: "flame passion, intense aura, crimson red"
+      color: "#E74C3C"
+      icon_prompt: "burning flame, passion, crimson fire"
+      
+    - id: jade_serenity
+      visual_mod: "harmony glow, balanced aura, jade green"
+      color: "#27AE60"
+      icon_prompt: "jade stone, harmony, serenity"
+      
+    - id: silver_lightning
+      visual_mod: "electric mind, sharp aura, silver-blue"
+      color: "#95A5A6"
+      icon_prompt: "lightning bolt, quick thought, silver flash"
+      
+    - id: obsidian_void
+      visual_mod: "void power, mysterious aura, obsidian black"
+      color: "#34495E"
+      icon_prompt: "obsidian stone, void energy, darkness"
+
+# UI Visual Asset Requirements - ROTK Style
+ui_assets:
+  # Combat UI elements inspired by ROTK battle interface
+  combat_ui:
+    damage_bubbles:
+      - type: normal_damage
+        size: [128, 64]
+        prompt: "blue elliptical bubble, white bold damage number, slight outer glow, game combat UI, ROTK style"
+      - type: critical_damage
+        size: [160, 80]
+        prompt: "orange elliptical bubble, larger bold number, critical hit glow, dramatic effect"
+      - type: combo_damage
+        size: [192, 80]
+        prompt: "linked damage bubbles, chain attack visual, combo multiplier badge"
+        
+    stat_bars:
+      - type: health_bar
+        size: [200, 24]
+        prompt: "horizontal bar, red fill on dark background, health indicator, ROTK HUD style"
+      - type: troop_count
+        size: [120, 32]
+        prompt: "numerical display, troop strength, yellow text on dark background"
+        
+    technique_banners:
+      - type: technique_name
+        size: [180, 40]
+        prompt: "ornate banner label, technique name display, crossed swords icon, ROTK combat style"
+        
+  fate_card_frames:
+    - type: death_card_frame
+      size: [300, 420]
+      variants: [common, uncommon, rare, legendary]
+      prompt: "ornate card frame, death motif, bone/skull accents, parchment texture"
+      
+    - type: body_card_frame
+      size: [300, 420]
+      variants: [common, uncommon, rare, legendary]
+      prompt: "ornate card frame, body/physical motif, muscle/strength accents, bronze texture"
+      
+    - type: seed_card_frame
+      size: [300, 420]
+      variants: [blue, red, green, black]
+      prompt: "ornate card frame, elemental seed motif, color-matched accents, mystical texture"
+      
+  card_backs:
+    - type: fate_card_back
+      size: [300, 420]
+      prompt: "mystical card back, wuxia aesthetic, cultivation symbols, jade and gold"
+      
+  icons:
+    stat_icons:
+      size: [64, 64]
+      count: 20
+      style: "bronze medallion, ROTK style, embossed relief"
+      categories: [primary_stats, aether_stats, combat_stats, condition_icons]
+      
+    pillar_icons:
+      - violence: "red flame, sword, martial, Violence 武 label, bronze medallion"
+      - influence: "blue wave, crown, social, Influence 影 label, bronze medallion"
+      - revelation: "green eye, scroll, mystical, Revelation 啟 label, bronze medallion"
+      
+    location_icons:
+      size: [96, 96]
+      style: "bronze circular medallion, Chinese symbol, ROTK city map style"
+      items:
+        - farmland: "wheat/grain symbol, 農村 style"
+        - palace: "pagoda building, 宮城 style"
+        - castle_gates: "fortified gate, 城門 style"
+        - workshop: "anvil/hammer, 工房 style"
+        - market: "scales, 市場 style"
+        - tavern: "wine jar, 酒家 style"
+        - garrison: "crossed spears, 屯所 style"
+        - home: "house with tree, 自宅 style"
+      
+    cost_track_icons:
+      - blood: "blood drop, crimson, sacrifice, bronze frame"
+      - fate: "destiny wheel, gold, fortune, bronze frame"
+      - stain: "dark mark, purple, corruption, bronze frame"
+      
+    navigation_buttons:
+      size: [160, 48]
+      style: "gilded ornate frame, gradient background, ROTK menu style"
+      items:
+        - continue: "forward arrow, red gradient, Continue"
+        - personnel: "people group, blue gradient, Personnel"
+        - military: "crossed swords, red gradient, Military"
+        - diplomacy: "handshake, green gradient, Diplomacy"
+        - policy: "scroll/seal, brown gradient, Policy"
+
+# Background Assets
+background_assets:
+  combat_arenas:
+    - id: duel_arena
+      size: [1920, 1080]
+      prompt: "wuxia duel arena, moonlit courtyard, traditional architecture, dramatic lighting"
+      
+    - id: battlefield
+      size: [1920, 1080]
+      prompt: "three kingdoms battlefield, war banners, soldiers distant, dusty plains"
+      
+    - id: sect_training
+      size: [1920, 1080]
+      prompt: "cultivation sect training grounds, jade pillars, misty mountains background"
+      
+    - id: palace_throne
+      size: [1920, 1080]
+      prompt: "imperial throne room, dragon motifs, red and gold, imposing columns"
+      
+  dialogue_backgrounds:
+    - id: teahouse
+      size: [1920, 1080]
+      prompt: "traditional teahouse interior, warm lighting, wooden beams, tea set"
+      
+    - id: mountain_path
+      size: [1920, 1080]
+      prompt: "misty mountain path, winding trail, pine trees, clouds below"
+      
+    - id: city_street
+      size: [1920, 1080]
+      prompt: "ancient Chinese city street, market stalls, lanterns, busy atmosphere"
+      
+    - id: sect_hall
+      size: [1920, 1080]
+      prompt: "cultivation sect main hall, incense smoke, ancestral tablets, meditation cushions"
+
+# Output Specifications
+output_specs:
+  portrait_bust:
+    description: "Character bust for dialogue/UI"
+    sizes:
+      small: [128, 192]
+      medium: [256, 384]
+      large: [512, 768]
+    format: png
+    transparency: true
+    
+  portrait_full:
+    description: "Full body character portrait"
+    sizes:
+      small: [256, 512]
+      medium: [512, 1024]
+      large: [1024, 2048]
+    format: png
+    transparency: true
+    
+  fate_card_art:
+    description: "Card illustration for fate cards"
+    sizes:
+      thumbnail: [150, 210]
+      display: [300, 420]
+    format: png
+    transparency: false
+    
+  icon:
+    description: "UI icons"
+    sizes:
+      small: [24, 24]
+      medium: [48, 48]
+      large: [96, 96]
+    format: svg_primary_png_fallback
+    transparency: true
+    
+  background:
+    description: "Scene backgrounds"
+    sizes:
+      standard: [1920, 1080]
+      mobile: [1080, 1920]
+    format: webp
+    transparency: false
+    quality: 85
+
+# Estimated Asset Volume
+asset_volume_estimate:
+  character_portraits:
+    base_count: 40  # archetypes
+    gender_multiplier: 2
+    age_multiplier: 5
+    expression_multiplier: 8
+    total_potential: 3200
+    recommended_initial: 400  # Most common combinations only
+    
+  fate_card_art:
+    death_cards: 10
+    body_cards: 15
+    seed_cards: 20
+    card_frames: 12
+    card_backs: 4
+    total: 61
+    
+  ui_icons:
+    stat_icons: 20
+    action_icons: 12
+    navigation_icons: 10
+    status_icons: 15
+    total: 57
+    
+  backgrounds:
+    combat: 8
+    dialogue: 12
+    menu: 4
+    total: 24
+    
+  total_estimated_assets: 542  # Initial recommended set
+  total_disk_usage_mb: 850  # Estimated
+
+# Generation Priority Queue
+priority_queue:
+  tier_1_critical:
+    - "fate_card_frames"
+    - "fate_card_art"
+    - "pillar_icons"
+    - "cost_track_icons"
+    - "core_stat_icons"
+    
+  tier_2_high:
+    - "main_archetypes_neutral"  # 40 archetypes × 2 genders × neutral expression
+    - "combat_backgrounds"
+    - "dialogue_backgrounds"
+    
+  tier_3_medium:
+    - "archetype_expressions"  # Add expressions to main archetypes
+    - "age_variants"
+    - "ui_panels"
+    
+  tier_4_low:
+    - "full_character_sheets"
+    - "pose_sheets"
+    - "outfit_variants"

@@ -1,0 +1,242 @@
+/* Fate Card Generator Styles */
+
+.fate-card-generator {
+  background: var(--gradient-ink, linear-gradient(135deg, #1a1a2e 0%, #16213e 100%));
+  border: 2px solid var(--imperial-bronze, #b87333);
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 350px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.fate-card-generator:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+}
+
+.fate-card-generator.rarity-uncommon {
+  border-color: var(--imperial-gold, #ffd700);
+}
+
+.fate-card-generator.rarity-rare {
+  border-color: var(--jade-green, #00a86b);
+  box-shadow: 0 4px 20px rgba(0, 168, 107, 0.2);
+}
+
+.fate-card-generator.rarity-legendary {
+  border-color: var(--dynasty-red, #c41e3a);
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.3);
+}
+
+/* Header */
+.generator-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-type-icon {
+  font-size: 1.5rem;
+}
+
+.generator-card-header h4 {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-heading, 'Cinzel', serif);
+  font-size: 1.1rem;
+  color: var(--parchment, #f5f5dc);
+  letter-spacing: 0.05em;
+}
+
+.rarity-badge {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: var(--imperial-bronze, #b87333);
+  color: var(--ink-black, #1a1a1a);
+}
+
+.rarity-badge.uncommon {
+  background: var(--imperial-gold, #ffd700);
+}
+
+.rarity-badge.rare {
+  background: var(--jade-green, #00a86b);
+  color: white;
+}
+
+.rarity-badge.legendary {
+  background: linear-gradient(135deg, #c41e3a 0%, #ff6b6b 100%);
+  color: white;
+}
+
+/* Preview Area */
+.generator-preview-area {
+  aspect-ratio: 5/7;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-preview {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary, #a0a0a0);
+}
+
+.placeholder-icon {
+  font-size: 4rem;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+.placeholder-preview p {
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.generated-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Info Section */
+.generator-info {
+  margin-bottom: 1rem;
+}
+
+.card-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #a0a0a0);
+  line-height: 1.6;
+  margin: 0 0 0.75rem 0;
+}
+
+.card-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.keyword-tag {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--imperial-bronze, #b87333);
+  border-radius: 12px;
+  color: var(--imperial-gold, #ffd700);
+  text-transform: lowercase;
+}
+
+/* Controls */
+.generator-controls {
+  margin-top: 1rem;
+}
+
+.generate-button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-black, #1a1a1a);
+  background: linear-gradient(135deg, var(--imperial-gold, #ffd700) 0%, var(--imperial-bronze, #b87333) 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-heading, 'Cinzel', serif);
+  letter-spacing: 0.05em;
+}
+
+.generate-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.generate-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #666 0%, #444 100%);
+  color: #aaa;
+}
+
+/* Progress */
+.generation-progress {
+  text-align: center;
+}
+
+.progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--jade-green, #00a86b) 0%, var(--imperial-gold, #ffd700) 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.status-message {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #a0a0a0);
+  margin: 0;
+}
+
+/* Error State */
+.error-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(196, 30, 58, 0.2);
+  border: 1px solid var(--dynasty-red, #c41e3a);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.error-message p {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: var(--dynasty-red, #c41e3a);
+}
+
+.retry-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  background: transparent;
+  border: 1px solid var(--dynasty-red, #c41e3a);
+  color: var(--dynasty-red, #c41e3a);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  background: var(--dynasty-red, #c41e3a);
+  color: white;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.generation-progress .status-message {
+  animation: pulse 1.5s infinite;
+}

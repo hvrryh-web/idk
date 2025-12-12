@@ -1,0 +1,185 @@
+{
+  "version": "1.0.0",
+  "description": "Face Transposition Workflow using ReActor/InsightFace for consistent character faces",
+  "workflow_notes": "This workflow enables face swapping to maintain character consistency across all poses and outfits. Requires ReActor custom node and InsightFace models.",
+  
+  "requirements": {
+    "custom_nodes": [
+      "ComfyUI-ReActor"
+    ],
+    "models": {
+      "insightface": "inswapper_128.onnx",
+      "face_analysis": "buffalo_l"
+    }
+  },
+  
+  "face_extraction": {
+    "description": "Extract face embedding from reference image",
+    "nodes": {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "{{reference_image}}"
+        }
+      },
+      "2": {
+        "class_type": "ReActorFaceBoost",
+        "_comment": "ReActor node for face analysis",
+        "inputs": {
+          "image": ["1", 0],
+          "enabled": true,
+          "boost_model": "GPEN-BFR-512",
+          "visibility": 1.0,
+          "codeformer_weight": 0.7,
+          "restore_with_main_after": false
+        }
+      },
+      "3": {
+        "class_type": "ReActorBuildFaceModel",
+        "_comment": "Build face embedding from reference",
+        "inputs": {
+          "image": ["1", 0],
+          "face_model_name": "{{character_id}}_face",
+          "compute_method": "Mean"
+        }
+      },
+      "4": {
+        "class_type": "SaveImage",
+        "_comment": "Save preview of extracted face",
+        "inputs": {
+          "filename_prefix": "{{output_prefix}}_face_preview",
+          "images": ["2", 0]
+        }
+      }
+    }
+  },
+  
+  "face_swap": {
+    "description": "Apply saved face embedding to target image",
+    "nodes": {
+      "1": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "{{target_image}}"
+        }
+      },
+      "2": {
+        "class_type": "ReActorLoadFaceModel",
+        "inputs": {
+          "face_model": "{{character_id}}_face.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "ReActorFaceSwap",
+        "_comment": "Main face swap node",
+        "inputs": {
+          "input_image": ["1", 0],
+          "source_image": null,
+          "face_model": ["2", 0],
+          "enabled": true,
+          "swap_model": "inswapper_128.onnx",
+          "facedetection": "retinaface_resnet50",
+          "face_restore_model": "GFPGANv1.4.pth",
+          "face_restore_visibility": 1.0,
+          "codeformer_weight": 0.5,
+          "detect_gender_input": "no",
+          "detect_gender_source": "no",
+          "input_faces_index": "0",
+          "source_faces_index": "0",
+          "console_log_level": 1
+        }
+      },
+      "4": {
+        "class_type": "ReActorFaceBoost",
+        "_comment": "Enhance swapped face quality",
+        "inputs": {
+          "image": ["3", 0],
+          "enabled": true,
+          "boost_model": "GPEN-BFR-512",
+          "visibility": 1.0,
+          "codeformer_weight": 0.5,
+          "restore_with_main_after": true
+        }
+      },
+      "5": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "{{output_prefix}}_face_swapped",
+          "images": ["4", 0]
+        }
+      }
+    }
+  },
+  
+  "batch_face_swap": {
+    "description": "Apply face to multiple images in batch",
+    "notes": "Use this workflow section for applying consistent face across pose sheet or outfit variations",
+    "nodes": {
+      "1": {
+        "class_type": "LoadImageBatch",
+        "_comment": "Load all target images",
+        "inputs": {
+          "image_directory": "{{target_directory}}",
+          "pattern": "*.png"
+        }
+      },
+      "2": {
+        "class_type": "ReActorLoadFaceModel",
+        "inputs": {
+          "face_model": "{{character_id}}_face.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "ReActorFaceSwap",
+        "inputs": {
+          "input_image": ["1", 0],
+          "source_image": null,
+          "face_model": ["2", 0],
+          "enabled": true,
+          "swap_model": "inswapper_128.onnx",
+          "facedetection": "retinaface_resnet50",
+          "face_restore_model": "GFPGANv1.4.pth",
+          "face_restore_visibility": 1.0,
+          "codeformer_weight": 0.5,
+          "detect_gender_input": "no",
+          "detect_gender_source": "no",
+          "input_faces_index": "0",
+          "source_faces_index": "0",
+          "console_log_level": 1
+        }
+      },
+      "4": {
+        "class_type": "ReActorFaceBoost",
+        "inputs": {
+          "image": ["3", 0],
+          "enabled": true,
+          "boost_model": "GPEN-BFR-512",
+          "visibility": 1.0,
+          "codeformer_weight": 0.5,
+          "restore_with_main_after": true
+        }
+      },
+      "5": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "{{output_prefix}}_batch",
+          "images": ["4", 0]
+        }
+      }
+    }
+  },
+  
+  "template_variables": {
+    "reference_image": "Path to reference face image",
+    "target_image": "Path to image to apply face to",
+    "target_directory": "Directory of images for batch processing",
+    "character_id": "Unique character identifier for face model storage",
+    "output_prefix": "Prefix for output filenames"
+  },
+  
+  "embedding_storage": {
+    "format": "safetensors",
+    "directory": "models/reactor/faces/",
+    "naming_convention": "{character_id}_face.safetensors"
+  }
+}

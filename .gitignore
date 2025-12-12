@@ -19,3 +19,14 @@ coverage/
 logs/*.log
 logs/*.pid
 *.pid
+
+# ComfyUI generated outputs
+tools/comfyui/output/
+generated/
+embeddings/
+*.onnx
+*.safetensors
+*.ckpt
+
+# Wiki character art outputs (generated)
+wiki_assets/

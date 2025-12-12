@@ -3,21 +3,660 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Page</title>
+    <title>WuXuxian VN - Visual Novel</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>🎮 Game Page</h1>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="vn-app">
+        <!-- A. TOP STATUS BAR (FEH-inspired) -->
+        <header class="top-status-bar" role="banner">
+            <div class="status-bar-left">
+                <div class="meta-info tooltip-trigger" tabindex="0">
+                    <span class="icon" aria-hidden="true">📖</span>
+                    <span>Chapter 3</span>
+                    <div class="tooltip-content" role="tooltip">Current story chapter</div>
+                </div>
+                <div class="meta-info tooltip-trigger" tabindex="0">
+                    <span class="icon" aria-hidden="true">🌙</span>
+                    <span>Day 7</span>
+                    <div class="tooltip-content" role="tooltip">Current day/turn</div>
+                </div>
+                <div class="meta-info tooltip-trigger" tabindex="0">
+                    <span class="icon" aria-hidden="true">📍</span>
+                    <span>Azure Dragon Hall</span>
+                    <div class="tooltip-content" role="tooltip">Current location</div>
+                </div>
+            </div>
+            
+            <div class="status-bar-center">
+                <div class="resource-tokens">
+                    <div class="resource-token energy tooltip-trigger" tabindex="0">
+                        <span class="icon" aria-hidden="true">⚡</span>
+                        <span>85/100</span>
+                        <div class="tooltip-content" role="tooltip">Energy / Stamina</div>
+                    </div>
+                    <div class="resource-token gold tooltip-trigger" tabindex="0">
+                        <span class="icon" aria-hidden="true">💰</span>
+                        <span>12,450</span>
+                        <div class="tooltip-content" role="tooltip">Gold currency</div>
+                    </div>
+                    <div class="resource-token gems tooltip-trigger" tabindex="0">
+                        <span class="icon" aria-hidden="true">💎</span>
+                        <span>340</span>
+                        <div class="tooltip-content" role="tooltip">Premium gems</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="status-bar-right">
+                <div class="quick-actions">
+                    <button class="icon-btn tooltip-trigger" aria-label="Settings">
+                        <span aria-hidden="true">⚙️</span>
+                        <div class="tooltip-content" role="tooltip">Settings</div>
+                    </button>
+                    <button class="icon-btn tooltip-trigger" aria-label="Help">
+                        <span aria-hidden="true">❓</span>
+                        <div class="tooltip-content" role="tooltip">Help</div>
+                    </button>
+                    <button class="icon-btn tooltip-trigger" aria-label="Notifications">
+                        <span aria-hidden="true">🔔</span>
+                        <div class="tooltip-content" role="tooltip">Notifications</div>
+                    </button>
+                </div>
+            </div>
+        </header>
         
-        <div id="gameContainer" class="game-container">
-            <p>Welcome to the game!</p>
-            <p>Server is running and confirmed.</p>
+        <!-- MAIN CONTENT AREA -->
+        <main id="main-content" class="main-content">
+            
+            <!-- Home Screen (Default) -->
+            <section id="screen-home" class="screen active" aria-label="Home Screen">
+                <div class="container">
+                    <h1>🎮 WuXuxian Visual Novel</h1>
+                    
+                    <div class="status-panel">
+                        <span class="status-label">Connection:</span>
+                        <span id="statusText" class="status-text running-confirmed">CONNECTED</span>
+                    </div>
+                    
+                    <div class="game-container">
+                        <p>Welcome to the Visual Novel experience!</p>
+                        <p>Navigate using the bottom menu to explore different screens.</p>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-start" onclick="navigateTo('story')">
+                            <span aria-hidden="true">📜</span> Start Story
+                        </button>
+                        <button class="btn btn-continue" onclick="navigateTo('roster')">
+                            <span aria-hidden="true">👥</span> View Roster
+                        </button>
+                    </div>
+                    
+                    <div class="log-panel">
+                        <h3>Activity Log</h3>
+                        <div id="logContainer" class="log-container" role="log" aria-live="polite">
+                            <div class="log-entry success">
+                                <span class="log-timestamp">[--:--:--]</span>
+                                <span class="log-message">VN Tactics UI loaded successfully</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <a href="index.html" class="link-diagnostics">🔧 Control Panel</a>
+                        <span class="separator">|</span>
+                        <a href="../alpha-landing.html" class="link-github">📖 Full Dashboard</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- C. DIALOGUE / STORY SCREEN -->
+            <section id="screen-story" class="screen" aria-label="Story Screen">
+                <div class="dialogue-container">
+                    <!-- Portrait Cut-in (Left) -->
+                    <div class="portrait-area left">
+                        <div class="portrait person1" aria-label="Character portrait placeholder">
+                            <span aria-hidden="true">👤</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Dialogue Box -->
+                    <div class="dialogue-box">
+                        <div class="nameplate person1">
+                            <span class="emblem" aria-hidden="true"></span>
+                            <span class="name">Liu Feng</span>
+                        </div>
+                        <p class="dialogue-text">
+                            "The path of cultivation is fraught with peril, but those who persevere 
+                            shall find themselves ascending to realms beyond mortal comprehension. 
+                            Tell me, young disciple—are you prepared to walk this treacherous road?"
+                        </p>
+                        <div class="dialogue-controls">
+                            <button class="dialogue-control-btn" aria-label="Auto-advance dialogue">
+                                <span aria-hidden="true">▶️</span> Auto
+                            </button>
+                            <button class="dialogue-control-btn" aria-label="Skip dialogue">
+                                <span aria-hidden="true">⏩</span> Skip
+                            </button>
+                            <button class="dialogue-control-btn" aria-label="View dialogue log">
+                                <span aria-hidden="true">📜</span> Log
+                            </button>
+                            <button class="dialogue-control-btn" aria-label="Hide UI">
+                                <span aria-hidden="true">👁️</span> Hide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- D. CHOICE BUTTONS -->
+                <div class="choices-container" role="group" aria-label="Story choices">
+                    <button class="choice-btn" onclick="selectChoice(1)">
+                        <span class="choice-icon" aria-hidden="true">⚔️</span>
+                        <span class="choice-text">"I am ready to face any challenge that awaits."</span>
+                        <div class="choice-indicators">
+                            <span class="risk-pip danger" aria-label="High risk choice"></span>
+                        </div>
+                    </button>
+                    <button class="choice-btn" onclick="selectChoice(2)">
+                        <span class="choice-icon" aria-hidden="true">📚</span>
+                        <span class="choice-text">"Perhaps I should learn more before committing."</span>
+                        <div class="choice-indicators">
+                            <span class="risk-pip safe" aria-label="Safe choice"></span>
+                        </div>
+                    </button>
+                    <button class="choice-btn" onclick="selectChoice(3)">
+                        <span class="choice-icon" aria-hidden="true">🤝</span>
+                        <span class="choice-text">"I seek allies to join me on this journey."</span>
+                        <div class="choice-indicators">
+                            <span class="risk-pip safe" aria-label="Safe choice"></span>
+                            <span class="risk-pip safe" aria-label="Relationship bonus"></span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- E. ROSTER / CATALOG SCREEN -->
+            <section id="screen-roster" class="screen roster-screen" aria-label="Character Roster">
+                <div class="roster-header">
+                    <h2 class="roster-title">Catalog of Heroes</h2>
+                    <div class="roster-controls">
+                        <div class="search-bar">
+                            <span class="icon" aria-hidden="true">🔍</span>
+                            <input type="text" placeholder="Search characters..." aria-label="Search characters">
+                        </div>
+                        <button class="icon-btn" aria-label="Sort options">
+                            <span aria-hidden="true">📊</span>
+                        </button>
+                        <button class="icon-btn" aria-label="Filter options">
+                            <span aria-hidden="true">🔧</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="roster-grid" role="list">
+                    <!-- Person 1 -->
+                    <button class="character-card person1" role="listitem" onclick="showCharacterDetail(1)" aria-label="Liu Feng, Sword Master">
+                        <div class="character-portrait">
+                            <span aria-hidden="true">👤</span>
+                            <div class="character-rarity">
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                            </div>
+                        </div>
+                        <div class="character-info">
+                            <div class="character-name">Liu Feng</div>
+                            <div class="character-class">Sword Master</div>
+                        </div>
+                    </button>
+                    
+                    <!-- Person 2 -->
+                    <button class="character-card person2" role="listitem" onclick="showCharacterDetail(2)" aria-label="Wei Lan, Mystic Sage">
+                        <div class="character-portrait">
+                            <span aria-hidden="true">🧙</span>
+                            <div class="character-rarity">
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                            </div>
+                        </div>
+                        <div class="character-info">
+                            <div class="character-name">Wei Lan</div>
+                            <div class="character-class">Mystic Sage</div>
+                        </div>
+                    </button>
+                    
+                    <!-- Person 3 -->
+                    <button class="character-card person3" role="listitem" onclick="showCharacterDetail(3)" aria-label="Jade Phoenix, Healer">
+                        <div class="character-portrait">
+                            <span aria-hidden="true">🦅</span>
+                            <div class="character-rarity">
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                            </div>
+                        </div>
+                        <div class="character-info">
+                            <div class="character-name">Jade Phoenix</div>
+                            <div class="character-class">Healer</div>
+                        </div>
+                    </button>
+                    
+                    <!-- Person 4 -->
+                    <button class="character-card person4" role="listitem" onclick="showCharacterDetail(4)" aria-label="Chen Wu, Shadow Assassin">
+                        <div class="character-portrait">
+                            <span aria-hidden="true">🗡️</span>
+                            <div class="character-rarity">
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                            </div>
+                        </div>
+                        <div class="character-info">
+                            <div class="character-name">Chen Wu</div>
+                            <div class="character-class">Shadow Assassin</div>
+                        </div>
+                    </button>
+                    
+                    <!-- Person 5 -->
+                    <button class="character-card person5" role="listitem" onclick="showCharacterDetail(5)" aria-label="Huo Yan, Flame Guardian">
+                        <div class="character-portrait">
+                            <span aria-hidden="true">🔥</span>
+                            <div class="character-rarity">
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                            </div>
+                        </div>
+                        <div class="character-info">
+                            <div class="character-name">Huo Yan</div>
+                            <div class="character-class">Flame Guardian</div>
+                        </div>
+                    </button>
+                    
+                    <!-- Additional placeholder characters -->
+                    <button class="character-card" role="listitem" onclick="showCharacterDetail(6)" aria-label="Unknown, Wanderer">
+                        <div class="character-portrait">
+                            <span aria-hidden="true">❓</span>
+                            <div class="character-rarity">
+                                <span class="star" aria-hidden="true">★</span>
+                                <span class="star" aria-hidden="true">★</span>
+                            </div>
+                        </div>
+                        <div class="character-info">
+                            <div class="character-name">???</div>
+                            <div class="character-class">Wanderer</div>
+                        </div>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- I. BONDS / EMBLEMS SCREEN -->
+            <section id="screen-bonds" class="screen bonds-screen" aria-label="Bond System">
+                <div class="bond-character-panel">
+                    <div class="bond-portrait person1" aria-label="Protagonist portrait">
+                        <span aria-hidden="true">👤</span>
+                    </div>
+                    <h3 class="bond-name">Liu Feng</h3>
+                    <div class="bond-title">Protagonist</div>
+                </div>
+                
+                <div class="bond-center">
+                    <div class="bond-meter panel">
+                        <div class="bond-level">
+                            <span class="bond-level-text">Bond Level</span>
+                            <span class="bond-level-value">4</span>
+                        </div>
+                        <div class="bond-progress" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bond-progress-fill" style="width: 65%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel" style="padding: var(--space-4);">
+                        <h3 style="margin-bottom: var(--space-4); color: var(--gold-light);">Bond Perks</h3>
+                        <div class="perks-list">
+                            <div class="perk-item">
+                                <span class="perk-icon" aria-hidden="true">⚔️</span>
+                                <span class="perk-label">ATK +5 when paired</span>
+                            </div>
+                            <div class="perk-item">
+                                <span class="perk-icon" aria-hidden="true">🛡️</span>
+                                <span class="perk-label">DEF +3 in adjacent</span>
+                            </div>
+                            <div class="perk-item">
+                                <span class="perk-icon" aria-hidden="true">💫</span>
+                                <span class="perk-label">Dual Strike chance +15%</span>
+                            </div>
+                            <div class="perk-item locked">
+                                <span class="perk-icon" aria-hidden="true">🔒</span>
+                                <span class="perk-label">???</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="partner-list" role="listbox" aria-label="Select bond partner">
+                    <h3 style="color: var(--gold-light); margin-bottom: var(--space-3);">Partners</h3>
+                    <div class="partner-item active" role="option" aria-selected="true" tabindex="0">
+                        <div class="partner-avatar person2" aria-hidden="true">🧙</div>
+                        <span class="partner-name">Wei Lan</span>
+                        <span class="partner-bond-level">Lv. 4</span>
+                    </div>
+                    <div class="partner-item" role="option" aria-selected="false" tabindex="0">
+                        <div class="partner-avatar person3" aria-hidden="true">🦅</div>
+                        <span class="partner-name">Jade Phoenix</span>
+                        <span class="partner-bond-level">Lv. 3</span>
+                    </div>
+                    <div class="partner-item" role="option" aria-selected="false" tabindex="0">
+                        <div class="partner-avatar person4" aria-hidden="true">🗡️</div>
+                        <span class="partner-name">Chen Wu</span>
+                        <span class="partner-bond-level">Lv. 2</span>
+                    </div>
+                    <div class="partner-item" role="option" aria-selected="false" tabindex="0">
+                        <div class="partner-avatar person5" aria-hidden="true">🔥</div>
+                        <span class="partner-name">Huo Yan</span>
+                        <span class="partner-bond-level">Lv. 1</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- H. RESEARCH/UPGRADE PANEL -->
+            <section id="screen-research" class="screen" aria-label="Research Screen">
+                <div class="research-panel">
+                    <div class="research-header">
+                        <span aria-hidden="true" style="font-size: 2rem;">📚</span>
+                        <h2 class="research-title">Cultivation Research</h2>
+                    </div>
+                    
+                    <div class="upgrade-grid">
+                        <div class="upgrade-slot unlocked" tabindex="0" role="button">
+                            <span class="upgrade-icon" aria-hidden="true">⚔️</span>
+                            <span class="upgrade-name">Sword Mastery</span>
+                            <div class="upgrade-tooltip" role="tooltip">
+                                <div class="tooltip-title">Sword Mastery I</div>
+                                <div class="tooltip-desc">Increases sword damage by 10%</div>
+                                <div class="tooltip-cost">
+                                    <span aria-hidden="true">💰</span> 500 Gold
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="upgrade-slot unlocked" tabindex="0" role="button">
+                            <span class="upgrade-icon" aria-hidden="true">🔮</span>
+                            <span class="upgrade-name">Aether Flow</span>
+                            <div class="upgrade-tooltip" role="tooltip">
+                                <div class="tooltip-title">Aether Flow I</div>
+                                <div class="tooltip-desc">Reduces skill cooldowns by 5%</div>
+                                <div class="tooltip-cost">
+                                    <span aria-hidden="true">💰</span> 750 Gold
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="upgrade-slot" tabindex="0" role="button">
+                            <span class="upgrade-icon" aria-hidden="true">🛡️</span>
+                            <span class="upgrade-name">Iron Body</span>
+                            <div class="upgrade-tooltip" role="tooltip">
+                                <div class="tooltip-title">Iron Body I</div>
+                                <div class="tooltip-desc">Increases defense by 8%</div>
+                                <div class="tooltip-cost">
+                                    <span aria-hidden="true">💰</span> 600 Gold
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="upgrade-slot locked" tabindex="0" role="button" aria-disabled="true">
+                            <span class="upgrade-icon" aria-hidden="true">🔒</span>
+                            <span class="upgrade-name">???</span>
+                            <div class="upgrade-tooltip" role="tooltip">
+                                <div class="tooltip-title">Locked</div>
+                                <div class="tooltip-desc">Reach Chapter 5 to unlock</div>
+                            </div>
+                        </div>
+                        
+                        <div class="upgrade-slot locked" tabindex="0" role="button" aria-disabled="true">
+                            <span class="upgrade-icon" aria-hidden="true">🔒</span>
+                            <span class="upgrade-name">???</span>
+                            <div class="upgrade-tooltip" role="tooltip">
+                                <div class="tooltip-title">Locked</div>
+                                <div class="tooltip-desc">Reach Chapter 7 to unlock</div>
+                            </div>
+                        </div>
+                        
+                        <div class="upgrade-slot locked" tabindex="0" role="button" aria-disabled="true">
+                            <span class="upgrade-icon" aria-hidden="true">🔒</span>
+                            <span class="upgrade-name">???</span>
+                            <div class="upgrade-tooltip" role="tooltip">
+                                <div class="tooltip-title">Locked</div>
+                                <div class="tooltip-desc">Reach Chapter 10 to unlock</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- G. TACTICAL MAP SCREEN -->
+            <section id="screen-tactics" class="screen tactical-overlay" aria-label="Tactical Map">
+                <h2 style="color: var(--gold-light); margin-bottom: var(--space-4); font-family: var(--font-display);">Tactical Battle Map</h2>
+                
+                <div class="tactical-grid" role="grid" aria-label="Battle grid">
+                    <!-- Row 1 -->
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell threat" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell threat" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    
+                    <!-- Row 2 -->
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell unit-ally selected" role="gridcell" tabindex="0" aria-label="Your unit">👤</div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell threat" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell unit-enemy" role="gridcell" tabindex="0" aria-label="Enemy unit">👹</div>
+                    <div class="grid-cell threat" role="gridcell" tabindex="0"></div>
+                    
+                    <!-- Row 3 -->
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell threat" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell threat" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    
+                    <!-- Row 4 -->
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell reachable" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    
+                    <!-- Row 5 -->
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell unit-ally" role="gridcell" tabindex="0" aria-label="Ally unit">🧙</div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                    <div class="grid-cell unit-enemy" role="gridcell" tabindex="0" aria-label="Enemy unit">👺</div>
+                    <div class="grid-cell" role="gridcell" tabindex="0"></div>
+                </div>
+                
+                <!-- Command Bar -->
+                <div class="command-bar" role="toolbar" aria-label="Battle commands">
+                    <button class="command-btn" onclick="executeCommand('move')" aria-label="Move unit">
+                        <span class="icon" aria-hidden="true">🚶</span>
+                        <span>Move</span>
+                    </button>
+                    <button class="command-btn" onclick="executeCommand('skill')" aria-label="Use skill">
+                        <span class="icon" aria-hidden="true">✨</span>
+                        <span>Skill</span>
+                    </button>
+                    <button class="command-btn" onclick="executeCommand('attack')" aria-label="Attack enemy">
+                        <span class="icon" aria-hidden="true">⚔️</span>
+                        <span>Attack</span>
+                    </button>
+                    <button class="command-btn" onclick="executeCommand('wait')" aria-label="End turn">
+                        <span class="icon" aria-hidden="true">⏸️</span>
+                        <span>Wait</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- System/Settings Screen -->
+            <section id="screen-system" class="screen" aria-label="System Settings">
+                <div class="container">
+                    <h1>⚙️ System Settings</h1>
+                    
+                    <div class="panel" style="padding: var(--space-6); margin-bottom: var(--space-4);">
+                        <h3>Display</h3>
+                        <div class="stat-row" style="margin-top: var(--space-3);">
+                            <span class="stat-icon">🔊</span>
+                            <span class="stat-label">Master Volume</span>
+                            <span class="stat-value">80%</span>
+                        </div>
+                        <div class="stat-row" style="margin-top: var(--space-2);">
+                            <span class="stat-icon">🎵</span>
+                            <span class="stat-label">BGM Volume</span>
+                            <span class="stat-value">70%</span>
+                        </div>
+                        <div class="stat-row" style="margin-top: var(--space-2);">
+                            <span class="stat-icon">💬</span>
+                            <span class="stat-label">Text Speed</span>
+                            <span class="stat-value">Fast</span>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-continue" onclick="showToast('Settings saved!')">
+                            <span aria-hidden="true">💾</span> Save Settings
+                        </button>
+                        <a href="index.html" class="btn btn-back">
+                            <span aria-hidden="true">🚪</span> Exit to Menu
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- F. BATTLE FORECAST OVERLAY -->
+        <div id="battle-overlay" class="battle-overlay" role="dialog" aria-modal="true" aria-labelledby="battle-title" hidden>
+            <div class="battle-forecast">
+                <div class="combatant-panel ally">
+                    <div class="combatant-portrait">👤</div>
+                    <div class="combatant-name" style="color: var(--ally-blue-light);">Liu Feng</div>
+                    <div class="combat-stats">
+                        <div class="combat-stat">
+                            <span class="combat-stat-label">Hit</span>
+                            <span class="combat-stat-value" style="color: var(--ally-blue-light);">92%</span>
+                        </div>
+                        <div class="combat-stat">
+                            <span class="combat-stat-label">DMG</span>
+                            <span class="combat-stat-value" style="color: var(--ally-blue-light);">24</span>
+                        </div>
+                        <div class="combat-stat">
+                            <span class="combat-stat-label">HP</span>
+                            <span class="combat-stat-value" style="color: var(--ally-blue-light);">45 → 45</span>
+                        </div>
+                    </div>
+                    <div class="weapon-info">
+                        <span class="weapon-icon">⚔️</span>
+                        <span class="weapon-name">Dragon Fang Blade</span>
+                    </div>
+                </div>
+                
+                <div class="vs-indicator">
+                    <span class="vs-text" id="battle-title">VS</span>
+                    <div class="follow-up-indicator">Attack ×2</div>
+                </div>
+                
+                <div class="combatant-panel enemy">
+                    <div class="combatant-portrait">👹</div>
+                    <div class="combatant-name" style="color: var(--danger-red-light);">Shadow Demon</div>
+                    <div class="combat-stats">
+                        <div class="combat-stat">
+                            <span class="combat-stat-label">Hit</span>
+                            <span class="combat-stat-value" style="color: var(--danger-red-light);">65%</span>
+                        </div>
+                        <div class="combat-stat">
+                            <span class="combat-stat-label">DMG</span>
+                            <span class="combat-stat-value" style="color: var(--danger-red-light);">18</span>
+                        </div>
+                        <div class="combat-stat">
+                            <span class="combat-stat-label">HP</span>
+                            <span class="combat-stat-value" style="color: var(--danger-red-light);">38 → 0</span>
+                        </div>
+                    </div>
+                    <div class="weapon-info">
+                        <span class="weapon-icon">🗡️</span>
+                        <span class="weapon-name">Corrupted Claw</span>
+                    </div>
+                </div>
+                
+                <div class="battle-actions">
+                    <button class="btn btn-start" onclick="confirmBattle()">
+                        <span aria-hidden="true">⚔️</span> Engage
+                    </button>
+                    <button class="btn btn-stop" onclick="closeBattleOverlay()">
+                        <span aria-hidden="true">❌</span> Cancel
+                    </button>
+                </div>
+            </div>
         </div>
         
-        <div class="button-group">
-            <a href="index.html" class="btn btn-back">← Back to Control Panel</a>
-        </div>
+        <!-- B. BOTTOM NAVIGATION (FEH-inspired) -->
+        <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+            <button class="nav-btn active" onclick="navigateTo('home')" aria-current="page">
+                <span class="icon" aria-hidden="true">🏠</span>
+                <span class="label">Home</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('story')">
+                <span class="icon" aria-hidden="true">📜</span>
+                <span class="label">Story</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('roster')">
+                <span class="icon" aria-hidden="true">👥</span>
+                <span class="label">Roster</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('bonds')">
+                <span class="icon" aria-hidden="true">💫</span>
+                <span class="label">Bonds</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('research')">
+                <span class="icon" aria-hidden="true">📚</span>
+                <span class="label">Research</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('tactics')">
+                <span class="icon" aria-hidden="true">🗺️</span>
+                <span class="label">Tactics</span>
+            </button>
+            <button class="nav-btn" onclick="navigateTo('system')">
+                <span class="icon" aria-hidden="true">⚙️</span>
+                <span class="label">System</span>
+            </button>
+        </nav>
     </div>
     
     <script src="assets/js/game.js"></script>
