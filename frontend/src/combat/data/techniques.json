@@ -1,0 +1,160 @@
+{
+  "techniques": [
+    {
+      "id": "gu_fangs",
+      "name": "Gu Fangs",
+      "description": "Channel venomous qi through fingertips to strike with corrosive force.",
+      "pillar": "violence",
+      "aeCost": 8,
+      "selfStrain": 1,
+      "baseDamage": 35,
+      "effectRank": 5,
+      "targeting": {
+        "type": "single",
+        "range": "melee"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "value": 35
+        }
+      ]
+    },
+    {
+      "id": "swarming_dissection",
+      "name": "Swarming Dissection",
+      "description": "Unleash a swarm of spirit insects that tear at the target's flesh.",
+      "pillar": "violence",
+      "aeCost": 10,
+      "selfStrain": 2,
+      "baseDamage": 28,
+      "effectRank": 6,
+      "targeting": {
+        "type": "single",
+        "range": "close"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "value": 28
+        },
+        {
+          "type": "condition",
+          "condition": "wounded",
+          "degree": 1
+        }
+      ],
+      "costRequirements": {
+        "stain": 1
+      }
+    },
+    {
+      "id": "insight_of_hive",
+      "name": "Insight of Hive",
+      "description": "Peer into the target's mind through the eyes of countless spirit insects.",
+      "pillar": "revelation",
+      "aeCost": 12,
+      "selfStrain": 3,
+      "baseDamage": 0,
+      "effectRank": 8,
+      "targeting": {
+        "type": "single",
+        "range": "ranged"
+      },
+      "effects": [
+        {
+          "type": "condition",
+          "condition": "shaken",
+          "degree": 2
+        }
+      ]
+    },
+    {
+      "id": "sky_rending_palm",
+      "name": "Sky-Rending Palm",
+      "description": "A devastating palm strike that channels heavenly qi to shatter defenses.",
+      "pillar": "violence",
+      "aeCost": 10,
+      "selfStrain": 2,
+      "baseDamage": 45,
+      "effectRank": 7,
+      "targeting": {
+        "type": "single",
+        "range": "melee"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "value": 45
+        },
+        {
+          "type": "condition",
+          "condition": "injured",
+          "degree": 1
+        }
+      ]
+    },
+    {
+      "id": "iron_body_stance",
+      "name": "Iron Body Stance",
+      "description": "Fortify the body with hardened qi, increasing damage resistance.",
+      "pillar": "violence",
+      "aeCost": 5,
+      "selfStrain": 0,
+      "baseDamage": 0,
+      "effectRank": 0,
+      "targeting": {
+        "type": "self",
+        "range": "self"
+      },
+      "effects": [
+        {
+          "type": "buff",
+          "stat": "drTier",
+          "value": 2,
+          "duration": 3
+        }
+      ]
+    },
+    {
+      "id": "spirit_bolt",
+      "name": "Spirit Bolt",
+      "description": "Project a condensed bolt of spiritual energy at a distant target.",
+      "pillar": "violence",
+      "aeCost": 6,
+      "selfStrain": 0,
+      "baseDamage": 25,
+      "effectRank": 4,
+      "targeting": {
+        "type": "single",
+        "range": "ranged"
+      },
+      "effects": [
+        {
+          "type": "damage",
+          "value": 25
+        }
+      ]
+    },
+    {
+      "id": "healing_meditation",
+      "name": "Healing Meditation",
+      "description": "Channel qi to restore your own vitality.",
+      "pillar": "violence",
+      "aeCost": 8,
+      "selfStrain": 0,
+      "baseDamage": 0,
+      "effectRank": 0,
+      "targeting": {
+        "type": "self",
+        "range": "self"
+      },
+      "effects": [
+        {
+          "type": "heal",
+          "value": 25
+        }
+      ]
+    }
+  ]
+}

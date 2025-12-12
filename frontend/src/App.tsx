@@ -85,6 +85,7 @@ export default function App() {
           <Route path="/character/create" element={<CharacterCreatorPage />} />
           <Route path="/ascii-art" element={<ASCIIArtManager />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
+          <Route path="/combat-test" element={<TestBattle />} />
           <Route path="/ascii" element={<AsciiVisualizer />} />
           <Route path="/fate-card-builder" element={<FateCardBuilderPage />} />
         </Routes>

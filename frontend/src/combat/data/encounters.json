@@ -1,0 +1,134 @@
+{
+  "encounters": [
+    {
+      "id": "test_battle",
+      "name": "Test Battle",
+      "description": "A simple test encounter for development purposes.",
+      "environment": "training_grounds",
+      "enemies": [
+        {
+          "unitId": "training_dummy",
+          "level": 3,
+          "aiProfile": "passive"
+        }
+      ],
+      "victoryConditions": [
+        {
+          "type": "eliminate",
+          "targetTeam": "enemy"
+        }
+      ],
+      "rewards": {
+        "xp": 50
+      }
+    },
+    {
+      "id": "duel_sect_elder",
+      "name": "Duel at Crimson Pavilion",
+      "description": "A formal duel against the Sect Elder to prove your worth.",
+      "environment": "crimson_pavilion",
+      "music": "tension_rising",
+      "enemies": [
+        {
+          "unitId": "sect_elder",
+          "level": 6,
+          "aiProfile": "aggressive"
+        }
+      ],
+      "victoryConditions": [
+        {
+          "type": "eliminate",
+          "targetTeam": "enemy"
+        }
+      ],
+      "rewards": {
+        "xp": 500,
+        "items": ["sect_elder_token"],
+        "flags": ["defeated_sect_elder"]
+      },
+      "triggers": [
+        {
+          "condition": "enemy_hp_below_25",
+          "event": "dialogue",
+          "action": "sect_elder_yields"
+        }
+      ]
+    },
+    {
+      "id": "ambush_bandits",
+      "name": "Bandit Ambush",
+      "description": "A group of bandits attacks on the mountain path.",
+      "environment": "mountain_path",
+      "enemies": [
+        {
+          "unitId": "bandit_leader",
+          "level": 4,
+          "aiProfile": "tactical"
+        },
+        {
+          "unitId": "bandit_archer",
+          "level": 3,
+          "aiProfile": "ranged"
+        },
+        {
+          "unitId": "bandit_thug",
+          "level": 2,
+          "aiProfile": "aggressive"
+        }
+      ],
+      "victoryConditions": [
+        {
+          "type": "eliminate",
+          "targetTeam": "enemy"
+        },
+        {
+          "type": "survive",
+          "rounds": 5
+        }
+      ],
+      "rewards": {
+        "xp": 150,
+        "items": ["bandit_loot"]
+      }
+    },
+    {
+      "id": "boss_void_cultivator",
+      "name": "Confrontation with the Void Cultivator",
+      "description": "Face the corrupted cultivator in the depths of the Abyssal Temple.",
+      "environment": "abyssal_temple",
+      "music": "boss_theme",
+      "enemies": [
+        {
+          "unitId": "void_cultivator",
+          "level": 8,
+          "aiProfile": "boss_multiphase",
+          "isBoss": true,
+          "bossRank": 4
+        }
+      ],
+      "victoryConditions": [
+        {
+          "type": "defeat",
+          "targetId": "void_cultivator"
+        }
+      ],
+      "rewards": {
+        "xp": 1000,
+        "items": ["void_essence", "corrupted_core"],
+        "flags": ["void_cultivator_defeated"]
+      },
+      "triggers": [
+        {
+          "condition": "boss_phase_2",
+          "event": "transformation",
+          "action": "void_cultivator_transform"
+        },
+        {
+          "condition": "boss_phase_3",
+          "event": "desperation",
+          "action": "void_cultivator_final_form"
+        }
+      ]
+    }
+  ]
+}
