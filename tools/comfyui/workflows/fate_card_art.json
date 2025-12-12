@@ -1,0 +1,263 @@
+{
+  "name": "Fate Card Art Generation",
+  "description": "Generate Fate Card illustrations for Death, Body, and Seed cards with consistent styling",
+  "version": "1.0.0",
+  "workflow_type": "fate_card",
+  
+  "parameters": {
+    "card_type": {
+      "type": "enum",
+      "options": ["death", "body", "seed"],
+      "required": true,
+      "description": "Type of Fate Card to generate"
+    },
+    "card_id": {
+      "type": "string",
+      "required": true,
+      "description": "Unique card identifier (e.g., 'silent_river', 'stone_anchor')"
+    },
+    "card_name": {
+      "type": "string",
+      "required": true,
+      "description": "Display name of the card"
+    },
+    "visual_prompt": {
+      "type": "string",
+      "required": true,
+      "description": "Visual description for the card art"
+    },
+    "color_scheme": {
+      "type": "string",
+      "required": false,
+      "description": "Primary color scheme for seed cards"
+    },
+    "rarity": {
+      "type": "enum",
+      "options": ["common", "uncommon", "rare", "legendary"],
+      "default": "common"
+    }
+  },
+  
+  "base_prompt_components": {
+    "style": "masterwork tarot card illustration, ornate gilded frame, painterly style, dramatic lighting, Yuto Sano inspired, Romance of Three Kingdoms aesthetic, wuxia fantasy",
+    "quality": "masterpiece, best quality, highly detailed, intricate details, 8k resolution",
+    "negative": "nsfw, nude, text, watermark, signature, blurry, low quality, amateur, bad anatomy, ugly, deformed, disfigured, extra limbs, mutated"
+  },
+  
+  "card_type_prompts": {
+    "death": {
+      "theme": "mortality and endings, ethereal, spectral, ghostly presence, skull motifs, spirit realm, afterlife imagery",
+      "colors": "grayscale with silver accents, pale blue highlights, misty atmosphere, moonlight",
+      "border_style": "bone and skull ornaments, withered flowers, hourglasses, candle flames"
+    },
+    "body": {
+      "theme": "physical prowess, martial arts, combat stances, muscular definition, movement and power",
+      "colors": "warm earth tones, bronze and copper accents, dynamic red highlights",
+      "border_style": "weapon motifs, armor plates, chain links, martial symbols"
+    },
+    "seed": {
+      "theme": "elemental essence, cultivation energy, flowing qi, cosmic connection, inner power",
+      "colors": "determined by seed color - azure/blue, crimson/red, jade/green, obsidian/black",
+      "border_style": "flowing energy patterns, yin-yang symbols, elemental icons, lotus flowers"
+    }
+  },
+  
+  "specific_card_prompts": {
+    "death": {
+      "silent_river": {
+        "visual": "a serene figure standing in a calm river at twilight, mist rising from water, willow trees, peaceful acceptance of fate, flowing robes dissolving into water",
+        "elements": ["flowing water", "twilight sky", "willow trees", "peaceful expression"]
+      },
+      "burning_phoenix": {
+        "visual": "a figure engulfed in transformative flames rising from ashes, phoenix wings emerging from fire, rebirth imagery, defiant expression",
+        "elements": ["phoenix", "flames", "rising from ashes", "transformation"]
+      },
+      "void_mirror": {
+        "visual": "a figure gazing into a cracked mirror showing the void beyond, reality distortion, transcendent clarity, seeing through illusions",
+        "elements": ["shattered mirror", "void glimpse", "enlightened gaze", "fractured reality"]
+      },
+      "eternal_watcher": {
+        "visual": "an ancient sentinel standing vigil atop weathered stone, unblinking eyes watching the ages pass, patient and enduring",
+        "elements": ["stone pillar", "eternal vigilance", "aged wisdom", "timeless patience"]
+      }
+    },
+    "body": {
+      "stone_anchor": {
+        "visual": "a rooted warrior in immovable stance, feet merged with stone ground, mountain behind, unshakable defense posture",
+        "elements": ["mountain stance", "stone foundation", "defensive posture", "grounded energy"]
+      },
+      "lightning_step": {
+        "visual": "a blur of motion capturing multiple positions at once, lightning crackling around feet, speed lines, after-images",
+        "elements": ["motion blur", "lightning", "multiple poses", "speed"]
+      },
+      "iron_mountain": {
+        "visual": "a massive armored figure with skin like iron, taking blows unflinching, mountain silhouette in form, indomitable",
+        "elements": ["iron skin", "massive build", "unflinching stance", "impenetrable defense"]
+      },
+      "serpent_coil": {
+        "visual": "a flexible fighter in serpentine pose, coiling around attacks, striking from unexpected angles, sinuous movement",
+        "elements": ["serpent imagery", "flexible pose", "coiling motion", "cunning strikes"]
+      },
+      "crane_stance": {
+        "visual": "an elegant martial artist balanced on one leg, crane wings suggested in pose, graceful and deadly, perfect balance",
+        "elements": ["crane pose", "perfect balance", "graceful movement", "elegant precision"]
+      }
+    },
+    "seed": {
+      "azure_flow": {
+        "visual": "a figure in meditation as water flows through and around them, mental clarity shown as crystalline streams, blue energy",
+        "elements": ["flowing water", "mental clarity", "meditation", "azure energy"],
+        "color_override": "#4A90E2"
+      },
+      "crimson_fury": {
+        "visual": "a passionate warrior channeling rage into flames, crimson fire erupting from intense emotion, powerful but dangerous",
+        "elements": ["crimson flames", "passionate fury", "intense emotion", "overwhelming power"],
+        "color_override": "#E74C3C"
+      },
+      "jade_serenity": {
+        "visual": "a harmonized figure in perfect balance, jade energy connecting body and spirit, peaceful power, lotus position",
+        "elements": ["jade glow", "perfect harmony", "spiritual balance", "serene power"],
+        "color_override": "#27AE60"
+      },
+      "silver_lightning": {
+        "visual": "electric thoughts visualized as silver lightning, quick mind, precision strikes, mental speed manifest",
+        "elements": ["silver lightning", "quick thinking", "precision", "mental speed"],
+        "color_override": "#95A5A6"
+      },
+      "obsidian_void": {
+        "visual": "a mysterious figure drawing power from darkness, void energy swirling, shadow and substance, hidden depths",
+        "elements": ["void darkness", "shadow power", "mysterious aura", "hidden strength"],
+        "color_override": "#34495E"
+      }
+    }
+  },
+  
+  "output_specifications": {
+    "sizes": {
+      "thumbnail": {
+        "width": 150,
+        "height": 210,
+        "format": "png"
+      },
+      "display": {
+        "width": 300,
+        "height": 420,
+        "format": "png"
+      },
+      "print": {
+        "width": 600,
+        "height": 840,
+        "format": "png"
+      }
+    },
+    "naming_convention": "fate-card-{card_type}-{card_id}_{size}.png"
+  },
+  
+  "workflow_nodes": {
+    "1": {
+      "class_type": "KSampler",
+      "title": "Main Sampler",
+      "inputs": {
+        "seed": ["4", 0],
+        "steps": 30,
+        "cfg": 7.5,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 1.0,
+        "model": ["2", 0],
+        "positive": ["3", 0],
+        "negative": ["3", 1],
+        "latent_image": ["5", 0]
+      }
+    },
+    "2": {
+      "class_type": "CheckpointLoaderSimple",
+      "title": "Load Checkpoint",
+      "inputs": {
+        "ckpt_name": "animagine-xl-3.1.safetensors"
+      }
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "title": "Positive Prompt",
+      "inputs": {
+        "text": "{POSITIVE_PROMPT}",
+        "clip": ["2", 1]
+      }
+    },
+    "4": {
+      "class_type": "RandomSeed",
+      "title": "Random Seed"
+    },
+    "5": {
+      "class_type": "EmptyLatentImage",
+      "title": "Latent Size",
+      "inputs": {
+        "width": 600,
+        "height": 840,
+        "batch_size": 1
+      }
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "title": "VAE Decode",
+      "inputs": {
+        "samples": ["1", 0],
+        "vae": ["2", 2]
+      }
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "title": "Save Full Size",
+      "inputs": {
+        "images": ["6", 0],
+        "filename_prefix": "fate_card"
+      }
+    },
+    "8": {
+      "class_type": "ImageScale",
+      "title": "Scale to Display",
+      "inputs": {
+        "image": ["6", 0],
+        "width": 300,
+        "height": 420,
+        "upscale_method": "lanczos"
+      }
+    },
+    "9": {
+      "class_type": "SaveImage",
+      "title": "Save Display Size",
+      "inputs": {
+        "images": ["8", 0],
+        "filename_prefix": "fate_card_display"
+      }
+    },
+    "10": {
+      "class_type": "ImageScale",
+      "title": "Scale to Thumbnail",
+      "inputs": {
+        "image": ["6", 0],
+        "width": 150,
+        "height": 210,
+        "upscale_method": "lanczos"
+      }
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "title": "Save Thumbnail",
+      "inputs": {
+        "images": ["10", 0],
+        "filename_prefix": "fate_card_thumb"
+      }
+    }
+  },
+  
+  "prompt_template": "{style}, {quality}, {card_type_theme}, {specific_visual}, {card_type_colors}, tarot card format, centered composition, ornate {border_style}, {rarity_modifier}",
+  
+  "rarity_modifiers": {
+    "common": "simple elegance, clean lines",
+    "uncommon": "detailed ornamentation, silver accents",
+    "rare": "intricate golden details, glowing elements, magical aura",
+    "legendary": "transcendent radiance, divine light, legendary artifact quality, ethereal glow, masterwork craftsmanship"
+  }
+}

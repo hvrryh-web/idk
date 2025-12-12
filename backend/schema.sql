@@ -319,3 +319,198 @@ CREATE TABLE ascii_artifacts (
 -- Create index on content_hash for fast lookups
 CREATE INDEX idx_ascii_artifacts_content_hash ON ascii_artifacts(content_hash);
 CREATE INDEX idx_ascii_artifacts_created_at ON ascii_artifacts(created_at DESC);
+
+-- ComfyUI Character Generation Tables
+
+-- Character generations table for tracking generation jobs
+CREATE TABLE character_generations (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    character_id UUID REFERENCES characters(id) ON DELETE CASCADE,
+    generation_type VARCHAR(50) NOT NULL,  -- 'full_7layer', 'poses_sheet', 'outfits_sheet', 'character_sheet'
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',  -- pending, processing, completed, failed
+    current_layer INTEGER DEFAULT 0,
+    total_layers INTEGER DEFAULT 7,
+    layer_outputs JSONB DEFAULT '{}',  -- {layer_name: file_path}
+    comfyui_job_id VARCHAR(255),
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP
+);
+
+-- Character face embeddings for consistent face transposition
+CREATE TABLE character_face_embeddings (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    character_id UUID REFERENCES characters(id) ON DELETE CASCADE,
+    embedding_data BYTEA NOT NULL,  -- serialized embedding
+    embedding_format VARCHAR(50) DEFAULT 'insightface',
+    reference_image_path VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Generation outputs for storing generated images
+CREATE TABLE generation_outputs (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    generation_id UUID REFERENCES character_generations(id) ON DELETE CASCADE,
+    output_type VARCHAR(50) NOT NULL,  -- 'layer_1', 'layer_7', 'poses_sheet', etc.
+    file_path VARCHAR(255) NOT NULL,
+    file_size INTEGER,
+    dimensions VARCHAR(20),  -- '512x768'
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Indexes for character generation tables
+CREATE INDEX idx_generations_character ON character_generations(character_id);
+CREATE INDEX idx_generations_status ON character_generations(status);
+CREATE INDEX idx_generations_created ON character_generations(created_at DESC);
+CREATE INDEX idx_face_embeddings_character ON character_face_embeddings(character_id);
+CREATE INDEX idx_generation_outputs_generation ON generation_outputs(generation_id);
+
+-- Trigger for updating updated_at on character_generations
+CREATE TRIGGER update_character_generations_updated_at
+    BEFORE UPDATE ON character_generations
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================================
+-- ASSET MANAGEMENT SYSTEM TABLES (Phase 1 Critical Infrastructure)
+-- ============================================================
+
+-- Asset inventory for tracking all generated visual assets
+CREATE TABLE asset_inventory (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    asset_type VARCHAR(50) NOT NULL,  -- 'character_portrait', 'npc_bust', 'fate_card', 'ui_icon', 'background'
+    category VARCHAR(50),              -- 'military', 'nobility', 'cultivator', 'commoner', 'scholar'
+    archetype_id VARCHAR(100),         -- Reference to NPC archetype spec
+    variant_key VARCHAR(255),          -- Composite key: e.g., 'male_young_adult_neutral'
+    file_path VARCHAR(500) NOT NULL,
+    file_size_bytes BIGINT NOT NULL DEFAULT 0,
+    dimensions VARCHAR(20),            -- e.g., '512x768'
+    content_hash VARCHAR(64),          -- SHA-256 for deduplication
+    generation_params JSONB,           -- Full generation parameters for reproducibility
+    generation_id UUID REFERENCES character_generations(id) ON DELETE SET NULL,
+    access_count INTEGER DEFAULT 0,
+    last_accessed_at TIMESTAMP,
+    is_base_asset BOOLEAN DEFAULT false,  -- True for core/foundation assets
+    is_customization_layer BOOLEAN DEFAULT false,  -- True for overlay assets
+    parent_asset_id UUID REFERENCES asset_inventory(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP,              -- For TTL-based cleanup (NULL = never expires)
+    deleted_at TIMESTAMP               -- Soft delete support
+);
+
+CREATE UNIQUE INDEX idx_asset_content_hash ON asset_inventory(content_hash) WHERE content_hash IS NOT NULL;
+CREATE INDEX idx_asset_type ON asset_inventory(asset_type);
+CREATE INDEX idx_asset_category ON asset_inventory(category);
+CREATE INDEX idx_asset_archetype ON asset_inventory(archetype_id);
+CREATE INDEX idx_asset_expires ON asset_inventory(expires_at) WHERE expires_at IS NOT NULL;
+CREATE INDEX idx_asset_deleted ON asset_inventory(deleted_at) WHERE deleted_at IS NULL;
+CREATE INDEX idx_asset_access ON asset_inventory(last_accessed_at DESC);
+
+-- Generation queue for managing async job processing
+CREATE TABLE generation_queue (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    priority INTEGER DEFAULT 5 CHECK (priority >= 1 AND priority <= 10),  -- 1 = highest priority
+    job_type VARCHAR(50) NOT NULL,     -- 'character_full', 'npc_portrait', 'fate_card', 'batch_npc'
+    job_params JSONB NOT NULL,
+    user_id VARCHAR(100),              -- For rate limiting
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'locked', 'processing', 'completed', 'failed', 'cancelled')),
+    attempts INTEGER DEFAULT 0,
+    max_attempts INTEGER DEFAULT 3,
+    locked_by VARCHAR(100),            -- Worker ID that claimed the job
+    locked_at TIMESTAMP,
+    error_message TEXT,
+    result JSONB,                      -- Job result/output references
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    started_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    estimated_duration_seconds INTEGER,
+    actual_duration_seconds INTEGER
+);
+
+CREATE INDEX idx_queue_status_priority ON generation_queue(status, priority, created_at) WHERE status = 'pending';
+CREATE INDEX idx_queue_locked ON generation_queue(locked_by, locked_at) WHERE status = 'locked';
+CREATE INDEX idx_queue_user ON generation_queue(user_id, created_at DESC);
+
+-- Resource usage tracking for monitoring and alerting
+CREATE TABLE resource_usage_log (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    metric_type VARCHAR(50) NOT NULL,  -- 'disk_usage_bytes', 'memory_usage_bytes', 'active_jobs', 'queue_depth', 'generation_rate'
+    metric_value BIGINT NOT NULL,
+    metric_unit VARCHAR(20),           -- 'bytes', 'count', 'per_hour'
+    threshold_warning BIGINT,          -- Warning threshold
+    threshold_critical BIGINT,         -- Critical threshold
+    is_alert BOOLEAN DEFAULT false,
+    details JSONB
+);
+
+CREATE INDEX idx_usage_timestamp ON resource_usage_log(timestamp DESC);
+CREATE INDEX idx_usage_type ON resource_usage_log(metric_type, timestamp DESC);
+CREATE INDEX idx_usage_alerts ON resource_usage_log(is_alert, timestamp DESC) WHERE is_alert = true;
+
+-- Rate limiting tracking
+CREATE TABLE rate_limit_tracking (
+    id SERIAL PRIMARY KEY,
+    user_id VARCHAR(100) NOT NULL,
+    action_type VARCHAR(50) NOT NULL,  -- 'generation', 'face_extract', 'batch'
+    window_start TIMESTAMP NOT NULL,
+    request_count INTEGER DEFAULT 1,
+    UNIQUE (user_id, action_type, window_start)
+);
+
+CREATE INDEX idx_rate_limit_user ON rate_limit_tracking(user_id, action_type, window_start DESC);
+
+-- Cleanup job tracking
+CREATE TABLE cleanup_jobs (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    job_type VARCHAR(50) NOT NULL,     -- 'expired_assets', 'orphan_files', 'temp_cleanup', 'old_logs'
+    status VARCHAR(20) DEFAULT 'pending',
+    items_processed INTEGER DEFAULT 0,
+    bytes_reclaimed BIGINT DEFAULT 0,
+    started_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Function to automatically update access tracking
+CREATE OR REPLACE FUNCTION update_asset_access()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.access_count = COALESCE(OLD.access_count, 0) + 1;
+    NEW.last_accessed_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to calculate disk usage by asset type
+CREATE OR REPLACE FUNCTION get_disk_usage_by_type()
+RETURNS TABLE(asset_type VARCHAR, total_bytes BIGINT, asset_count BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        ai.asset_type,
+        SUM(ai.file_size_bytes)::BIGINT as total_bytes,
+        COUNT(*)::BIGINT as asset_count
+    FROM asset_inventory ai
+    WHERE ai.deleted_at IS NULL
+    GROUP BY ai.asset_type;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to get expired assets for cleanup
+CREATE OR REPLACE FUNCTION get_expired_assets(batch_size INTEGER DEFAULT 100)
+RETURNS TABLE(id UUID, file_path VARCHAR, file_size_bytes BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT ai.id, ai.file_path, ai.file_size_bytes
+    FROM asset_inventory ai
+    WHERE ai.expires_at IS NOT NULL 
+      AND ai.expires_at < NOW()
+      AND ai.deleted_at IS NULL
+      AND ai.is_base_asset = false
+    ORDER BY ai.expires_at
+    LIMIT batch_size;
+END;
+$$ LANGUAGE plpgsql;
