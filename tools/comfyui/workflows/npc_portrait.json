@@ -1,8 +1,26 @@
 {
-  "name": "NPC Portrait Generation",
-  "description": "Generate NPC and character portraits based on archetype specifications",
-  "version": "1.0.0",
+  "name": "NPC Portrait Generation - Romance of Three Kingdoms Style",
+  "description": "Generate NPC and character portraits based on Romance of Three Kingdoms / KOEI Tecmo art style, following the archetype specifications",
+  "version": "2.0.0",
   "workflow_type": "npc_portrait",
+  
+  "style_reference": {
+    "primary_inspiration": "Romance of Three Kingdoms game series (KOEI Tecmo), Dynasty Warriors, Sangokushi",
+    "visual_characteristics": {
+      "portrait_style": "large detailed bust, semi-realistic anime, painterly soft gradients, luminous rim lighting",
+      "composition": "3/4 view facing slightly left, upper body visible, clean gradient background",
+      "armor_detail": "ornate with cultural motifs (dragon, phoenix, tiger), period-accurate Han dynasty aesthetic",
+      "fabric_rendering": "silk sheen, brocade patterns, flowing robes with weight",
+      "expression_style": "dramatic but dignified, conveying character archetype clearly",
+      "color_palette": "rich saturated colors, gold accents, faction-appropriate colors"
+    },
+    "reference_characters": {
+      "military": "Guan Yu (green robes, red face), Cao Cao (dark armor, cape), Zhao Yun (white armor, blue accents)",
+      "nobility": "Cao Cao court attire, Sun Quan imperial robes, Liu Bei noble bearing",
+      "scholars": "Zhuge Liang (feather fan, crane robes), Sima Yi (dark scholar robes)",
+      "cultivators": "celestial robes, ethereal glow, mystical accessories"
+    }
+  },
   
   "parameters": {
     "archetype_category": {
@@ -43,32 +61,35 @@
   },
   
   "base_prompt_components": {
-    "style": "Romance of Three Kingdoms portrait, semi-realistic anime style, Yuto Sano inspired, painterly soft gradients, luminous rim light, Han dynasty aesthetic, wuxia fantasy",
-    "quality": "masterpiece, best quality, highly detailed, sharp focus, professional illustration, 8k",
-    "composition": "portrait bust, upper body, centered, facing slightly left, clean background gradient",
-    "negative": "nsfw, nude, text, watermark, signature, blurry, low quality, amateur, bad anatomy, ugly, deformed, disfigured, extra limbs, mutated, western cartoon style, chibi, super deformed"
+    "style": "Romance of Three Kingdoms portrait, KOEI Tecmo art style, Dynasty Warriors quality, semi-realistic anime style, Yuto Sano inspired, painterly soft gradients, luminous rim light, Han dynasty aesthetic, wuxia fantasy, cinematic lighting",
+    "quality": "masterpiece, best quality, highly detailed, sharp focus, professional game illustration, 8k, AAA game character art",
+    "composition": "portrait bust, upper body, centered, facing slightly left 3/4 view, clean background gradient, dramatic lighting from upper left",
+    "negative": "nsfw, nude, text, watermark, signature, blurry, low quality, amateur, bad anatomy, ugly, deformed, disfigured, extra limbs, mutated, western cartoon style, chibi, super deformed, simple background"
   },
   
   "category_prompts": {
     "military": {
-      "theme": "warrior, martial bearing, disciplined posture, battle-ready presence",
-      "accessories": "armor elements, weapon hints, military insignia, battle scars"
+      "theme": "warrior, martial bearing, disciplined posture, battle-ready presence, general's dignity, ROTK military officer",
+      "accessories": "ornate armor elements, weapon silhouette hints, military insignia, battle scars, cape or sash, helmet or headpiece",
+      "reference": "Guan Yu, Zhang Fei, Zhao Yun, Lu Bu style"
     },
     "nobility": {
-      "theme": "regal bearing, refined features, aristocratic posture, commanding presence",
-      "accessories": "fine jewelry, silk fabrics, jade ornaments, family crests"
+      "theme": "regal bearing, refined features, aristocratic posture, commanding presence, imperial dignity, ROTK court noble",
+      "accessories": "fine jewelry, silk fabrics with brocade patterns, jade ornaments, family crests, official regalia",
+      "reference": "Cao Cao, Liu Bei, Sun Quan style"
     },
     "scholars": {
-      "theme": "intelligent expression, scholarly demeanor, thoughtful pose, wisdom in eyes",
-      "accessories": "scroll hints, brush pen, simple but quality robes, scholarly cap"
+      "theme": "intelligent expression, scholarly demeanor, thoughtful pose, wisdom in eyes, strategic mind, ROTK advisor",
+      "accessories": "scroll hints, brush pen, traditional scholar robes, feather fan, scholarly cap or topknot",
+      "reference": "Zhuge Liang, Sima Yi, Zhou Yu style"
     },
     "cultivators": {
-      "theme": "ethereal presence, cultivation aura, otherworldly beauty, inner power visible",
-      "accessories": "flowing robes, qi manifestation, sect symbols, spiritual artifacts"
+      "theme": "ethereal presence, cultivation aura, otherworldly beauty, inner power visible, transcendent calm, xianxia immortal",
+      "accessories": "flowing celestial robes, qi manifestation, sect symbols, spiritual artifacts, jade accessories"
     },
     "commoners": {
-      "theme": "honest expression, practical appearance, weathered features, hardworking demeanor",
-      "accessories": "simple clothing, work tools, practical items"
+      "theme": "honest expression, practical appearance, weathered features, hardworking demeanor, common folk dignity",
+      "accessories": "simple but clean clothing, work tools, practical items, weathered hands"
     }
   },
   

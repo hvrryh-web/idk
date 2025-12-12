@@ -1,67 +1,151 @@
 {
-  "name": "UI Asset Generation",
-  "description": "Generate UI assets including icons, card frames, backgrounds, and decorative elements",
-  "version": "1.0.0",
+  "name": "UI Asset Generation - Romance of Three Kingdoms Style",
+  "description": "Generate UI assets including icons, card frames, backgrounds, and decorative elements inspired by Romance of Three Kingdoms / KOEI Tecmo visual style",
+  "version": "2.0.0",
   "workflow_type": "ui_asset",
+  
+  "style_reference": {
+    "primary_inspiration": "Romance of Three Kingdoms game series, Dynasty Warriors, KOEI Tecmo art style",
+    "visual_characteristics": {
+      "color_palette": ["bronze", "gold", "deep red", "imperial blue", "jade green", "cream parchment"],
+      "material_textures": ["burnished bronze", "gilded gold trim", "silk banners", "lacquered wood"],
+      "typography_style": "Chinese calligraphy influence, bold readable stats, ornate labels",
+      "icon_style": "circular bronze medallions with embossed symbols, Chinese character integration"
+    },
+    "combat_ui_reference": {
+      "damage_numbers": "blue elliptical bubbles with white bold numbers, slight outer glow",
+      "stat_display": "ATK/INT/STR/DEF labels, yellow/red horizontal bars, diamond indicators",
+      "portrait_placement": "large character busts on left/right edges, approximately 25% screen width",
+      "technique_labels": "ornate banners below portraits (e.g., Spearwall, Retaliation)"
+    },
+    "map_ui_reference": {
+      "location_icons": "bronze/gold circular medallions with Chinese symbols, category icons",
+      "resource_display": "top bar with date, population, gold, food, resources with Chinese labels",
+      "character_panel": "portrait in corner with dialogue box, name plate"
+    },
+    "navigation_reference": {
+      "button_style": "gilded ornate frames, gradient backgrounds (red/gold/blue), icon + Chinese text",
+      "categories": ["Continue", "Personnel", "Military", "Plots", "Diplomacy", "Policy", "Espionage"]
+    }
+  },
   
   "asset_categories": {
     "icons": {
       "stat_icons": {
-        "description": "Icons for character stats",
+        "description": "Icons for character stats - ROTK style with bronze medallion aesthetic",
         "size": {"width": 64, "height": 64},
-        "style": "clean icon, simple lines, single color with gradient, wuxia fantasy style",
+        "style": "bronze medallion icon, KOEI Tecmo style, embossed relief, golden rim, Chinese aesthetic, game UI quality",
         "items": {
-          "strength": "fist icon, power symbol, muscle",
-          "dexterity": "swift wind icon, agility symbol, flowing motion",
-          "constitution": "shield icon, endurance symbol, solid foundation",
-          "intelligence": "brain icon, wisdom symbol, enlightened mind",
-          "wisdom": "eye icon, insight symbol, third eye",
-          "charisma": "crown icon, influence symbol, radiant presence",
-          "perception": "focused eye icon, awareness symbol, vigilant gaze",
-          "resolve": "mountain icon, determination symbol, unbreakable will",
-          "presence": "aura icon, commanding symbol, magnetic presence"
+          "atk": "crossed swords icon, attack power, red accent, bronze medallion, ATK label",
+          "def": "shield icon, defense value, blue accent, bronze medallion, DEF label",
+          "int": "scroll and brush icon, intelligence stat, green accent, bronze medallion, INT label",
+          "str": "muscled arm icon, strength stat, orange accent, bronze medallion, STR label",
+          "dex": "swift wind streaks icon, agility stat, cyan accent, bronze medallion, DEX label",
+          "con": "mountain icon, constitution stat, brown accent, bronze medallion, CON label",
+          "wis": "third eye icon, wisdom stat, purple accent, bronze medallion, WIS label",
+          "cha": "crown icon, charisma stat, gold accent, bronze medallion, CHA label",
+          "per": "focused eye icon, perception stat, white accent, bronze medallion, PER label"
+        }
+      },
+      "location_icons": {
+        "description": "Location/building icons in ROTK bronze medallion style",
+        "size": {"width": 96, "height": 96},
+        "style": "bronze circular medallion, embossed Chinese symbol, golden rim, KOEI Tecmo style, game UI quality, ornate frame",
+        "items": {
+          "farmland": "wheat/grain symbol, agricultural, 農村 style, bronze medallion, golden wheat icon",
+          "palace": "pagoda/imperial building, royal seat, 宮城 style, bronze medallion, ornate roof icon",
+          "castle_gates": "fortified gate symbol, defensive structure, 城門 style, bronze medallion, gate towers icon",
+          "workshop": "anvil and hammer, crafting facility, 工房 style, bronze medallion, craftsman icon",
+          "market": "balance scales, trading hub, 市場 style, bronze medallion, commerce icon",
+          "tavern": "wine jar symbol, social gathering, 酒家 style, bronze medallion, drink vessel icon",
+          "garrison": "crossed spears, military outpost, 屯所 style, bronze medallion, weapons icon",
+          "home": "house with tree, residential, 自宅 style, bronze medallion, dwelling icon",
+          "barracks": "soldier helmet, troop training, military facility, bronze medallion, army icon",
+          "treasury": "gold ingots, wealth storage, financial, bronze medallion, coins icon",
+          "academy": "open book, education facility, scholar training, bronze medallion, scroll icon",
+          "temple": "incense burner, spiritual site, cultivation, bronze medallion, shrine icon"
         }
       },
       "aether_icons": {
         "description": "Icons for aether/elemental stats",
         "size": {"width": 64, "height": 64},
-        "style": "elemental icon, glowing effect, mystical energy",
+        "style": "elemental icon, glowing effect, mystical energy, bronze frame, ROTK style",
         "items": {
-          "aether_fire": "flame icon, fire element, burning energy, red-orange",
-          "aether_ice": "snowflake icon, ice element, crystalline energy, blue-white",
-          "aether_void": "void portal icon, dark element, swirling darkness, purple-black"
+          "aether_fire": "flame icon, fire element, burning energy, red-orange glow, bronze frame",
+          "aether_ice": "snowflake icon, ice element, crystalline energy, blue-white glow, bronze frame",
+          "aether_void": "void portal icon, dark element, swirling darkness, purple-black glow, bronze frame"
         }
       },
       "combat_icons": {
-        "description": "Icons for combat stats",
+        "description": "Icons for combat stats - ROTK HUD style",
         "size": {"width": 64, "height": 64},
-        "style": "combat icon, martial arts style, dynamic energy",
+        "style": "combat icon, martial arts style, dynamic energy, bronze medallion, game HUD quality",
         "items": {
-          "thp": "heart with shield icon, temporary health, protective barrier",
-          "ae": "energy spiral icon, action energy, flowing qi",
-          "dr": "armor plate icon, damage reduction, defensive layer",
-          "guard": "crossed arms icon, guard stance, blocking position",
-          "strain": "cracking icon, strain damage, stress fractures"
+          "thp": "heart with barrier icon, temporary health, protective golden barrier, blue accent",
+          "ae": "qi spiral icon, action energy, flowing cultivation energy, cyan accent",
+          "dr": "layered armor icon, damage reduction, defensive plating, gray accent",
+          "guard": "shield stance icon, guard position, blocking arms, bronze accent",
+          "strain": "cracking icon, strain damage, stress fractures, red warning accent"
+        }
+      },
+      "damage_number_bubbles": {
+        "description": "Damage number display bubbles in ROTK combat style",
+        "size": {"width": 128, "height": 64},
+        "style": "blue elliptical bubble, gradient fill, slight outer glow, game combat UI",
+        "items": {
+          "normal_damage": "blue gradient bubble, white bold numbers, standard damage",
+          "critical_damage": "orange gradient bubble, larger size, critical hit indicator",
+          "healing": "green gradient bubble, positive numbers, healing effect",
+          "combo_damage": "linked bubbles, chain attack, multiple numbers"
         }
       },
       "pillar_icons": {
-        "description": "Icons for the three pillars",
+        "description": "Icons for the three pillars - prominent ROTK style",
         "size": {"width": 96, "height": 96},
-        "style": "ornate icon, golden trim, important symbol",
+        "style": "ornate icon, gilded frame, important symbol, KOEI Tecmo quality, game UI",
         "items": {
-          "violence": "sword and flame icon, martial power, red energy, combat mastery",
-          "influence": "crown and waves icon, social power, blue energy, commanding presence",
-          "revelation": "eye and scroll icon, mystical power, green energy, hidden knowledge"
+          "violence": "sword and flame icon, martial power, red energy, combat mastery, Violence 武 label, bronze with red accent",
+          "influence": "crown and waves icon, social power, blue energy, commanding presence, Influence 影 label, bronze with blue accent",
+          "revelation": "eye and scroll icon, mystical power, green energy, hidden knowledge, Revelation 啓 label, bronze with green accent"
+        }
+      },
+      "navigation_buttons": {
+        "description": "Navigation buttons in ROTK ornate style",
+        "size": {"width": 160, "height": 48},
+        "style": "gilded ornate frame, gradient background, icon with label, KOEI Tecmo style",
+        "items": {
+          "continue": "forward arrow icon, red gradient background, gold frame, Continue label",
+          "personnel": "group of people icon, blue gradient background, gold frame, Personnel label",
+          "military": "crossed swords icon, red gradient background, gold frame, Military label",
+          "plots": "shadowy figure icon, purple gradient background, gold frame, Plots label",
+          "diplomacy": "handshake icon, green gradient background, gold frame, Diplomacy label",
+          "policy": "scroll and seal icon, brown gradient background, gold frame, Policy label",
+          "espionage": "hidden eye icon, dark blue gradient background, gold frame, Espionage label"
         }
       },
       "cost_track_icons": {
-        "description": "Icons for cost tracks",
+        "description": "Icons for cost tracks - ROTK resource style",
         "size": {"width": 48, "height": 48},
-        "style": "resource icon, precious material, valuable substance",
+        "style": "resource icon, precious material, valuable substance, bronze frame, game resource UI",
         "items": {
-          "blood": "blood drop icon, crimson red, sacrifice resource, vital essence",
-          "fate": "destiny wheel icon, golden glow, fortune resource, karmic threads",
-          "stain": "dark mark icon, purple corruption, taint resource, moral burden"
+          "blood": "blood drop icon, crimson red, sacrifice resource, vital essence, bronze frame",
+          "fate": "destiny wheel icon, golden glow, fortune resource, karmic threads, bronze frame",
+          "stain": "dark mark icon, purple corruption, taint resource, moral burden, bronze frame"
+        }
+      },
+      "resource_icons": {
+        "description": "Resource display icons in ROTK top bar style",
+        "size": {"width": 48, "height": 48},
+        "style": "resource icon, ROTK HUD style, clean readable, bronze accent",
+        "items": {
+          "gold": "gold ingot icon, 金 label, treasury resource, yellow accent",
+          "food": "rice bowl icon, 糧 label, provisions resource, brown accent",
+          "population": "people group icon, 民 label, population count, blue accent",
+          "troops": "soldier icon, 兵 label, military strength, red accent",
+          "action_points": "lightning bolt icon, 行動力 label, action resource, cyan accent",
+          "martial": "sword icon, Martial label, combat reputation, red accent",
+          "cultural": "book icon, Cultural label, cultural reputation, green accent",
+          "notorious": "dark flame icon, Notorious label, infamy counter, purple accent"
         }
       },
       "action_icons": {
@@ -122,27 +206,42 @@
     },
     "backgrounds": {
       "combat_backgrounds": {
-        "description": "Backgrounds for combat scenes",
+        "description": "Backgrounds for combat scenes - ROTK battlefield style",
         "size": {"width": 1920, "height": 1080},
-        "style": "wuxia landscape, dramatic lighting, atmospheric depth",
+        "style": "Romance of Three Kingdoms battlefield, KOEI Tecmo quality, dramatic lighting, atmospheric depth, cinematic",
         "variants": {
-          "duel_arena": "moonlit courtyard, traditional architecture, martial arts arena, cherry blossoms",
-          "battlefield": "three kingdoms battlefield, war banners, dust and smoke, army formations distant",
-          "sect_training": "mountain sect training grounds, jade pillars, misty peaks, cultivation energy",
-          "palace_throne": "imperial throne room, dragon motifs, red and gold, imposing columns",
-          "forest_clearing": "bamboo forest clearing, filtered sunlight, peaceful combat space"
+          "duel_arena": "moonlit courtyard, traditional Chinese architecture, martial arts arena, cherry blossoms, dramatic lighting",
+          "battlefield": "three kingdoms battlefield, war banners, dust and smoke, distant army formations, mountains in background, dramatic sky",
+          "sect_training": "mountain sect training grounds, jade pillars, misty peaks, cultivation energy, traditional architecture",
+          "palace_throne": "imperial throne room, dragon motifs, red and gold columns, imposing scale, emperor perspective",
+          "forest_clearing": "bamboo forest clearing, filtered sunlight, peaceful combat space, mist between trees",
+          "city_siege": "fortified city walls, siege equipment, burning towers, dramatic war scene",
+          "river_battle": "river crossing combat, boats and bridges, strategic positioning, water reflections"
+        }
+      },
+      "map_backgrounds": {
+        "description": "Strategic map backgrounds in ROTK style",
+        "size": {"width": 1920, "height": 1080},
+        "style": "Romance of Three Kingdoms map view, KOEI Tecmo style, strategic overview, terrain detail",
+        "variants": {
+          "china_map": "ancient China strategic map, faction territories, terrain features, campaign view",
+          "city_overview": "city from elevated view, traditional architecture, location markers, ROTK city style",
+          "war_room": "indoor war room, tactical table map, attendants in background, dramatic lighting, strategy meeting"
         }
       },
       "dialogue_backgrounds": {
-        "description": "Backgrounds for dialogue scenes",
+        "description": "Backgrounds for dialogue scenes - ROTK visual novel style",
         "size": {"width": 1920, "height": 1080},
-        "style": "visual novel background, atmospheric, detailed environment",
+        "style": "visual novel background, KOEI Tecmo quality, atmospheric, detailed Chinese period environment",
         "variants": {
-          "teahouse": "traditional teahouse interior, warm lantern light, wooden beams, tea set",
-          "mountain_path": "misty mountain path, winding trail, pine trees, clouds below",
-          "city_street": "ancient Chinese city street, market stalls, lanterns, busy life",
-          "sect_hall": "cultivation sect main hall, incense smoke, ancestral tablets, meditation cushions",
-          "library": "vast ancient library, scrolls everywhere, dust motes, warm candlelight"
+          "teahouse": "traditional teahouse interior, warm lantern light, wooden beams, tea set, ROTK quality",
+          "mountain_path": "misty mountain path, winding trail, pine trees, clouds below, scenic vista",
+          "city_street": "ancient Chinese city street, market stalls, lanterns, busy atmosphere, ROTK city detail",
+          "sect_hall": "cultivation sect main hall, incense smoke, ancestral tablets, meditation cushions, mystical atmosphere",
+          "library": "vast ancient library, scrolls everywhere, dust motes, warm candlelight, scholar atmosphere",
+          "council_chamber": "government council chamber, official seating, formal atmosphere, political intrigue setting",
+          "garden_pavilion": "traditional Chinese garden, pavilion for meetings, koi pond, cherry blossoms, peaceful",
+          "military_camp": "army encampment, tents and banners, war preparations, martial atmosphere"
         }
       },
       "menu_backgrounds": {
@@ -183,9 +282,9 @@
   },
   
   "base_prompt_components": {
-    "style": "clean vector-like design, wuxia fantasy aesthetic, Romance of Three Kingdoms style",
-    "quality": "masterpiece, best quality, clean lines, professional design, high resolution",
-    "negative": "text, watermark, blurry, messy, cluttered, amateur, low quality, photo, realistic photograph"
+    "style": "Romance of Three Kingdoms game art, KOEI Tecmo quality, Dynasty Warriors aesthetic, clean vector-like design, wuxia fantasy, Chinese period accurate",
+    "quality": "masterpiece, best quality, clean lines, professional game UI design, high resolution, AAA game quality",
+    "negative": "text, watermark, blurry, messy, cluttered, amateur, low quality, photo, realistic photograph, western style"
   },
   
   "icon_workflow": {
@@ -309,19 +408,37 @@
       "priority": 1,
       "category": "pillar_icons",
       "count": 3,
-      "description": "Core pillar icons needed for UI"
+      "description": "Core pillar icons (Violence, Influence, Revelation) - ROTK style"
     },
     {
       "priority": 1,
       "category": "cost_track_icons",
       "count": 3,
-      "description": "Resource tracking icons"
+      "description": "Resource tracking icons (Blood, Fate, Stain)"
+    },
+    {
+      "priority": 1,
+      "category": "navigation_buttons",
+      "count": 7,
+      "description": "Main navigation buttons in ROTK gilded style"
     },
     {
       "priority": 2,
       "category": "stat_icons",
       "count": 9,
-      "description": "Character stat icons"
+      "description": "Character stat icons (ATK/DEF/INT/STR etc) - bronze medallion style"
+    },
+    {
+      "priority": 2,
+      "category": "location_icons",
+      "count": 12,
+      "description": "Location/building icons in ROTK bronze medallion style"
+    },
+    {
+      "priority": 2,
+      "category": "resource_icons",
+      "count": 8,
+      "description": "Resource display icons for top HUD bar"
     },
     {
       "priority": 2,
@@ -331,15 +448,27 @@
     },
     {
       "priority": 3,
+      "category": "damage_number_bubbles",
+      "count": 4,
+      "description": "Combat damage number display bubbles"
+    },
+    {
+      "priority": 3,
       "category": "combat_backgrounds",
-      "count": 5,
-      "description": "Combat scene backgrounds"
+      "count": 7,
+      "description": "Combat scene backgrounds - ROTK battlefield style"
+    },
+    {
+      "priority": 3,
+      "category": "map_backgrounds",
+      "count": 3,
+      "description": "Strategic map and city overview backgrounds"
     },
     {
       "priority": 3,
       "category": "dialogue_backgrounds",
-      "count": 5,
-      "description": "Dialogue scene backgrounds"
+      "count": 8,
+      "description": "Dialogue scene backgrounds - ROTK visual novel style"
     },
     {
       "priority": 4,

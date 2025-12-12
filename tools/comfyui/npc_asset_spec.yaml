@@ -1,8 +1,29 @@
 # Generic NPC & Character Visual Asset Specification
 # Based on Romance of the Three Kingdoms Character Depth & Volume
+# Style Reference: KOEI Tecmo ROTK Series, Dynasty Warriors, Sangokushi
 
-version: "2.0.0"
-description: "Comprehensive visual asset generation specification for WuXuxian TTRPG NPCs and Characters"
+version: "2.1.0"
+description: "Comprehensive visual asset generation specification for WuXuxian TTRPG NPCs and Characters, inspired by Romance of Three Kingdoms / KOEI Tecmo visual style"
+
+# Style Reference Notes (from provided ROTK inspiration images)
+style_reference:
+  primary_inspiration: "Romance of Three Kingdoms game series (KOEI Tecmo)"
+  visual_characteristics:
+    portrait_style: "Large detailed bust portraits, semi-realistic anime, painterly gradients, rim lighting"
+    combat_ui: "Character portraits on screen edges, damage bubbles, stat bars (ATK/DEF/INT/STR)"
+    location_icons: "Bronze circular medallions with Chinese symbols"
+    navigation: "Gilded ornate buttons with gradient backgrounds"
+  reference_characters:
+    generals: "Guan Yu (green/gold, red face), Cao Cao (dark/purple, strategic), Zhao Yun (white/blue, heroic)"
+    strategists: "Zhuge Liang (crane robes, feather fan), Sima Yi (dark robes, cunning)"
+    nobles: "Liu Bei (imperial yellow, compassionate), Sun Quan (tiger motifs, commanding)"
+  color_palette:
+    - "Imperial gold (#FFD700)"
+    - "Dynasty red (#8B0000)"
+    - "Jade green (#00A86B)"
+    - "Court blue (#1E3A5F)"
+    - "Bronze (#CD7F32)"
+    - "Silk cream (#F5F5DC)"
 
 # Asset Generation Limits & Safeguards
 safeguards:
@@ -440,8 +461,34 @@ fate_card_visuals:
       color: "#34495E"
       icon_prompt: "obsidian stone, void energy, darkness"
 
-# UI Visual Asset Requirements
+# UI Visual Asset Requirements - ROTK Style
 ui_assets:
+  # Combat UI elements inspired by ROTK battle interface
+  combat_ui:
+    damage_bubbles:
+      - type: normal_damage
+        size: [128, 64]
+        prompt: "blue elliptical bubble, white bold damage number, slight outer glow, game combat UI, ROTK style"
+      - type: critical_damage
+        size: [160, 80]
+        prompt: "orange elliptical bubble, larger bold number, critical hit glow, dramatic effect"
+      - type: combo_damage
+        size: [192, 80]
+        prompt: "linked damage bubbles, chain attack visual, combo multiplier badge"
+        
+    stat_bars:
+      - type: health_bar
+        size: [200, 24]
+        prompt: "horizontal bar, red fill on dark background, health indicator, ROTK HUD style"
+      - type: troop_count
+        size: [120, 32]
+        prompt: "numerical display, troop strength, yellow text on dark background"
+        
+    technique_banners:
+      - type: technique_name
+        size: [180, 40]
+        prompt: "ornate banner label, technique name display, crossed swords icon, ROTK combat style"
+        
   fate_card_frames:
     - type: death_card_frame
       size: [300, 420]
@@ -467,17 +514,41 @@ ui_assets:
     stat_icons:
       size: [64, 64]
       count: 20
+      style: "bronze medallion, ROTK style, embossed relief"
       categories: [primary_stats, aether_stats, combat_stats, condition_icons]
       
     pillar_icons:
-      - violence: "red flame, sword, martial"
-      - influence: "blue wave, crown, social"
-      - revelation: "green eye, scroll, mystical"
+      - violence: "red flame, sword, martial, Violence 武 label, bronze medallion"
+      - influence: "blue wave, crown, social, Influence 影 label, bronze medallion"
+      - revelation: "green eye, scroll, mystical, Revelation 啓 label, bronze medallion"
+      
+    location_icons:
+      size: [96, 96]
+      style: "bronze circular medallion, Chinese symbol, ROTK city map style"
+      items:
+        - farmland: "wheat/grain symbol, 農村 style"
+        - palace: "pagoda building, 宮城 style"
+        - castle_gates: "fortified gate, 城門 style"
+        - workshop: "anvil/hammer, 工房 style"
+        - market: "scales, 市場 style"
+        - tavern: "wine jar, 酒家 style"
+        - garrison: "crossed spears, 屯所 style"
+        - home: "house with tree, 自宅 style"
       
     cost_track_icons:
-      - blood: "blood drop, crimson, sacrifice"
-      - fate: "destiny wheel, gold, fortune"
-      - stain: "dark mark, purple, corruption"
+      - blood: "blood drop, crimson, sacrifice, bronze frame"
+      - fate: "destiny wheel, gold, fortune, bronze frame"
+      - stain: "dark mark, purple, corruption, bronze frame"
+      
+    navigation_buttons:
+      size: [160, 48]
+      style: "gilded ornate frame, gradient background, ROTK menu style"
+      items:
+        - continue: "forward arrow, red gradient, Continue"
+        - personnel: "people group, blue gradient, Personnel"
+        - military: "crossed swords, red gradient, Military"
+        - diplomacy: "handshake, green gradient, Diplomacy"
+        - policy: "scroll/seal, brown gradient, Policy"
 
 # Background Assets
 background_assets:
