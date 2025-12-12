@@ -1,5 +1,5 @@
 import CharacterPreview from './components/CharacterPreview';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { ApiErrorBanner } from "./ApiErrorBanner";
 import React from "react";
@@ -31,6 +31,7 @@ import CharacterCreation from "./components/CharacterCreation";
 import CharacterCodex from "./components/CharacterCodex";
 import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage";
+import { ZhouXuWidget } from "./components/advisor";
 
 export default function App() {
   // Use global API hook for error/debug info
@@ -79,6 +80,11 @@ export default function App() {
         <StyleBoard />
         <CharacterPreview />
         <CharacterCodex />
+        {/* Zhou Xu Divine Advisor - Global help widget */}
+        <ZhouXuWidget 
+          onOpenFullHelp={() => window.location.href = '/help'}
+          onNavigateToArticle={(id) => window.location.href = `/wiki/${id}`}
+        />
       </div>
     </BrowserRouter>
   );

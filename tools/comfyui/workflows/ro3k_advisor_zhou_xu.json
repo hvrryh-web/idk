@@ -1,0 +1,222 @@
+{
+  "name": "Zhou Xu - Divine Advisor Character",
+  "description": "Generate the Divine Advisor: Zhou Xu tutorial character, inspired by Zhou Yu from Dynasty Warriors 6. Used for tutorial system, help UI, and player guidance throughout the game.",
+  "version": "1.0.0",
+  "workflow_type": "ro3k_advisor_character",
+  
+  "character_design": {
+    "name": "Zhou Xu (周旭)",
+    "title": "Divine Advisor",
+    "role": "Tutorial guide, help assistant, strategic advisor to the player",
+    "personality": "Calm, wise, approachable yet authoritative. Combines scholarly wisdom with tactical brilliance. Patient with newcomers, insightful for veterans.",
+    
+    "visual_inspiration": {
+      "primary": "Zhou Yu from Dynasty Warriors 6 - refined elegant design with flowing robes and strategic bearing",
+      "secondary_references": [
+        "Dynasty Warriors 7 Zhou Yu - more ornate armor elements",
+        "Dynasty Warriors 8 Zhou Yu - balance of warrior and scholar",
+        "Dynasty Warriors 9 Zhou Yu - modernized classic look",
+        "Romance of Three Kingdoms game series advisor portraits"
+      ],
+      "key_design_elements": [
+        "Flowing elegant robes in deep blue/navy with gold and white accents",
+        "Wu faction color palette (red/orange secondary accents)",
+        "Feather fan or scroll as signature accessory",
+        "Scholarly yet commanding bearing",
+        "Refined handsome features, intelligent eyes",
+        "Traditional topknot hairstyle with elegant ornaments",
+        "Subtle armor elements suggesting military strategist role"
+      ]
+    },
+    
+    "outfit_description": "Elegant flowing robes in deep navy blue with elaborate gold embroidery depicting waves and phoenixes (Wu faction motifs). White inner garment visible at collar and sleeves. Light ceremonial armor pauldrons with bronze/gold finish. Jade pendant at waist. Feather fan held gracefully or tucked at side. Hair in traditional topknot with gold ornamental pin.",
+    
+    "expression_variants": {
+      "welcoming": "Warm gentle smile, inviting eyes, open approachable posture - for tutorials and greetings",
+      "explaining": "Thoughtful focused expression, slight head tilt, engaged teaching demeanor - for help content",
+      "pleased": "Satisfied smile, proud eyes, encouraging expression - for player achievements",
+      "thinking": "Contemplative look, hand near chin or fan raised thoughtfully - for loading states",
+      "concerned": "Slight worry in eyes, caring expression - for warnings or errors",
+      "confident": "Self-assured smile, knowing eyes - for strategic advice"
+    }
+  },
+  
+  "asset_requirements": {
+    "full_body_standing": {
+      "description": "Full detailed standing pose for Help section background",
+      "size": {"width": 1024, "height": 2048},
+      "composition": "Full body, slight 3/4 angle, standing gracefully, fan in hand",
+      "background": "Transparent for overlay on Help UI"
+    },
+    "portrait_bust": {
+      "description": "Bust portrait for bottom-right overlay widget",
+      "size": {"width": 256, "height": 384},
+      "composition": "Upper body bust, friendly engaging expression, clean edges",
+      "background": "Transparent"
+    },
+    "portrait_small": {
+      "description": "Small portrait for chat bubbles and quick references",
+      "size": {"width": 128, "height": 128},
+      "composition": "Face and shoulders, circular crop friendly",
+      "background": "Transparent"
+    },
+    "expression_set": {
+      "description": "Multiple expressions for dynamic responses",
+      "expressions": ["welcoming", "explaining", "pleased", "thinking", "concerned", "confident"],
+      "size": {"width": 256, "height": 384},
+      "background": "Transparent"
+    }
+  },
+  
+  "style_prompt_block": "Romance of Three Kingdoms game art, KOEI Tecmo quality, Dynasty Warriors character design, semi-realistic painted illustration, heroic historical-fantasy tone, warm cinematic lighting with gold and amber tones, high contrast, luminous rim light, painterly soft gradients, professional game illustration, AAA character art, 8k, masterpiece, best quality",
+  
+  "negative_prompt_block": "modern clothing, contemporary fashion, anime cel shading, photoreal uncanny skin, oversharp outlines, logo text, watermark stamps, signature, blurry, low quality, amateur, bad anatomy, ugly, deformed, extra limbs, western cartoon style, chibi, super deformed, nsfw, feminine features if male variant",
+  
+  "character_prompt": {
+    "base": "Zhou Xu, Divine Advisor character, inspired by Zhou Yu Dynasty Warriors 6 design, elegant scholarly strategist, refined handsome male features, intelligent perceptive eyes, traditional Chinese topknot hairstyle with gold ornamental pin",
+    
+    "outfit": "flowing elegant robes in deep navy blue with elaborate gold wave and phoenix embroidery, white inner garment visible at collar, light ceremonial armor pauldrons with bronze gold finish, jade pendant at waist, Wu faction color accents of red and orange subtle highlights",
+    
+    "accessory": "elegant white feather fan held gracefully, scholarly strategic advisor appearance",
+    
+    "pose_standing": "standing gracefully in advisor pose, one hand holding feather fan, dignified confident bearing, full body view, slight 3/4 angle facing viewer",
+    
+    "pose_bust": "upper body portrait, engaging friendly expression, feather fan visible, facing slightly toward viewer, welcoming tutorial guide demeanor"
+  },
+  
+  "workflow_nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "{CHECKPOINT_NAME}"
+      },
+      "_meta": {"title": "Load Checkpoint"}
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{POSITIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Positive)"}
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{NEGATIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Negative)"}
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 832,
+        "height": 1216,
+        "batch_size": 1
+      },
+      "_meta": {"title": "Empty Latent Image (Portrait)"}
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 30,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["4", 0]
+      },
+      "_meta": {"title": "KSampler"}
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["5", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode"}
+    },
+    "7": {
+      "class_type": "ImageScaleBy",
+      "inputs": {
+        "image": ["6", 0],
+        "upscale_method": "lanczos",
+        "scale_by": 1.5
+      },
+      "_meta": {"title": "Upscale"}
+    },
+    "8": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": ["7", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Encode (for HiRes)"}
+    },
+    "9": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 15,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 0.4,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["8", 0]
+      },
+      "_meta": {"title": "KSampler (HiRes)"}
+    },
+    "10": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["9", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode (Final)"}
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "zhou_xu_advisor",
+        "images": ["10", 0]
+      },
+      "_meta": {"title": "Save Image"}
+    }
+  },
+  
+  "example_prompts": {
+    "full_standing_welcoming": "Romance of Three Kingdoms game art, KOEI Tecmo quality, Dynasty Warriors character design, semi-realistic painted illustration, Zhou Xu Divine Advisor character, inspired by Zhou Yu Dynasty Warriors 6 design, elegant scholarly strategist, refined handsome male features, intelligent warm welcoming eyes, traditional Chinese topknot hairstyle with gold ornamental pin, flowing elegant robes in deep navy blue with elaborate gold wave and phoenix embroidery, white inner garment visible at collar, light ceremonial armor pauldrons with bronze gold finish, jade pendant at waist, elegant white feather fan held gracefully, standing full body pose, welcoming friendly expression, dignified confident bearing, slight 3/4 angle facing viewer, transparent background, masterpiece, best quality",
+    
+    "bust_explaining": "Romance of Three Kingdoms game art, KOEI Tecmo quality, Dynasty Warriors character design, semi-realistic painted illustration, Zhou Xu Divine Advisor character, inspired by Zhou Yu Dynasty Warriors 6 design, upper body bust portrait, refined handsome male features, intelligent thoughtful expression, teaching explaining demeanor, traditional Chinese topknot hairstyle with gold ornamental pin, flowing elegant robes in deep navy blue with gold embroidery, white feather fan raised slightly, engaging tutorial guide appearance, transparent background, masterpiece, best quality"
+  },
+  
+  "ui_integration_notes": {
+    "help_section_background": "Use full standing Zhou Xu on right side of Help UI, partially behind content panels",
+    "overlay_widget": "Small bust portrait in bottom-right corner, always accessible, expandable for chat",
+    "speech_bubbles": "Use circular small portrait next to speech bubbles for tutorial messages",
+    "loading_states": "Use 'thinking' expression during loading or processing",
+    "motif_sharing": "UI elements in Help section should use navy blue and gold color scheme matching Zhou Xu's robes, wave and phoenix patterns from his embroidery as decorative elements"
+  },
+  
+  "output_specifications": {
+    "naming_convention": "advisor/zhou_xu_{variant}_{expression}_{seed}.png",
+    "required_outputs": [
+      "zhou_xu_standing_welcoming.png",
+      "zhou_xu_bust_welcoming.png",
+      "zhou_xu_bust_explaining.png",
+      "zhou_xu_bust_pleased.png",
+      "zhou_xu_bust_thinking.png",
+      "zhou_xu_bust_concerned.png",
+      "zhou_xu_bust_confident.png",
+      "zhou_xu_small_avatar.png"
+    ]
+  }
+}

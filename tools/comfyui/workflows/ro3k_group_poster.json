@@ -1,0 +1,246 @@
+{
+  "name": "Romance of Three Kingdoms Group Poster - Key Art",
+  "description": "Generate promotional key art and chapter splash images with multiple figures in Romance of Three Kingdoms painted style. Features depth layering with foreground hero and background cast.",
+  "version": "1.0.0",
+  "workflow_type": "ro3k_group_poster",
+  
+  "style_reference": {
+    "primary_inspiration": "Romance of Three Kingdoms key art, Dynasty Warriors promotional materials, KOEI Tecmo box art",
+    "visual_characteristics": {
+      "composition": "Central hero with supporting cast, depth layering, epic scale",
+      "lighting": "Golden hour dramatic lighting, rim light on primary figures",
+      "atmosphere": "Background haze, battlefield smoke, or palace grandeur",
+      "focus_behavior": "Sharp foreground, progressive blur toward background"
+    }
+  },
+  
+  "parameters": {
+    "scene_description": {
+      "type": "string",
+      "required": true,
+      "description": "Description of the scene (e.g., 'Oath of brotherhood', 'War council', 'Legendary battle')"
+    },
+    "primary_hero": {
+      "type": "string",
+      "required": true,
+      "description": "Description of the central hero figure"
+    },
+    "supporting_cast": {
+      "type": "string",
+      "required": false,
+      "description": "Description of secondary figures (2-4 characters)"
+    },
+    "setting": {
+      "type": "enum",
+      "options": ["battlefield", "palace_throne", "war_council", "mountain_pass", "city_siege", "peach_garden", "river_crossing", "sunset_plains"],
+      "default": "battlefield"
+    },
+    "mood": {
+      "type": "enum",
+      "options": ["epic_heroic", "tense_dramatic", "triumphant", "solemn", "brotherhood", "confrontation"],
+      "default": "epic_heroic"
+    },
+    "faction_theme": {
+      "type": "enum",
+      "options": ["shu_green_gold", "wei_purple_dark", "wu_red_orange", "neutral_bronze", "mixed_factions"],
+      "default": "neutral_bronze"
+    },
+    "use_controlnet_pose": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable ControlNet for pose layout (requires reference sketch)"
+    },
+    "seed": {
+      "type": "integer",
+      "default": -1
+    }
+  },
+  
+  "style_prompt_block": "Romance of Three Kingdoms game art, KOEI Tecmo quality, Dynasty Warriors aesthetic, semi-realistic painted illustration, heroic historical-fantasy tone, warm cinematic lighting with gold and amber tones, high contrast, luminous rim light, painterly soft gradients, epic scale composition, professional game key art, AAA promotional illustration, 8k, masterpiece, best quality",
+  
+  "negative_prompt_block": "modern clothing, contemporary fashion, anime cel shading, photoreal uncanny skin, oversharp outlines, logo text, watermark stamps, signature, brand marks, game UI elements, text overlays, blurry, low quality, amateur, bad anatomy, ugly, deformed, disfigured, extra limbs, mutated, western cartoon style, chibi, super deformed, nsfw, nude",
+  
+  "prompt_templates": {
+    "composition_base": "epic group composition, key art promotional poster style, cinematic wide angle, multiple figures with depth layering, central hero in sharp focus foreground, supporting cast arranged behind with progressive depth blur, dramatic sky, no logos, no text",
+    
+    "setting_prompts": {
+      "battlefield": "epic three kingdoms battlefield background, war banners catching wind, dust and atmospheric haze, distant army formations, dramatic storm clouds, evidence of epic conflict",
+      "palace_throne": "imperial throne room background, dragon motifs, red and gold columns, imposing grand scale, lantern lighting, silk curtains",
+      "war_council": "war council chamber, strategic map table, lantern lighting casting dramatic shadows, tense atmosphere, military advisors present",
+      "mountain_pass": "treacherous mountain pass, misty peaks, ancient stone path, strategic choke point, pine trees, dramatic elevation",
+      "city_siege": "fortified city under siege, massive walls, siege towers, fire and smoke, desperate defense, dramatic combat",
+      "peach_garden": "peach garden setting, blossoming trees, golden sunset, oath of brotherhood atmosphere, peaceful yet momentous",
+      "river_crossing": "great river crossing, boats and rafts, strategic waterway, mist rising, epic naval atmosphere",
+      "sunset_plains": "vast plains at sunset, golden hour lighting, army silhouettes, banners against orange sky, epic scale"
+    },
+    
+    "mood_prompts": {
+      "epic_heroic": "heroic poses, triumphant atmosphere, legendary warriors, inspiring composition",
+      "tense_dramatic": "dramatic tension, opposing forces, critical moment, decisive confrontation",
+      "triumphant": "victorious celebration, raised weapons, joyful warriors, glory achieved",
+      "solemn": "solemn gravity, weight of responsibility, heavy decisions, dignified bearing",
+      "brotherhood": "sworn brothers united, loyalty and trust, unbreakable bonds, shared destiny",
+      "confrontation": "legendary rivals facing off, mutual respect and rivalry, epic standoff"
+    },
+    
+    "faction_prompts": {
+      "shu_green_gold": "Shu faction colors, jade green and imperial gold, righteous heroes, benevolent warriors",
+      "wei_purple_dark": "Wei faction colors, deep purple and dark steel, ambitious strategists, calculated power",
+      "wu_red_orange": "Wu faction colors, vermillion red and orange, fierce tigers, maritime strength",
+      "neutral_bronze": "neutral bronze and earthen tones, independent warriors, varied allegiances",
+      "mixed_factions": "multiple faction colors represented, diverse alliance or legendary gathering"
+    },
+    
+    "depth_layer_instructions": {
+      "foreground": "primary hero figure, full sharp detail, strongest rim light, most saturated colors, largest in frame",
+      "midground": "2-3 supporting characters, good detail with slight softening, secondary rim light, slightly desaturated",
+      "background": "additional figures or army silhouettes, atmospheric blur, cool color shift, reduced detail, integrated with environment"
+    }
+  },
+  
+  "output_specifications": {
+    "sizes": {
+      "standard": {"width": 1536, "height": 1024},
+      "widescreen": {"width": 1920, "height": 1080},
+      "ultrawide": {"width": 2560, "height": 1080}
+    },
+    "format": "png",
+    "naming_convention": "posters/{scene_id}_{variant}_{seed}.png"
+  },
+  
+  "workflow_nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "{CHECKPOINT_NAME}"
+      },
+      "_meta": {"title": "Load Checkpoint"}
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{POSITIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Positive)"}
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{NEGATIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Negative)"}
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 1536,
+        "height": 1024,
+        "batch_size": 1
+      },
+      "_meta": {"title": "Empty Latent Image (Landscape)"}
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 35,
+        "cfg": 7.5,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["4", 0]
+      },
+      "_meta": {"title": "KSampler (Initial)"}
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["5", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode"}
+    },
+    "7": {
+      "class_type": "ImageScaleBy",
+      "inputs": {
+        "image": ["6", 0],
+        "upscale_method": "lanczos",
+        "scale_by": 1.25
+      },
+      "_meta": {"title": "Upscale for Detail Pass"}
+    },
+    "8": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": ["7", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Encode (for refinement)"}
+    },
+    "9": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 18,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 0.4,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["8", 0]
+      },
+      "_meta": {"title": "KSampler (Refinement)"}
+    },
+    "10": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["9", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode (Final)"}
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "ro3k_group_poster",
+        "images": ["10", 0]
+      },
+      "_meta": {"title": "Save Image"}
+    }
+  },
+  
+  "controlnet_extension": {
+    "_comment": "Optional ControlNet nodes for pose layout control",
+    "pose_loader": {
+      "class_type": "ControlNetLoader",
+      "inputs": {
+        "control_net_name": "control_v11p_sd15_openpose.pth"
+      }
+    },
+    "pose_apply": {
+      "class_type": "ControlNetApply",
+      "inputs": {
+        "strength": 0.6,
+        "conditioning": ["2", 0],
+        "control_net": ["pose_loader", 0],
+        "image": "{POSE_REFERENCE_IMAGE}"
+      }
+    }
+  },
+  
+  "workflow_notes": "This workflow generates epic group compositions for key art and promotional materials. Uses a two-pass approach with upscaling for maximum detail. For ControlNet pose control, use a simple stick figure sketch to guide figure placement. The 'no logos, no text' guardrail is built into the composition prompt.",
+  
+  "post_processing": {
+    "filmic_contrast": true,
+    "warm_color_balance": true,
+    "vignette_strength": 0.25,
+    "atmospheric_haze": "subtle"
+  }
+}
