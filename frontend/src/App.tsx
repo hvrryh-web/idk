@@ -30,6 +30,7 @@ import ConversationScreen from "./screens/ConversationScreen";
 import CharacterCreation from "./components/CharacterCreation";
 import CharacterCodex from "./components/CharacterCodex";
 import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
+import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage";
 
 export default function App() {
   // Use global API hook for error/debug info
@@ -73,6 +74,7 @@ export default function App() {
           <Route path="/ascii-art" element={<ASCIIArtManager />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
           <Route path="/ascii" element={<AsciiVisualizer />} />
+          <Route path="/fate-card-builder" element={<FateCardBuilderPage />} />
         </Routes>
         <StyleBoard />
         <CharacterPreview />

@@ -49,11 +49,65 @@ The landing page provides:
 - **Game**: http://localhost:5173
 - **API Docs**: http://localhost:8000/docs
 - **Backend**: http://localhost:8000
-- **Landing Page (Local)**: Open `alpha-landing.html` in your browser
-- **Landing Page (Online)**: https://hvrryh-web.github.io/idk/
-- **Static Control Panel**: Open `docs/index.html` in your browser
+- **Landing Page**: Open `alpha-landing.html` in your browser
+- **Static Landing Page**: Open `landing/index.html` for GitHub Pages-ready version
 
 📘 **Need Help?** See the full [Alpha Test Guide](./ALPHA_TEST.md) for troubleshooting and detailed instructions.
+
+---
+
+## 🚀 Static Landing Page (GitHub Pages)
+
+A deployable static landing page is available in the `landing/` directory with:
+
+- **Start/End Server buttons** with visual feedback
+- **Locked Continue button** that unlocks only after server confirmation
+- **Finite State Machine** (STOPPED → STARTING → RUNNING_UNCONFIRMED → RUNNING_CONFIRMED → STOPPING → ERROR)
+- **Activity log panel** with timestamped messages
+- **Multiple operation modes:**
+  - `mock`: Simulates server start/stop (no backend needed)
+  - `health-only`: Polls a real `/health` endpoint
+  - `api`: Full API integration with the landing-backend
+  - `wuxuxian`: Uses the existing WuXuxian FastAPI backend
+
+### Running the Static Landing Page
+
+1. **Mock Mode (No Backend):**
+   ```bash
+   # Just open the file in a browser
+   open landing/index.html
+   ```
+
+2. **With WuXuxian Backend (URL Parameter):**
+   ```bash
+   # Start the main backend
+   ./start-alpha.sh
+   
+   # Open with URL parameter
+   open "landing/index.html?mode=wuxuxian"
+   ```
+
+3. **With Landing Backend (API Mode):**
+   ```bash
+   cd landing-backend
+   npm install
+   npm start  # Runs on port 3000
+   
+   # Open with URL parameter
+   open "landing/index.html?mode=api"
+   ```
+
+### URL Parameters
+
+Configure the landing page without editing code:
+- `?mode=mock|health-only|api|wuxuxian` - Set operation mode
+- `?serverUrl=http://localhost:3000` - Set backend URL
+
+Example: `landing/index.html?mode=api&serverUrl=http://localhost:3000`
+
+### GitHub Pages Deployment
+
+The `landing/` folder is configured for GitHub Pages deployment via `.github/workflows/deploy-pages.yml`. It deploys automatically on push to `main`.
 
 ---
 

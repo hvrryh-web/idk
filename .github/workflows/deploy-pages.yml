@@ -1,48 +1,37 @@
-# Deploy Static Site to GitHub Pages
-# This workflow deploys the static landing page for the WuXuxian TTRPG Alpha Test
-
-name: Deploy to GitHub Pages
+name: Deploy Landing Pages to GitHub Pages
 
 on:
-  # Runs on pushes to main branch
   push:
-    branches: ["main"]
+    branches:
+      - main
     paths:
-      - 'docs/**'
-      - '.github/workflows/deploy-pages.yml'
-  
-  # Allows manual trigger from Actions tab
+      - 'landing/**'
   workflow_dispatch:
 
-# Sets permissions for GITHUB_TOKEN
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the docs folder
-          path: './docs'
+          path: './landing'
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages

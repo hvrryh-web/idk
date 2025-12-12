@@ -25,10 +25,6 @@ export type ApiDiagnostics = {
   refresh: () => Promise<void>;
 };
 
-export function useApi() {
-  return { apiError: null, lastApiCall: null, lastStatus: null } as const;
-}
-
 async function handle<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const message = await response.text();

@@ -302,6 +302,14 @@ export default function GameRoom() {
               >
                 Character Manager
               </Button>
+              <Button
+                variant="secondary"
+                size="medium"
+                icon={Rocket}
+                onClick={() => navigate("/fate-card-builder")}
+              >
+                🎴 Fate Card Builder
+              </Button>
             </nav>
           </div>
         </aside>
@@ -314,6 +322,7 @@ export default function GameRoom() {
             <button onClick={() => navigate("/help")}>Help Center</button>
             <button onClick={() => navigate("/characters")}>Manage Characters</button>
             <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
+            <button onClick={() => navigate("/fate-card-builder")}>🎴 Fate Card Builder</button>
           </nav>
         </div>
       </div>
