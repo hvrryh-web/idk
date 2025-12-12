@@ -1,0 +1,165 @@
+# ComfyUI Asset Generation Specification
+# Defines assets to generate for the character customization system
+
+version: "1.0.0"
+output_dir: "../frontend/public/assets/characters"
+manifest_output: "../frontend/public/assets/characters/asset_manifest.json"
+
+# Base models
+base_models:
+  - id: "female"
+    name: "Female Base"
+    workflow: "base_character.json"
+    prompt_template: "prompts/female_base.txt"
+    output_filename: "bases/female_base_neutral.png"
+    dimensions:
+      width: 512
+      height: 768
+    seed: 42
+    negative_prompt: "blurry, low quality, watermark, extra limbs, distorted, ugly"
+
+  - id: "male"
+    name: "Male Base"
+    workflow: "base_character.json"
+    prompt_template: "prompts/male_base.txt"
+    output_filename: "bases/male_base_neutral.png"
+    dimensions:
+      width: 512
+      height: 768
+    seed: 43
+    negative_prompt: "blurry, low quality, watermark, extra limbs, distorted, ugly"
+
+# Overlay categories
+categories:
+  - id: "hair"
+    name: "Hair Style"
+    description: "Traditional and modern hairstyles"
+    workflow: "overlay_layer.json"
+    options:
+      - id: "hair-001"
+        name: "Long Flowing"
+        layers:
+          - type: "hair_back"
+            prompt_template: "prompts/hair/long_flowing_back.txt"
+            output_filename: "overlays/hair/hair-001-back.png"
+            seed: 1001
+          - type: "hair_front"
+            prompt_template: "prompts/hair/long_flowing_front.txt"
+            output_filename: "overlays/hair/hair-001-front.png"
+            seed: 1002
+        thumbnail_output: "overlays/hair/hair-001-thumb.png"
+
+      - id: "hair-002"
+        name: "Topknot Bun"
+        layers:
+          - type: "hair_back"
+            prompt_template: "prompts/hair/topknot_back.txt"
+            output_filename: "overlays/hair/hair-002-back.png"
+            seed: 1003
+          - type: "hair_front"
+            prompt_template: "prompts/hair/topknot_front.txt"
+            output_filename: "overlays/hair/hair-002-front.png"
+            seed: 1004
+        thumbnail_output: "overlays/hair/hair-002-thumb.png"
+
+      - id: "hair-003"
+        name: "Half Up Half Down"
+        layers:
+          - type: "hair_back"
+            prompt_template: "prompts/hair/half_up_back.txt"
+            output_filename: "overlays/hair/hair-003-back.png"
+            seed: 1005
+          - type: "hair_front"
+            prompt_template: "prompts/hair/half_up_front.txt"
+            output_filename: "overlays/hair/hair-003-front.png"
+            seed: 1006
+        thumbnail_output: "overlays/hair/hair-003-thumb.png"
+
+      - id: "hair-004"
+        name: "Braided Crown"
+        layers:
+          - type: "hair_back"
+            prompt_template: "prompts/hair/braided_back.txt"
+            output_filename: "overlays/hair/hair-004-back.png"
+            seed: 1007
+          - type: "hair_front"
+            prompt_template: "prompts/hair/braided_front.txt"
+            output_filename: "overlays/hair/hair-004-front.png"
+            seed: 1008
+        thumbnail_output: "overlays/hair/hair-004-thumb.png"
+
+      - id: "hair-005"
+        name: "Short Warrior"
+        layers:
+          - type: "hair_back"
+            prompt_template: "prompts/hair/short_back.txt"
+            output_filename: "overlays/hair/hair-005-back.png"
+            seed: 1009
+          - type: "hair_front"
+            prompt_template: "prompts/hair/short_front.txt"
+            output_filename: "overlays/hair/hair-005-front.png"
+            seed: 1010
+        thumbnail_output: "overlays/hair/hair-005-thumb.png"
+
+  - id: "eyes"
+    name: "Eye Shape"
+    description: "Various eye shapes and expressions"
+    workflow: "overlay_layer.json"
+    options:
+      - id: "eyes-001"
+        name: "Calm Almond"
+        layers:
+          - type: "eyes"
+            prompt_template: "prompts/eyes/calm_almond.txt"
+            output_filename: "overlays/eyes/eyes-001.png"
+            seed: 2001
+        thumbnail_output: "overlays/eyes/eyes-001-thumb.png"
+
+      - id: "eyes-002"
+        name: "Sharp Phoenix"
+        layers:
+          - type: "eyes"
+            prompt_template: "prompts/eyes/sharp_phoenix.txt"
+            output_filename: "overlays/eyes/eyes-002.png"
+            seed: 2002
+        thumbnail_output: "overlays/eyes/eyes-002-thumb.png"
+
+      - id: "eyes-003"
+        name: "Wide Round"
+        layers:
+          - type: "eyes"
+            prompt_template: "prompts/eyes/wide_round.txt"
+            output_filename: "overlays/eyes/eyes-003.png"
+            seed: 2003
+        thumbnail_output: "overlays/eyes/eyes-003-thumb.png"
+
+      - id: "eyes-004"
+        name: "Narrow Focused"
+        layers:
+          - type: "eyes"
+            prompt_template: "prompts/eyes/narrow_focused.txt"
+            output_filename: "overlays/eyes/eyes-004.png"
+            seed: 2004
+        thumbnail_output: "overlays/eyes/eyes-004-thumb.png"
+
+      - id: "eyes-005"
+        name: "Gentle Crescent"
+        layers:
+          - type: "eyes"
+            prompt_template: "prompts/eyes/gentle_crescent.txt"
+            output_filename: "overlays/eyes/eyes-005.png"
+            seed: 2005
+        thumbnail_output: "overlays/eyes/eyes-005-thumb.png"
+
+# Style settings
+style:
+  base_style: "manhwa, chinese period art inspired, ink wash painting, semi-realistic"
+  quality_tags: "high quality, detailed, professional illustration, painterly"
+  negative_base: "blurry, low quality, watermark, text, signature, distorted anatomy"
+
+# ComfyUI server settings (overridable via environment variables)
+comfyui:
+  url: "http://127.0.0.1:8188"
+  timeout: 300
+  polling_interval: 2
+  use_websocket: true

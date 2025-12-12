@@ -1,0 +1,6 @@
+<svg width="200" height="40" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="40" fill="#2A2A2A"/>
+  <text x="50%" y="50%" text-anchor="middle" fill="white" font-size="24" font-family="Arial">
+    Brows 5
+  </text>
+</svg>

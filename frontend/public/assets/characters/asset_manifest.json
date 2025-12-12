@@ -1,0 +1,488 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-12-12T08:00:00Z",
+  "baseModels": [
+    {
+      "id": "female",
+      "name": "Female Base",
+      "path": "/assets/characters/bases/female_base_neutral.png",
+      "anchor": { "x": 256, "y": 0 },
+      "dimensions": { "width": 512, "height": 768 },
+      "maskPath": "/assets/characters/masks/female_base_mask.png"
+    },
+    {
+      "id": "male",
+      "name": "Male Base",
+      "path": "/assets/characters/bases/male_base_neutral.png",
+      "anchor": { "x": 256, "y": 0 },
+      "dimensions": { "width": 512, "height": 768 },
+      "maskPath": "/assets/characters/masks/male_base_mask.png"
+    }
+  ],
+  "categories": [
+    {
+      "id": "hair",
+      "name": "Hair Style",
+      "description": "Choose your character's hairstyle with traditional and modern variations",
+      "required": true,
+      "defaultOptionId": "hair-001",
+      "options": [
+        {
+          "id": "hair-001",
+          "name": "Long Flowing",
+          "thumbnail": "/assets/characters/overlays/hair/hair-001-thumb.png",
+          "layers": [
+            {
+              "layerType": "hair_back",
+              "path": "/assets/characters/overlays/hair/hair-001-back.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            },
+            {
+              "layerType": "hair_front",
+              "path": "/assets/characters/overlays/hair/hair-001-front.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            }
+          ]
+        },
+        {
+          "id": "hair-002",
+          "name": "Topknot Bun",
+          "thumbnail": "/assets/characters/overlays/hair/hair-002-thumb.png",
+          "layers": [
+            {
+              "layerType": "hair_back",
+              "path": "/assets/characters/overlays/hair/hair-002-back.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            },
+            {
+              "layerType": "hair_front",
+              "path": "/assets/characters/overlays/hair/hair-002-front.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            }
+          ]
+        },
+        {
+          "id": "hair-003",
+          "name": "Half Up Half Down",
+          "thumbnail": "/assets/characters/overlays/hair/hair-003-thumb.png",
+          "layers": [
+            {
+              "layerType": "hair_back",
+              "path": "/assets/characters/overlays/hair/hair-003-back.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            },
+            {
+              "layerType": "hair_front",
+              "path": "/assets/characters/overlays/hair/hair-003-front.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            }
+          ]
+        },
+        {
+          "id": "hair-004",
+          "name": "Braided Crown",
+          "thumbnail": "/assets/characters/overlays/hair/hair-004-thumb.png",
+          "layers": [
+            {
+              "layerType": "hair_back",
+              "path": "/assets/characters/overlays/hair/hair-004-back.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            },
+            {
+              "layerType": "hair_front",
+              "path": "/assets/characters/overlays/hair/hair-004-front.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            }
+          ]
+        },
+        {
+          "id": "hair-005",
+          "name": "Short Warrior",
+          "thumbnail": "/assets/characters/overlays/hair/hair-005-thumb.png",
+          "layers": [
+            {
+              "layerType": "hair_back",
+              "path": "/assets/characters/overlays/hair/hair-005-back.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            },
+            {
+              "layerType": "hair_front",
+              "path": "/assets/characters/overlays/hair/hair-005-front.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["hair"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eyes",
+      "name": "Eye Shape",
+      "description": "Select eye shape and expression",
+      "required": true,
+      "defaultOptionId": "eyes-001",
+      "options": [
+        {
+          "id": "eyes-001",
+          "name": "Calm Almond",
+          "thumbnail": "/assets/characters/overlays/eyes/eyes-001-thumb.png",
+          "layers": [
+            {
+              "layerType": "eyes",
+              "path": "/assets/characters/overlays/eyes/eyes-001.png",
+              "anchor": { "x": 256, "y": 180 }
+            }
+          ]
+        },
+        {
+          "id": "eyes-002",
+          "name": "Sharp Phoenix",
+          "thumbnail": "/assets/characters/overlays/eyes/eyes-002-thumb.png",
+          "layers": [
+            {
+              "layerType": "eyes",
+              "path": "/assets/characters/overlays/eyes/eyes-002.png",
+              "anchor": { "x": 256, "y": 180 }
+            }
+          ]
+        },
+        {
+          "id": "eyes-003",
+          "name": "Wide Round",
+          "thumbnail": "/assets/characters/overlays/eyes/eyes-003-thumb.png",
+          "layers": [
+            {
+              "layerType": "eyes",
+              "path": "/assets/characters/overlays/eyes/eyes-003.png",
+              "anchor": { "x": 256, "y": 180 }
+            }
+          ]
+        },
+        {
+          "id": "eyes-004",
+          "name": "Narrow Focused",
+          "thumbnail": "/assets/characters/overlays/eyes/eyes-004-thumb.png",
+          "layers": [
+            {
+              "layerType": "eyes",
+              "path": "/assets/characters/overlays/eyes/eyes-004.png",
+              "anchor": { "x": 256, "y": 180 }
+            }
+          ]
+        },
+        {
+          "id": "eyes-005",
+          "name": "Gentle Crescent",
+          "thumbnail": "/assets/characters/overlays/eyes/eyes-005-thumb.png",
+          "layers": [
+            {
+              "layerType": "eyes",
+              "path": "/assets/characters/overlays/eyes/eyes-005.png",
+              "anchor": { "x": 256, "y": 180 }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "brows",
+      "name": "Eyebrows",
+      "description": "Choose eyebrow style and thickness",
+      "required": true,
+      "defaultOptionId": "brows-001",
+      "options": [
+        {
+          "id": "brows-001",
+          "name": "Straight Natural",
+          "thumbnail": "/assets/characters/overlays/brows/brows-001-thumb.png",
+          "layers": [
+            {
+              "layerType": "brows",
+              "path": "/assets/characters/overlays/brows/brows-001.png",
+              "anchor": { "x": 256, "y": 160 }
+            }
+          ]
+        },
+        {
+          "id": "brows-002",
+          "name": "Arched Elegant",
+          "thumbnail": "/assets/characters/overlays/brows/brows-002-thumb.png",
+          "layers": [
+            {
+              "layerType": "brows",
+              "path": "/assets/characters/overlays/brows/brows-002.png",
+              "anchor": { "x": 256, "y": 160 }
+            }
+          ]
+        },
+        {
+          "id": "brows-003",
+          "name": "Thick Warrior",
+          "thumbnail": "/assets/characters/overlays/brows/brows-003-thumb.png",
+          "layers": [
+            {
+              "layerType": "brows",
+              "path": "/assets/characters/overlays/brows/brows-003.png",
+              "anchor": { "x": 256, "y": 160 }
+            }
+          ]
+        },
+        {
+          "id": "brows-004",
+          "name": "Angled Sharp",
+          "thumbnail": "/assets/characters/overlays/brows/brows-004-thumb.png",
+          "layers": [
+            {
+              "layerType": "brows",
+              "path": "/assets/characters/overlays/brows/brows-004.png",
+              "anchor": { "x": 256, "y": 160 }
+            }
+          ]
+        },
+        {
+          "id": "brows-005",
+          "name": "Soft Gentle",
+          "thumbnail": "/assets/characters/overlays/brows/brows-005-thumb.png",
+          "layers": [
+            {
+              "layerType": "brows",
+              "path": "/assets/characters/overlays/brows/brows-005.png",
+              "anchor": { "x": 256, "y": 160 }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mouth",
+      "name": "Expression",
+      "description": "Choose facial expression and mood",
+      "required": true,
+      "defaultOptionId": "mouth-001",
+      "options": [
+        {
+          "id": "mouth-001",
+          "name": "Neutral Calm",
+          "thumbnail": "/assets/characters/overlays/mouth/mouth-001-thumb.png",
+          "layers": [
+            {
+              "layerType": "mouth",
+              "path": "/assets/characters/overlays/mouth/mouth-001.png",
+              "anchor": { "x": 256, "y": 220 }
+            }
+          ]
+        },
+        {
+          "id": "mouth-002",
+          "name": "Slight Smile",
+          "thumbnail": "/assets/characters/overlays/mouth/mouth-002-thumb.png",
+          "layers": [
+            {
+              "layerType": "mouth",
+              "path": "/assets/characters/overlays/mouth/mouth-002.png",
+              "anchor": { "x": 256, "y": 220 }
+            }
+          ]
+        },
+        {
+          "id": "mouth-003",
+          "name": "Determined",
+          "thumbnail": "/assets/characters/overlays/mouth/mouth-003-thumb.png",
+          "layers": [
+            {
+              "layerType": "mouth",
+              "path": "/assets/characters/overlays/mouth/mouth-003.png",
+              "anchor": { "x": 256, "y": 220 }
+            }
+          ]
+        },
+        {
+          "id": "mouth-004",
+          "name": "Gentle Smile",
+          "thumbnail": "/assets/characters/overlays/mouth/mouth-004-thumb.png",
+          "layers": [
+            {
+              "layerType": "mouth",
+              "path": "/assets/characters/overlays/mouth/mouth-004.png",
+              "anchor": { "x": 256, "y": 220 }
+            }
+          ]
+        },
+        {
+          "id": "mouth-005",
+          "name": "Serious",
+          "thumbnail": "/assets/characters/overlays/mouth/mouth-005-thumb.png",
+          "layers": [
+            {
+              "layerType": "mouth",
+              "path": "/assets/characters/overlays/mouth/mouth-005.png",
+              "anchor": { "x": 256, "y": 220 }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outfit",
+      "name": "Outfit",
+      "description": "Period-inspired traditional clothing",
+      "required": true,
+      "defaultOptionId": "outfit-001",
+      "options": [
+        {
+          "id": "outfit-001",
+          "name": "Scholar's Robe",
+          "thumbnail": "/assets/characters/overlays/outfit/outfit-001-thumb.png",
+          "layers": [
+            {
+              "layerType": "outfit_inner",
+              "path": "/assets/characters/overlays/outfit/outfit-001-inner.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            },
+            {
+              "layerType": "outfit_outer",
+              "path": "/assets/characters/overlays/outfit/outfit-001-outer.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            }
+          ]
+        },
+        {
+          "id": "outfit-002",
+          "name": "Warrior's Armor",
+          "thumbnail": "/assets/characters/overlays/outfit/outfit-002-thumb.png",
+          "layers": [
+            {
+              "layerType": "outfit_inner",
+              "path": "/assets/characters/overlays/outfit/outfit-002-inner.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            },
+            {
+              "layerType": "outfit_outer",
+              "path": "/assets/characters/overlays/outfit/outfit-002-outer.png",
+              "anchor": { "x": 256, "y": 0 }
+            }
+          ]
+        },
+        {
+          "id": "outfit-003",
+          "name": "Noble's Hanfu",
+          "thumbnail": "/assets/characters/overlays/outfit/outfit-003-thumb.png",
+          "layers": [
+            {
+              "layerType": "outfit_inner",
+              "path": "/assets/characters/overlays/outfit/outfit-003-inner.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            },
+            {
+              "layerType": "outfit_outer",
+              "path": "/assets/characters/overlays/outfit/outfit-003-outer.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            }
+          ]
+        },
+        {
+          "id": "outfit-004",
+          "name": "Merchant's Attire",
+          "thumbnail": "/assets/characters/overlays/outfit/outfit-004-thumb.png",
+          "layers": [
+            {
+              "layerType": "outfit_inner",
+              "path": "/assets/characters/overlays/outfit/outfit-004-inner.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            },
+            {
+              "layerType": "outfit_outer",
+              "path": "/assets/characters/overlays/outfit/outfit-004-outer.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            }
+          ]
+        },
+        {
+          "id": "outfit-005",
+          "name": "Cultivator's Vestments",
+          "thumbnail": "/assets/characters/overlays/outfit/outfit-005-thumb.png",
+          "layers": [
+            {
+              "layerType": "outfit_inner",
+              "path": "/assets/characters/overlays/outfit/outfit-005-inner.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            },
+            {
+              "layerType": "outfit_outer",
+              "path": "/assets/characters/overlays/outfit/outfit-005-outer.png",
+              "anchor": { "x": 256, "y": 0 },
+              "swatchApplicable": ["fabric"]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "swatchPalettes": [
+    {
+      "type": "skin",
+      "name": "Skin Tones",
+      "swatches": [
+        { "id": "skin-fair", "name": "Fair", "hexColor": "#F5D7C8" },
+        { "id": "skin-light", "name": "Light", "hexColor": "#E8C4A8" },
+        { "id": "skin-medium", "name": "Medium", "hexColor": "#D4A574" },
+        { "id": "skin-tan", "name": "Tan", "hexColor": "#C18E68" },
+        { "id": "skin-olive", "name": "Olive", "hexColor": "#A67556" },
+        { "id": "skin-brown", "name": "Brown", "hexColor": "#8B5A3C" },
+        { "id": "skin-deep", "name": "Deep", "hexColor": "#6B4423" },
+        { "id": "skin-dark", "name": "Dark", "hexColor": "#4A2511" }
+      ]
+    },
+    {
+      "type": "hair",
+      "name": "Hair Colors",
+      "swatches": [
+        { "id": "hair-black", "name": "Ink Black", "hexColor": "#1A1A1A" },
+        { "id": "hair-brown", "name": "Chestnut Brown", "hexColor": "#3E2A1D" },
+        { "id": "hair-auburn", "name": "Auburn", "hexColor": "#6B2B0F" },
+        { "id": "hair-red", "name": "Crimson Red", "hexColor": "#8B1A1A" },
+        { "id": "hair-blonde", "name": "Honey Blonde", "hexColor": "#B89968" },
+        { "id": "hair-gray", "name": "Silver Gray", "hexColor": "#9E9E9E" },
+        { "id": "hair-white", "name": "Snow White", "hexColor": "#E8E8E8" },
+        { "id": "hair-blue", "name": "Midnight Blue", "hexColor": "#1A3A52" },
+        { "id": "hair-purple", "name": "Royal Purple", "hexColor": "#4A1A52" },
+        { "id": "hair-green", "name": "Jade Green", "hexColor": "#1A4A3A" }
+      ]
+    },
+    {
+      "type": "fabric",
+      "name": "Fabric Colors",
+      "swatches": [
+        { "id": "fabric-white", "name": "Pure White", "hexColor": "#F0F0F0" },
+        { "id": "fabric-cream", "name": "Cream Silk", "hexColor": "#F5E6D3" },
+        { "id": "fabric-jade", "name": "Jade Green", "hexColor": "#3A7A5A" },
+        { "id": "fabric-silk", "name": "Sky Silk", "hexColor": "#4A7AAA" },
+        { "id": "fabric-vermilion", "name": "Vermilion", "hexColor": "#D2422B" },
+        { "id": "fabric-gold", "name": "Imperial Gold", "hexColor": "#C9A74A" },
+        { "id": "fabric-purple", "name": "Noble Purple", "hexColor": "#6A3A7A" },
+        { "id": "fabric-ink", "name": "Ink Black", "hexColor": "#2A2A2A" },
+        { "id": "fabric-bronze", "name": "Bronze", "hexColor": "#8B5A3C" },
+        { "id": "fabric-silver", "name": "Silver", "hexColor": "#9E9E9E" },
+        { "id": "fabric-teal", "name": "Teal", "hexColor": "#2A5A5A" },
+        { "id": "fabric-crimson", "name": "Deep Crimson", "hexColor": "#8B1A1A" }
+      ]
+    }
+  ]
+}
