@@ -29,6 +29,9 @@ FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Post
 - **Game**: http://localhost:5173
 - **API Docs**: http://localhost:8000/docs
 - **Backend**: http://localhost:8000
+- **Landing Page**: Open `alpha-landing.html` in your browser
+
+📘 **Need Help?** See the full [Alpha Test Guide](./ALPHA_TEST.md) for troubleshooting and detailed instructions.
 
 ---
 
