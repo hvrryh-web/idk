@@ -2,11 +2,10 @@
  * SiegeOverlayScene - Demo scene with tactical map overlay, siege actions, defender status
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Panel9Slice,
   ROTKButton,
-  MapMarker,
   StatBar,
   StatusChip,
 } from '../../components/rotk';
@@ -15,8 +14,6 @@ import {
   Shield,
   Flame,
   Users,
-  ChevronUp,
-  ChevronDown,
   Crosshair,
   Flag,
 } from 'lucide-react';
@@ -65,9 +62,9 @@ const getPointIcon = (type: SiegePoint['type']) => {
 
 export function SiegeOverlayScene() {
   const [selectedPoint, setSelectedPoint] = useState<string | null>(null);
-  const [siegeProgress, setSiegeProgress] = useState(35);
-  const [attackerMorale, setAttackerMorale] = useState(72);
-  const [defenderMorale, setDefenderMorale] = useState(45);
+  const [siegeProgress] = useState(35);
+  const [attackerMorale] = useState(72);
+  const [defenderMorale] = useState(45);
   
   const selectedSiegePoint = siegePoints.find(p => p.id === selectedPoint);
   

@@ -2,8 +2,7 @@
  * ResourceHUD - Top resource HUD bar with date, action points, currencies
  */
 
-import React from 'react';
-import { Settings, Menu, Sun, Cloud, Snowflake, Leaf } from 'lucide-react';
+import { Settings, Menu, Sun, Cloud, Snowflake, Leaf, LucideIcon } from 'lucide-react';
 import '../styles/rotkTheme.css';
 
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
@@ -17,7 +16,6 @@ interface Resource {
 
 interface ResourceHUDProps {
   year?: number;
-  month?: number;
   season?: Season;
   actionPoints?: { current: number; max: number };
   resources?: Resource[];
@@ -27,7 +25,7 @@ interface ResourceHUDProps {
   style?: React.CSSProperties;
 }
 
-const seasonIcons: Record<Season, React.FC<{ size: number; color: string }>> = {
+const seasonIcons: Record<Season, LucideIcon> = {
   spring: Leaf,
   summer: Sun,
   autumn: Cloud,

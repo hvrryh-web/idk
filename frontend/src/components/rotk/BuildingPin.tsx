@@ -19,7 +19,6 @@ export interface BuildingPinProps {
 }
 
 export function BuildingPin({
-  id,
   icon,
   label,
   level,

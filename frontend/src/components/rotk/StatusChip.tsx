@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { ArrowUp, ArrowDown, Minus } from 'lucide-react';
+import { ArrowUp, ArrowDown, Minus, LucideIcon } from 'lucide-react';
 import '../styles/rotkTheme.css';
 
 export type ChipVariant = 'buff' | 'debuff' | 'neutral';
@@ -38,7 +38,7 @@ const variantStyles: Record<ChipVariant, React.CSSProperties> = {
   },
 };
 
-const ArrowIcon: Record<ChipVariant, React.FC<{ size: number }>> = {
+const ArrowIconMap: Record<ChipVariant, LucideIcon> = {
   buff: ArrowUp,
   debuff: ArrowDown,
   neutral: Minus,
@@ -52,7 +52,7 @@ export function StatusChip({
   className = '',
   style = {},
 }: StatusChipProps) {
-  const Icon = ArrowIcon[variant];
+  const Icon = ArrowIconMap[variant];
   
   return (
     <div

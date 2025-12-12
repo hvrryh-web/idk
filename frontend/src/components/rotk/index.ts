@@ -48,6 +48,3 @@ export { ClashIndicator } from './ClashIndicator';
 export type { AdvantageType } from './ClashIndicator';
 
 export { CharacterPortraitOverlay } from './CharacterPortraitOverlay';
-
-// Theme
-export { rotkTheme, rotkColors, rotkGradients, rotkTypography } from '../styles/rotkTheme';

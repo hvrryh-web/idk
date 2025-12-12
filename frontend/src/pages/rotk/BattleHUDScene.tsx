@@ -2,16 +2,15 @@
  * BattleHUDScene - Demo scene with battle HUD, character plates, clash indicator, damage numbers
  */
 
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import {
   CharacterPlate,
   ClashIndicator,
-  StatusChip,
   ROTKButton,
   useDamageNumbers,
   CharacterPlateUnit,
 } from '../../components/rotk';
-import { Swords, Shield, Zap, RotateCcw } from 'lucide-react';
+import { Swords, Zap, RotateCcw } from 'lucide-react';
 import '../../styles/rotkTheme.css';
 
 const leftUnit: CharacterPlateUnit = {

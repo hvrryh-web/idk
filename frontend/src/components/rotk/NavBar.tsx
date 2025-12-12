@@ -44,14 +44,11 @@ export function NavBar({
       }}
     >
       {tabs.map(tab => {
-        const isActive = tab.id === activeTab;
-        const Icon = tab.icon;
-        
         return (
           <NavTabButton
             key={tab.id}
             tab={tab}
-            isActive={isActive}
+            isActive={tab.id === activeTab}
             onClick={() => onTabChange(tab.id)}
           />
         );

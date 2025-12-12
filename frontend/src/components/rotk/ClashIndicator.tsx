@@ -35,17 +35,6 @@ export function ClashIndicator({
     }
   };
   
-  const getArrowDirection = () => {
-    switch (advantage) {
-      case 'left':
-        return '←';
-      case 'right':
-        return '→';
-      default:
-        return '↔';
-    }
-  };
-  
   return (
     <div
       className={`rotk-clash-indicator ${className}`}

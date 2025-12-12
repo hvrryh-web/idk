@@ -36,7 +36,6 @@ const sizes = {
 };
 
 export function MapMarker({
-  id,
   position,
   faction = 'neutral',
   label,

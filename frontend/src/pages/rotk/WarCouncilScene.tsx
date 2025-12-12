@@ -2,7 +2,7 @@
  * WarCouncilScene - Demo scene with map-table centerpiece, bottom nav bar, map markers
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ResourceHUD,
   NavBar,

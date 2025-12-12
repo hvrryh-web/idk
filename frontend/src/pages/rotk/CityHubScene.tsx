@@ -2,7 +2,7 @@
  * CityHubScene - Demo scene with 3D city background, building pins, top HUD, character portrait
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ResourceHUD,
   BuildingPin,
