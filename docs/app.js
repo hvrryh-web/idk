@@ -188,14 +188,24 @@ function showError(message) {
 // Server Health Check
 // ========================================
 
+// AbortController for cleanup of in-flight health check requests
+let healthCheckController = null;
+
 async function checkHealth() {
+    // Abort any previous in-flight request
+    if (healthCheckController) {
+        healthCheckController.abort();
+    }
+    healthCheckController = new AbortController();
+    
     try {
         const response = await fetch(CONFIG.CONTROL_API_BASE_URL + CONFIG.HEALTH_PATH, {
             method: 'GET',
             mode: 'cors',
             headers: {
                 'Accept': 'application/json'
-            }
+            },
+            signal: healthCheckController.signal
         });
         
         if (response.ok) {
@@ -207,6 +217,10 @@ async function checkHealth() {
         }
         return false;
     } catch (error) {
+        // Ignore abort errors
+        if (error.name === 'AbortError') {
+            return false;
+        }
         logToConsole(`Health check failed: ${error.message}`, 'warning');
         return false;
     }

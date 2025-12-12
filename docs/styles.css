@@ -127,13 +127,19 @@ h1 {
     font-family: var(--font-display);
     font-size: 3em;
     margin-bottom: var(--spacing-md);
-    /* Fallback color for browsers that don't support background-clip: text */
+    /* Default color for browsers without background-clip support */
     color: var(--color-primary);
-    background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
     text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+/* Gradient text effect for supporting browsers */
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+    h1 {
+        background: linear-gradient(45deg, var(--color-primary), var(--color-primary-light));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
 }
 
 h2 {

@@ -198,7 +198,7 @@
                     </div>
                 </a>
                 
-                <a href="https://github.com/hvrryh-web/idk/issues/new" class="link-card" target="_blank" rel="noopener noreferrer">
+                <a href="#" class="link-card" target="_blank" rel="noopener noreferrer" id="reportBugLink">
                     <span class="link-card-icon">🐛</span>
                     <div class="link-card-text">
                         <div class="link-card-title">Report Bug</div>
@@ -290,6 +290,12 @@
         
         // Event listeners
         document.addEventListener('DOMContentLoaded', async () => {
+            // Set report bug link from config
+            const reportBugLink = document.getElementById('reportBugLink');
+            if (reportBugLink) {
+                reportBugLink.href = CONFIG.GITHUB_ISSUES_URL + '/new';
+            }
+            
             // Check server status
             const isConnected = await checkServerStatus();
             
