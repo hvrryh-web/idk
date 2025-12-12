@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WuXuxian TTRPG - Alpha Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d1b3d 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            color: #b0c4de;
+            font-weight: 300;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 25px;
+            margin-bottom: 40px;
+            font-weight: bold;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .btn-docs {
+            background: linear-gradient(45deg, #9C27B0, #7B1FA2);
+            color: white;
+        }
+
+        .btn-docs:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(156, 39, 176, 0.4);
+        }
+
+        .features {
+            text-align: left;
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .feature {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .feature-title {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #b0c4de;
+        }
+
+        .instructions {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .instructions code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #4CAF50;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 1em;
+            }
+            
+            .container {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 WuXuxian TTRPG</h1>
+        <div class="subtitle">Cultivate Your Path to Immortality</div>
+        
+        <div class="status">
+            ⚡ ALPHA TEST READY
+        </div>
+
+        <div class="instructions">
+            <h3>🚀 Quick Start</h3>
+            <ol>
+                <li>Run <code>./start-alpha.sh</code> from the repository root</li>
+                <li>Wait for all services to start (PostgreSQL, Backend, Frontend)</li>
+                <li>Click the "Enter Alpha Test" button below</li>
+                <li>When done, run <code>./stop-alpha.sh</code> to stop all services</li>
+            </ol>
+        </div>
+
+        <div class="buttons">
+            <a href="http://localhost:5173" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                🎮 Enter Alpha Test
+            </a>
+            <a href="http://localhost:8000/docs" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                📚 API Documentation
+            </a>
+            <a href="https://github.com/hvrryh-web/idk" class="btn btn-docs" target="_blank" rel="noopener noreferrer">
+                📖 View Repository
+            </a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-title">✅ Multi-Page Visual Novel UI</div>
+                Navigate through character sheets, wiki, SRD book, and more
+            </div>
+            <div class="feature">
+                <div class="feature-title">✅ Character Management System</div>
+                Create and manage characters with cultivation paths, soul cores, and domain sources
+            </div>
+            <div class="feature">
+                <div class="feature-title">✅ Combat Simulation Engine</div>
+                Monte Carlo combat simulations with 1-beat and 3-stage combat modes
+            </div>
+            <div class="feature">
+                <div class="feature-title">✅ Knowledge Wiki & SRD</div>
+                Searchable wiki with full System Reference Document
+            </div>
+            <div class="feature">
+                <div class="feature-title">✅ ASCII Visual Generator</div>
+                Proof-of-concept ASCII art generator for character portraits
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built with FastAPI + SQLAlchemy + React + TypeScript + PostgreSQL</p>
+            <p>© 2024 WuXuxian TTRPG Project</p>
+        </div>
+    </div>
+
+    <script>
+        // Check if services are running
+        async function checkServices() {
+            try {
+                const response = await fetch('http://localhost:8000/health');
+                if (response.ok) {
+                    console.log('✅ Backend is running');
+                } else {
+                    console.warn('⚠️ Backend is not responding properly');
+                }
+            } catch (error) {
+                console.warn('⚠️ Backend is not running. Run ./start-alpha.sh first.');
+            }
+        }
+
+        // Check on page load
+        checkServices();
+    </script>
+</body>
+</html>
