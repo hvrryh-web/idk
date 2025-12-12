@@ -173,11 +173,11 @@ def generate_character_variants(req: MultiVariantRequest):
             # Use safe_join to prevent path traversal
             output_path = safe_join(asset_dir, filename)
 
-            # Compose prompt
+            # Compose prompt (will be used when ComfyUI integration is complete)
             if req.descriptions and i < len(req.descriptions):
-                prompt = req.descriptions[i]
+                _prompt = req.descriptions[i]  # noqa: F841
             else:
-                prompt = (
+                _prompt = (  # noqa: F841
                     f"Romance of the Three Kingdoms, {req.character_name}, "
                     f"{variant} style, ink-wash, semi-realistic, portrait, "
                     "dynasty armor, painterly rim light, LUT, bloom, vignette, grain overlay"
@@ -263,8 +263,8 @@ def generate_character_asset(req: AssetRequest):
         # Use safe_join to prevent path traversal
         output_path = safe_join(asset_dir, filename)
 
-        # Compose prompt for ComfyUI
-        prompt = req.description or (
+        # Compose prompt for ComfyUI (will be used when integration is complete)
+        _prompt = req.description or (  # noqa: F841
             f"Romance of the Three Kingdoms, {req.character_name}, "
             "Yuto Sano style, ink-wash, semi-realistic, portrait, "
             "dynasty armor, painterly rim light, LUT, bloom, vignette, grain overlay"
@@ -299,7 +299,7 @@ def generate_character_asset(req: AssetRequest):
         raise HTTPException(
             status_code=400,
             detail={"error": {"code": "BadRequest", "message": str(e)}},
-        )
+        ) from e
     except Exception as e:
         logger.error(f"Error generating asset: {e}")
         raise HTTPException(
@@ -307,4 +307,4 @@ def generate_character_asset(req: AssetRequest):
             detail={
                 "error": {"code": "InternalError", "message": f"Generation failed: {str(e)}"}
             },
-        )
+        ) from e
