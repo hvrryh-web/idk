@@ -3,34 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server Control - Landing Page</title>
+    <title>WuXuxian VN - Control Panel</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Server Control Panel</h1>
-        
-        <div class="status-panel">
-            <span class="status-label">Status:</span>
-            <span id="statusText" class="status-text">STOPPED</span>
-        </div>
-        
-        <div class="button-group">
-            <button id="startBtn" class="btn btn-start">Start Server</button>
-            <button id="stopBtn" class="btn btn-stop" disabled>End Server</button>
-            <button id="continueBtn" class="btn btn-continue locked" disabled>Continue</button>
-        </div>
-        
-        <div class="log-panel">
-            <h3>Activity Log</h3>
-            <div id="logContainer" class="log-container"></div>
-        </div>
-        
-        <div class="footer-links">
-            <a href="../alpha-landing.html" class="link-diagnostics">🔧 Full Diagnostics Panel</a>
-            <span class="separator">|</span>
-            <a href="https://github.com/hvrryh-web/idk" class="link-github" target="_blank" rel="noopener noreferrer">📖 GitHub Repository</a>
-        </div>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="vn-app" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: var(--space-4);">
+        <main id="main-content">
+            <div class="container">
+                <h1>⚔️ WuXuxian VN</h1>
+                <p style="text-align: center; color: var(--gold-light); margin-bottom: var(--space-6); font-family: var(--font-display);">Visual Novel Tactics Control Panel</p>
+                
+                <div class="status-panel">
+                    <span class="status-label">Status:</span>
+                    <span id="statusText" class="status-text">STOPPED</span>
+                </div>
+                
+                <div class="button-group">
+                    <button id="startBtn" class="btn btn-start" aria-describedby="start-desc">
+                        <span aria-hidden="true">▶️</span> Start Server
+                    </button>
+                    <button id="stopBtn" class="btn btn-stop" disabled aria-describedby="stop-desc">
+                        <span aria-hidden="true">⏹️</span> End Server
+                    </button>
+                    <button id="continueBtn" class="btn btn-continue locked" disabled aria-describedby="continue-desc">
+                        <span aria-hidden="true">🎮</span> Continue
+                    </button>
+                </div>
+                
+                <!-- Screen reader descriptions -->
+                <span id="start-desc" class="sr-only">Start the game server</span>
+                <span id="stop-desc" class="sr-only">Stop the game server</span>
+                <span id="continue-desc" class="sr-only">Continue to the game (requires running server)</span>
+                
+                <div class="log-panel">
+                    <h3>Activity Log</h3>
+                    <div id="logContainer" class="log-container" role="log" aria-live="polite"></div>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="../alpha-landing.html" class="link-diagnostics">🔧 Full Diagnostics Panel</a>
+                    <span class="separator">|</span>
+                    <a href="https://github.com/hvrryh-web/idk" class="link-github" target="_blank" rel="noopener noreferrer">📖 GitHub Repository</a>
+                </div>
+            </div>
+        </main>
     </div>
     
     <script src="assets/js/app.js"></script>
