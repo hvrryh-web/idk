@@ -1,0 +1,219 @@
+{
+  "name": "Romance of Three Kingdoms Background Environment - VN Scenes",
+  "description": "Generate Visual Novel backgrounds in Romance of Three Kingdoms painted style. Includes palace halls, war camps, battlefields, mountain passes, city gates, and other period-appropriate environments.",
+  "version": "1.0.0",
+  "workflow_type": "ro3k_bg_environment",
+  
+  "style_reference": {
+    "primary_inspiration": "Romance of Three Kingdoms game backgrounds, Dynasty Warriors environments, traditional Chinese landscape painting",
+    "visual_characteristics": {
+      "style": "Ink-wash and semi-realistic hybrid, painterly matte background",
+      "atmosphere": "Mild filmic haze, atmospheric perspective with depth layers",
+      "architecture": "Han dynasty period-accurate Chinese architecture",
+      "lighting": "Warm cinematic lighting, strategic cool accents for depth"
+    }
+  },
+  
+  "parameters": {
+    "environment_type": {
+      "type": "enum",
+      "options": [
+        "palace_throne_room",
+        "palace_hall",
+        "war_council_room",
+        "military_camp",
+        "battlefield_plains",
+        "battlefield_aftermath",
+        "mountain_pass",
+        "mountain_temple",
+        "city_gate",
+        "city_street_market",
+        "teahouse_interior",
+        "inn_interior",
+        "sect_hall",
+        "sect_training_grounds",
+        "garden_pavilion",
+        "river_crossing",
+        "forest_clearing",
+        "prison_dungeon"
+      ],
+      "required": true
+    },
+    "time_of_day": {
+      "type": "enum",
+      "options": ["dawn", "morning", "noon", "afternoon", "golden_hour", "dusk", "night", "moonlit"],
+      "default": "afternoon"
+    },
+    "weather": {
+      "type": "enum",
+      "options": ["clear", "cloudy", "overcast", "misty", "rainy", "stormy", "snowy"],
+      "default": "clear"
+    },
+    "mood": {
+      "type": "enum",
+      "options": ["peaceful", "tense", "ominous", "triumphant", "melancholic", "mysterious", "bustling"],
+      "default": "peaceful"
+    },
+    "include_distant_figures": {
+      "type": "boolean",
+      "default": false,
+      "description": "Add blurred background figures for life/atmosphere"
+    },
+    "parallax_ready": {
+      "type": "boolean",
+      "default": true,
+      "description": "Compose with clear depth layers for parallax scrolling"
+    },
+    "seed": {
+      "type": "integer",
+      "default": -1
+    }
+  },
+  
+  "style_prompt_block": "Romance of Three Kingdoms game art, KOEI Tecmo quality, environment background scene, semi-realistic painted illustration, ink wash painting influence, atmospheric perspective, Han dynasty Chinese aesthetic, warm cinematic lighting, professional game background art, AAA environment design, 8k, masterpiece, best quality",
+  
+  "negative_prompt_block": "main character dominating composition, portrait focus, modern elements, contemporary architecture, anime cel shading, oversharp outlines, logo text, watermark stamps, signature, blurry, low quality, amateur, western architecture, ugly, nsfw, text overlays, game UI elements",
+  
+  "prompt_templates": {
+    "composition_base": "environment background scene, no main characters dominating composition, painterly matte background style, mild filmic haze, subtle vignette, parallax-ready depth composition with distinct foreground midground background layers",
+    
+    "environment_prompts": {
+      "palace_throne_room": "imperial palace throne room interior, massive dragon throne on raised dais, red lacquered columns with gold dragon carvings, imposing grand scale, silk curtains in imperial yellow, jade and bronze decorations, incense smoke wisps, shaft of light from high windows",
+      "palace_hall": "grand palace hall interior, ornate ceiling with painted murals, polished stone floor, red columns with gold trim, ceremonial banners, lantern lighting, formal court atmosphere",
+      "war_council_room": "military war council chamber, large strategic map table in center, lanterns casting dramatic shadows, weapon racks on walls, faction banners, tense planning atmosphere, scrolls and documents",
+      "military_camp": "military encampment exterior, canvas command tents with faction banners, weapon racks with halberds and spears, campfire pits, horses tethered nearby, organized preparation, misty mountains backdrop",
+      "battlefield_plains": "epic battlefield plains, vast open terrain, war banners in distance, dust and atmospheric haze, dramatic sky with clouds, strategic terrain features, mountains on horizon",
+      "battlefield_aftermath": "battlefield aftermath scene, scattered weapons and banners, smoke rising, somber atmosphere, fallen battle standards, crows circling distant sky, evidence of recent conflict",
+      "mountain_pass": "treacherous mountain pass, winding stone path through peaks, pine trees clinging to cliffs, cloud layer visible below, ancient waystation or pavilion, mist between peaks, ink wash style distant mountains",
+      "mountain_temple": "mountain temple exterior or courtyard, traditional Chinese temple architecture, stone steps leading up, incense burners, peaceful monks as distant figures, misty mountain backdrop, spiritual atmosphere",
+      "city_gate": "massive fortified city gate, huge wooden doors with bronze fittings, imposing guard towers, city walls extending, busy entrance with blurred travelers, market stalls near gate",
+      "city_street_market": "bustling ancient Chinese city street, market stalls with colorful goods, lanterns hanging overhead, period-accurate shop fronts, blurred civilian bustle, architectural depth",
+      "teahouse_interior": "traditional teahouse interior, warm lantern glow, wooden beams and lattice screens, private meeting alcoves with low tables, tea service visible, gentle incense smoke, welcoming atmosphere",
+      "inn_interior": "rustic inn common room interior, wooden tables and benches, fireplace or brazier, stairs to upper rooms, innkeeper counter, travelers as distant blurred figures, warm inviting lighting",
+      "sect_hall": "cultivation sect main hall interior, ancestral tablets on altar, meditation cushions arranged, incense smoke rising, mystical atmosphere, jade decorations, sect banners, ethereal lighting",
+      "sect_training_grounds": "cultivation sect training grounds exterior, practice dummies and weapon racks, jade pillars, mountain peaks visible, misty morning atmosphere, disciples as distant figures",
+      "garden_pavilion": "traditional Chinese garden, ornate pavilion for meetings, koi pond with lilies, weeping willows, moon bridge, cherry blossoms or plum blossoms, peaceful contemplative atmosphere",
+      "river_crossing": "great river scene, boats and ferries, strategic crossing point, mist rising from water, distant shore visible, reeds along banks, dramatic sky reflection on water",
+      "forest_clearing": "bamboo forest clearing, filtered dappled sunlight, peaceful open space for meetings or combat, mist between tall bamboo stalks, mysterious atmosphere",
+      "prison_dungeon": "dark prison dungeon interior, iron bars and chains, torch lighting casting harsh shadows, stone walls with moisture, oppressive atmosphere, distant guard silhouette"
+    },
+    
+    "time_of_day_prompts": {
+      "dawn": "early dawn lighting, soft pink and orange sky, mist rising, fresh new day atmosphere, gentle awakening light",
+      "morning": "bright morning light, clear visibility, active atmosphere, golden morning sun, long shadows",
+      "noon": "high noon sunlight, strong shadows, bright illumination, active peak-day atmosphere",
+      "afternoon": "warm afternoon light, golden tones, comfortable visibility, relaxed atmosphere",
+      "golden_hour": "golden hour sunset lighting, dramatic long shadows, warm orange and amber tones, romantic epic atmosphere",
+      "dusk": "dusk twilight, purple and orange sky, lanterns being lit, transitional mysterious atmosphere",
+      "night": "nighttime scene, lantern and torch lighting, dark blue atmosphere, stars visible, mysterious night",
+      "moonlit": "moonlit night scene, silver moonlight casting shadows, ethereal atmosphere, romantic mystery"
+    },
+    
+    "weather_prompts": {
+      "clear": "clear weather, good visibility, pleasant atmosphere",
+      "cloudy": "cloudy sky, diffused lighting, soft shadows, contemplative mood",
+      "overcast": "overcast heavy clouds, muted colors, somber atmosphere, threat of rain",
+      "misty": "misty atmospheric conditions, reduced visibility, mysterious dreamlike quality, ink wash aesthetic enhanced",
+      "rainy": "rain falling, wet surfaces with reflections, puddles, cozy indoor or dramatic outdoor atmosphere",
+      "stormy": "dramatic storm clouds, lightning in distance, wind-blown elements, intense atmosphere",
+      "snowy": "snow falling or covering ground, white winter landscape, peaceful or harsh depending on context"
+    },
+    
+    "mood_prompts": {
+      "peaceful": "peaceful serene atmosphere, calm lighting, harmonious composition",
+      "tense": "tense atmosphere, dramatic lighting, sense of impending conflict or decision",
+      "ominous": "ominous foreboding atmosphere, darker tones, threatening sky or shadows, danger lurking",
+      "triumphant": "triumphant victorious atmosphere, bright heroic lighting, celebratory feeling",
+      "melancholic": "melancholic sad atmosphere, muted colors, weight of loss or memory, bittersweet beauty",
+      "mysterious": "mysterious enigmatic atmosphere, hidden depths, secrets suggested, curious lighting",
+      "bustling": "bustling active atmosphere, sense of life and movement, busy environment, energetic"
+    }
+  },
+  
+  "output_specifications": {
+    "sizes": {
+      "hd": {"width": 1920, "height": 1080},
+      "qhd": {"width": 2560, "height": 1440},
+      "mobile_portrait": {"width": 1080, "height": 1920}
+    },
+    "format": "png",
+    "naming_convention": "backgrounds/{env_type}_{time}_{variant}_{seed}.png"
+  },
+  
+  "workflow_nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "{CHECKPOINT_NAME}"
+      },
+      "_meta": {"title": "Load Checkpoint"}
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{POSITIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Positive)"}
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{NEGATIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Negative)"}
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 1920,
+        "height": 1080,
+        "batch_size": 1
+      },
+      "_meta": {"title": "Empty Latent Image (HD)"}
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 35,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["4", 0]
+      },
+      "_meta": {"title": "KSampler"}
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["5", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode"}
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "ro3k_bg",
+        "images": ["6", 0]
+      },
+      "_meta": {"title": "Save Image"}
+    }
+  },
+  
+  "workflow_notes": "This workflow generates VN backgrounds optimized for visual novel presentation. The 'no main characters dominating' constraint ensures backgrounds remain suitable for character sprite overlay. For parallax effects, generate at higher resolution and create depth map separately.",
+  
+  "post_processing": {
+    "filmic_contrast": true,
+    "warm_color_balance": true,
+    "vignette_strength": 0.15,
+    "atmospheric_haze": "mild",
+    "sharpening": "subtle"
+  }
+}

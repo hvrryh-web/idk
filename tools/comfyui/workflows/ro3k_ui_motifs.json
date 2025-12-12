@@ -1,0 +1,203 @@
+{
+  "name": "Romance of Three Kingdoms UI Motifs - Ornaments and Assets",
+  "description": "Generate UI ornament assets in Romance of Three Kingdoms style: parchment textures, embossed gold trims, brocade patterns, seal stamps, icon frames, borders, and decorative elements.",
+  "version": "1.0.0",
+  "workflow_type": "ro3k_ui_motifs",
+  
+  "style_reference": {
+    "primary_inspiration": "KOEI Tecmo ROTK game UI, Dynasty Warriors interface, traditional Chinese decorative arts",
+    "visual_characteristics": {
+      "materials": "Bronze, jade, gold leaf, lacquered wood, silk brocade, aged parchment",
+      "motifs": "Dragons, phoenixes, cloud scrolls, geometric patterns, Chinese characters",
+      "finish": "Embossed relief, metallic sheen, translucent jade quality",
+      "style": "Ornate but readable, game UI quality, clean edges"
+    }
+  },
+  
+  "parameters": {
+    "asset_type": {
+      "type": "enum",
+      "options": [
+        "corner_ornament",
+        "border_horizontal",
+        "border_vertical",
+        "panel_background",
+        "medallion_seal",
+        "icon_frame_square",
+        "icon_frame_circle",
+        "ribbon_banner",
+        "divider_ornate",
+        "button_frame",
+        "scroll_end",
+        "stamp_seal"
+      ],
+      "required": true
+    },
+    "material_style": {
+      "type": "enum",
+      "options": ["bronze_gold", "jade_green", "lacquer_red", "parchment", "silk_brocade", "dark_iron"],
+      "default": "bronze_gold"
+    },
+    "motif": {
+      "type": "enum",
+      "options": ["dragon", "phoenix", "cloud_scroll", "geometric", "floral", "wave", "mountain", "character_seal", "plain_elegant"],
+      "default": "cloud_scroll"
+    },
+    "complexity": {
+      "type": "enum",
+      "options": ["simple", "moderate", "ornate", "elaborate"],
+      "default": "moderate"
+    },
+    "transparency": {
+      "type": "boolean",
+      "default": true,
+      "description": "Output with transparent background"
+    },
+    "tileable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Generate as seamless tileable texture"
+    },
+    "seed": {
+      "type": "integer",
+      "default": -1
+    }
+  },
+  
+  "style_prompt_block": "Romance of Three Kingdoms game UI art, KOEI Tecmo quality, professional game asset design, Han dynasty Chinese decorative aesthetic, ornate but readable, clean sharp edges, isolated UI element",
+  
+  "negative_prompt_block": "blurry edges, low quality, amateur, modern design, western style, cartoon, messy details, background clutter, text, watermark, photorealistic, 3D render plastic look",
+  
+  "prompt_templates": {
+    "base_composition": "UI asset design, isolated element on transparent background, professional game asset quality, clean edges suitable for game UI",
+    
+    "asset_type_prompts": {
+      "corner_ornament": "ornate corner bracket design, L-shaped corner decoration, symmetrical design, dimensional embossed relief, suitable for panel corners",
+      "border_horizontal": "horizontal border strip design, seamless tileable pattern, decorative edge trim, consistent height, suitable for panel edges",
+      "border_vertical": "vertical border strip design, seamless tileable pattern, decorative edge trim, consistent width, suitable for panel sides",
+      "panel_background": "panel background texture, semi-transparent overlay quality, subtle pattern, suitable for UI panel backdrop, 9-slice ready",
+      "medallion_seal": "circular medallion seal design, official stamp appearance, central emblem area, ornate outer ring, authority symbol",
+      "icon_frame_square": "square icon frame design, clear center area for icon placement, decorative border, suitable for 64-128px icons",
+      "icon_frame_circle": "circular icon frame design, clear center area for icon placement, ring border decoration, suitable for status icons",
+      "ribbon_banner": "flowing ribbon banner design, text-ready surface, decorative ends, dynamic curved composition, suitable for labels",
+      "divider_ornate": "ornate horizontal divider design, symmetrical from center, elegant separation element, decorative flourishes",
+      "button_frame": "button frame design, pressable appearance, clear center for text, beveled edges suggesting depth, interactive element",
+      "scroll_end": "decorative scroll end ornament, rolled paper suggestion, mounting hardware detail, document aesthetic",
+      "stamp_seal": "official stamp seal design, square or circular, Chinese character placeholder center, ink stamp appearance, authority mark"
+    },
+    
+    "material_prompts": {
+      "bronze_gold": "burnished bronze base with gold leaf highlights, metallic embossed texture, warm metal tones, aged patina hints",
+      "jade_green": "translucent jade green quality, smooth polished surface, precious stone appearance, subtle inner glow, gold mounting accents",
+      "lacquer_red": "deep lacquered red finish, glossy reflective surface, traditional Chinese lacquerware, gold or black accents",
+      "parchment": "aged parchment paper texture, warm cream and tan tones, subtle fiber grain, ink wash edges, antique document quality",
+      "silk_brocade": "rich silk brocade fabric texture, woven pattern visible, luxurious textile quality, subtle sheen, embroidered accents",
+      "dark_iron": "dark iron metal finish, strong and imposing, subtle blue-black tones, military fortress aesthetic, minimal ornamentation"
+    },
+    
+    "motif_prompts": {
+      "dragon": "dragon motif design, coiled or profile dragon, scales and claws detailed, imperial power symbol, auspicious clouds",
+      "phoenix": "phoenix motif design, graceful bird in flight, elaborate tail feathers, renewal and empress symbol, flame accents",
+      "cloud_scroll": "auspicious cloud scroll pattern, flowing cloud shapes, traditional Chinese cloud motifs, ethereal quality",
+      "geometric": "geometric interlocking pattern, traditional Chinese geometric design, precise mathematical beauty, endless knot influence",
+      "floral": "floral motif pattern, lotus, peony, or plum blossoms, natural elegance, growth and beauty symbols",
+      "wave": "wave pattern design, flowing water motifs, traditional Chinese wave style, power and persistence symbol",
+      "mountain": "mountain motif design, layered peak silhouettes, stability and permanence symbol, landscape reference",
+      "character_seal": "Chinese character seal style, calligraphic character center, official document aesthetic, scholarly authority",
+      "plain_elegant": "plain elegant design, minimal ornamentation, refined simplicity, sophisticated restraint, quality over quantity"
+    },
+    
+    "complexity_prompts": {
+      "simple": "simple clean design, minimal detail, clear readable form, functional elegance",
+      "moderate": "moderate detail level, balanced ornamentation, clear structure with decorative elements",
+      "ornate": "ornate detailed design, rich decorative elements, intricate patterns, luxurious appearance",
+      "elaborate": "highly elaborate design, maximum detail, complex interlocking patterns, imperial grandeur level"
+    }
+  },
+  
+  "output_specifications": {
+    "sizes": {
+      "small": {"width": 256, "height": 256},
+      "medium": {"width": 512, "height": 512},
+      "large": {"width": 1024, "height": 1024}
+    },
+    "format": "png",
+    "transparency": true,
+    "naming_convention": "ui/{asset_type}/{material}_{motif}_{variant}.png"
+  },
+  
+  "workflow_nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "{CHECKPOINT_NAME}"
+      },
+      "_meta": {"title": "Load Checkpoint"}
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{POSITIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Positive)"}
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{NEGATIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Negative)"}
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 512,
+        "height": 512,
+        "batch_size": 1
+      },
+      "_meta": {"title": "Empty Latent Image"}
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 25,
+        "cfg": 7.5,
+        "sampler_name": "euler_ancestral",
+        "scheduler": "normal",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["4", 0]
+      },
+      "_meta": {"title": "KSampler"}
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["5", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode"}
+    },
+    "7": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "ro3k_ui",
+        "images": ["6", 0]
+      },
+      "_meta": {"title": "Save Image"}
+    }
+  },
+  
+  "workflow_notes": "This workflow generates UI elements for game interface. For transparent backgrounds, post-processing with background removal is recommended. Tileable textures may require additional seamless processing. Generated at 512x512 base, scale as needed.",
+  
+  "post_processing": {
+    "background_removal": "optional",
+    "edge_cleanup": true,
+    "contrast_enhancement": "subtle"
+  }
+}
