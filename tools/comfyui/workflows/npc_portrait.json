@@ -1,0 +1,377 @@
+{
+  "name": "NPC Portrait Generation",
+  "description": "Generate NPC and character portraits based on archetype specifications",
+  "version": "1.0.0",
+  "workflow_type": "npc_portrait",
+  
+  "parameters": {
+    "archetype_category": {
+      "type": "enum",
+      "options": ["military", "nobility", "scholars", "cultivators", "commoners"],
+      "required": true
+    },
+    "archetype_id": {
+      "type": "string",
+      "required": true,
+      "description": "Specific archetype (e.g., 'general_elite', 'sect_elder')"
+    },
+    "gender": {
+      "type": "enum",
+      "options": ["male", "female"],
+      "required": true
+    },
+    "age_variant": {
+      "type": "enum",
+      "options": ["youth", "young_adult", "middle_aged", "elder", "ancient"],
+      "default": "young_adult"
+    },
+    "expression": {
+      "type": "enum",
+      "options": ["neutral", "happy", "angry", "sad", "surprised", "determined", "scheming", "fearful"],
+      "default": "neutral"
+    },
+    "outfit_tier": {
+      "type": "enum",
+      "options": ["minimal", "low", "medium", "high", "legendary"],
+      "default": "medium"
+    },
+    "custom_traits": {
+      "type": "array",
+      "required": false,
+      "description": "Additional trait modifiers"
+    }
+  },
+  
+  "base_prompt_components": {
+    "style": "Romance of Three Kingdoms portrait, semi-realistic anime style, Yuto Sano inspired, painterly soft gradients, luminous rim light, Han dynasty aesthetic, wuxia fantasy",
+    "quality": "masterpiece, best quality, highly detailed, sharp focus, professional illustration, 8k",
+    "composition": "portrait bust, upper body, centered, facing slightly left, clean background gradient",
+    "negative": "nsfw, nude, text, watermark, signature, blurry, low quality, amateur, bad anatomy, ugly, deformed, disfigured, extra limbs, mutated, western cartoon style, chibi, super deformed"
+  },
+  
+  "category_prompts": {
+    "military": {
+      "theme": "warrior, martial bearing, disciplined posture, battle-ready presence",
+      "accessories": "armor elements, weapon hints, military insignia, battle scars"
+    },
+    "nobility": {
+      "theme": "regal bearing, refined features, aristocratic posture, commanding presence",
+      "accessories": "fine jewelry, silk fabrics, jade ornaments, family crests"
+    },
+    "scholars": {
+      "theme": "intelligent expression, scholarly demeanor, thoughtful pose, wisdom in eyes",
+      "accessories": "scroll hints, brush pen, simple but quality robes, scholarly cap"
+    },
+    "cultivators": {
+      "theme": "ethereal presence, cultivation aura, otherworldly beauty, inner power visible",
+      "accessories": "flowing robes, qi manifestation, sect symbols, spiritual artifacts"
+    },
+    "commoners": {
+      "theme": "honest expression, practical appearance, weathered features, hardworking demeanor",
+      "accessories": "simple clothing, work tools, practical items"
+    }
+  },
+  
+  "archetype_details": {
+    "military": {
+      "general_elite": {
+        "description": "High-ranking military commander with ornate armor and commanding presence",
+        "traits": "authoritative gaze, battle-scarred dignity, noble bearing, strategic mind visible in eyes",
+        "outfit": "ornate plate armor, dragon or tiger motifs, general's cape, feathered helmet"
+      },
+      "general_standard": {
+        "description": "Mid-ranking field commander with practical but quality equipment",
+        "traits": "disciplined expression, experienced eyes, practical efficiency",
+        "outfit": "functional plate armor, army colors, commander's sash"
+      },
+      "warrior_heavy": {
+        "description": "Frontline heavy infantry fighter with imposing presence",
+        "traits": "intimidating presence, muscular build, battle-ready stance",
+        "outfit": "heavy plate armor, large weapon suggestions, shield motifs"
+      },
+      "warrior_light": {
+        "description": "Quick reconnaissance fighter with alert expression",
+        "traits": "alert eyes, agile posture, quick reflexes evident",
+        "outfit": "light leather armor, minimal gear, scout equipment hints"
+      },
+      "cavalry_officer": {
+        "description": "Mounted unit commander with athletic build",
+        "traits": "confident bearing, athletic physique, cavalry pride",
+        "outfit": "riding armor, cavalry insignia, windswept appearance"
+      },
+      "archer_elite": {
+        "description": "Master marksman with focused intensity",
+        "traits": "focused gaze, steady hands, patient demeanor",
+        "outfit": "archer's leather vest, quiver hints, arm guards"
+      },
+      "bodyguard": {
+        "description": "Elite protective detail with vigilant awareness",
+        "traits": "watchful eyes, protective stance, silent strength",
+        "outfit": "functional armor, concealed weapons hints, servant-warrior balance"
+      },
+      "mercenary": {
+        "description": "Hired sword with practical, cynical air",
+        "traits": "cynical smile, practical assessment, survival instinct",
+        "outfit": "mixed armor pieces, well-worn gear, personal weapons"
+      },
+      "bandit_chief": {
+        "description": "Outlaw leader with cunning expression",
+        "traits": "cunning eyes, weathered features, dangerous charm",
+        "outfit": "patchwork armor, trophy items, intimidating presence"
+      },
+      "garrison_guard": {
+        "description": "City/fort defender with dutiful bearing",
+        "traits": "dutiful expression, local pride, reliable presence",
+        "outfit": "standard issue armor, city colors, patrol equipment"
+      },
+      "veteran_soldier": {
+        "description": "Experienced rank-and-file with weathered wisdom",
+        "traits": "weathered face, experienced eyes, quiet competence",
+        "outfit": "well-worn armor, practical repairs, veteran badges"
+      },
+      "military_strategist": {
+        "description": "Tactical advisor with intelligent bearing",
+        "traits": "intelligent gaze, composed demeanor, calculating mind",
+        "outfit": "scholar-warrior robes, strategic maps hints, fan or scroll"
+      }
+    },
+    "nobility": {
+      "emperor": {
+        "description": "Supreme ruler with divine mandate presence",
+        "traits": "imperious gaze, divine bearing, absolute authority",
+        "outfit": "dragon robes, imperial crown, jade seal visible"
+      },
+      "prince": {
+        "description": "Royal heir with privileged yet capable air",
+        "traits": "privileged bearing, trained poise, hidden ambition",
+        "outfit": "phoenix or dragon motifs, royal silks, heir insignia"
+      },
+      "duke": {
+        "description": "High noble with regional power",
+        "traits": "proud bearing, wealth evident, political acumen",
+        "outfit": "noble court dress, family crest prominent, expensive jewelry"
+      },
+      "minister": {
+        "description": "Imperial minister with calculating demeanor",
+        "traits": "calculating eyes, formal posture, political awareness",
+        "outfit": "official court robes, rank insignia, imperial tablet"
+      },
+      "lord": {
+        "description": "Lesser nobility with dignified bearing",
+        "traits": "dignified expression, practical nobility, regional identity",
+        "outfit": "quality robes, understated wealth, local style elements"
+      },
+      "noble_heir": {
+        "description": "Young aristocrat with fashionable appearance",
+        "traits": "entitled bearing, fashionable awareness, youthful confidence",
+        "outfit": "trendy noble fashion, family colors, expensive accessories"
+      },
+      "court_attendant": {
+        "description": "Palace servant with neat, deferential manner",
+        "traits": "deferential posture, observant eyes, quiet competence",
+        "outfit": "neat palace uniform, servant insignia, proper grooming"
+      },
+      "eunuch": {
+        "description": "Inner court official with shrewd expression",
+        "traits": "shrewd eyes, soft features, hidden power",
+        "outfit": "inner court robes, special insignia, refined appearance"
+      }
+    },
+    "scholars": {
+      "grand_strategist": {
+        "description": "Legendary advisor with brilliant presence",
+        "traits": "brilliant eyes, eccentric bearing, legendary wisdom",
+        "outfit": "traditional scholar robes, feather fan, mysterious accessories"
+      },
+      "scholar_official": {
+        "description": "Confucian bureaucrat with refined demeanor",
+        "traits": "refined expression, bookish presence, moral bearing",
+        "outfit": "official robes, scholar's cap, brush and scroll hints"
+      },
+      "teacher": {
+        "description": "Educator with patient, wise demeanor",
+        "traits": "patient eyes, wise expression, nurturing presence",
+        "outfit": "simple quality robes, teaching implements, worn elegance"
+      },
+      "scribe": {
+        "description": "Record keeper with meticulous manner",
+        "traits": "meticulous expression, ink-stained fingers, careful attention",
+        "outfit": "practical scholar dress, writing implements, organized appearance"
+      },
+      "physician": {
+        "description": "Doctor with calm, observant presence",
+        "traits": "calm observation, diagnostic gaze, healing presence",
+        "outfit": "physician robes, medical accessories, herb pouch hints"
+      },
+      "astronomer": {
+        "description": "Star reader with mystical air",
+        "traits": "mystical gaze, eccentric bearing, cosmic awareness",
+        "outfit": "robes with celestial motifs, astrolabe hints, mysterious accessories"
+      }
+    },
+    "cultivators": {
+      "sect_elder": {
+        "description": "Senior cultivation master with powerful presence",
+        "traits": "venerable bearing, powerful aura visible, cultivation achievement evident",
+        "outfit": "ornate sect robes, elder insignia, spiritual artifacts"
+      },
+      "sect_disciple": {
+        "description": "Cultivation student with eager discipline",
+        "traits": "eager expression, disciplined posture, cultivation potential",
+        "outfit": "sect uniform robes, disciple badge, training equipment hints"
+      },
+      "rogue_cultivator": {
+        "description": "Independent practitioner with mysterious air",
+        "traits": "mysterious bearing, self-reliant presence, hidden depths",
+        "outfit": "eclectic cultivation garb, personal style, independent markers"
+      },
+      "demonic_cultivator": {
+        "description": "Dark path practitioner with sinister presence",
+        "traits": "sinister expression, corrupted aura hints, dangerous power",
+        "outfit": "dark robes, demonic motifs, corruption hints in appearance"
+      },
+      "immortal_candidate": {
+        "description": "Near-ascension cultivator with ethereal beauty",
+        "traits": "ethereal beauty, otherworldly presence, transcendent peace",
+        "outfit": "celestial robes, ethereal glow, immortal artifacts"
+      },
+      "alchemist": {
+        "description": "Pill crafter with focused intensity",
+        "traits": "focused concentration, herb-stained hands, alchemist's patience",
+        "outfit": "alchemist robes, pill furnace hints, ingredient pouches"
+      },
+      "weapon_master": {
+        "description": "Supreme martial artist with deadly calm",
+        "traits": "deadly calm, perfect control, martial transcendence",
+        "outfit": "practical cultivation robes, weapon mastery evident, minimal ornamentation"
+      },
+      "formation_master": {
+        "description": "Array specialist with studious intensity",
+        "traits": "studious intensity, runic knowledge, formation expertise",
+        "outfit": "robes with formation patterns, marked hands, array materials"
+      }
+    },
+    "commoners": {
+      "merchant_wealthy": {
+        "description": "Successful trader with prosperous air",
+        "traits": "shrewd business sense, prosperous bearing, practical luxury",
+        "outfit": "fine but gaudy clothes, merchant accessories, wealth display"
+      },
+      "merchant_common": {
+        "description": "Shop owner with friendly demeanor",
+        "traits": "friendly expression, practical wisdom, honest bearing",
+        "outfit": "clean simple clothes, trade tools, approachable appearance"
+      },
+      "farmer": {
+        "description": "Agricultural worker with honest bearing",
+        "traits": "honest expression, weathered hands, simple dignity",
+        "outfit": "work clothes, farming implements hints, sun-weathered appearance"
+      },
+      "craftsman": {
+        "description": "Skilled artisan with practical pride",
+        "traits": "practical pride, skilled hands, craft expertise",
+        "outfit": "work apron, tool belt hints, craft-specific markers"
+      },
+      "innkeeper": {
+        "description": "Hospitality worker with welcoming manner",
+        "traits": "welcoming smile, observant eyes, hospitality presence",
+        "outfit": "clean apron, inn markers, approachable appearance"
+      },
+      "servant": {
+        "description": "Household worker with neat, proper manner",
+        "traits": "deferential manner, neat appearance, quiet competence",
+        "outfit": "servant uniform, proper grooming, unobtrusive presence"
+      }
+    }
+  },
+  
+  "gender_modifiers": {
+    "male": "masculine features, strong jawline, appropriate male build",
+    "female": "feminine features, elegant build, appropriate female characteristics"
+  },
+  
+  "age_modifiers": {
+    "youth": "youthful features, smooth skin, bright eyes, age 15-22",
+    "young_adult": "prime features, mature but youthful, confident bearing, age 23-35",
+    "middle_aged": "experienced features, some lines, distinguished appearance, age 36-50",
+    "elder": "aged features, gray hair, wisdom lines, venerable presence, age 51-70",
+    "ancient": "very aged, white hair, weathered skin, ancient wisdom, age 70+"
+  },
+  
+  "expression_modifiers": {
+    "neutral": "neutral expression, calm face, composed demeanor",
+    "happy": "gentle smile, warm eyes, pleased expression",
+    "angry": "angry expression, fierce eyes, gritted teeth, intense",
+    "sad": "sad expression, downcast eyes, worried look",
+    "surprised": "surprised expression, wide eyes, open mouth",
+    "determined": "determined expression, focused eyes, set jaw, resolute",
+    "scheming": "sly smile, narrowed eyes, calculating look",
+    "fearful": "fearful expression, wide eyes, pale face, anxious"
+  },
+  
+  "outfit_tier_modifiers": {
+    "minimal": "worn patched clothing, simple rough fabric, no ornamentation",
+    "low": "plain functional clothing, basic clean materials, minimal decoration",
+    "medium": "quality well-made garments, fine materials, simple embroidery",
+    "high": "elaborate ornate attire, fine silk, intricate embroidery, jade accessories",
+    "legendary": "divine transcendent garments, celestial silk, glowing details, ethereal quality"
+  },
+  
+  "output_specifications": {
+    "sizes": {
+      "small": {"width": 128, "height": 192},
+      "medium": {"width": 256, "height": 384},
+      "large": {"width": 512, "height": 768}
+    },
+    "format": "png",
+    "transparency": true,
+    "naming_convention": "npc-{category}-{archetype}-{gender}-{age}-{expression}_{size}.png"
+  },
+  
+  "workflow_nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {"ckpt_name": "animagine-xl-3.1.safetensors"}
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {"text": "{POSITIVE_PROMPT}", "clip": ["1", 1]}
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {"text": "{NEGATIVE_PROMPT}", "clip": ["1", 1]}
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {"width": 512, "height": 768, "batch_size": 1}
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": ["6", 0],
+        "steps": 28,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["4", 0]
+      }
+    },
+    "6": {
+      "class_type": "RandomSeed"
+    },
+    "7": {
+      "class_type": "VAEDecode",
+      "inputs": {"samples": ["5", 0], "vae": ["1", 2]}
+    },
+    "8": {
+      "class_type": "SaveImage",
+      "inputs": {"images": ["7", 0], "filename_prefix": "npc_portrait"}
+    }
+  },
+  
+  "prompt_template": "{style}, {quality}, {composition}, {category_theme}, {archetype_description}, {archetype_traits}, {archetype_outfit}, {gender_mod}, {age_mod}, {expression_mod}, {outfit_tier_mod}"
+}
