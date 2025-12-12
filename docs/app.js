@@ -433,15 +433,19 @@ async function checkBackendService() {
 async function checkFrontendService() {
     try {
         const start = Date.now();
+        // Using no-cors mode since frontend is typically on different origin
+        // This returns opaque response, so we can only detect if the request completes
+        // without network error - which indicates the server is reachable
         await fetch(CONFIG.GAME_FRONTEND_URL, {
             method: 'HEAD',
             mode: 'no-cors'
         });
         const latency = Date.now() - start;
         
-        // no-cors returns opaque response, assume success if no error
-        updateDiagnosticCard('frontend', 'healthy', `Online (${latency}ms)`, CONFIG.GAME_FRONTEND_URL);
-        logToConsole('✅ Frontend responding', 'success');
+        // no-cors returns opaque response, assume success if no network error
+        // This is a limitation of cross-origin requests without CORS headers
+        updateDiagnosticCard('frontend', 'healthy', `Reachable (${latency}ms)`, CONFIG.GAME_FRONTEND_URL);
+        logToConsole('✅ Frontend reachable', 'success');
         return true;
     } catch (error) {
         updateDiagnosticCard('frontend', 'unhealthy', 'Not responding', CONFIG.GAME_FRONTEND_URL);

@@ -67,8 +67,3 @@ const CONFIG = {
 Object.freeze(CONFIG);
 Object.freeze(CONFIG.FEATURES);
 Object.freeze(CONFIG.TEXT);
-
-// Export for use in app.js
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = CONFIG;
-}
