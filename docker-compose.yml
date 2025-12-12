@@ -27,8 +27,12 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/wuxuxian
       ENV: production
+      COMFYUI_URL: http://comfyui:8188
+      GENERATION_OUTPUT_DIR: /app/generated
     ports:
       - "8000:8000"
+    volumes:
+      - comfyui_output:/app/generated:ro
     depends_on:
       db:
         condition: service_healthy
@@ -48,5 +52,46 @@ services:
       - backend
     restart: unless-stopped
 
+  comfyui:
+    image: yanwk/comfyui-boot:cu124-megapak
+    container_name: wuxuxian-comfyui
+    ports:
+      - "8188:8188"
+    volumes:
+      - comfyui_models:/root/ComfyUI/models
+      - comfyui_output:/root/ComfyUI/output
+      - ./tools/comfyui/workflows:/root/ComfyUI/custom_workflows:ro
+      - ./tools/comfyui/custom_nodes:/root/ComfyUI/custom_nodes:ro
+    environment:
+      - CLI_ARGS=--listen 0.0.0.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    profiles:
+      - gpu
+
+  comfyui-cpu:
+    image: yanwk/comfyui-boot:cu124-megapak
+    container_name: wuxuxian-comfyui-cpu
+    ports:
+      - "8188:8188"
+    volumes:
+      - comfyui_models:/root/ComfyUI/models
+      - comfyui_output:/root/ComfyUI/output
+      - ./tools/comfyui/workflows:/root/ComfyUI/custom_workflows:ro
+      - ./tools/comfyui/custom_nodes:/root/ComfyUI/custom_nodes:ro
+    environment:
+      - CLI_ARGS=--listen 0.0.0.0 --cpu
+    restart: unless-stopped
+    profiles:
+      - cpu
+
 volumes:
   db_data:
+  comfyui_models:
+  comfyui_output:

@@ -259,9 +259,118 @@ curl http://127.0.0.1:8188/system_stats
 - **Parallelization**: Current implementation is sequential; could be parallelized
 - **Caching**: ComfyUI may cache models; first run will be slower
 
+## Advanced Workflows
+
+### 7-Layer Character Generation Pipeline
+
+The `character_7layer_pipeline.json` workflow generates characters through 7 progressive refinement stages:
+
+1. **Base Sketch** - Rough composition and pose
+2. **Line Art** - Clean structural lines with ControlNet
+3. **Base Colors** - Flat color blocking
+4. **Shading** - Light direction and shadows
+5. **Details** - Fine detail enhancement
+6. **Effects** - Qi auras based on TTRPG pillars
+7. **Final Render** - Professional polish
+
+```bash
+# Example API call for 7-layer generation
+curl -X POST http://localhost:8000/api/v1/comfyui/generate/character \
+  -H "Content-Type: application/json" \
+  -d '{
+    "character_id": "your-uuid",
+    "base_prompt": "wuxia cultivator, martial artist",
+    "pillar_emphasis": "violence",
+    "scl_level": 5
+  }'
+```
+
+### Face Transposition
+
+The `face_swap.json` workflow maintains consistent character faces:
+
+```bash
+# Extract face embedding
+curl -X POST http://localhost:8000/api/v1/comfyui/face/extract \
+  -F "image=@reference.png" \
+  -F "character_id=your-uuid"
+
+# Apply to generation
+curl -X POST http://localhost:8000/api/v1/comfyui/face/apply \
+  -H "Content-Type: application/json" \
+  -d '{"generation_id": "job-id", "embedding_id": "face-id"}'
+```
+
+### Poses Sheet (3x3 Grid)
+
+Generates 9 poses: idle, combat, casting, commanding, injured, maimed, victory, dead, back view.
+
+```bash
+curl -X POST http://localhost:8000/api/v1/comfyui/generate/poses-sheet \
+  -H "Content-Type: application/json" \
+  -d '{"character_id": "uuid", "base_prompt": "cultivator"}'
+```
+
+### Outfits Sheet (2x3 Grid)
+
+Generates 6 outfit variations with SCL-based styling.
+
+```bash
+curl -X POST http://localhost:8000/api/v1/comfyui/generate/outfits-sheet \
+  -H "Content-Type: application/json" \
+  -d '{"character_id": "uuid", "base_prompt": "cultivator", "scl_level": 7}'
+```
+
+### Full Character Sheet
+
+Composite layout with portrait, poses, outfits, and stats zone.
+
+```bash
+curl -X POST http://localhost:8000/api/v1/comfyui/generate/character-sheet \
+  -H "Content-Type: application/json" \
+  -d '{"character_id": "uuid", "include_stats": true}'
+```
+
+## Backend API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/v1/comfyui/health` | GET | Check ComfyUI availability |
+| `/api/v1/comfyui/generate/character` | POST | Start 7-layer generation |
+| `/api/v1/comfyui/generate/poses-sheet` | POST | Generate poses sheet |
+| `/api/v1/comfyui/generate/outfits-sheet` | POST | Generate outfits sheet |
+| `/api/v1/comfyui/generate/character-sheet` | POST | Generate full sheet |
+| `/api/v1/comfyui/face/extract` | POST | Extract face embedding |
+| `/api/v1/comfyui/face/apply` | POST | Apply face to generation |
+| `/api/v1/comfyui/status/{job_id}` | GET | Check job status |
+| `/api/v1/comfyui/progress/{job_id}` | WS | Real-time progress updates |
+| `/api/v1/comfyui/download/{job_id}` | GET | Download generated images |
+
+## Model Requirements
+
+For optimal wuxia/xianxia aesthetic:
+
+### Checkpoints (choose one)
+- AnythingV5 - Best overall anime style
+- CounterfeitV3 - High detail alternative
+- MeinaMix - Great for portraits
+
+### ControlNet
+- `control_v11p_sd15_lineart.pth`
+- `control_v11p_sd15_openpose.pth`
+
+### Face Swap (ReActor)
+- `inswapper_128.onnx`
+- InsightFace `buffalo_l` model
+
+See `setup_models.sh` for installation instructions.
+
 ## Future Enhancements
 
-- [ ] WebSocket support for real-time progress
+- [x] WebSocket support for real-time progress
+- [x] 7-layer iterative pipeline
+- [x] Face transposition integration
+- [x] Character sheet generation
 - [ ] Parallel asset generation
 - [ ] Automatic manifest regeneration
 - [ ] Validation of generated assets

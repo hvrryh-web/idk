@@ -1,0 +1,579 @@
+{
+  "version": "1.0.0",
+  "description": "7-Layer Iterative Character Generation Pipeline for WuXuxian TTRPG",
+  "workflow_notes": "This workflow generates characters through 7 progressive refinement layers. Each layer builds upon the previous for iterative quality improvement.",
+  
+  "pipeline_config": {
+    "total_layers": 7,
+    "cache_intermediates": true,
+    "output_resolutions": {
+      "thumbnail": {"width": 128, "height": 192},
+      "portrait": {"width": 512, "height": 768},
+      "full": {"width": 1024, "height": 1536}
+    }
+  },
+  
+  "layers": {
+    "layer_1_sketch": {
+      "name": "Base Sketch",
+      "description": "Low steps, high noise, rough composition",
+      "output": "grayscale sketch with pose and proportions",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{sketch_prompt}}, monochrome, sketch, rough lines, concept art, character design sheet, wuxia, xianxia, cultivation",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}, color, detailed, finished, polished",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "EmptyLatentImage",
+          "inputs": {
+            "width": "{{width}}",
+            "height": "{{height}}",
+            "batch_size": 1
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 12,
+            "cfg": 4.0,
+            "sampler_name": "euler",
+            "scheduler": "normal",
+            "denoise": 1.0,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_layer1_sketch",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "layer_2_lineart": {
+      "name": "Line Art",
+      "description": "ControlNet lineart conditioning on Layer 1",
+      "output": "clean structural lines, defined features",
+      "requires": "layer_1_sketch",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "10": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{layer_1_output}}"
+          }
+        },
+        "11": {
+          "class_type": "ControlNetLoader",
+          "inputs": {
+            "control_net_name": "control_v11p_sd15_lineart.pth"
+          }
+        },
+        "12": {
+          "class_type": "ControlNetApply",
+          "inputs": {
+            "conditioning": ["2", 0],
+            "control_net": ["11", 0],
+            "image": ["10", 0],
+            "strength": 0.8
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{lineart_prompt}}, clean lineart, precise lines, ink drawing, professional illustration, wuxia character design",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}, messy, sketchy, rough, unfinished, color",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "EmptyLatentImage",
+          "inputs": {
+            "width": "{{width}}",
+            "height": "{{height}}",
+            "batch_size": 1
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 18,
+            "cfg": 6.0,
+            "sampler_name": "euler_ancestral",
+            "scheduler": "normal",
+            "denoise": 0.85,
+            "model": ["1", 0],
+            "positive": ["12", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_layer2_lineart",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "layer_3_flat_color": {
+      "name": "Base Colors",
+      "description": "Flat color blocking based on character attributes",
+      "output": "skin tones, hair colors, clothing base colors",
+      "requires": "layer_2_lineart",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "10": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{layer_2_output}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{color_prompt}}, flat colors, cel shading, anime coloring, {{skin_tone}} skin, {{hair_color}} hair, {{clothing_colors}}, wuxia cultivation robes",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}, gradients, shadows, shading, highlights, realistic",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "VAEEncode",
+          "inputs": {
+            "pixels": ["10", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 20,
+            "cfg": 7.0,
+            "sampler_name": "euler",
+            "scheduler": "normal",
+            "denoise": 0.6,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_layer3_color",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "layer_4_shading": {
+      "name": "Shading",
+      "description": "Light direction and shadow mapping",
+      "output": "depth and volume rendering",
+      "requires": "layer_3_flat_color",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "10": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{layer_3_output}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{shading_prompt}}, soft shading, ambient occlusion, {{light_direction}} lighting, volumetric, depth, anime style shading",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}, flat colors, no shading, harsh shadows",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "VAEEncode",
+          "inputs": {
+            "pixels": ["10", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 22,
+            "cfg": 7.5,
+            "sampler_name": "euler_ancestral",
+            "scheduler": "normal",
+            "denoise": 0.5,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_layer4_shaded",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "layer_5_details": {
+      "name": "Details",
+      "description": "Facial feature refinement, clothing textures, accessories",
+      "output": "fine detail enhancement",
+      "requires": "layer_4_shading",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "10": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{layer_4_output}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{details_prompt}}, intricate details, fabric texture, {{accessories}}, detailed face, detailed eyes, detailed hair, embroidery, jade ornaments, wuxia warrior details",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}, blurry, low detail, plain, simple",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "VAEEncode",
+          "inputs": {
+            "pixels": ["10", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 25,
+            "cfg": 8.0,
+            "sampler_name": "dpmpp_2m",
+            "scheduler": "karras",
+            "denoise": 0.4,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_layer5_detailed",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "layer_6_effects": {
+      "name": "Effects",
+      "description": "Qi auras based on pillar emphasis, Gu manifestations",
+      "output": "elemental effects scaled by SCL",
+      "requires": "layer_5_details",
+      "pillar_effects": {
+        "violence": {
+          "prompt_addition": "red flame aura, fiery energy, combat qi, martial power emanating",
+          "color": "#FF4444"
+        },
+        "influence": {
+          "prompt_addition": "blue ethereal glow, commanding presence, social qi, spiritual authority",
+          "color": "#4444FF"
+        },
+        "revelation": {
+          "prompt_addition": "green mystical symbols, enlightened aura, insight qi, arcane knowledge",
+          "color": "#44FF44"
+        }
+      },
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "10": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{layer_5_output}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{effects_prompt}}, {{pillar_effects}}, qi aura, cultivation energy, {{scl_intensity}} power level, domain visual effects, elemental manifestation",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}, plain, no effects, mundane",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "VAEEncode",
+          "inputs": {
+            "pixels": ["10", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 20,
+            "cfg": 7.0,
+            "sampler_name": "euler_ancestral",
+            "scheduler": "normal",
+            "denoise": 0.35,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_layer6_effects",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "layer_7_final": {
+      "name": "Professional Render",
+      "description": "Color grading and final polish",
+      "output": "clean finish with multiple output resolutions",
+      "requires": "layer_6_effects",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "10": {
+          "class_type": "LoadImage",
+          "inputs": {
+            "image": "{{layer_6_output}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{final_prompt}}, masterpiece, best quality, highly detailed, professional illustration, perfect composition, cinematic lighting, studio quality, wuxia manhwa art style, Chinese period aesthetic",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}, lowres, bad anatomy, bad hands, missing fingers, extra digits, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "VAEEncode",
+          "inputs": {
+            "pixels": ["10", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 28,
+            "cfg": 7.5,
+            "sampler_name": "dpmpp_2m",
+            "scheduler": "karras",
+            "denoise": 0.25,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_layer7_final",
+            "images": ["6", 0]
+          }
+        },
+        "8": {
+          "class_type": "ImageScale",
+          "_comment": "Generate thumbnail",
+          "inputs": {
+            "image": ["6", 0],
+            "width": 128,
+            "height": 192,
+            "upscale_method": "lanczos",
+            "crop": "center"
+          }
+        },
+        "9": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_thumbnail",
+            "images": ["8", 0]
+          }
+        }
+      }
+    }
+  },
+  
+  "template_variables": {
+    "checkpoint_name": "Model checkpoint filename (e.g., anythingV5.safetensors)",
+    "seed": "Random seed for reproducibility",
+    "width": "Output image width",
+    "height": "Output image height",
+    "output_prefix": "Prefix for output filenames",
+    "negative_prompt": "Base negative prompt",
+    "sketch_prompt": "Layer 1 character description",
+    "lineart_prompt": "Layer 2 refined prompt",
+    "color_prompt": "Layer 3 color specifications",
+    "shading_prompt": "Layer 4 lighting description",
+    "details_prompt": "Layer 5 detail specifications",
+    "effects_prompt": "Layer 6 effects description",
+    "final_prompt": "Layer 7 final polish prompt",
+    "pillar_effects": "TTRPG pillar effect prompts (violence/influence/revelation)",
+    "scl_intensity": "Soul Cultivation Level intensity description",
+    "skin_tone": "Character skin tone",
+    "hair_color": "Character hair color",
+    "clothing_colors": "Clothing color specifications",
+    "accessories": "Character accessories",
+    "light_direction": "Lighting direction (e.g., 'top-left', 'dramatic rim')"
+  }
+}

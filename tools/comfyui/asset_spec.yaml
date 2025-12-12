@@ -5,6 +5,90 @@ version: "1.0.0"
 output_dir: "../frontend/public/assets/characters"
 manifest_output: "../frontend/public/assets/characters/asset_manifest.json"
 
+# Pipeline configurations for advanced character generation
+pipelines:
+  character_full:
+    workflow: "character_7layer_pipeline.json"
+    layers: 7
+    output_stages:
+      - sketch
+      - lineart
+      - flat_color
+      - shaded
+      - detailed
+      - effects
+      - final
+    cache_intermediates: true
+    
+  poses_sheet:
+    workflow: "poses_sheet.json"
+    poses:
+      - idle
+      - combat_violence
+      - casting_revelation
+      - commanding_influence
+      - injured
+      - maimed
+      - victory
+      - dead
+      - back_view
+    grid_layout: "3x3"
+    output_size: "2048x2048"
+    
+  outfits_sheet:
+    workflow: "outfits_sheet.json"
+    outfit_categories:
+      - cultivation_basic
+      - cultivation_ornate
+      - combat_armor
+      - casual
+      - formal
+      - damaged
+    grid_layout: "2x3"
+    output_size: "1536x2048"
+
+  character_sheet:
+    workflow: "character_sheet_full.json"
+    sections:
+      portrait:
+        size: "512x768"
+        position: "left"
+      poses:
+        size: "768x512"
+        position: "right-top"
+      outfits:
+        size: "768x512"
+        position: "right-bottom"
+      stats_zone:
+        size: "256x768"
+        position: "far-right"
+        transparent: true
+
+# TTRPG pillar effect mappings
+pillar_effects:
+  violence:
+    aura_color: "#FF4444"
+    effect_type: "flame_sparks"
+    intensity_multiplier: 0.1  # per SCL
+    prompt_addition: "red flame aura, fiery energy, combat qi, martial power emanating"
+  influence:
+    aura_color: "#4444FF"
+    effect_type: "ethereal_glow"
+    intensity_multiplier: 0.1
+    prompt_addition: "blue ethereal glow, commanding presence, social qi, spiritual authority"
+  revelation:
+    aura_color: "#44FF44"
+    effect_type: "mystical_symbols"
+    intensity_multiplier: 0.1
+    prompt_addition: "green mystical symbols, enlightened aura, insight qi, arcane knowledge"
+
+# Face consistency settings
+face_transposition:
+  embedding_format: "insightface"
+  storage_path: "embeddings/"
+  similarity_threshold: 0.6
+  workflow: "face_swap.json"
+
 # Base models
 base_models:
   - id: "female"
