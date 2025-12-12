@@ -30,7 +30,8 @@ import ConversationScreen from "./screens/ConversationScreen";
 
 export default function App() {
   // Use global API hook for error/debug info
-  const { apiError, lastApiCall, lastStatus } = useApi();
+  const apiDiagnostics = useApi();
+  const { apiError, lastApiCall, lastStatus } = apiDiagnostics;
 
   return (
     <BrowserRouter>

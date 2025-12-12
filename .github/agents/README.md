@@ -114,6 +114,30 @@ When using GitHub Copilot Chat in your IDE or on GitHub:
    - Follows established patterns
    - Includes proper error handling and validation
 
+## Agent Usage Examples
+
+### How to Invoke an Agent in Copilot Chat
+
+- **Game Mechanics Expert**
+  > "@ttrpg-game-mechanics: Simulate a 3-stage combat round and explain the THP/AE/DR flow."
+
+- **FastAPI Backend Expert**
+  > "@fastapi-backend: Add a new endpoint for character techniques and update the OpenAPI spec."
+
+- **React Frontend Expert**
+  > "@react-frontend: Refactor the CharacterSheet component to use the new theme config."
+
+- **Full-Stack Integration Expert**
+  > "@fullstack-integration: Implement character creation end-to-end, including DB, API, and UI."
+
+### Expected Input/Output
+- Provide a clear task description and reference relevant files.
+- Agent will return code changes, explanations, and test suggestions.
+
+### Agent Selection Logic
+- Choose the agent matching the domain (backend, frontend, game mechanics, full-stack).
+- For cross-cutting features, use the full-stack agent.
+
 ### Best Practices
 
 1. **Choose the right agent**: Select the agent that best matches your task

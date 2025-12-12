@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchCharacters } from "../api";
 import type { Character } from "../types";
-import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu } from "lucide-react";
+import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog, RefreshCcw } from "lucide-react";
 import Button from "../components/Button";
 import GameScreen from "../components/GameScreen";
 import ChatBox from "../components/ChatBox";
@@ -55,6 +55,17 @@ export default function GameRoom() {
     }
   };
 
+  const backendStatus = systemStatus?.health?.status === "ok" ? "online" : systemStatus?.apiError ? "error" : "checking";
+  const dbStatus = systemStatus?.dbStatus?.db_status === "ok" ? "online" : systemStatus?.apiError ? "error" : "checking";
+
+  const handleRecheckSystems = () => {
+    if (systemStatus?.refresh) {
+      systemStatus.refresh().catch(() => {
+        /* handled in hook */
+      });
+    }
+  };
+
   if (isFullScreen) {
     return (
       <div className="game-room-fullscreen-persona">
@@ -96,6 +107,65 @@ export default function GameRoom() {
           <span>Enter Full Screen Mode</span>
         </button>
       </div>
+      <section className="alpha-proof">
+        <div className="alpha-proof__header">
+          <div>
+            <p className="eyebrow">Romance of the Three Kingdoms Alpha</p>
+            <h2 className="alpha-proof__title">Alpha Launch Readiness</h2>
+            <p className="alpha-proof__subtitle">
+              Backend + database heartbeat checks to keep the professional alpha UI stable.
+            </p>
+          </div>
+          <div className="alpha-proof__actions">
+            <Button
+              variant="secondary"
+              size="small"
+              icon={RefreshCcw}
+              onClick={handleRecheckSystems}
+              disabled={!systemStatus}
+            >
+              Re-run checks
+            </Button>
+          </div>
+        </div>
+        <div className="alpha-proof__grid">
+          <div className={`alpha-proof__card status-${backendStatus}`}>
+            <div className="alpha-proof__card-title">
+              <ShieldCheck size={20} strokeWidth={2} />
+              <span>Backend API</span>
+            </div>
+            <div className="alpha-proof__value">
+              {backendStatus === "online" ? "Operational" : backendStatus === "checking" ? "Checking..." : "Unavailable"}
+            </div>
+            <p className="alpha-proof__hint">Health endpoint: /health</p>
+          </div>
+          <div className={`alpha-proof__card status-${dbStatus}`}>
+            <div className="alpha-proof__card-title">
+              <Database size={20} strokeWidth={2} />
+              <span>Database Link</span>
+            </div>
+            <div className="alpha-proof__value">
+              {dbStatus === "online" ? "Connected" : dbStatus === "checking" ? "Checking..." : "Needs attention"}
+            </div>
+            <p className="alpha-proof__hint">Heartbeat: /db-status</p>
+          </div>
+        </div>
+        <div className="alpha-proof__footer">
+          <span className="alpha-proof__pill">
+            <ServerCog size={16} strokeWidth={2} />
+            {backendStatus === "online" && dbStatus === "online"
+              ? "Systems proofed for alpha handoff"
+              : "Verifying Three Kingdoms stack"}
+          </span>
+          {systemStatus?.apiError ? (
+            <span className="alpha-proof__alert">{systemStatus.apiError}</span>
+          ) : (
+            <span className="alpha-proof__muted">
+              Last status: {systemStatus?.lastStatus ? `HTTP ${systemStatus.lastStatus}` : "pending"}
+            </span>
+          )}
+        </div>
+      </section>
       <div className="game-room-layout">
         {/* Left Sidebar */}
         <aside className="game-sidebar">
