@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" width="300" height="420">
+  <defs>
+    <linearGradient id="seedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2d1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d1a0d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#081008;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="seedBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#27ae60;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e8449;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#186a3b;stop-opacity:1" />
+    </linearGradient>
+    <filter id="seedGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Card Background -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="url(#seedGradient)"/>
+  
+  <!-- Outer Border -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="none" stroke="url(#seedBorder)" stroke-width="4"/>
+  
+  <!-- Inner Decorative Border -->
+  <rect x="15" y="15" width="270" height="390" rx="8" ry="8" fill="none" stroke="#1e8449" stroke-width="1.5"/>
+  
+  <!-- Corner Decorations - Elemental/Leaf Motifs -->
+  <g fill="none" stroke="#27ae60" stroke-width="2" opacity="0.8" filter="url(#seedGlow)">
+    <!-- Top Left - Leaf -->
+    <path d="M20 30 Q30 20 40 30 Q30 35 20 30"/>
+    <line x1="30" y1="25" x2="30" y2="40"/>
+    
+    <!-- Top Right -->
+    <path d="M260 30 Q270 20 280 30 Q270 35 260 30"/>
+    <line x1="270" y1="25" x2="270" y2="40"/>
+    
+    <!-- Bottom Left -->
+    <path d="M20 390 Q30 380 40 390 Q30 395 20 390"/>
+    <line x1="30" y1="385" x2="30" y2="375"/>
+    
+    <!-- Bottom Right -->
+    <path d="M260 390 Q270 380 280 390 Q270 395 260 390"/>
+    <line x1="270" y1="385" x2="270" y2="375"/>
+  </g>
+  
+  <!-- Top Banner Area -->
+  <rect x="25" y="25" width="250" height="40" rx="4" ry="4" fill="#0d1a0d" stroke="#1e8449" stroke-width="1"/>
+  
+  <!-- Image Frame Area -->
+  <rect x="25" y="75" width="250" height="180" rx="4" ry="4" fill="#081008" stroke="#186a3b" stroke-width="1"/>
+  
+  <!-- Elemental Energy Effect in Image Area -->
+  <circle cx="150" cy="165" r="50" fill="#1a3a2a" opacity="0.5"/>
+  <circle cx="150" cy="165" r="35" fill="#2a4a3a" opacity="0.4"/>
+  <circle cx="150" cy="165" r="20" fill="#3a5a4a" opacity="0.3"/>
+  
+  <!-- Description Area -->
+  <rect x="25" y="265" width="250" height="140" rx="4" ry="4" fill="#0a150a" stroke="#186a3b" stroke-width="1"/>
+  
+  <!-- Seed Symbol - Sprouting Seed -->
+  <path d="M150 340 L150 310 M140 320 Q150 300 160 320 M135 330 Q150 305 165 330" 
+        fill="none" stroke="#27ae60" stroke-width="2" filter="url(#seedGlow)"/>
+  <ellipse cx="150" cy="340" rx="8" ry="5" fill="#27ae60" opacity="0.7"/>
+  
+  <!-- Decorative Lines -->
+  <line x1="40" y1="290" x2="130" y2="290" stroke="#186a3b" stroke-width="1"/>
+  <line x1="170" y1="290" x2="260" y2="290" stroke="#186a3b" stroke-width="1"/>
+</svg>

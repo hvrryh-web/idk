@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Combat/crossed swords icon -->
+  <path d="M4 20L10 14M14 10L20 4"/>
+  <path d="M20 4L17 4L17 7"/>
+  <path d="M4 20L7 20L7 17"/>
+  <!-- Second sword -->
+  <path d="M20 20L14 14M10 10L4 4"/>
+  <path d="M4 4L7 4L7 7"/>
+  <path d="M20 20L17 20L17 17"/>
+</svg>

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" width="300" height="420">
+  <defs>
+    <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3d1515;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2a0d0d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0808;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bodyBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d35400;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#a04000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b3500;stop-opacity:1" />
+    </linearGradient>
+    <filter id="bodyGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Card Background -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="url(#bodyGradient)"/>
+  
+  <!-- Outer Border -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="none" stroke="url(#bodyBorder)" stroke-width="4"/>
+  
+  <!-- Inner Decorative Border -->
+  <rect x="15" y="15" width="270" height="390" rx="8" ry="8" fill="none" stroke="#8b4500" stroke-width="1.5"/>
+  
+  <!-- Corner Decorations - Martial/Strength Motifs -->
+  <g fill="#d35400" opacity="0.8" filter="url(#bodyGlow)">
+    <!-- Top Left - Arrow/Spear -->
+    <path d="M18 18 L35 35 M18 35 L35 18" stroke="#d35400" stroke-width="2" fill="none"/>
+    
+    <!-- Top Right -->
+    <path d="M265 18 L282 35 M265 35 L282 18" stroke="#d35400" stroke-width="2" fill="none"/>
+    
+    <!-- Bottom Left -->
+    <path d="M18 385 L35 402 M18 402 L35 385" stroke="#d35400" stroke-width="2" fill="none"/>
+    
+    <!-- Bottom Right -->
+    <path d="M265 385 L282 402 M265 402 L282 385" stroke="#d35400" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Top Banner Area -->
+  <rect x="25" y="25" width="250" height="40" rx="4" ry="4" fill="#2a0d0d" stroke="#a04000" stroke-width="1"/>
+  
+  <!-- Image Frame Area -->
+  <rect x="25" y="75" width="250" height="180" rx="4" ry="4" fill="#1a0808" stroke="#8b4500" stroke-width="1"/>
+  
+  <!-- Flame/Energy Effect in Image Area -->
+  <path d="M100 220 Q90 180 110 150 Q120 170 115 190 Q130 160 140 180 Q135 200 150 170 Q170 200 160 220 Q140 200 130 220 Z" 
+        fill="#4a1a0a" opacity="0.5"/>
+  <path d="M180 220 Q170 190 180 160 Q195 180 190 200 Q210 170 200 210 Q195 195 180 220 Z" 
+        fill="#5a2010" opacity="0.4"/>
+  
+  <!-- Description Area -->
+  <rect x="25" y="265" width="250" height="140" rx="4" ry="4" fill="#200808" stroke="#8b4500" stroke-width="1"/>
+  
+  <!-- Body Symbol - Fist/Mountain -->
+  <path d="M140 310 L145 300 L150 310 L155 295 L160 315 L145 340 L130 315 L135 295 L140 310" 
+        fill="none" stroke="#d35400" stroke-width="2" filter="url(#bodyGlow)"/>
+  
+  <!-- Decorative Lines -->
+  <line x1="40" y1="290" x2="130" y2="290" stroke="#8b4500" stroke-width="1"/>
+  <line x1="170" y1="290" x2="260" y2="290" stroke="#8b4500" stroke-width="1"/>
+</svg>

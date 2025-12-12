@@ -11,6 +11,7 @@ export const DEATH_CARDS: FateCard[] = [
     rarity: "common",
     keywords: ["serene", "patient", "adaptive"],
     mechanicalHooks: { resilience: 1, ae_reg: 1 },
+    artPath: "/assets/fate-cards/death/silent-river.svg",
   },
   {
     id: "death-burning-phoenix",
@@ -21,6 +22,7 @@ export const DEATH_CARDS: FateCard[] = [
     rarity: "uncommon",
     keywords: ["rebirth", "transformation", "defiant"],
     mechanicalHooks: { recovery: 2, guard_regen: 1 },
+    artPath: "/assets/fate-cards/death/burning-phoenix.svg",
   },
   {
     id: "death-void-mirror",
@@ -31,6 +33,7 @@ export const DEATH_CARDS: FateCard[] = [
     rarity: "rare",
     keywords: ["clarity", "fearless", "transcendent"],
     mechanicalHooks: { insight: 2, dr_bonus: 1 },
+    artPath: "/assets/fate-cards/death/void-mirror.svg",
   },
   {
     id: "death-eternal-watcher",
@@ -41,6 +44,7 @@ export const DEATH_CARDS: FateCard[] = [
     rarity: "common",
     keywords: ["patient", "enduring", "vigilant"],
     mechanicalHooks: { endurance: 1, thp_bonus: 3 },
+    artPath: "/assets/fate-cards/death/eternal-watcher.svg",
   },
 ];
 
@@ -57,6 +61,7 @@ export const BODY_CARDS: FateCard[] = [
     keywords: ["sturdy", "defensive", "grounded"],
     statMods: { bod: 1, sol: 1 },
     mechanicalHooks: { guard_bonus: 1, spd_mod: -1 },
+    artPath: "/assets/fate-cards/body/stone-anchor.svg",
   },
   {
     id: "body-lightning-step",
@@ -69,6 +74,7 @@ export const BODY_CARDS: FateCard[] = [
     keywords: ["fast", "precise", "elusive"],
     statMods: { mnd: 2, bod: 1 },
     mechanicalHooks: { spd_mod: 2, dodge_bonus: 1 },
+    artPath: "/assets/fate-cards/body/lightning-step.svg",
   },
   {
     id: "body-iron-mountain",
@@ -81,6 +87,7 @@ export const BODY_CARDS: FateCard[] = [
     keywords: ["tough", "enduring", "powerful"],
     statMods: { bod: 2, sol: 1 },
     mechanicalHooks: { thp_bonus: 5, dr_bonus: 1 },
+    artPath: "/assets/fate-cards/body/iron-mountain.svg",
   },
   {
     id: "body-serpent-coil",
@@ -93,6 +100,7 @@ export const BODY_CARDS: FateCard[] = [
     keywords: ["flexible", "cunning", "adaptive"],
     statMods: { mnd: 1, bod: 1 },
     mechanicalHooks: { counter_bonus: 1, ae_cost_reduction: 1 },
+    artPath: "/assets/fate-cards/body/serpent-coil.svg",
   },
   {
     id: "body-crane-stance",
@@ -105,6 +113,7 @@ export const BODY_CARDS: FateCard[] = [
     keywords: ["graceful", "balanced", "flowing"],
     statMods: { mnd: 2, sol: 1 },
     mechanicalHooks: { dodge_bonus: 2, ae_reg: 1 },
+    artPath: "/assets/fate-cards/body/crane-stance.svg",
   },
 ];
 
@@ -121,6 +130,7 @@ export const SEED_CARDS: FateCard[] = [
     aspect: "Mind",
     keywords: ["insight", "flow", "adaptive"],
     mechanicalHooks: { ae_reg: 1, mnd_bonus: 1 },
+    artPath: "/assets/fate-cards/seed/azure-flow.svg",
   },
   {
     id: "seed-crimson-fury",
@@ -133,6 +143,7 @@ export const SEED_CARDS: FateCard[] = [
     aspect: "Body",
     keywords: ["passion", "power", "intense"],
     mechanicalHooks: { damage_bonus: 2, strain_risk: 1 },
+    artPath: "/assets/fate-cards/seed/crimson-fury.svg",
   },
   {
     id: "seed-jade-serenity",
@@ -145,6 +156,7 @@ export const SEED_CARDS: FateCard[] = [
     aspect: "Soul",
     keywords: ["harmony", "balance", "peaceful"],
     mechanicalHooks: { recovery: 1, sol_bonus: 1, strain_reduction: 1 },
+    artPath: "/assets/fate-cards/seed/jade-serenity.svg",
   },
   {
     id: "seed-silver-lightning",
@@ -157,6 +169,7 @@ export const SEED_CARDS: FateCard[] = [
     aspect: "Mind",
     keywords: ["quick", "precise", "electric"],
     mechanicalHooks: { spd_bonus: 1, ae_reg: 2, critical_chance: 1 },
+    artPath: "/assets/fate-cards/seed/silver-lightning.svg",
   },
   {
     id: "seed-obsidian-void",
@@ -169,6 +182,7 @@ export const SEED_CARDS: FateCard[] = [
     aspect: "Soul",
     keywords: ["void", "mysterious", "potent"],
     mechanicalHooks: { special_power: 1, ae_reg: 1, dr_bonus: 1 },
+    artPath: "/assets/fate-cards/seed/obsidian-void.svg",
   },
 ];
 

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <radialGradient id="voidCenter" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#0a0a15;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#151525;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#202035;stop-opacity:1" />
+    </radialGradient>
+    <radialGradient id="obsidianGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#4a4a6a;stop-opacity:0.6" />
+      <stop offset="50%" style="stop-color:#3a3a5a;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#2a2a4a;stop-opacity:0" />
+    </radialGradient>
+    <filter id="voidGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="eventHorizon" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background - Deep void -->
+  <rect width="250" height="180" fill="#0a0a15"/>
+  
+  <!-- Distant stars being pulled in -->
+  <g fill="#5a5a7a" opacity="0.3">
+    <circle cx="20" cy="20" r="0.8"/>
+    <circle cx="50" cy="40" r="0.6"/>
+    <circle cx="200" cy="25" r="0.7"/>
+    <circle cx="230" cy="50" r="0.5"/>
+    <circle cx="15" cy="160" r="0.6"/>
+    <circle cx="235" cy="150" r="0.7"/>
+  </g>
+  
+  <!-- Swirling void energy -->
+  <g filter="url(#voidGlow)" opacity="0.5">
+    <ellipse cx="125" cy="90" rx="90" ry="70" fill="none" stroke="#3a3a5a" stroke-width="2" transform="rotate(-15 125 90)"/>
+    <ellipse cx="125" cy="90" rx="80" ry="60" fill="none" stroke="#4a4a6a" stroke-width="1.5" transform="rotate(10 125 90)"/>
+    <ellipse cx="125" cy="90" rx="70" ry="50" fill="none" stroke="#5a5a7a" stroke-width="1" transform="rotate(-5 125 90)"/>
+  </g>
+  
+  <!-- Central Obsidian Void -->
+  <g transform="translate(125, 90)">
+    <!-- Void center - absolute black -->
+    <circle cx="0" cy="0" r="40" fill="url(#voidCenter)"/>
+    
+    <!-- Event horizon glow -->
+    <circle cx="0" cy="0" r="45" fill="url(#obsidianGlow)"/>
+    
+    <!-- Event horizon ring -->
+    <circle cx="0" cy="0" r="42" fill="none" stroke="#5a5a8a" stroke-width="2" filter="url(#eventHorizon)"/>
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#4a4a7a" stroke-width="1"/>
+    
+    <!-- Inner void patterns -->
+    <g filter="url(#voidGlow)" opacity="0.4">
+      <path d="M-25 0 Q-15 -15 0 -20 Q15 -15 25 0 Q15 15 0 20 Q-15 15 -25 0" 
+            fill="none" stroke="#3a3a5a" stroke-width="1"/>
+      <path d="M-15 0 Q-8 -10 0 -12 Q8 -10 15 0 Q8 10 0 12 Q-8 10 -15 0" 
+            fill="none" stroke="#4a4a6a" stroke-width="0.5"/>
+    </g>
+    
+    <!-- Void eye -->
+    <ellipse cx="0" cy="0" rx="8" ry="12" fill="#1a1a2a" stroke="#4a4a6a" stroke-width="0.5"/>
+    <circle cx="0" cy="0" r="3" fill="#2a2a4a"/>
+  </g>
+  
+  <!-- Matter being drawn into void -->
+  <g stroke="#5a5a7a" stroke-width="1" fill="none" opacity="0.5">
+    <!-- Spiral trails -->
+    <path d="M30 50 Q60 60 80 70 Q100 80 105 88"/>
+    <path d="M220 45 Q190 55 170 70 Q150 80 145 88"/>
+    <path d="M25 140 Q55 130 85 115 Q110 100 118 95"/>
+    <path d="M225 135 Q195 125 165 115 Q140 100 132 95"/>
+    
+    <!-- Top and bottom trails -->
+    <path d="M125 15 Q125 35 125 50"/>
+    <path d="M125 165 Q125 145 125 130"/>
+  </g>
+  
+  <!-- Floating obsidian shards -->
+  <g fill="#2a2a4a" filter="url(#voidGlow)">
+    <path d="M60 70 L65 60 L75 65 L70 75 Z"/>
+    <path d="M185 75 L192 68 L200 72 L195 80 Z"/>
+    <path d="M55 120 L62 115 L68 122 L60 125 Z"/>
+    <path d="M190 115 L198 112 L202 120 L193 122 Z"/>
+    
+    <!-- Shard highlights -->
+    <path d="M63 67 L66 63" stroke="#4a4a6a" stroke-width="0.5" fill="none"/>
+    <path d="M188 72 L192 69" stroke="#4a4a6a" stroke-width="0.5" fill="none"/>
+  </g>
+  
+  <!-- Void energy particles -->
+  <g fill="#6a6a9a" opacity="0.6">
+    <circle cx="90" cy="60" r="1.5"/>
+    <circle cx="160" cy="55" r="1"/>
+    <circle cx="75" cy="110" r="1"/>
+    <circle cx="175" cy="105" r="1.5"/>
+    <circle cx="100" cy="135" r="1"/>
+    <circle cx="150" cy="140" r="1"/>
+  </g>
+  
+  <!-- Mystery runes around void -->
+  <g stroke="#4a4a6a" stroke-width="0.5" fill="none" opacity="0.4">
+    <path d="M125 30 L120 35 L125 40 L130 35 Z"/>
+    <path d="M125 150 L120 145 L125 140 L130 145 Z"/>
+    <path d="M65 90 L70 85 L75 90 L70 95 Z"/>
+    <path d="M175 90 L180 85 L185 90 L180 95 Z"/>
+  </g>
+</svg>

@@ -40,6 +40,37 @@
   max-width: 400px;
 }
 
+/* Card Art Container */
+.card-art-container {
+  margin: 0 calc(-1 * var(--space-4));
+  margin-bottom: var(--space-3);
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--imperial-bronze);
+  border-bottom: 1px solid var(--imperial-bronze);
+}
+
+.card-art {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  transition: var(--transition-base);
+}
+
+.fate-card.clickable:hover .card-art {
+  transform: scale(1.02);
+}
+
+.fate-card.card-large .card-art-container {
+  max-height: 200px;
+}
+
+.fate-card.card-medium .card-art-container {
+  max-height: 150px;
+}
+
 /* Card header */
 .card-header {
   padding: var(--space-3);

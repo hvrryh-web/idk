@@ -6,6 +6,7 @@ interface FateCardDisplayProps {
   size?: "small" | "medium" | "large";
   onClick?: () => void;
   selected?: boolean;
+  showArt?: boolean;
 }
 
 export default function FateCardDisplay({
@@ -13,6 +14,7 @@ export default function FateCardDisplay({
   size = "medium",
   onClick,
   selected = false,
+  showArt = true,
 }: FateCardDisplayProps) {
   const rarityClass = card.rarity ? `rarity-${card.rarity}` : "";
   const typeClass = `card-type-${card.type}`;
@@ -49,6 +51,18 @@ export default function FateCardDisplay({
         </div>
         <div className="card-type-badge">{card.type ? card.type.toUpperCase() : ""}</div>
       </div>
+
+      {/* Card Art Section */}
+      {showArt && card.artPath && size !== "small" && (
+        <div className="card-art-container">
+          <img 
+            src={card.artPath} 
+            alt={`${card.name} card art`}
+            className="card-art"
+            loading="lazy"
+          />
+        </div>
+      )}
 
       <div className="card-body">
         {card.archetype && (

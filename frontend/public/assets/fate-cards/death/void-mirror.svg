@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <linearGradient id="voidBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0d1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#050510;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#020208;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="mirrorGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#4a5a8a;stop-opacity:0.6" />
+      <stop offset="70%" style="stop-color:#2a3a5a;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#1a2a4a;stop-opacity:0" />
+    </radialGradient>
+    <filter id="voidGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="mirrorClip">
+      <ellipse cx="125" cy="90" rx="55" ry="70"/>
+    </clipPath>
+  </defs>
+  
+  <!-- Background - Deep Void -->
+  <rect width="250" height="180" fill="url(#voidBg)"/>
+  
+  <!-- Distant stars -->
+  <g fill="#6a7a9a" opacity="0.4">
+    <circle cx="20" cy="30" r="0.5"/>
+    <circle cx="45" cy="15" r="0.8"/>
+    <circle cx="80" cy="25" r="0.5"/>
+    <circle cx="170" cy="20" r="0.6"/>
+    <circle cx="200" cy="35" r="0.5"/>
+    <circle cx="230" cy="15" r="0.7"/>
+    <circle cx="15" cy="60" r="0.5"/>
+    <circle cx="235" cy="70" r="0.6"/>
+    <circle cx="30" cy="150" r="0.5"/>
+    <circle cx="220" cy="140" r="0.5"/>
+  </g>
+  
+  <!-- Mirror Frame - Ornate Oval -->
+  <g transform="translate(125, 90)">
+    <!-- Outer frame glow -->
+    <ellipse cx="0" cy="0" rx="65" ry="78" fill="none" stroke="#3a4a6a" stroke-width="8" opacity="0.3" filter="url(#voidGlow)"/>
+    
+    <!-- Main frame -->
+    <ellipse cx="0" cy="0" rx="60" ry="73" fill="none" stroke="#5a6a8a" stroke-width="4"/>
+    <ellipse cx="0" cy="0" rx="56" ry="69" fill="none" stroke="#4a5a7a" stroke-width="2"/>
+    
+    <!-- Frame decorations -->
+    <g fill="#5a6a8a">
+      <!-- Top ornament -->
+      <path d="M0 -73 L-8 -68 L0 -80 L8 -68 Z"/>
+      <!-- Bottom ornament -->
+      <path d="M0 73 L-8 68 L0 80 L8 68 Z"/>
+      <!-- Side ornaments -->
+      <circle cx="-58" cy="0" r="4"/>
+      <circle cx="58" cy="0" r="4"/>
+    </g>
+  </g>
+  
+  <!-- Mirror Surface -->
+  <ellipse cx="125" cy="90" rx="52" ry="65" fill="#1a2030"/>
+  <ellipse cx="125" cy="90" rx="52" ry="65" fill="url(#mirrorGlow)"/>
+  
+  <!-- Reflection in Mirror - Fragmented/Distorted Figure -->
+  <g clip-path="url(#mirrorClip)" opacity="0.6">
+    <!-- Fragmented reflection -->
+    <g fill="#3a4a5a">
+      <rect x="100" y="40" width="25" height="30" transform="rotate(5 112 55)"/>
+      <rect x="125" y="45" width="20" height="25" transform="rotate(-3 135 58)"/>
+      <rect x="105" y="70" width="18" height="22" transform="rotate(8 114 81)"/>
+      <rect x="127" y="75" width="22" height="28" transform="rotate(-6 138 89)"/>
+      <rect x="110" y="100" width="30" height="35" transform="rotate(2 125 118)"/>
+    </g>
+    
+    <!-- Eye reflections -->
+    <ellipse cx="115" cy="55" rx="5" ry="3" fill="#6a8aaa" opacity="0.7" filter="url(#voidGlow)"/>
+    <ellipse cx="135" cy="58" rx="5" ry="3" fill="#6a8aaa" opacity="0.7" filter="url(#voidGlow)"/>
+    
+    <!-- Crack lines -->
+    <g stroke="#5a6a8a" stroke-width="0.5" fill="none" opacity="0.8">
+      <path d="M110 30 L115 50 L105 70 L120 90"/>
+      <path d="M140 35 L135 55 L145 80 L130 100"/>
+      <path d="M125 60 L120 80 L130 100 L125 130"/>
+    </g>
+  </g>
+  
+  <!-- Void energy emanating -->
+  <g filter="url(#voidGlow)" opacity="0.5">
+    <path d="M60 90 Q40 85 20 90" stroke="#4a5a8a" stroke-width="2" fill="none"/>
+    <path d="M55 70 Q35 60 15 65" stroke="#3a4a7a" stroke-width="1.5" fill="none"/>
+    <path d="M55 110 Q35 120 15 115" stroke="#3a4a7a" stroke-width="1.5" fill="none"/>
+    
+    <path d="M190 90 Q210 85 230 90" stroke="#4a5a8a" stroke-width="2" fill="none"/>
+    <path d="M195 70 Q215 60 235 65" stroke="#3a4a7a" stroke-width="1.5" fill="none"/>
+    <path d="M195 110 Q215 120 235 115" stroke="#3a4a7a" stroke-width="1.5" fill="none"/>
+  </g>
+  
+  <!-- Floating void particles -->
+  <g fill="#6a7aaa" opacity="0.6">
+    <circle cx="40" cy="80" r="2"/>
+    <circle cx="210" cy="100" r="1.5"/>
+    <circle cx="30" cy="120" r="1"/>
+    <circle cx="220" cy="70" r="2"/>
+  </g>
+</svg>

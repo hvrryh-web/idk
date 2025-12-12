@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <linearGradient id="phoenixBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a1515;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a0d0d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d0505;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="flameGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b2500;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#d35400;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#f39c12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f1c40f;stop-opacity:0.8" />
+    </linearGradient>
+    <filter id="flameGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="phoenixGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="250" height="180" fill="url(#phoenixBg)"/>
+  
+  <!-- Flames rising from ashes -->
+  <g filter="url(#flameGlow)">
+    <!-- Base flames -->
+    <path d="M40 180 Q30 150 50 130 Q60 145 55 160 Q70 140 80 155 Q75 170 60 175 Q50 180 40 180" fill="#8b2500" opacity="0.7"/>
+    <path d="M180 180 Q170 145 190 120 Q205 140 195 160 Q210 135 220 155 Q215 175 200 180 Q190 180 180 180" fill="#8b2500" opacity="0.7"/>
+    
+    <!-- Mid flames -->
+    <path d="M60 180 Q55 155 70 135 Q80 150 75 165 Q90 145 95 165 Q90 175 75 180 Z" fill="#d35400" opacity="0.8"/>
+    <path d="M160 180 Q155 150 170 125 Q185 145 175 165 Q195 140 200 160 Q195 175 175 180 Z" fill="#d35400" opacity="0.8"/>
+    
+    <!-- Bright flames -->
+    <path d="M90 180 Q85 160 100 140 Q110 155 105 170 Q120 150 125 170 Q115 180 100 180 Z" fill="#f39c12" opacity="0.9"/>
+    <path d="M135 180 Q130 155 145 130 Q160 150 150 170 Q165 145 170 165 Q165 180 150 180 Z" fill="#f39c12" opacity="0.9"/>
+  </g>
+  
+  <!-- Phoenix Rising -->
+  <g transform="translate(125, 90)" filter="url(#phoenixGlow)">
+    <!-- Phoenix body -->
+    <ellipse cx="0" cy="15" rx="18" ry="25" fill="#d35400" opacity="0.9"/>
+    
+    <!-- Phoenix head -->
+    <circle cx="0" cy="-20" r="12" fill="#f39c12"/>
+    <ellipse cx="0" cy="-18" rx="8" ry="10" fill="#f1c40f"/>
+    
+    <!-- Beak -->
+    <path d="M0 -15 L5 -10 L0 -8 L-5 -10 Z" fill="#8b2500"/>
+    
+    <!-- Eyes -->
+    <circle cx="-4" cy="-22" r="2" fill="#2a1515"/>
+    <circle cx="4" cy="-22" r="2" fill="#2a1515"/>
+    
+    <!-- Crown feathers -->
+    <path d="M0 -32 Q-5 -45 -2 -55 Q0 -45 2 -55 Q5 -45 0 -32" fill="url(#flameGradient)" stroke="#f1c40f" stroke-width="1"/>
+    <path d="M-8 -28 Q-15 -40 -12 -48" fill="none" stroke="#f39c12" stroke-width="2"/>
+    <path d="M8 -28 Q15 -40 12 -48" fill="none" stroke="#f39c12" stroke-width="2"/>
+    
+    <!-- Wings spread -->
+    <path d="M-18 5 Q-45 -15 -70 -5 Q-50 10 -35 5 Q-50 0 -65 10 Q-45 15 -25 15 Z" fill="url(#flameGradient)" opacity="0.9"/>
+    <path d="M18 5 Q45 -15 70 -5 Q50 10 35 5 Q50 0 65 10 Q45 15 25 15 Z" fill="url(#flameGradient)" opacity="0.9"/>
+    
+    <!-- Tail feathers -->
+    <path d="M0 40 Q-10 60 -5 80 Q0 65 5 80 Q10 60 0 40" fill="url(#flameGradient)" opacity="0.8"/>
+    <path d="M-8 35 Q-20 55 -15 70" fill="none" stroke="#d35400" stroke-width="3"/>
+    <path d="M8 35 Q20 55 15 70" fill="none" stroke="#d35400" stroke-width="3"/>
+  </g>
+  
+  <!-- Ashes at bottom -->
+  <ellipse cx="125" cy="175" rx="80" ry="10" fill="#3a2a2a" opacity="0.8"/>
+  <g fill="#4a3a3a" opacity="0.6">
+    <circle cx="80" cy="172" r="3"/>
+    <circle cx="110" cy="175" r="2"/>
+    <circle cx="140" cy="173" r="4"/>
+    <circle cx="170" cy="175" r="2"/>
+  </g>
+  
+  <!-- Sparks -->
+  <g fill="#f1c40f" filter="url(#flameGlow)">
+    <circle cx="50" cy="100" r="1.5"/>
+    <circle cx="200" cy="80" r="1"/>
+    <circle cx="85" cy="60" r="1"/>
+    <circle cx="165" cy="70" r="1.5"/>
+    <circle cx="30" cy="50" r="1"/>
+    <circle cx="220" cy="55" r="1"/>
+  </g>
+</svg>

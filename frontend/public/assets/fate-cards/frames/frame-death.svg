@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" width="300" height="420">
+  <defs>
+    <linearGradient id="deathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d2d2d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d0d0d;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="deathBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6b6b6b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4a4a4a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="deathGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Card Background -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="url(#deathGradient)"/>
+  
+  <!-- Outer Border -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="none" stroke="url(#deathBorder)" stroke-width="4"/>
+  
+  <!-- Inner Decorative Border -->
+  <rect x="15" y="15" width="270" height="390" rx="8" ry="8" fill="none" stroke="#4a4a4a" stroke-width="1.5"/>
+  
+  <!-- Corner Decorations - Skull/Void Motifs -->
+  <g fill="#5a5a5a" opacity="0.8">
+    <!-- Top Left -->
+    <circle cx="25" cy="25" r="6"/>
+    <path d="M20 35 L30 35 L25 45 Z"/>
+    
+    <!-- Top Right -->
+    <circle cx="275" cy="25" r="6"/>
+    <path d="M270 35 L280 35 L275 45 Z"/>
+    
+    <!-- Bottom Left -->
+    <circle cx="25" cy="395" r="6"/>
+    <path d="M20 385 L30 385 L25 375 Z"/>
+    
+    <!-- Bottom Right -->
+    <circle cx="275" cy="395" r="6"/>
+    <path d="M270 385 L280 385 L275 375 Z"/>
+  </g>
+  
+  <!-- Top Banner Area -->
+  <rect x="25" y="25" width="250" height="40" rx="4" ry="4" fill="#1a1a1a" stroke="#5a5a5a" stroke-width="1"/>
+  
+  <!-- Image Frame Area -->
+  <rect x="25" y="75" width="250" height="180" rx="4" ry="4" fill="#0d0d0d" stroke="#4a4a4a" stroke-width="1"/>
+  
+  <!-- Void Mist Effect in Image Area -->
+  <ellipse cx="150" cy="165" rx="100" ry="60" fill="#2a2a2a" opacity="0.5"/>
+  <ellipse cx="120" cy="150" rx="60" ry="40" fill="#3a3a3a" opacity="0.3"/>
+  
+  <!-- Description Area -->
+  <rect x="25" y="265" width="250" height="140" rx="4" ry="4" fill="#151515" stroke="#4a4a4a" stroke-width="1"/>
+  
+  <!-- Death Symbol - Crescent Moon -->
+  <path d="M145 310 Q135 290 145 270 Q165 285 165 305 Q165 325 145 340 Q155 320 145 310" 
+        fill="none" stroke="#6a6a6a" stroke-width="2" filter="url(#deathGlow)"/>
+  
+  <!-- Decorative Lines -->
+  <line x1="40" y1="290" x2="130" y2="290" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="170" y1="290" x2="260" y2="290" stroke="#4a4a4a" stroke-width="1"/>
+</svg>
