@@ -125,6 +125,18 @@ class TestSanitizeFilename:
         result = sanitize_filename("test___file.txt")
         assert "___" not in result
 
+    def test_sanitize_collapses_consecutive_dots(self):
+        """Test that consecutive dots are collapsed to prevent traversal."""
+        result = sanitize_filename("test..file.txt")
+        assert ".." not in result
+        # Should have single dot between parts
+        assert result == "test.file.txt"
+
+    def test_sanitize_handles_dotdot_in_filename(self):
+        """Test that .. in filename is handled."""
+        result = sanitize_filename("test..txt")
+        assert ".." not in result
+
 
 class TestIsSafePath:
     """Tests for is_safe_path function."""

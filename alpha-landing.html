@@ -1119,17 +1119,37 @@ tail -f logs/frontend.log</pre>
             logToConsole('📋 Diagnostics report exported!', 'success');
         }
 
+        // Escape HTML entities to prevent XSS
+        function escapeHtml(text) {
+            if (typeof text !== 'string') {
+                text = String(text || '');
+            }
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         // Create GitHub issue with diagnostics
         function createGitHubIssue() {
+            // Escape all user-controlled data
+            const escapedBrowser = escapeHtml(navigator.userAgent);
+            const escapedTimestamp = escapeHtml(new Date().toISOString());
+            const escapedServices = Object.entries(diagnosticData.services)
+                .map(([k, v]) => `- **${escapeHtml(k)}**: ${escapeHtml(v.status)} - ${escapeHtml(v.message)}`)
+                .join('\n');
+            const escapedErrors = diagnosticData.errors.length > 0 
+                ? diagnosticData.errors.map(e => `- ${escapeHtml(e.service)}: ${escapeHtml(e.error)}`).join('\n') 
+                : 'No errors detected';
+
             const body = `## Environment
-- **Browser**: ${navigator.userAgent}
-- **Timestamp**: ${new Date().toISOString()}
+- **Browser**: ${escapedBrowser}
+- **Timestamp**: ${escapedTimestamp}
 
 ## Service Status
-${Object.entries(diagnosticData.services).map(([k, v]) => `- **${k}**: ${v.status} - ${v.message}`).join('\n')}
+${escapedServices}
 
 ## Errors
-${diagnosticData.errors.length > 0 ? diagnosticData.errors.map(e => `- ${e.service}: ${e.error}`).join('\n') : 'No errors detected'}
+${escapedErrors}
 
 ## Steps to Reproduce
 1. 

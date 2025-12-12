@@ -54,6 +54,9 @@ def sanitize_filename(filename: str, max_length: int = 255) -> str:
     # Keep only alphanumeric, dash, underscore, dot, and space
     filename = re.sub(r"[^\w\-. ]", "_", filename)
     
+    # Replace consecutive dots with single dot (prevents ".." traversal in filenames)
+    filename = re.sub(r"\.{2,}", ".", filename)
+    
     # Remove leading/trailing dots and spaces
     filename = filename.strip(". ")
     
