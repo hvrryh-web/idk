@@ -10,6 +10,7 @@ Patch: ALPHA-0.3-20251212
 
 import json
 import logging
+import sys
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -666,8 +667,6 @@ def run_integration_health_check() -> DiagnosticReport:
 
 def main():
     """Run diagnostic checks from command line."""
-    import sys
-    
     print(f"SRD Diagnostics - Version {SRD_VERSION}")
     print(f"Patch: {SRD_PATCH_ID}")
     print(f"Date: {SRD_DATE}")

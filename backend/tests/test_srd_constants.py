@@ -68,11 +68,11 @@ class TestVersionInfo:
     """Test SRD version information."""
     
     def test_version_format(self):
-        """Version should be in X.Y format."""
+        """Version should be in X.Y.Z semantic versioning format."""
         parts = SRD_VERSION.split(".")
-        assert len(parts) == 2
-        assert parts[0].isdigit()
-        assert parts[1].isdigit()
+        assert len(parts) == 3, f"Expected semantic version X.Y.Z, got {SRD_VERSION}"
+        for part in parts:
+            assert part.isdigit(), f"Version part '{part}' should be numeric"
     
     def test_patch_id_format(self):
         """Patch ID should follow ALPHA-X.Y-YYYYMMDD format."""

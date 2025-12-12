@@ -18,7 +18,7 @@ from typing import Dict, List, Tuple
 # SRD Version Information
 # =============================================================================
 
-SRD_VERSION = "0.3"
+SRD_VERSION = "0.3.0"
 SRD_PATCH_ID = "ALPHA-0.3-20251212"
 SRD_DATE = "2025-12-12"
 

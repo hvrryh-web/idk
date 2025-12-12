@@ -133,8 +133,8 @@ class CharacterStats:
     revelation_resilience: int = 0
     revelation_pdb: PDBProfile = PDBProfile.BALANCED
     
-    # Techniques with effect ranks
-    technique_effects: List[Tuple[str, int, int]] = field(default_factory=list)  # (name, attack_bonus, effect_rank)
+    # Techniques with effect ranks: list of (name: str, attack_bonus: int, effect_rank: int)
+    technique_effects: List[Tuple[str, int, int]] = field(default_factory=list)
 
 
 # =============================================================================
