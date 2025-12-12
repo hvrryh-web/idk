@@ -449,6 +449,148 @@ CLI_ARGS=--listen 0.0.0.0 --lowvram
 - [ ] Animation frame generation
 - [ ] Integration with combat visualization
 
+## Fate Card Artwork Generation
+
+The system includes dedicated workflows for generating Fate Card artwork that matches the TTRPG's visual style.
+
+### Card Types
+
+| Type | Theme | Colors | Border Style |
+|------|-------|--------|--------------|
+| Death | Mortality, ethereal, spectral | Grayscale, silver, pale blue | Bone, skull, hourglasses |
+| Body | Physical prowess, martial arts | Earth tones, bronze, copper | Weapons, armor, martial symbols |
+| Seed | Elemental essence, cultivation | Per-element colors | Energy patterns, lotus, yin-yang |
+
+### API Endpoints
+
+**Generate Single Card:**
+```http
+POST /api/v1/fate-cards/generate
+Content-Type: application/json
+
+{
+  "card_type": "death",
+  "card_id": "silent_river",
+  "card_name": "Silent River",
+  "rarity": "common",
+  "color_scheme": null
+}
+```
+
+**Batch Generation:**
+```http
+POST /api/v1/fate-cards/generate/batch
+Content-Type: application/json
+
+{
+  "cards": [
+    {"card_type": "death", "card_id": "silent_river", "card_name": "Silent River", "rarity": "common"},
+    {"card_type": "body", "card_id": "stone_anchor", "card_name": "Stone Anchor", "rarity": "uncommon"}
+  ]
+}
+```
+
+**Get Card Prompts:**
+```http
+GET /api/v1/fate-cards/prompts/death/silent_river
+```
+
+**List Available Cards:**
+```http
+GET /api/v1/fate-cards/available-cards
+```
+
+### Frontend Component
+
+```tsx
+import { FateCardGenerator } from './components/FateCardGenerator';
+
+<FateCardGenerator
+  card={fateCard}
+  onGenerationComplete={(card, imageUrl) => {
+    console.log(`Generated artwork for ${card.name}: ${imageUrl}`);
+  }}
+/>
+```
+
+## NPC Portrait Generation
+
+Generate portraits for NPCs based on character archetypes from the Romance of Three Kingdoms aesthetic.
+
+### Archetype Categories
+
+| Category | Examples | Outfit Tiers |
+|----------|----------|--------------|
+| Military | General, Warrior, Archer, Mercenary | Low to High |
+| Nobility | Emperor, Prince, Duke, Minister | High to Legendary |
+| Scholars | Strategist, Teacher, Physician | Low to High |
+| Cultivators | Sect Elder, Disciple, Alchemist | All tiers |
+| Commoners | Merchant, Farmer, Craftsman | Minimal to Medium |
+
+### Portrait Parameters
+
+- **Gender**: Male, Female
+- **Age Variants**: Youth, Young Adult, Middle Aged, Elder, Ancient
+- **Expressions**: Neutral, Happy, Angry, Sad, Surprised, Determined, Scheming, Fearful
+- **Outfit Tier**: Minimal, Low, Medium, High, Legendary
+
+### Workflow File
+
+The NPC portrait workflow is at `tools/comfyui/workflows/npc_portrait.json`.
+
+## UI Asset Generation
+
+Generate UI assets including icons, backgrounds, and card frames.
+
+### Asset Categories
+
+**Icons:**
+- Stat icons (strength, dexterity, etc.)
+- Aether icons (fire, ice, void)
+- Combat icons (THP, AE, DR, Guard, Strain)
+- Pillar icons (Violence, Influence, Revelation)
+- Cost track icons (Blood, Fate, Stain)
+- Action icons (Attack, Defend, Technique, Quick)
+- Navigation icons (Home, Character, Combat, Wiki, Settings)
+
+**Card Frames:**
+- Death card frames (by rarity)
+- Body card frames (by rarity)
+- Seed card frames (by color)
+- Card backs
+
+**Backgrounds:**
+- Combat arenas (Duel, Battlefield, Sect Training, Palace)
+- Dialogue scenes (Teahouse, Mountain Path, City Street, Sect Hall)
+- Menu screens (Main Menu, Character Select, Loading)
+
+### Workflow File
+
+The UI assets workflow is at `tools/comfyui/workflows/ui_assets.json`.
+
+## Asset Management & Safety
+
+### Rate Limiting
+
+- 20 generations per user per hour
+- 100 generations per user per day
+- 10 global generations per minute
+
+### Disk Usage Limits
+
+- Maximum 2GB total disk usage for generated assets
+- 7-day TTL for non-base assets
+- Automatic cleanup of expired and orphan files
+
+### Memory Safety
+
+- Maximum 3 concurrent generation jobs
+- Maximum 50 queued jobs total
+- Bounded in-memory job queue
+- Proper cleanup on job cancellation
+
+See `docs/COMFYUI_GAP_REPORT.md` for detailed system architecture and safety considerations.
+
 ## Support
 
 For issues specific to this integration:

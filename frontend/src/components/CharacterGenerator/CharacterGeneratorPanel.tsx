@@ -70,9 +70,28 @@ export const CharacterGeneratorPanel: React.FC<CharacterGeneratorPanelProps> = (
     setConfig((prev) => ({ ...prev, [key]: value }));
   };
 
+  // Constants for file validation
+  const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+  const MAX_FILE_SIZE_MB = 10;
+  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
   const handleFaceUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      // Validate file type
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        onError?.(`Invalid file type. Allowed: PNG, JPG, JPEG, WebP`);
+        event.target.value = ''; // Clear the input
+        return;
+      }
+      
+      // Validate file size
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        onError?.(`File too large. Maximum size: ${MAX_FILE_SIZE_MB}MB`);
+        event.target.value = ''; // Clear the input
+        return;
+      }
+      
       handleConfigChange('faceReference', file);
     }
   };

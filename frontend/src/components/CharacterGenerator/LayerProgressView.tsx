@@ -8,6 +8,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { CheckCircle, Circle, Loader2, X, Clock, Download } from 'lucide-react';
 
+// UUID validation regex
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+/**
+ * Validates that the jobId is a valid UUID format to prevent injection attacks
+ */
+function isValidJobId(jobId: string): boolean {
+  return UUID_REGEX.test(jobId);
+}
+
 interface LayerProgressViewProps {
   jobId: string;
   onComplete?: (outputs: Record<string, string>) => void;
@@ -75,6 +85,13 @@ export const LayerProgressView: React.FC<LayerProgressViewProps> = ({
 
   // WebSocket connection for real-time updates
   useEffect(() => {
+    // Validate jobId to prevent WebSocket URL injection
+    if (!isValidJobId(jobId)) {
+      console.error('Invalid jobId format:', jobId);
+      onError?.('Invalid job ID format');
+      return;
+    }
+
     const wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}${API_BASE}/progress/${jobId}`;
     const ws = new WebSocket(wsUrl);
 
