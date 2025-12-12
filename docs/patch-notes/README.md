@@ -48,6 +48,7 @@ The latest release includes Architecture Decision Records:
 | [ADR-0004](../adr/ADR-0004-skill-layer-tagging.md) | Skill Layer and Tagging |
 | [ADR-0005](../adr/ADR-0005-technique-tag-taxonomy.md) | Technique Tag Taxonomy |
 | [ADR-0006](../adr/ADR-0006-effect-resolution-condition-ladders.md) | Effect Resolution and Condition Ladders |
+| [ADR-0007](../adr/ADR-0007-tracks-strain-metacurrency.md) | Tracks, Strain, and Meta-Currency |
 
 ## Patch 0.3 Documentation
 
