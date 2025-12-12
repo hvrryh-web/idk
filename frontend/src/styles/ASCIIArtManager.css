@@ -1,55 +1,65 @@
+/* ASCII Art Manager - Romance of the Three Kingdoms + Persona Style */
 .ascii-art-manager {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-  color: #eee;
+  background: var(--gradient-bg-dark);
+  color: var(--text-primary);
 }
 
 .ascii-manager-header {
-  background: #16213e;
-  padding: 20px;
-  border-bottom: 2px solid #00d4ff;
+  background: var(--bg-secondary);
+  padding: var(--space-6);
+  border-bottom: 4px solid var(--imperial-gold);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
 .ascii-manager-header h1 {
   margin: 0;
-  color: #00d4ff;
-  font-size: 24px;
+  font-family: var(--font-heading);
+  color: var(--imperial-gold);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .ascii-nav {
   display: flex;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .ascii-nav button {
-  padding: 10px 20px;
-  background: #00d4ff;
-  color: #1a1a2e;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
+  padding: var(--space-3) var(--space-5);
+  background: var(--gradient-imperial);
+  color: var(--ink-black);
+  border: 2px solid var(--imperial-gold);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-weight: var(--font-bold);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-md), var(--glow-sm);
+  letter-spacing: 0.05em;
 }
 
 .ascii-nav button:hover {
-  background: #00a8cc;
+  box-shadow: var(--shadow-lg), var(--glow-md);
+  transform: translateY(-2px);
 }
 
 .ascii-manager-layout {
-  padding: 20px;
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-6);
 }
 
 .ascii-manager-layout.with-tv {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: var(--space-6);
 }
 
 .gm-panel {
@@ -60,13 +70,16 @@
 .tv-panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .tv-panel h2 {
   margin: 0;
-  color: #00d4ff;
-  font-size: 20px;
+  font-family: var(--font-heading);
+  color: var(--imperial-gold);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 1400px) {

@@ -1,89 +1,128 @@
+/* Chat Room - Romance of the Three Kingdoms + Persona Style */
 .chat-room {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1rem;
+  padding: var(--space-4);
 }
 
 .chat-header {
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #333;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--imperial-bronze);
 }
 
 .chat-header h2 {
   margin: 0;
-  font-size: 1.25rem;
-  color: #e0e0e0;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--imperial-gold);
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .messages-container {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
-  background-color: #1e1e1e;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  padding: var(--space-4);
+  background: var(--gradient-ink);
+  border: 2px solid var(--imperial-bronze);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .message {
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
-  background-color: #2a2a2a;
-  border-radius: 4px;
+  margin-bottom: var(--space-3);
+  padding: var(--space-3);
+  background: var(--bg-tertiary);
+  border-left: 3px solid var(--imperial-bronze);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.message:hover {
+  border-left-color: var(--imperial-gold);
+  box-shadow: var(--glow-sm);
 }
 
 .message-author {
-  font-weight: bold;
-  color: #4a9eff;
-  margin-right: 0.5rem;
+  font-family: var(--font-heading);
+  font-weight: var(--font-bold);
+  color: var(--imperial-gold);
+  margin-right: var(--space-2);
+  font-size: var(--text-base);
+  letter-spacing: 0.05em;
 }
 
 .message-text {
-  color: #e0e0e0;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  line-height: var(--leading-relaxed);
 }
 
 .message-input {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-3);
 }
 
 .message-input input {
   flex: 1;
-  padding: 0.75rem;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  color: #e0e0e0;
-  font-size: 1rem;
+  padding: var(--space-3);
+  background: var(--bg-tertiary);
+  border: 2px solid var(--imperial-bronze);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  transition: var(--transition-base);
+}
+
+.message-input input::placeholder {
+  color: var(--text-muted);
 }
 
 .message-input input:focus {
   outline: none;
-  border-color: #4a9eff;
+  border-color: var(--imperial-gold);
+  box-shadow: var(--glow-md);
 }
 
 .message-input input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  border-color: var(--border-primary);
 }
 
 .message-input button {
-  padding: 0.75rem 1.5rem;
-  background-color: #4a9eff;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  font-weight: bold;
+  padding: var(--space-3) var(--space-5);
+  background: var(--gradient-imperial);
+  border: 2px solid var(--imperial-gold);
+  border-radius: var(--radius-md);
+  color: var(--ink-black);
+  font-family: var(--font-body);
+  font-weight: var(--font-bold);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-md), var(--glow-sm);
+  letter-spacing: 0.05em;
 }
 
 .message-input button:hover:not(:disabled) {
-  background-color: #3a8eef;
+  box-shadow: var(--shadow-lg), var(--glow-md);
+  transform: translateY(-2px);
+}
+
+.message-input button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm), inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .message-input button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  background: var(--bg-tertiary);
+  border-color: var(--border-primary);
+  box-shadow: none;
 }
