@@ -51,6 +51,7 @@ See **[docs/wuxiaxian-reference/](./docs/wuxiaxian-reference/)** for:
 - Backend: FastAPI application with settings in `app/core/config.py`, DB session management in `app/db/session.py`, and SQLAlchemy models in `app/models/`. Character CRUD lives under `app/api/routes/characters.py` and is mounted at `/api/v1`.
 - Frontend: Vite + React + TypeScript in `frontend/`, calling the backend at `http://localhost:8000/api/v1`.
 - Infra: Docker Compose in `infra/` to start a local Postgres instance; optionally connect the backend to it via `DATABASE_URL`.
+- **Character Customization**: Full-featured character appearance customization system with ComfyUI integration (see [frontend/src/character/README.md](./frontend/src/character/README.md))
 - **ASCII Visual Component**: Separate Node.js backend for ASCII art generation (see [ASCII_COMPONENT_README.md](./ASCII_COMPONENT_README.md))
 - **Design Docs**: See [WUXUXIANXIA TTRPG/](./WUXUXIANXIA%20TTRPG/) for original design documents and [docs/wuxiaxian-reference/](./docs/wuxiaxian-reference/) for implementation analysis.
 
@@ -105,7 +106,8 @@ The alpha test includes:
 - ✅ Character and simulation management
 - ✅ Backend API with FastAPI + SQLAlchemy
 - ✅ Full CORS support for local development
-- ✅ **NEW**: ASCII Visual Image Generator (PoC) - See [ASCII_COMPONENT_README.md](./ASCII_COMPONENT_README.md)
+- ✅ **NEW**: Character Appearance Customization - Full-featured character creator with 5 categories (Hair, Eyes, Brows, Mouth, Outfit), color swatches, undo/redo, and ComfyUI asset pipeline (see [Character Module README](./frontend/src/character/README.md))
+- ✅ ASCII Visual Image Generator (PoC) - See [ASCII_COMPONENT_README.md](./ASCII_COMPONENT_README.md)
 
 ## Getting started (Detailed)
 1. **Start Postgres**

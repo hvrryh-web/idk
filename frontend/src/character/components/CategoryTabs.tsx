@@ -4,8 +4,6 @@
  * Displays tabs for switching between customization categories
  */
 
-import React from "react";
-import { CategoryType } from "../data/types";
 import { useCharacterCreatorStore } from "../state/useCharacterCreatorStore";
 
 export function CategoryTabs() {

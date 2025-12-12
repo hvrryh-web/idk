@@ -4,7 +4,6 @@
  * Displays color swatches for customization
  */
 
-import React from "react";
 import { SwatchType } from "../data/types";
 import { useCharacterCreatorStore } from "../state/useCharacterCreatorStore";
 import { getSwatchPalette } from "../data/manifest";

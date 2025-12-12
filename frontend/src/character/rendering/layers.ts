@@ -6,7 +6,7 @@
 
 import { LayerType, AssetLayer, CharacterAppearance, AssetManifest } from "../data/types";
 import { LAYER_ORDER } from "../data/defaults";
-import { getCategoryById, getOptionById, getBaseModelDef } from "../data/manifest";
+import { getOptionById, getBaseModelDef } from "../data/manifest";
 
 /**
  * Get sorted layers for rendering based on LAYER_ORDER

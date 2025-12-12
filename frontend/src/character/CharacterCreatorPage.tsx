@@ -4,7 +4,7 @@
  * Main page for character customization
  */
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCharacterCreatorStore } from "../state/useCharacterCreatorStore";
 import { PreviewPane } from "../components/PreviewPane";
 import { CategoryTabs } from "../components/CategoryTabs";
@@ -39,6 +39,7 @@ export function CharacterCreatorPage() {
   useEffect(() => {
     loadManifest();
     loadFromLocalStorage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Auto-save to localStorage on changes
@@ -46,7 +47,8 @@ export function CharacterCreatorPage() {
     if (manifest) {
       saveToLocalStorage();
     }
-  }, [appearance]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appearance, manifest]);
 
   const handleExportPNG = async (format: "full-body" | "portrait") => {
     if (!manifest) return;

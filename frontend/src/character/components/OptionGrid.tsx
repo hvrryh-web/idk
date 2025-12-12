@@ -4,7 +4,6 @@
  * Displays selectable options for the current category
  */
 
-import React from "react";
 import { useCharacterCreatorStore } from "../state/useCharacterCreatorStore";
 import { getCategoryById } from "../data/manifest";
 
