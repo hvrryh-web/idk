@@ -2,6 +2,39 @@
 
 FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Postgres via Docker Compose.
 
+## 🎮 Alpha Test Controls
+
+**One-Click Launch:**
+
+[![🚀 START ALPHA TEST](https://img.shields.io/badge/🚀_START-ALPHA_TEST-brightgreen?style=for-the-badge)](./start-alpha.sh) [![🛑 STOP ALPHA TEST](https://img.shields.io/badge/🛑_STOP-ALPHA_TEST-red?style=for-the-badge)](./stop-alpha.sh)
+
+### Quick Commands
+
+```bash
+# Start all services (Postgres, Backend, Frontend)
+./start-alpha.sh
+
+# Stop all services
+./stop-alpha.sh
+```
+
+**What it does:**
+- ✅ Starts PostgreSQL in Docker
+- ✅ Applies database schema
+- ✅ Launches FastAPI backend (port 8000)
+- ✅ Launches Vite frontend (port 5173)
+- ✅ Creates log files in `logs/` directory
+
+**Access Points:**
+- **Game**: http://localhost:5173
+- **API Docs**: http://localhost:8000/docs
+- **Backend**: http://localhost:8000
+- **Landing Page**: Open `alpha-landing.html` in your browser
+
+📘 **Need Help?** See the full [Alpha Test Guide](./ALPHA_TEST.md) for troubleshooting and detailed instructions.
+
+---
+
 ## 📖 Design Documentation
 
 **NEW**: Comprehensive design analysis and implementation roadmap now available!
