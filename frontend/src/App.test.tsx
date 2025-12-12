@@ -117,4 +117,17 @@ describe("App Component", () => {
     expect(screen.getByText(/Help & Search/i)).toBeInTheDocument();
     expect(screen.getByText(/Character Manager/i)).toBeInTheDocument();
   });
+
+  it("shows template characters including Lu Bu and Diao Chan", async () => {
+    (globalThis.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => [],
+    });
+
+    render(<App />);
+
+    expect(screen.getByText(/Template Characters/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Lu Bu/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Diao Chan/i).length).toBeGreaterThan(0);
+  });
 });

@@ -11,6 +11,10 @@ import type {
 
 const API_BASE = "http://localhost:8000/api/v1";
 
+export function useApi() {
+  return { apiError: null, lastApiCall: null, lastStatus: null } as const;
+}
+
 async function handle<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const message = await response.text();
@@ -81,6 +85,15 @@ export async function renderAsciiFromFile(
 export async function fetchCharacters(): Promise<Character[]> {
   const res = await fetch(`${API_BASE}/characters`);
   return handle<Character[]>(res);
+}
+
+export async function createCharacter(body: Partial<Character>): Promise<Character> {
+  const res = await fetch(`${API_BASE}/characters`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return handle<Character>(res);
 }
 
 export async function fetchCharacter(id: number): Promise<Character> {
