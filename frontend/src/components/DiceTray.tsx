@@ -4,6 +4,7 @@ interface DiceTrayProps {
   // Optionally pass props for integration
 }
 
+export default function DiceTray(_props: DiceTrayProps) {
   const [numDice, setNumDice] = useState(1);
   const [diceSides, setDiceSides] = useState(6);
   const [modifier, setModifier] = useState(0);

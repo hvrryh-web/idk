@@ -1,16 +1,19 @@
+/* Game Screen - Romance of the Three Kingdoms + Persona Style */
 .game-screen {
   display: flex;
   height: 100vh;
-  background-color: #1a1a1a;
-  color: #e0e0e0;
+  background: var(--gradient-bg-dark);
+  color: var(--text-primary);
 }
 
 .game-sidebar {
   width: 300px;
-  border-right: 1px solid #333;
+  border-right: 3px solid var(--imperial-bronze);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  background: var(--gradient-ink);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .game-main {
@@ -25,30 +28,32 @@
 .game-content {
   flex: 1;
   overflow: hidden;
-  padding: 1rem;
+  padding: var(--space-4);
   min-height: 0;
 }
 
 .game-panels {
   display: grid;
   grid-template-columns: 2fr 1.1fr;
-  gap: 1rem;
+  gap: var(--space-4);
   height: 100%;
   min-height: 0;
 }
 
 .chat-panel {
-  background: #1f1f1f;
-  border: 1px solid #2f2f2f;
-  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--imperial-bronze);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   min-height: 0;
+  box-shadow: var(--shadow-md), inset 0 0 30px rgba(0, 0, 0, 0.3);
 }
 
 .combat-hud-area {
   height: 180px;
-  border-top: 1px solid #333;
-  background-color: #252525;
+  border-top: 4px solid var(--imperial-gold);
+  background: var(--gradient-ink);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.8);
 }
 
 .combat-placeholder {
@@ -56,8 +61,10 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #666;
+  color: var(--text-muted);
+  font-family: var(--font-heading);
   font-style: italic;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 1200px) {
