@@ -29,6 +29,12 @@ ADRs are immutable records. Once accepted, they cannot be silently edited. Futur
 | [ADR-0005](./ADR-0005-technique-tag-taxonomy.md) | Technique Tag Taxonomy and Validation Rules | Accepted | 2025-12-12 |
 | [ADR-0006](./ADR-0006-effect-resolution-condition-ladders.md) | Effect Resolution and Condition Ladders | Accepted | 2025-12-12 |
 | [ADR-0007](./ADR-0007-tracks-strain-metacurrency.md) | Tracks, Strain, Overflow, and Meta-Currency Spends | Accepted | 2025-12-12 |
+| [ADR-0008](./ADR-0008-turn-structure-action-economy.md) | Turn Structure, Action Economy, and Scene Procedures | Accepted | 2025-12-12 |
+| [ADR-0009](./ADR-0009-domains-clocks-staged-conflict.md) | Domains, Clocks, and Multi-Stage Conflict Architecture | Accepted | 2025-12-12 |
+| [ADR-0010](./ADR-0010-adversary-construction-encounters.md) | Adversary Construction, Encounter Budgets | Accepted | 2025-12-12 |
+| [ADR-0011](./ADR-0011-sequence-level-scheduler.md) | Sequence Level Scheduler and Multi-Stage Round Resolution | Accepted | 2025-12-12 |
+| [ADR-0012](./ADR-0012-domains-cultivation-scene-procedures.md) | Domains as Cultivation Power Sources | Accepted | 2025-12-12 |
+| [ADR-0013](./ADR-0013-ocr-dcr-encounter-calibration.md) | OCR/DCR Ratings and Encounter Calibration | Accepted | 2025-12-12 |
 
 ## Relationship to SRD
 
@@ -41,5 +47,5 @@ ADRs are immutable records. Once accepted, they cannot be silently edited. Futur
 
 | ADR ID | Title | Status |
 |--------|-------|--------|
-| ADR-0008 | Equipment and Gear Tags | Proposed |
-| ADR-0009 | GM Guidelines and Scene Structure | Proposed |
+| ADR-0014 | Equipment and Gear Tags | Proposed |
+| ADR-0015 | GM Guidelines and Scene Structure | Proposed |

@@ -49,6 +49,12 @@ The latest release includes Architecture Decision Records:
 | [ADR-0005](../adr/ADR-0005-technique-tag-taxonomy.md) | Technique Tag Taxonomy |
 | [ADR-0006](../adr/ADR-0006-effect-resolution-condition-ladders.md) | Effect Resolution and Condition Ladders |
 | [ADR-0007](../adr/ADR-0007-tracks-strain-metacurrency.md) | Tracks, Strain, and Meta-Currency |
+| [ADR-0008](../adr/ADR-0008-turn-structure-action-economy.md) | Turn Structure and Action Economy |
+| [ADR-0009](../adr/ADR-0009-domains-clocks-staged-conflict.md) | Domains, Clocks, Multi-Stage Conflict |
+| [ADR-0010](../adr/ADR-0010-adversary-construction-encounters.md) | Adversary Construction, Encounter Budgets |
+| [ADR-0011](../adr/ADR-0011-sequence-level-scheduler.md) | Sequence Level Scheduler |
+| [ADR-0012](../adr/ADR-0012-domains-cultivation-scene-procedures.md) | Domains as Cultivation Power Sources |
+| [ADR-0013](../adr/ADR-0013-ocr-dcr-encounter-calibration.md) | OCR/DCR Ratings and Encounter Calibration |
 
 ## Patch 0.3 Documentation
 

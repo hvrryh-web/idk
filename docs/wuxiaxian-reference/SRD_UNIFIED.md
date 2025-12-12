@@ -21,6 +21,12 @@ This SRD is governed by the following Architecture Decision Records:
 | [ADR-0005](../adr/ADR-0005-technique-tag-taxonomy.md) | Technique Tags | v1.0 Tag Taxonomy, VirtualRanks, Validation |
 | [ADR-0006](../adr/ADR-0006-effect-resolution-condition-ladders.md) | Effect Resolution | Two-Step Resolution, Condition Ladders, Ward |
 | [ADR-0007](../adr/ADR-0007-tracks-strain-metacurrency.md) | Economy Layer | Tracks, Strain, Meta-Currency, Push |
+| [ADR-0008](../adr/ADR-0008-turn-structure-action-economy.md) | Turn Structure | SeqLVL, Action Economy, Scene Procedures |
+| [ADR-0009](../adr/ADR-0009-domains-clocks-staged-conflict.md) | Domains & Clocks | Domain Lifecycle, Clock System, Stage Packages |
+| [ADR-0010](../adr/ADR-0010-adversary-construction-encounters.md) | Adversary Construction | NPC Templates, Encounter Budgets, Conflict Sheets |
+| [ADR-0011](../adr/ADR-0011-sequence-level-scheduler.md) | SeqLVL Scheduler | Multi-Stage Round Resolution |
+| [ADR-0012](../adr/ADR-0012-domains-cultivation-scene-procedures.md) | Domain Cultivation | Domains as Power Sources, Pressure, Clocks |
+| [ADR-0013](../adr/ADR-0013-ocr-dcr-encounter-calibration.md) | OCR/DCR Ratings | Encounter Calibration, Legality Validation |
 
 **ADR Immutability Rule**: ADRs are immutable records. Future changes must be made via superseding ADRs that explicitly reference and replace earlier decisions.
 
