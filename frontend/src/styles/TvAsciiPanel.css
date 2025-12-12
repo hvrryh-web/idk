@@ -1,119 +1,139 @@
+/* TV ASCII Panel - Romance of the Three Kingdoms + Persona Style */
 .tv-panel {
-  background-color: #1f1f1f;
-  border: 1px solid #303030;
-  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--imperial-bronze);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   min-height: 240px;
   max-height: 70vh;
   overflow: hidden;
-  padding: 0.75rem 1rem 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  box-shadow: var(--shadow-lg), inset 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 .tv-panel--inverted {
-  background-color: #f5f5f5;
-  color: #0f0f0f;
-  border-color: #cfcfcf;
+  background: var(--parchment);
+  color: var(--ink-black);
+  border-color: var(--burnt-parchment);
 }
 
 .tv-panel__header {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-4);
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-3);
 }
 
 .tv-panel__subtitle {
-  margin: 0.25rem 0 0;
-  color: #a0a0a0;
-  font-size: 0.9rem;
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  font-size: var(--text-base);
 }
 
 .tv-panel--inverted .tv-panel__subtitle {
-  color: #323232;
+  color: var(--text-muted);
 }
 
 .tv-panel__controls {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
   flex-wrap: wrap;
 }
 
 .tv-panel__control {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--space-2);
+  font-family: var(--font-body);
   color: inherit;
-  font-size: 0.95rem;
+  font-size: var(--text-base);
 }
 
 .tv-panel__control input[type="range"] {
   width: 120px;
+  accent-color: var(--imperial-gold);
 }
 
 .tv-panel__button {
-  padding: 0.5rem 0.9rem;
-  background: linear-gradient(135deg, #5f7cff, #4a9eff);
-  border: none;
-  color: white;
-  font-weight: 600;
-  border-radius: 6px;
+  padding: var(--space-2) var(--space-4);
+  background: var(--gradient-imperial);
+  border: 2px solid var(--imperial-gold);
+  color: var(--ink-black);
+  font-family: var(--font-body);
+  font-weight: var(--font-semibold);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s;
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-md), var(--glow-sm);
+  letter-spacing: 0.05em;
 }
 
 .tv-panel__button:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), var(--glow-md);
 }
 
 .tv-panel__button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  background: var(--bg-tertiary);
+  border-color: var(--border-primary);
+  box-shadow: none;
 }
 
 .tv-panel__error {
-  background-color: rgba(255, 87, 87, 0.12);
-  color: #ff8787;
-  border: 1px solid rgba(255, 87, 87, 0.2);
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 0.5rem;
+  background: var(--gradient-blood);
+  color: var(--ghost-white);
+  border: 2px solid var(--dynasty-red);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+  font-weight: var(--font-medium);
+  box-shadow: var(--glow-blood);
 }
 
 .tv-panel__body {
   flex: 1;
   min-height: 160px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 8px;
+  background: var(--ink-black);
+  border: 2px solid var(--imperial-bronze);
+  border-radius: var(--radius-md);
   overflow: auto;
   resize: vertical;
-  padding: 0.5rem 0.75rem;
-  color: inherit;
+  padding: var(--space-2) var(--space-3);
+  color: var(--jade-green);
+  box-shadow: inset 0 0 30px rgba(0, 168, 107, 0.1);
 }
 
 .tv-panel--inverted .tv-panel__body {
-  background-color: rgba(255, 255, 255, 0.85);
-  border-color: rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--burnt-parchment);
+  color: var(--ink-black);
 }
 
 .tv-panel__art {
   margin: 0;
   white-space: pre;
-  font-family: "Fira Code", "Cascadia Code", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   line-height: 1.2;
+  text-shadow: 0 0 2px rgba(0, 168, 107, 0.5);
+}
+
+.tv-panel--inverted .tv-panel__art {
+  text-shadow: none;
 }
 
 .tv-panel__value {
-  font-size: 0.85rem;
-  color: #bdbdbd;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
 .tv-panel--inverted .tv-panel__value {
-  color: #4d4d4d;
+  color: var(--text-muted);
 }
