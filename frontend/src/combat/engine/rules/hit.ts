@@ -237,13 +237,16 @@ export function rollResistance(
 
   // Natural 1: Automatic failure, minimum 2nd degree
   if (roll === 1) {
+    const baseDegree = determineConditionDegree(margin);
+    // Ensure minimum 2nd degree for nat 1
+    const minDegree: 2 | 3 | 4 = baseDegree >= 2 ? (baseDegree as 2 | 3 | 4) : 2;
     return {
       success: false,
       roll,
       total,
       dc,
       margin,
-      conditionDegree: Math.max(2, determineConditionDegree(margin)) as 2 | 3 | 4,
+      conditionDegree: minDegree,
     };
   }
 

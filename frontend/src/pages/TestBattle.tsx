@@ -14,12 +14,10 @@ import { createTestEncounter } from "../combat/integration/battleBridge";
 export default function TestBattle() {
   const navigate = useNavigate();
   const [seed, setSeed] = useState<number>(Math.floor(Math.random() * 100000));
-  const [isLoading, setIsLoading] = useState(false);
 
   const testEncounter = createTestEncounter();
 
-  const handleStartBattle = useCallback(async () => {
-    setIsLoading(true);
+  const handleStartBattle = useCallback(() => {
     // Navigate to combat view with the test encounter
     navigate(`/combat/${testEncounter.encounterId}?seed=${seed}`);
   }, [navigate, seed, testEncounter.encounterId]);
@@ -262,7 +260,6 @@ export default function TestBattle() {
       <button
         onClick={handleStartBattle}
         style={styles.startButton}
-        disabled={isLoading}
         onMouseOver={(e) => {
           (e.target as HTMLButtonElement).style.background = "#16a34a";
           (e.target as HTMLButtonElement).style.transform = "scale(1.02)";
@@ -272,7 +269,7 @@ export default function TestBattle() {
           (e.target as HTMLButtonElement).style.transform = "scale(1)";
         }}
       >
-        {isLoading ? "Loading..." : "⚔️ Start Test Battle"}
+        ⚔️ Start Test Battle
       </button>
 
       <a href="/" style={styles.backLink}>
