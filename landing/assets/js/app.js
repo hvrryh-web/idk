@@ -2,12 +2,24 @@
  * Server Control Panel - Main Application
  * 
  * Finite State Machine implementation for server lifecycle management.
- * Supports three modes: mock, health-only, and api.
+ * Supports four modes: mock, health-only, api, and wuxuxian.
+ * 
+ * Configuration can be set via URL parameters:
+ *   ?mode=mock|health-only|api|wuxuxian
+ *   &serverUrl=http://localhost:3000
  */
 
 // =============================================================================
 // Configuration
 // =============================================================================
+
+/**
+ * Parse URL parameters for configuration overrides
+ */
+function getUrlParam(name, defaultValue) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name) || defaultValue;
+}
 
 const CONFIG = {
     /**
@@ -16,15 +28,19 @@ const CONFIG = {
      * - "health-only": Polls a real /health endpoint but doesn't control server
      * - "api": Full API integration with start/stop/status/health endpoints
      * - "wuxuxian": Uses the existing WuXuxian FastAPI backend at port 8000
+     * 
+     * Can be overridden via URL parameter: ?mode=api
      */
-    MODE: "mock",
+    MODE: getUrlParam("mode", "mock"),
     
     /**
      * Base URL for the backend server (used in health-only, api, and wuxuxian modes)
      * - For landing-backend: "http://localhost:3000"
      * - For WuXuxian backend: "http://localhost:8000"
+     * 
+     * Can be overridden via URL parameter: ?serverUrl=http://localhost:3000
      */
-    SERVER_BASE_URL: "http://localhost:3000",
+    SERVER_BASE_URL: getUrlParam("serverUrl", "http://localhost:3000"),
     
     /**
      * WuXuxian backend URL (used when MODE === "wuxuxian")

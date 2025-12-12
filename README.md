@@ -58,16 +58,13 @@ A deployable static landing page is available in the `landing/` directory with:
    open landing/index.html
    ```
 
-2. **With WuXuxian Backend:**
+2. **With WuXuxian Backend (URL Parameter):**
    ```bash
    # Start the main backend
    ./start-alpha.sh
    
-   # Edit landing/assets/js/app.js and set:
-   # CONFIG.MODE = "wuxuxian"
-   
-   # Open the landing page
-   open landing/index.html
+   # Open with URL parameter
+   open "landing/index.html?mode=wuxuxian"
    ```
 
 3. **With Landing Backend (API Mode):**
@@ -76,12 +73,17 @@ A deployable static landing page is available in the `landing/` directory with:
    npm install
    npm start  # Runs on port 3000
    
-   # Edit landing/assets/js/app.js and set:
-   # CONFIG.MODE = "api"
-   
-   # Open the landing page
-   open landing/index.html
+   # Open with URL parameter
+   open "landing/index.html?mode=api"
    ```
+
+### URL Parameters
+
+Configure the landing page without editing code:
+- `?mode=mock|health-only|api|wuxuxian` - Set operation mode
+- `?serverUrl=http://localhost:3000` - Set backend URL
+
+Example: `landing/index.html?mode=api&serverUrl=http://localhost:3000`
 
 ### GitHub Pages Deployment
 

@@ -256,6 +256,28 @@ h3 {
     background: rgba(255, 255, 255, 0.3);
 }
 
+/* Footer Links */
+.footer-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.footer-links a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #2196f3;
+}
+
+.footer-links .separator {
+    color: #444;
+    margin: 0 10px;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     .container {
