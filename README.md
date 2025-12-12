@@ -2,6 +2,26 @@
 
 FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Postgres via Docker Compose.
 
+---
+
+## 🌐 Alpha Test Web Application (GitHub Pages)
+
+**Try the Alpha Test Landing Page online!**
+
+🔗 **Live Demo**: [https://hvrryh-web.github.io/idk/](https://hvrryh-web.github.io/idk/)
+
+The landing page provides:
+- ✅ Server status monitoring
+- ✅ One-click game entry (when server is running locally)
+- ✅ Service diagnostics
+- ✅ GitHub integration for bug reporting
+
+> **Note**: The landing page is hosted on GitHub Pages. To actually play the game, you'll need to run the game server locally (see instructions below).
+
+📖 **New to this project?** See the [Complete Beginner's Guide](./docs/README.md) for step-by-step instructions!
+
+---
+
 ## 🎮 Alpha Test Controls
 
 **One-Click Launch:**
@@ -29,7 +49,9 @@ FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Post
 - **Game**: http://localhost:5173
 - **API Docs**: http://localhost:8000/docs
 - **Backend**: http://localhost:8000
-- **Landing Page**: Open `alpha-landing.html` in your browser
+- **Landing Page (Local)**: Open `alpha-landing.html` in your browser
+- **Landing Page (Online)**: https://hvrryh-web.github.io/idk/
+- **Static Control Panel**: Open `docs/index.html` in your browser
 
 📘 **Need Help?** See the full [Alpha Test Guide](./ALPHA_TEST.md) for troubleshooting and detailed instructions.
 
@@ -386,6 +408,13 @@ The full OpenAPI specification is also available in `backend/openapi.yaml`.
 ## Repository layout
 ```
 wuxuxian-ttrpg-webapp/
+  docs/                    # Static GitHub Pages site
+    index.html             # Landing page with server controls
+    game.html              # Game interface page
+    styles.css             # Styling
+    config.js              # Configuration
+    app.js                 # Application logic
+    README.md              # Beginner's guide
   backend/
     app/
       api/
@@ -410,5 +439,11 @@ wuxuxian-ttrpg-webapp/
     vite.config.ts
   infra/
     docker-compose.yml
+  .github/
+    workflows/
+      ci.yml               # CI/CD pipeline
+      deploy-pages.yml     # GitHub Pages deployment
+  start-alpha.sh           # One-click alpha test start
+  stop-alpha.sh            # Stop all services
   README.md
 ```
