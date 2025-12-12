@@ -1,0 +1,168 @@
+{
+  "units": [
+    {
+      "id": "training_dummy",
+      "name": "Training Dummy",
+      "team": "enemy",
+      "scl": 3,
+      "isBoss": false,
+      "stats": {
+        "strength": 2,
+        "endurance": 5,
+        "agility": 1,
+        "technique": 1,
+        "willpower": 2,
+        "focus": 1,
+        "essence": 1,
+        "resolve": 3,
+        "presence": 1
+      },
+      "violence": {
+        "attack": 4,
+        "defense": 10,
+        "resilience": 3,
+        "effectRank": 4
+      },
+      "techniqueIds": []
+    },
+    {
+      "id": "sect_elder",
+      "name": "Sect Elder",
+      "team": "enemy",
+      "scl": 6,
+      "isBoss": true,
+      "bossRank": 2,
+      "stats": {
+        "strength": 5,
+        "endurance": 5,
+        "agility": 4,
+        "technique": 6,
+        "willpower": 6,
+        "focus": 5,
+        "essence": 5,
+        "resolve": 6,
+        "presence": 7
+      },
+      "violence": {
+        "attack": 12,
+        "defense": 17,
+        "resilience": 6,
+        "effectRank": 12
+      },
+      "influence": {
+        "attack": 10,
+        "defense": 15,
+        "resilience": 5,
+        "effectRank": 10
+      },
+      "techniqueIds": ["sky_rending_palm", "iron_body_stance"]
+    },
+    {
+      "id": "bandit_leader",
+      "name": "Bandit Leader",
+      "team": "enemy",
+      "scl": 4,
+      "isBoss": false,
+      "stats": {
+        "strength": 4,
+        "endurance": 3,
+        "agility": 4,
+        "technique": 3,
+        "willpower": 3,
+        "focus": 2,
+        "essence": 2,
+        "resolve": 3,
+        "presence": 4
+      },
+      "violence": {
+        "attack": 8,
+        "defense": 13,
+        "resilience": 4,
+        "effectRank": 8
+      },
+      "techniqueIds": ["spirit_bolt"]
+    },
+    {
+      "id": "bandit_archer",
+      "name": "Bandit Archer",
+      "team": "enemy",
+      "scl": 3,
+      "isBoss": false,
+      "stats": {
+        "strength": 2,
+        "endurance": 2,
+        "agility": 5,
+        "technique": 4,
+        "willpower": 2,
+        "focus": 4,
+        "essence": 1,
+        "resolve": 2,
+        "presence": 2
+      },
+      "violence": {
+        "attack": 7,
+        "defense": 12,
+        "resilience": 3,
+        "effectRank": 6
+      },
+      "techniqueIds": []
+    },
+    {
+      "id": "bandit_thug",
+      "name": "Bandit Thug",
+      "team": "enemy",
+      "scl": 2,
+      "isBoss": false,
+      "stats": {
+        "strength": 4,
+        "endurance": 3,
+        "agility": 2,
+        "technique": 1,
+        "willpower": 2,
+        "focus": 1,
+        "essence": 1,
+        "resolve": 2,
+        "presence": 2
+      },
+      "violence": {
+        "attack": 5,
+        "defense": 10,
+        "resilience": 2,
+        "effectRank": 4
+      },
+      "techniqueIds": []
+    },
+    {
+      "id": "void_cultivator",
+      "name": "Void Cultivator",
+      "team": "enemy",
+      "scl": 8,
+      "isBoss": true,
+      "bossRank": 4,
+      "stats": {
+        "strength": 6,
+        "endurance": 7,
+        "agility": 5,
+        "technique": 7,
+        "willpower": 8,
+        "focus": 7,
+        "essence": 9,
+        "resolve": 7,
+        "presence": 8
+      },
+      "violence": {
+        "attack": 16,
+        "defense": 20,
+        "resilience": 8,
+        "effectRank": 16
+      },
+      "revelation": {
+        "attack": 18,
+        "defense": 18,
+        "resilience": 9,
+        "effectRank": 18
+      },
+      "techniqueIds": ["void_blast", "corruption_wave", "abyssal_drain"]
+    }
+  ]
+}
