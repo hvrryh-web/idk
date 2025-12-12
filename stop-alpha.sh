@@ -84,14 +84,19 @@ echo ""
 
 # Stop PostgreSQL
 echo -e "${BLUE}Stopping PostgreSQL...${NC}"
-cd infra
-docker compose down
-cd ..
 
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✓ PostgreSQL stopped${NC}"
+if [ ! -d "infra" ]; then
+    echo -e "${YELLOW}⚠ infra directory not found${NC}"
 else
-    echo -e "${YELLOW}⚠ Failed to stop PostgreSQL or it wasn't running${NC}"
+    pushd infra > /dev/null
+    docker compose down
+    popd > /dev/null
+    
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✓ PostgreSQL stopped${NC}"
+    else
+        echo -e "${YELLOW}⚠ Failed to stop PostgreSQL or it wasn't running${NC}"
+    fi
 fi
 
 echo ""

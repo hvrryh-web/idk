@@ -91,7 +91,7 @@ fi
 echo ""
 echo -e "${BLUE}Waiting for PostgreSQL to be ready...${NC}"
 for i in {1..30}; do
-    if docker exec wuxuxian-db pg_isready -U postgres >/dev/null 2>&1; then
+    if docker compose -f infra/docker-compose.yml exec -T db pg_isready -U postgres >/dev/null 2>&1; then
         echo -e "${GREEN}✓ PostgreSQL is ready${NC}"
         break
     fi
@@ -126,7 +126,12 @@ echo ""
 echo -e "${BLUE}=== Starting Backend Server ===${NC}"
 echo ""
 
-cd backend
+if [ ! -d "backend" ]; then
+    echo -e "${RED}✗ backend directory not found${NC}"
+    exit 1
+fi
+
+pushd backend > /dev/null
 
 # Check if virtual environment exists, create if not
 if [ ! -d ".venv" ]; then
@@ -157,7 +162,7 @@ nohup python -m uvicorn app.main:app --reload --port 8000 > ../logs/backend.log 
 BACKEND_PID=$!
 echo $BACKEND_PID > ../logs/backend.pid
 
-cd ..
+popd > /dev/null
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Backend server started (PID: $BACKEND_PID)${NC}"
@@ -173,7 +178,12 @@ echo ""
 echo -e "${BLUE}=== Starting Frontend Dev Server ===${NC}"
 echo ""
 
-cd frontend
+if [ ! -d "frontend" ]; then
+    echo -e "${RED}✗ frontend directory not found${NC}"
+    exit 1
+fi
+
+pushd frontend > /dev/null
 
 # Install dependencies if node_modules doesn't exist
 if [ ! -d "node_modules" ]; then
@@ -197,7 +207,7 @@ nohup npm run dev > ../logs/frontend.log 2>&1 &
 FRONTEND_PID=$!
 echo $FRONTEND_PID > ../logs/frontend.pid
 
-cd ..
+popd > /dev/null
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Frontend dev server started (PID: $FRONTEND_PID)${NC}"
