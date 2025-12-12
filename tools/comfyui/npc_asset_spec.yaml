@@ -520,7 +520,7 @@ ui_assets:
     pillar_icons:
       - violence: "red flame, sword, martial, Violence 武 label, bronze medallion"
       - influence: "blue wave, crown, social, Influence 影 label, bronze medallion"
-      - revelation: "green eye, scroll, mystical, Revelation 啓 label, bronze medallion"
+      - revelation: "green eye, scroll, mystical, Revelation 啟 label, bronze medallion"
       
     location_icons:
       size: [96, 96]
