@@ -1,0 +1,340 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "name": "Wiki Characters Manifest",
+  "description": "Manifest file for Wiki Character Art generation. Only characters with allowed: true will be processed.",
+  "version": "1.0.0",
+  
+  "metadata": {
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "created_by": "system",
+    "notes": "This is an example manifest. Replace with actual character data."
+  },
+  
+  "generation_config": {
+    "output_base_path": "wiki_assets/characters",
+    "checkpoint_model": "anythingV5.safetensors",
+    "house_style_lora": null,
+    "enable_background_removal": false,
+    "generate_thumbnails": true,
+    "thumbnail_size": {"width": 256, "height": 384}
+  },
+  
+  "characters": [
+    {
+      "char_id": "pc-001",
+      "display_name": "Lin Xiaoyun",
+      "role": "Player Character",
+      "faction": "Qingfeng Sect",
+      "character_type": "player_character",
+      "allowed": true,
+      
+      "visual_traits": {
+        "gender": "female",
+        "age_range": "young_adult",
+        "hair_color": "jet black",
+        "hair_style": "long flowing with ornate hairpins",
+        "eye_color": "amber",
+        "skin_tone": "fair porcelain",
+        "build": "slender athletic",
+        "distinctive_features": "beauty mark below left eye, sharp phoenix eyes"
+      },
+      
+      "outfit": {
+        "description": "elegant cultivator robes with flowing sleeves",
+        "primary_color": "deep jade green",
+        "secondary_color": "silver trim",
+        "accent_color": "gold embroidery",
+        "armor_elements": null,
+        "style_tier": "high"
+      },
+      
+      "signature_props": {
+        "weapon": "jade-hilted jian sword",
+        "accessories": ["jade pendant", "silver hair ornaments", "silk sash"]
+      },
+      
+      "palette": {
+        "primary": "#00A86B",
+        "secondary": "#C0C0C0",
+        "accent": "#D4AF37",
+        "background_gradient": ["#1C2833", "#2E4053"]
+      },
+      
+      "variants": {
+        "portrait": ["default", "combat", "formal"],
+        "fullbody": ["default", "combat_stance"],
+        "expressions": ["standard_6"]
+      },
+      
+      "generation_seeds": {
+        "portrait_base": 100001,
+        "fullbody_base": 200001,
+        "expressions_base": 300001
+      }
+    },
+    
+    {
+      "char_id": "npc-general-001",
+      "display_name": "General Zhao Tianlong",
+      "role": "Named Character",
+      "faction": "Imperial Wei",
+      "character_type": "named_npc",
+      "allowed": true,
+      
+      "visual_traits": {
+        "gender": "male",
+        "age_range": "middle_aged",
+        "hair_color": "graying black",
+        "hair_style": "warrior topknot with decorated band",
+        "eye_color": "dark brown",
+        "skin_tone": "weathered tan",
+        "build": "muscular imposing",
+        "distinctive_features": "battle scar across left cheek, commanding presence, thick beard"
+      },
+      
+      "outfit": {
+        "description": "ornate general's armor with dragon motifs",
+        "primary_color": "dark steel blue",
+        "secondary_color": "gold accents",
+        "accent_color": "crimson cape",
+        "armor_elements": ["shoulder pauldrons", "chest plate", "arm guards"],
+        "style_tier": "legendary"
+      },
+      
+      "signature_props": {
+        "weapon": "massive guandao with red tassel",
+        "accessories": ["general's seal", "tiger banner pin", "jade war token"]
+      },
+      
+      "palette": {
+        "primary": "#1E3A5F",
+        "secondary": "#D4AF37",
+        "accent": "#C41E3A",
+        "background_gradient": ["#1C1C1C", "#2C3E50"]
+      },
+      
+      "variants": {
+        "portrait": ["default", "battle"],
+        "fullbody": ["default", "mounted"],
+        "expressions": ["standard_6"]
+      },
+      
+      "generation_seeds": {
+        "portrait_base": 100101,
+        "fullbody_base": 200101,
+        "expressions_base": 300101
+      }
+    },
+    
+    {
+      "char_id": "pc-002",
+      "display_name": "Chen Wuji",
+      "role": "Player Character",
+      "faction": "Wandering Cultivator",
+      "character_type": "player_character",
+      "allowed": true,
+      
+      "visual_traits": {
+        "gender": "male",
+        "age_range": "young_adult",
+        "hair_color": "white",
+        "hair_style": "long untamed with cloth headband",
+        "eye_color": "ice blue",
+        "skin_tone": "pale",
+        "build": "lean agile",
+        "distinctive_features": "heterochromia right eye has silver ring, mysterious aura"
+      },
+      
+      "outfit": {
+        "description": "traveler's robes with hidden armor underneath",
+        "primary_color": "charcoal gray",
+        "secondary_color": "pale blue accents",
+        "accent_color": "silver thread embroidery",
+        "armor_elements": ["concealed leather vest"],
+        "style_tier": "medium"
+      },
+      
+      "signature_props": {
+        "weapon": "twin dao blades with black wrapping",
+        "accessories": ["bamboo flute", "worn leather pouch", "mysterious token"]
+      },
+      
+      "palette": {
+        "primary": "#36454F",
+        "secondary": "#ADD8E6",
+        "accent": "#C0C0C0",
+        "background_gradient": ["#0C1821", "#1B2838"]
+      },
+      
+      "variants": {
+        "portrait": ["default", "hooded", "unmasked"],
+        "fullbody": ["default", "combat"],
+        "expressions": ["standard_6"]
+      },
+      
+      "generation_seeds": {
+        "portrait_base": 100002,
+        "fullbody_base": 200002,
+        "expressions_base": 300002
+      }
+    },
+    
+    {
+      "char_id": "npc-elder-001",
+      "display_name": "Elder Mei Lihua",
+      "role": "Named Character",
+      "faction": "Qingfeng Sect",
+      "character_type": "named_npc",
+      "allowed": true,
+      
+      "visual_traits": {
+        "gender": "female",
+        "age_range": "elder",
+        "hair_color": "silver-white",
+        "hair_style": "elaborate updo with jade pins",
+        "eye_color": "deep violet",
+        "skin_tone": "porcelain with age lines of wisdom",
+        "build": "graceful dignified",
+        "distinctive_features": "serene expression, glowing inner cultivation visible in eyes"
+      },
+      
+      "outfit": {
+        "description": "elder sect robes with sect emblem",
+        "primary_color": "pure white",
+        "secondary_color": "jade green trim",
+        "accent_color": "gold sect symbols",
+        "armor_elements": null,
+        "style_tier": "legendary"
+      },
+      
+      "signature_props": {
+        "weapon": "jade ruyi scepter",
+        "accessories": ["sect elder medallion", "spirit pearl necklace", "celestial silk shawl"]
+      },
+      
+      "palette": {
+        "primary": "#FFFAFA",
+        "secondary": "#00A86B",
+        "accent": "#D4AF37",
+        "background_gradient": ["#E8E8E8", "#F5F5F5"]
+      },
+      
+      "variants": {
+        "portrait": ["default", "teaching"],
+        "fullbody": ["default"],
+        "expressions": ["standard_6"]
+      },
+      
+      "generation_seeds": {
+        "portrait_base": 100201,
+        "fullbody_base": 200201,
+        "expressions_base": 300201
+      }
+    },
+    
+    {
+      "char_id": "generic-guard-001",
+      "display_name": "Imperial Guard",
+      "role": "Generic NPC",
+      "faction": "Imperial",
+      "character_type": "generic_npc",
+      "allowed": false,
+      
+      "_comment": "Generic NPCs are NOT allowed for wiki detailed art generation. This entry demonstrates the gating mechanism.",
+      
+      "visual_traits": {
+        "gender": "male",
+        "age_range": "young_adult",
+        "hair_color": "black",
+        "hair_style": "helmet-covered",
+        "eye_color": "brown",
+        "skin_tone": "average",
+        "build": "standard soldier",
+        "distinctive_features": null
+      },
+      
+      "outfit": {
+        "description": "standard imperial guard armor",
+        "primary_color": "red",
+        "secondary_color": "gold",
+        "style_tier": "low"
+      },
+      
+      "variants": {
+        "portrait": ["default"],
+        "fullbody": null,
+        "expressions": null
+      }
+    },
+    
+    {
+      "char_id": "npc-villain-001",
+      "display_name": "The Crimson Shadow",
+      "role": "Named Character",
+      "faction": "Demonic Cultivation Path",
+      "character_type": "named_npc",
+      "allowed": true,
+      
+      "visual_traits": {
+        "gender": "male",
+        "age_range": "indeterminate",
+        "hair_color": "blood red",
+        "hair_style": "wild flowing with demonic qi wisps",
+        "eye_color": "crimson with slit pupils",
+        "skin_tone": "deathly pale with dark veins",
+        "build": "tall sinister",
+        "distinctive_features": "demonic markings on face, unsettling beauty, aura of malice"
+      },
+      
+      "outfit": {
+        "description": "corrupted cultivator robes with blood-red accents",
+        "primary_color": "deep black",
+        "secondary_color": "blood crimson",
+        "accent_color": "dark purple energy effects",
+        "armor_elements": ["demonic bone pauldrons"],
+        "style_tier": "legendary"
+      },
+      
+      "signature_props": {
+        "weapon": "soul-drinking blade wreathed in dark qi",
+        "accessories": ["skull pendant", "corrupted jade ring", "shadow cloak"]
+      },
+      
+      "palette": {
+        "primary": "#1C1C1C",
+        "secondary": "#8B0000",
+        "accent": "#4B0082",
+        "background_gradient": ["#0D0D0D", "#1A0A0A"]
+      },
+      
+      "variants": {
+        "portrait": ["default", "demonic_form"],
+        "fullbody": ["default", "combat"],
+        "expressions": ["extended_9"]
+      },
+      
+      "generation_seeds": {
+        "portrait_base": 100301,
+        "fullbody_base": 200301,
+        "expressions_base": 300301
+      }
+    }
+  ],
+  
+  "schema_notes": {
+    "character_types": {
+      "player_character": "Player-controlled character - ALLOWED for wiki art",
+      "named_npc": "Important named NPC with story significance - ALLOWED for wiki art",
+      "generic_npc": "Generic/unnamed NPCs - NOT ALLOWED for wiki art"
+    },
+    "allowed_field": "Only characters with allowed: true will be processed by the generator",
+    "role_values": ["Player Character", "Named Character", "Generic NPC", "Boss", "Merchant", "Quest Giver"],
+    "style_tiers": ["minimal", "low", "medium", "high", "legendary"],
+    "variant_types": {
+      "portrait": "Bust/upper-body portrait variants",
+      "fullbody": "Full figure render variants",
+      "expressions": "Expression sheet options (standard_6 or extended_9)"
+    }
+  }
+}

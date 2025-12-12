@@ -19,6 +19,7 @@ from app.api.routes.comfyui import router as comfyui_router
 from app.api.routes.fate_cards import router as fate_cards_router
 from app.api.routes.simulations import router as simulations_router
 from app.api.routes.techniques import router as techniques_router
+from app.api.routes.visual_assets import router as visual_assets_router
 from app.api.character_assets import router as character_assets_router
 from app.core.config import settings
 
@@ -43,6 +44,7 @@ app.include_router(fate_cards_router, prefix=settings.API_PREFIX)
 app.include_router(simulations_router, prefix=settings.API_PREFIX)
 app.include_router(techniques_router, prefix=settings.API_PREFIX)
 app.include_router(ascii_art_router, prefix=settings.API_PREFIX)
+app.include_router(visual_assets_router, prefix=settings.API_PREFIX, tags=["visual-assets"])
 
 # Rolling error log (thread-safe)
 recent_errors = []

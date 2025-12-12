@@ -1,0 +1,385 @@
+{
+  "name": "Wiki Character Expressions Sheet",
+  "description": "2x3 or 3x3 grid sprite sheet for character expression reference on wiki pages",
+  "version": "1.0.0",
+  "workflow_type": "wiki_char_expressions",
+  
+  "output_specifications": {
+    "grid_layouts": {
+      "2x3": {
+        "cells": 6,
+        "output_size": {"width": 2048, "height": 3072},
+        "cell_size": {"width": 1024, "height": 1024}
+      },
+      "3x3": {
+        "cells": 9,
+        "output_size": {"width": 3072, "height": 3072},
+        "cell_size": {"width": 1024, "height": 1024}
+      }
+    },
+    "default_layout": "2x3",
+    "format": "png",
+    "naming_convention": "wiki_assets/characters/{char_id}/expressions_{seed}.png"
+  },
+  
+  "expression_set": {
+    "default_6": [
+      "neutral",
+      "happy",
+      "angry",
+      "sad",
+      "determined",
+      "surprised"
+    ],
+    "extended_9": [
+      "neutral",
+      "happy",
+      "angry",
+      "sad",
+      "determined",
+      "surprised",
+      "scheming",
+      "fearful",
+      "confident"
+    ],
+    "expression_prompts": {
+      "neutral": "neutral expression, calm face, composed demeanor, relaxed features",
+      "happy": "happy expression, genuine smile, warm eyes, joyful",
+      "angry": "angry expression, fierce eyes, gritted teeth, intense glare, furrowed brows",
+      "sad": "sad expression, downcast eyes, sorrowful look, melancholy",
+      "determined": "determined expression, focused eyes, set jaw, resolute, unwavering",
+      "surprised": "surprised expression, wide eyes, raised eyebrows, astonished",
+      "scheming": "scheming expression, sly smile, narrowed eyes, calculating look",
+      "fearful": "fearful expression, wide frightened eyes, pale, anxious",
+      "confident": "confident expression, slight smirk, assured gaze, self-assured"
+    }
+  },
+  
+  "style_reference": {
+    "house_style": "Modern Manga-Illustration + RO3K",
+    "primary_qualities": [
+      "crisp confident ink lines",
+      "smooth cel-to-soft shading hybrid",
+      "high-fidelity facial features",
+      "consistent character identity across expressions",
+      "clean uniform framing"
+    ]
+  },
+  
+  "pipeline_stages": {
+    "stage_1_generate_expressions": {
+      "name": "Individual Expression Generation",
+      "description": "Generate each expression as separate images with consistent identity",
+      "nodes_per_expression": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "_comment": "Expression-specific positive prompt",
+          "inputs": {
+            "text": "{{positive_prompt}}, {{expression_prompt}}",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "_comment": "Negative prompt",
+          "inputs": {
+            "text": "{{negative_prompt}}",
+            "clip": ["1", 1]
+          }
+        },
+        "4": {
+          "class_type": "EmptyLatentImage",
+          "inputs": {
+            "width": 1024,
+            "height": 1024,
+            "batch_size": 1
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "_comment": "Use same seed + expression index for reproducibility",
+          "inputs": {
+            "seed": "{{expression_seed}}",
+            "steps": 28,
+            "cfg": 7.0,
+            "sampler_name": "dpmpp_2m",
+            "scheduler": "karras",
+            "denoise": 1.0,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_expr_{{expression_name}}",
+            "images": ["6", 0]
+          }
+        }
+      }
+    },
+    
+    "stage_2_grid_composite": {
+      "name": "Grid Composition",
+      "description": "Composite all expressions into a grid layout",
+      "nodes": {
+        "20": {
+          "class_type": "LoadImage",
+          "_comment": "Load expression 1 (neutral)",
+          "inputs": {
+            "image": "{{expression_1_output}}"
+          }
+        },
+        "21": {
+          "class_type": "LoadImage",
+          "_comment": "Load expression 2 (happy)",
+          "inputs": {
+            "image": "{{expression_2_output}}"
+          }
+        },
+        "22": {
+          "class_type": "LoadImage",
+          "_comment": "Load expression 3 (angry)",
+          "inputs": {
+            "image": "{{expression_3_output}}"
+          }
+        },
+        "23": {
+          "class_type": "LoadImage",
+          "_comment": "Load expression 4 (sad)",
+          "inputs": {
+            "image": "{{expression_4_output}}"
+          }
+        },
+        "24": {
+          "class_type": "LoadImage",
+          "_comment": "Load expression 5 (determined)",
+          "inputs": {
+            "image": "{{expression_5_output}}"
+          }
+        },
+        "25": {
+          "class_type": "LoadImage",
+          "_comment": "Load expression 6 (surprised)",
+          "inputs": {
+            "image": "{{expression_6_output}}"
+          }
+        },
+        "30": {
+          "class_type": "ImageGridComposite",
+          "_comment": "Composite into grid (custom node or manual composite)",
+          "inputs": {
+            "images": [
+              ["20", 0],
+              ["21", 0],
+              ["22", 0],
+              ["23", 0],
+              ["24", 0],
+              ["25", 0]
+            ],
+            "columns": 2,
+            "rows": 3,
+            "padding": 0,
+            "background_color": "#FFFFFF"
+          }
+        },
+        "31": {
+          "class_type": "SaveImage",
+          "_comment": "Final grid output",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_expressions_grid",
+            "images": ["30", 0]
+          }
+        }
+      }
+    },
+    
+    "alternative_batch_generation": {
+      "name": "Batch Generation Alternative",
+      "description": "Single-pass batch generation if individual generation not preferred",
+      "nodes": {
+        "1": {
+          "class_type": "CheckpointLoaderSimple",
+          "inputs": {
+            "ckpt_name": "{{checkpoint_name}}"
+          }
+        },
+        "4": {
+          "class_type": "EmptyLatentImage",
+          "_comment": "Batch of 6 for 2x3 grid",
+          "inputs": {
+            "width": 1024,
+            "height": 1024,
+            "batch_size": 6
+          }
+        },
+        "2": {
+          "class_type": "CLIPTextEncode",
+          "_comment": "Character identity anchors with expression sheet prompt",
+          "inputs": {
+            "text": "{{positive_prompt}}, character expression sheet, multiple expressions, neutral happy angry sad determined surprised, bust portrait, uniform framing, white background",
+            "clip": ["1", 1]
+          }
+        },
+        "3": {
+          "class_type": "CLIPTextEncode",
+          "inputs": {
+            "text": "{{negative_prompt}}",
+            "clip": ["1", 1]
+          }
+        },
+        "5": {
+          "class_type": "KSampler",
+          "inputs": {
+            "seed": "{{seed}}",
+            "steps": 28,
+            "cfg": 7.0,
+            "sampler_name": "dpmpp_2m",
+            "scheduler": "karras",
+            "denoise": 1.0,
+            "model": ["1", 0],
+            "positive": ["2", 0],
+            "negative": ["3", 0],
+            "latent_image": ["4", 0]
+          }
+        },
+        "6": {
+          "class_type": "VAEDecode",
+          "inputs": {
+            "samples": ["5", 0],
+            "vae": ["1", 2]
+          }
+        },
+        "7": {
+          "class_type": "ImageGridFromBatch",
+          "_comment": "Create grid from batch",
+          "inputs": {
+            "images": ["6", 0],
+            "columns": 2
+          }
+        },
+        "8": {
+          "class_type": "SaveImage",
+          "inputs": {
+            "filename_prefix": "{{output_prefix}}_expressions_batch",
+            "images": ["7", 0]
+          }
+        }
+      }
+    }
+  },
+  
+  "identity_consistency": {
+    "description": "Techniques to maintain character identity across expressions",
+    "methods": {
+      "same_seed_strategy": {
+        "description": "Use base seed + expression index offset",
+        "example": "seed=12345, neutral=12345+0, happy=12345+1, angry=12345+2",
+        "enabled": true
+      },
+      "identity_anchors": {
+        "description": "Include specific distinguishing features in all prompts",
+        "template": "same character throughout, consistent identity, {eye_color} eyes, {hair_color} {hair_style} hair, {distinctive_features}",
+        "enabled": true
+      },
+      "reference_embedding": {
+        "description": "Optional IP-Adapter or face embedding for identity lock",
+        "enabled": false,
+        "requires": "IP-Adapter or face reference image"
+      }
+    }
+  },
+  
+  "prompt_templates": {
+    "positive_base": "masterpiece, best quality, highly detailed illustration, modern manga illustration style, professional character art, crisp confident ink lines, clean linework, smooth controlled shading, cel-to-soft shading hybrid, high-fidelity facial features, detailed expressive eyes, clean skin rendering, Romance of Three Kingdoms aesthetic, wuxia xianxia fantasy, rich saturated colors, sharp focus, character portrait",
+    
+    "positive_expression_sheet": "character expression sheet, bust portrait, face-focused crop, consistent character identity throughout, same outfit, same lighting, clean white background per cell, uniform framing",
+    
+    "identity_anchors_template": "same character, consistent identity, {eye_color} eyes, {hair_color} {hair_style} hair, {distinctive_features}, {facial_structure}",
+    
+    "negative_base": "lowres, bad anatomy, worst quality, low quality, jpeg artifacts, signature, watermark, logo, text, blurry, photoreal skin pores, oversharp AI artifacts, deformed, anime chibi, heavy painterly smears, overexposed bloom, western comic style, 3d render, nsfw, different character between expressions, inconsistent features, varying lighting, varying angles"
+  },
+  
+  "character_prompt_template": {
+    "format": "{positive_base}, {positive_expression_sheet}, {identity_anchors}, {character_name}, {character_description}, {visual_traits}, {outfit_description}",
+    "per_expression_format": "{base_prompt}, {expression_prompt}",
+    "variables": {
+      "character_name": "Character's display name",
+      "character_description": "Brief character role/archetype",
+      "visual_traits": "Hair color, eye color, distinctive features",
+      "outfit_description": "Consistent outfit across all expressions",
+      "expression_prompt": "Expression-specific description"
+    }
+  },
+  
+  "seed_strategy": {
+    "method": "deterministic_offset",
+    "description": "Each expression uses base_seed + expression_index for reproducibility",
+    "implementation": {
+      "base_seed": "{{character_seed}}",
+      "offsets": {
+        "neutral": 0,
+        "happy": 1,
+        "angry": 2,
+        "sad": 3,
+        "determined": 4,
+        "surprised": 5,
+        "scheming": 6,
+        "fearful": 7,
+        "confident": 8
+      }
+    }
+  },
+  
+  "lora_integration": {
+    "enabled": false,
+    "house_style_lora": {
+      "name": "wiki_house_style.safetensors",
+      "weight": 0.7,
+      "required": false
+    }
+  },
+  
+  "metadata_output": {
+    "enabled": true,
+    "sidecar_format": "json",
+    "fields": [
+      "workflow_name",
+      "workflow_version",
+      "character_id",
+      "character_name",
+      "grid_layout",
+      "expressions_included",
+      "prompt_positive",
+      "prompt_negative",
+      "base_seed",
+      "checkpoint_model",
+      "generation_timestamp",
+      "output_resolution"
+    ]
+  },
+  
+  "quality_requirements": {
+    "grid_size": "2x3 (6 expressions) or 3x3 (9 expressions)",
+    "per_cell_resolution": "1024x1024",
+    "identity_consistency": "character must be recognizable as same person across all expressions",
+    "expression_clarity": "each expression must be clearly distinct and readable",
+    "framing": "uniform bust crop across all cells",
+    "background": "clean white or neutral background per cell"
+  }
+}
