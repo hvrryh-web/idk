@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { CharacterCreationData } from "../types";
+import { createCharacter } from "../api";
 import CharacterAvatar from "./CharacterAvatar";
 import FateCardDisplay from "./FateCardDisplay";
 import { DEATH_CARDS, BODY_CARDS, SEED_CARDS } from "../data/fateCards";
@@ -34,6 +35,8 @@ const INITIAL_DATA: CharacterCreationData = {
 export default function CharacterCreation() {
   const navigate = useNavigate();
   const [data, setData] = useState<CharacterCreationData>(INITIAL_DATA);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const updateData = (updates: Partial<CharacterCreationData>) => {
     setData((prev) => ({ ...prev, ...updates }));
@@ -51,11 +54,22 @@ export default function CharacterCreation() {
     }
   };
 
-  const handleCreate = () => {
-    // TODO: Call API to create character
-    console.log("Creating character:", data);
-    alert("Character creation will be implemented in the backend integration phase!");
-    navigate("/characters");
+  const handleCreate = async () => {
+    setSaving(true);
+    setError(null);
+    try {
+      const { step, selectedFateCards, selectedTechniqueIds, avatar, ...payload } = data;
+      const created = await createCharacter({
+        ...payload,
+        type: data.type || "pc",
+      });
+      navigate(`/profile/${(created as any)?.id ?? ""}`);
+    } catch (err) {
+      console.error("Failed to create character", err);
+      setError("Failed to create character. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const renderStep = () => {
@@ -113,11 +127,13 @@ export default function CharacterCreation() {
             Next
           </button>
         ) : (
-          <button onClick={handleCreate} className="btn-success">
-            Create Character
+          <button onClick={handleCreate} className="btn-success" disabled={saving}>
+            {saving ? "Creating..." : "Create Character"}
           </button>
         )}
       </div>
+
+      {error && <p className="error-text">{error}</p>}
     </div>
   );
 }

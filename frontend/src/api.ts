@@ -25,6 +25,10 @@ export type ApiDiagnostics = {
   refresh: () => Promise<void>;
 };
 
+export function useApi() {
+  return { apiError: null, lastApiCall: null, lastStatus: null } as const;
+}
+
 async function handle<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const message = await response.text();
@@ -166,6 +170,15 @@ export async function renderAsciiArt(formData: FormData): Promise<AsciiRenderRes
 export async function fetchCharacters(): Promise<Character[]> {
   const res = await fetch(`${API_BASE}/characters`);
   return handle<Character[]>(res);
+}
+
+export async function createCharacter(body: Partial<Character>): Promise<Character> {
+  const res = await fetch(`${API_BASE}/characters`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return handle<Character>(res);
 }
 
 export async function fetchCharacter(id: number): Promise<Character> {

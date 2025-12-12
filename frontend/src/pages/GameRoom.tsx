@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { fetchCharacters } from "../api";
+import { createCharacter, fetchCharacters } from "../api";
 import type { Character } from "../types";
 import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog, RefreshCcw } from "lucide-react";
 import Button from "../components/Button";
@@ -8,6 +8,45 @@ import GameScreen from "../components/GameScreen";
 import ChatBox from "../components/ChatBox";
 import HUD from "../components/HUD";
 import FullScreenMenu from "../components/FullScreenMenu";
+import { SAMPLE_PCS } from "../data/sampleCharacters";
+import CharacterAvatar from "../components/CharacterAvatar";
+
+const calculateScl = (character: Partial<Character>): number => {
+  const primaryStats = [
+    character.strength ?? 0,
+    character.dexterity ?? 0,
+    character.constitution ?? 0,
+    character.intelligence ?? 0,
+    character.wisdom ?? 0,
+    character.charisma ?? 0,
+    character.perception ?? 0,
+    character.resolve ?? 0,
+    character.presence ?? 0,
+  ];
+  const primarySum = primaryStats.reduce((sum, val) => sum + val, 0);
+  const aetherSum = (character.aether_fire ?? 0) + (character.aether_ice ?? 0) + (character.aether_void ?? 0);
+  return Math.floor(primarySum / 9) + Math.floor((aetherSum / 3) * 0.5);
+};
+
+const buildCreatePayload = (template: Partial<Character>) => ({
+  name: template.name,
+  type: template.type ?? "pc",
+  description: template.description,
+  strength: template.strength,
+  dexterity: template.dexterity,
+  constitution: template.constitution,
+  intelligence: template.intelligence,
+  wisdom: template.wisdom,
+  charisma: template.charisma,
+  perception: template.perception,
+  resolve: template.resolve,
+  presence: template.presence,
+  aether_fire: template.aether_fire,
+  aether_ice: template.aether_ice,
+  aether_void: template.aether_void,
+  conditions: template.conditions,
+  cost_tracks: template.cost_tracks,
+});
 
 export default function GameRoom() {
   const navigate = useNavigate();
@@ -15,6 +54,8 @@ export default function GameRoom() {
   const [loading, setLoading] = useState(true);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [templateStatus, setTemplateStatus] = useState<string | null>(null);
+  const [templateError, setTemplateError] = useState<string | null>(null);
 
   useEffect(() => {
     loadCharacters();
@@ -33,11 +74,37 @@ export default function GameRoom() {
     }
   };
 
-  const handleLaunchAlphaTest = () => {
+  const handleLaunchAlphaTest = async () => {
     if (characters.length > 0) {
       navigate(`/profile/${characters[0].id}`);
-    } else {
+      return;
+    }
+
+    try {
+      setTemplateStatus(SAMPLE_PCS[0].name || "Yin River Monk");
+      const created = await createCharacter(buildCreatePayload(SAMPLE_PCS[0]));
+      await loadCharacters();
+      navigate(`/profile/${(created as any)?.id ?? ""}`);
+    } catch (error) {
+      console.error("Failed to create default template", error);
       alert("No characters available. Please create a character first.");
+    } finally {
+      setTemplateStatus(null);
+    }
+  };
+
+  const handleUseTemplate = async (template: Partial<Character>) => {
+    try {
+      setTemplateError(null);
+      setTemplateStatus(template.name || "");
+      const created = await createCharacter(buildCreatePayload(template));
+      await loadCharacters();
+      navigate(`/profile/${(created as any)?.id ?? ""}`);
+    } catch (error) {
+      console.error("Failed to create template character", error);
+      setTemplateError("Unable to add template character right now. Please try again.");
+    } finally {
+      setTemplateStatus(null);
     }
   };
 
@@ -205,6 +272,40 @@ export default function GameRoom() {
             ) : (
               !loading && <p className="empty-state">No characters yet.</p>
             )}
+          </div>
+
+          <div className="template-roster">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h2>Template Characters</h2>
+              <button className="btn-create" onClick={() => navigate("/characters/create")}>
+                Create Custom Character
+              </button>
+            </div>
+            <p className="subtitle" style={{ marginTop: "-0.5rem" }}>
+              Jump into the alpha with a ready-made hero, or craft your own.
+            </p>
+            {templateError && <p className="warning">{templateError}</p>}
+            <div className="template-grid">
+              {SAMPLE_PCS.map((template) => (
+                <div key={template.name} className="template-card">
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <CharacterAvatar avatar={template.avatar} name={template.name || ""} size="small" />
+                    <div>
+                      <h4 style={{ margin: 0 }}>{template.name}</h4>
+                      <small>SCL: {calculateScl(template)}</small>
+                    </div>
+                  </div>
+                  <p style={{ margin: "0.5rem 0 0.75rem 0" }}>{template.description}</p>
+                  <button
+                    className="btn-primary"
+                    disabled={!!templateStatus}
+                    onClick={() => handleUseTemplate(template)}
+                  >
+                    {templateStatus === template.name ? "Adding..." : "Use Template"}
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="quick-nav">

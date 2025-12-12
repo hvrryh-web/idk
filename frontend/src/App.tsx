@@ -27,6 +27,8 @@ import RegionalMapScreen from "./screens/RegionalMapScreen";
 import WorldMapScreen from "./screens/WorldMapScreen";
 import PersonalViewScreen from "./screens/PersonalViewScreen";
 import ConversationScreen from "./screens/ConversationScreen";
+import CharacterCreation from "./components/CharacterCreation";
+import CharacterCodex from "./components/CharacterCodex";
 
 export default function App() {
   // Use global API hook for error/debug info
@@ -65,6 +67,7 @@ export default function App() {
           <Route path="/wiki/:id" element={<WikiArticle />} />
           <Route path="/srd" element={<SRDBook />} />
           <Route path="/characters" element={<CharacterManager />} />
+          <Route path="/characters/create" element={<CharacterCreation />} />
           <Route path="/ascii-art" element={<ASCIIArtManager />} />
           <Route path="/combat/:encounterId" element={<CombatView />} />
           <Route path="/ascii" element={<AsciiVisualizer />} />

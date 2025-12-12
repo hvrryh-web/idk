@@ -121,13 +121,16 @@ describe("App Component", () => {
     expect(screen.getByText(/Character Manager/i)).toBeInTheDocument();
   });
 
-  it("shows alpha readiness system status", async () => {
-    mockApi([]);
+  it("shows template characters including Lu Bu and Diao Chan", async () => {
+    (globalThis.fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => [],
+    });
 
     render(<App />);
 
-    expect(await screen.findByText(/Alpha Launch Readiness/i)).toBeInTheDocument();
-    expect(screen.getByText(/Backend API/i)).toBeInTheDocument();
-    expect(screen.getByText(/Database Link/i)).toBeInTheDocument();
+    expect(screen.getByText(/Template Characters/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Lu Bu/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Diao Chan/i).length).toBeGreaterThan(0);
   });
 });
