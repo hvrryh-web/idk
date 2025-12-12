@@ -30,8 +30,62 @@ FastAPI + SQLAlchemy backend, Vite + React + TypeScript frontend, and local Post
 - **API Docs**: http://localhost:8000/docs
 - **Backend**: http://localhost:8000
 - **Landing Page**: Open `alpha-landing.html` in your browser
+- **Static Landing Page**: Open `landing/index.html` for GitHub Pages-ready version
 
 📘 **Need Help?** See the full [Alpha Test Guide](./ALPHA_TEST.md) for troubleshooting and detailed instructions.
+
+---
+
+## 🚀 Static Landing Page (GitHub Pages)
+
+A deployable static landing page is available in the `landing/` directory with:
+
+- **Start/End Server buttons** with visual feedback
+- **Locked Continue button** that unlocks only after server confirmation
+- **Finite State Machine** (STOPPED → STARTING → RUNNING_UNCONFIRMED → RUNNING_CONFIRMED → STOPPING → ERROR)
+- **Activity log panel** with timestamped messages
+- **Multiple operation modes:**
+  - `mock`: Simulates server start/stop (no backend needed)
+  - `health-only`: Polls a real `/health` endpoint
+  - `api`: Full API integration with the landing-backend
+  - `wuxuxian`: Uses the existing WuXuxian FastAPI backend
+
+### Running the Static Landing Page
+
+1. **Mock Mode (No Backend):**
+   ```bash
+   # Just open the file in a browser
+   open landing/index.html
+   ```
+
+2. **With WuXuxian Backend:**
+   ```bash
+   # Start the main backend
+   ./start-alpha.sh
+   
+   # Edit landing/assets/js/app.js and set:
+   # CONFIG.MODE = "wuxuxian"
+   
+   # Open the landing page
+   open landing/index.html
+   ```
+
+3. **With Landing Backend (API Mode):**
+   ```bash
+   cd landing-backend
+   npm install
+   npm start  # Runs on port 3000
+   
+   # Edit landing/assets/js/app.js and set:
+   # CONFIG.MODE = "api"
+   
+   # Open the landing page
+   open landing/index.html
+   ```
+
+### GitHub Pages Deployment
+
+The `landing/` folder is configured for GitHub Pages deployment via `.github/workflows/deploy-pages.yml`. It deploys automatically on push to `main`.
 
 ---
 
