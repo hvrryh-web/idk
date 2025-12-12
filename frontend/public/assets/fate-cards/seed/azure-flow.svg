@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <linearGradient id="azureBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2a4a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d1a3a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050d2a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waterFlowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4a8ada;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#6aaaee;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#4a8ada;stop-opacity:0.3" />
+    </linearGradient>
+    <filter id="azureGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="rippleGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background - Deep blue waters -->
+  <rect width="250" height="180" fill="url(#azureBg)"/>
+  
+  <!-- Water surface with light refraction -->
+  <g opacity="0.3">
+    <path d="M0 30 Q30 25 60 32 Q100 28 140 35 Q180 30 220 34 Q240 31 250 33" 
+          stroke="#5a9aea" stroke-width="1" fill="none"/>
+    <path d="M0 40 Q40 35 80 42 Q120 38 160 45 Q200 40 250 43" 
+          stroke="#4a8ada" stroke-width="1" fill="none"/>
+  </g>
+  
+  <!-- Flowing water streams -->
+  <g filter="url(#azureGlow)">
+    <!-- Main flow -->
+    <path d="M-20 90 Q40 80 80 95 Q130 110 180 85 Q220 70 270 90" 
+          stroke="url(#waterFlowGradient)" stroke-width="25" fill="none"/>
+    
+    <!-- Secondary flows -->
+    <path d="M-10 60 Q50 50 100 65 Q150 80 200 55 Q240 45 260 60" 
+          stroke="#4a8ada" stroke-width="12" fill="none" opacity="0.5"/>
+    <path d="M-15 120 Q60 135 120 115 Q170 100 210 125 Q245 140 265 120" 
+          stroke="#4a8ada" stroke-width="12" fill="none" opacity="0.5"/>
+  </g>
+  
+  <!-- Water droplets/bubbles -->
+  <g filter="url(#rippleGlow)" fill="#6aaaee">
+    <circle cx="60" cy="75" r="5" opacity="0.6"/>
+    <circle cx="100" cy="100" r="4" opacity="0.5"/>
+    <circle cx="150" cy="80" r="6" opacity="0.6"/>
+    <circle cx="190" cy="105" r="4" opacity="0.5"/>
+    <circle cx="80" cy="120" r="3" opacity="0.4"/>
+    <circle cx="170" cy="65" r="3" opacity="0.4"/>
+  </g>
+  
+  <!-- Mind/Insight symbol - Third Eye -->
+  <g transform="translate(125, 90)" filter="url(#azureGlow)">
+    <!-- Eye outline -->
+    <ellipse cx="0" cy="0" rx="30" ry="18" fill="none" stroke="#6aaaee" stroke-width="2"/>
+    
+    <!-- Iris -->
+    <circle cx="0" cy="0" r="12" fill="#3a6aaa"/>
+    <circle cx="0" cy="0" r="12" fill="none" stroke="#5a9aea" stroke-width="1"/>
+    
+    <!-- Pupil with water reflection -->
+    <circle cx="0" cy="0" r="5" fill="#0d1a3a"/>
+    <circle cx="1" cy="-1" r="1.5" fill="#8acaff" opacity="0.8"/>
+    
+    <!-- Radiating insight lines -->
+    <g stroke="#5a9aea" stroke-width="1" opacity="0.6">
+      <line x1="0" y1="-20" x2="0" y2="-30"/>
+      <line x1="0" y1="20" x2="0" y2="30"/>
+      <line x1="-28" y1="0" x2="-38" y2="0"/>
+      <line x1="28" y1="0" x2="38" y2="0"/>
+      <line x1="-20" y1="-12" x2="-28" y2="-20"/>
+      <line x1="20" y1="-12" x2="28" y2="-20"/>
+      <line x1="-20" y1="12" x2="-28" y2="20"/>
+      <line x1="20" y1="12" x2="28" y2="20"/>
+    </g>
+  </g>
+  
+  <!-- Ripple effects -->
+  <g fill="none" stroke="#5a9aea" opacity="0.4">
+    <ellipse cx="50" cy="50" rx="15" ry="8" stroke-width="1"/>
+    <ellipse cx="50" cy="50" rx="25" ry="13" stroke-width="0.5"/>
+    
+    <ellipse cx="200" cy="140" rx="18" ry="10" stroke-width="1"/>
+    <ellipse cx="200" cy="140" rx="30" ry="16" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Swirling water particles -->
+  <g fill="#6aaaee" opacity="0.5">
+    <circle cx="30" cy="80" r="1.5"/>
+    <circle cx="45" cy="110" r="1"/>
+    <circle cx="210" cy="75" r="1.5"/>
+    <circle cx="220" cy="95" r="1"/>
+    <circle cx="100" cy="55" r="1"/>
+    <circle cx="150" cy="140" r="1"/>
+  </g>
+  
+  <!-- Wave patterns at bottom -->
+  <g stroke="#4a7aca" stroke-width="1" fill="none" opacity="0.5">
+    <path d="M0 160 Q25 155 50 162 Q75 168 100 160 Q125 153 150 162 Q175 170 200 160 Q225 152 250 162"/>
+    <path d="M0 170 Q30 165 60 172 Q90 178 120 170 Q150 163 180 172 Q210 180 240 170"/>
+  </g>
+</svg>

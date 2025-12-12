@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <linearGradient id="crimsonBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a1515;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3a0d0d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a0505;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="furyGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b1a1a;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#c42020;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#e83030;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff5050;stop-opacity:0.8" />
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ff6060;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#c42020;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#8b1a1a;stop-opacity:0" />
+    </radialGradient>
+    <filter id="furyGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="250" height="180" fill="url(#crimsonBg)"/>
+  
+  <!-- Rage energy waves -->
+  <g opacity="0.3">
+    <path d="M0 90 Q60 60 125 90 Q190 120 250 90" stroke="#8b1a1a" stroke-width="20" fill="none"/>
+    <path d="M0 100 Q70 130 125 100 Q180 70 250 100" stroke="#6b1010" stroke-width="15" fill="none"/>
+  </g>
+  
+  <!-- Central Fury Core -->
+  <g transform="translate(125, 90)" filter="url(#furyGlow)">
+    <!-- Outer rage aura -->
+    <circle cx="0" cy="0" r="50" fill="url(#coreGlow)" opacity="0.6"/>
+    
+    <!-- Inner core -->
+    <circle cx="0" cy="0" r="30" fill="#8b1a1a"/>
+    <circle cx="0" cy="0" r="25" fill="#b02020"/>
+    <circle cx="0" cy="0" r="18" fill="#d03030"/>
+    <circle cx="0" cy="0" r="10" fill="#e84040"/>
+    
+    <!-- Core pulse -->
+    <circle cx="0" cy="0" r="5" fill="#ff6060"/>
+  </g>
+  
+  <!-- Rage flames erupting -->
+  <g filter="url(#furyGlow)">
+    <!-- Top flames -->
+    <path d="M125 40 Q115 20 125 0 Q135 20 125 40" fill="url(#furyGradient)" opacity="0.8"/>
+    <path d="M110 50 Q95 25 105 5 Q115 30 110 50" fill="#c42020" opacity="0.6"/>
+    <path d="M140 50 Q155 25 145 5 Q135 30 140 50" fill="#c42020" opacity="0.6"/>
+    
+    <!-- Side flames -->
+    <path d="M70 90 Q50 80 40 70 Q55 85 70 90" fill="#a02020" opacity="0.5"/>
+    <path d="M180 90 Q200 80 210 70 Q195 85 180 90" fill="#a02020" opacity="0.5"/>
+    
+    <!-- Bottom flames -->
+    <path d="M125 140 Q115 160 125 180 Q135 160 125 140" fill="url(#furyGradient)" opacity="0.7"/>
+    <path d="M100 130 Q85 155 95 175 Q105 150 100 130" fill="#b02020" opacity="0.5"/>
+    <path d="M150 130 Q165 155 155 175 Q145 150 150 130" fill="#b02020" opacity="0.5"/>
+  </g>
+  
+  <!-- Fury symbol - Clenched fist stylized -->
+  <g transform="translate(125, 90)" fill="none" stroke="#ff5050" stroke-width="2" opacity="0.8">
+    <path d="M-8 -5 L-8 8 L-4 10 L-4 -8 Z"/>
+    <path d="M-3 -7 L-3 11 L1 13 L1 -9 Z"/>
+    <path d="M2 -8 L2 12 L6 10 L6 -6 Z"/>
+    <path d="M7 -5 L7 8 L10 5 L10 -3 Z"/>
+    <path d="M-10 5 Q-12 10 -8 15 Q-4 12 0 15"/>
+  </g>
+  
+  <!-- Rage sparks -->
+  <g fill="#ff5050" filter="url(#furyGlow)">
+    <circle cx="50" cy="60" r="2"/>
+    <circle cx="200" cy="70" r="2"/>
+    <circle cx="70" cy="130" r="1.5"/>
+    <circle cx="180" cy="120" r="1.5"/>
+    <circle cx="40" cy="100" r="1"/>
+    <circle cx="210" cy="80" r="1"/>
+  </g>
+  
+  <!-- Cracking ground effect -->
+  <g stroke="#5a1515" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M100 170 L105 155 L95 140"/>
+    <path d="M150 170 L145 155 L155 140"/>
+    <path d="M125 175 L130 160 L120 145"/>
+    
+    <path d="M80 165 L85 175"/>
+    <path d="M170 165 L165 175"/>
+  </g>
+  
+  <!-- Heat distortion lines -->
+  <g stroke="#8b1a1a" stroke-width="0.5" fill="none" opacity="0.3">
+    <path d="M60 30 Q65 35 60 40 Q55 45 60 50"/>
+    <path d="M190 40 Q195 45 190 50 Q185 55 190 60"/>
+    <path d="M30 80 Q35 85 30 90 Q25 95 30 100"/>
+    <path d="M220 70 Q225 75 220 80 Q215 85 220 90"/>
+  </g>
+</svg>

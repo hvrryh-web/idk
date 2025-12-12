@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <linearGradient id="stoneBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2520;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a1815;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d0c0a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stoneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6a6055;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4a4540;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3a3530;stop-opacity:1" />
+    </linearGradient>
+    <filter id="stoneGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="250" height="180" fill="url(#stoneBg)"/>
+  
+  <!-- Earth/Ground texture -->
+  <g fill="#2a2520" opacity="0.8">
+    <rect x="0" y="145" width="250" height="35"/>
+    <path d="M0 145 Q30 140 60 145 Q90 148 120 143 Q160 147 190 144 Q220 146 250 145" stroke="#3a3530" stroke-width="1" fill="none"/>
+  </g>
+  
+  <!-- Central Anchor Stone -->
+  <g transform="translate(125, 100)">
+    <!-- Stone base -->
+    <path d="M-40 40 L-50 10 L-35 -30 L-15 -50 L15 -50 L35 -30 L50 10 L40 40 Z" fill="url(#stoneGradient)" stroke="#5a5550" stroke-width="2"/>
+    
+    <!-- Stone texture lines -->
+    <g stroke="#4a4540" stroke-width="0.5" fill="none">
+      <path d="M-35 -20 L-10 0 L-25 25"/>
+      <path d="M10 -35 L20 -10 L5 10"/>
+      <path d="M-20 10 L10 20 L30 10"/>
+      <path d="M-30 -10 L-15 -25 L0 -20"/>
+    </g>
+    
+    <!-- Stone highlights -->
+    <path d="M-30 -40 L-10 -45 L5 -35" stroke="#7a756a" stroke-width="1.5" fill="none"/>
+    <path d="M-40 0 L-35 15" stroke="#6a655a" stroke-width="1" fill="none"/>
+    
+    <!-- Anchor chain symbol on stone -->
+    <g filter="url(#stoneGlow)">
+      <circle cx="0" cy="-15" r="12" fill="none" stroke="#8a7a60" stroke-width="3"/>
+      <ellipse cx="0" cy="5" rx="8" ry="15" fill="none" stroke="#8a7a60" stroke-width="3"/>
+      <line x1="0" y1="-3" x2="0" y2="10" stroke="#8a7a60" stroke-width="3"/>
+    </g>
+  </g>
+  
+  <!-- Roots grounding into earth -->
+  <g stroke="#3a3025" stroke-width="2" fill="none">
+    <path d="M85 140 Q80 155 70 165 Q60 172 45 175"/>
+    <path d="M85 140 Q90 160 100 170 Q105 175 115 178"/>
+    <path d="M165 140 Q160 155 150 165 Q145 172 135 175"/>
+    <path d="M165 140 Q170 160 180 170 Q190 175 205 178"/>
+    
+    <!-- Smaller roots -->
+    <path d="M90 145 Q95 155 90 160" stroke-width="1"/>
+    <path d="M160 145 Q155 155 160 160" stroke-width="1"/>
+  </g>
+  
+  <!-- Ground cracks radiating from stone -->
+  <g stroke="#4a4035" stroke-width="1" fill="none">
+    <path d="M85 145 L60 150 L40 155"/>
+    <path d="M165 145 L190 150 L210 155"/>
+    <path d="M125 145 L125 165 L130 180"/>
+    <path d="M110 148 L95 160 L85 175"/>
+    <path d="M140 148 L155 160 L165 175"/>
+  </g>
+  
+  <!-- Mountain silhouettes in background -->
+  <g fill="#1a1815" opacity="0.6">
+    <path d="M0 80 L30 50 L60 75 L90 40 L125 70 L160 35 L200 60 L230 45 L250 65 L250 80 Z"/>
+  </g>
+  <g fill="#151310" opacity="0.4">
+    <path d="M0 90 L40 65 L80 85 L120 55 L160 80 L210 50 L250 75 L250 90 Z"/>
+  </g>
+  
+  <!-- Small stones scattered -->
+  <g fill="#4a4540">
+    <ellipse cx="45" cy="155" rx="8" ry="5"/>
+    <ellipse cx="200" cy="158" rx="6" ry="4"/>
+    <ellipse cx="75" cy="162" rx="5" ry="3"/>
+    <ellipse cx="180" cy="165" rx="4" ry="2"/>
+  </g>
+  
+  <!-- Dust particles -->
+  <g fill="#5a5550" opacity="0.5">
+    <circle cx="100" cy="120" r="1"/>
+    <circle cx="150" cy="125" r="0.8"/>
+    <circle cx="80" cy="130" r="1.2"/>
+    <circle cx="170" cy="115" r="1"/>
+  </g>
+</svg>

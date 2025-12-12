@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" width="300" height="420">
+  <defs>
+    <linearGradient id="backGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a3d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d0d2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#08081a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="backBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c9a74a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#a08030;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b6914;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="diagonalPattern" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="20" stroke="#2a2a4d" stroke-width="1"/>
+    </pattern>
+    <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Card Background -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="url(#backGradient)"/>
+  
+  <!-- Diagonal Pattern Overlay -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="url(#diagonalPattern)" opacity="0.5"/>
+  
+  <!-- Outer Border -->
+  <rect x="5" y="5" width="290" height="410" rx="12" ry="12" fill="none" stroke="url(#backBorder)" stroke-width="4"/>
+  
+  <!-- Inner Decorative Border -->
+  <rect x="15" y="15" width="270" height="390" rx="8" ry="8" fill="none" stroke="#c9a74a" stroke-width="2"/>
+  
+  <!-- Second Inner Border -->
+  <rect x="25" y="25" width="250" height="370" rx="6" ry="6" fill="none" stroke="#a08030" stroke-width="1"/>
+  
+  <!-- Central Design Area -->
+  <rect x="40" y="80" width="220" height="260" rx="8" ry="8" fill="#0d0d2a" stroke="#c9a74a" stroke-width="1.5"/>
+  
+  <!-- Central Symbol - Yin Yang with Three Forces -->
+  <g transform="translate(150, 210)" filter="url(#goldGlow)">
+    <!-- Outer Circle -->
+    <circle cx="0" cy="0" r="70" fill="none" stroke="#c9a74a" stroke-width="2"/>
+    
+    <!-- Inner Trigram Circle -->
+    <circle cx="0" cy="0" r="50" fill="none" stroke="#a08030" stroke-width="1.5"/>
+    
+    <!-- Yin-Yang Symbol -->
+    <path d="M0 -40 A40 40 0 0 1 0 40 A20 20 0 0 1 0 0 A20 20 0 0 0 0 -40" fill="#c9a74a" opacity="0.8"/>
+    <circle cx="0" cy="-20" r="6" fill="#0d0d2a"/>
+    <circle cx="0" cy="20" r="6" fill="#c9a74a"/>
+    
+    <!-- Three Triangle Points - Death, Body, Seed -->
+    <path d="M0 -65 L-8 -55 L8 -55 Z" fill="#6b6b6b" stroke="#8b8b8b" stroke-width="1"/> <!-- Death - Gray -->
+    <path d="M56 32 L56 45 L45 38 Z" fill="#d35400" stroke="#ff6a00" stroke-width="1"/> <!-- Body - Orange -->
+    <path d="M-56 32 L-56 45 L-45 38 Z" fill="#27ae60" stroke="#2ecc71" stroke-width="1"/> <!-- Seed - Green -->
+  </g>
+  
+  <!-- Corner Decorations -->
+  <g fill="#c9a74a" opacity="0.9">
+    <!-- Top Left Corner -->
+    <path d="M20 20 L40 20 L40 25 L25 25 L25 40 L20 40 Z"/>
+    <path d="M30 30 L35 30 L35 35 L30 35 Z"/>
+    
+    <!-- Top Right Corner -->
+    <path d="M280 20 L260 20 L260 25 L275 25 L275 40 L280 40 Z"/>
+    <path d="M265 30 L270 30 L270 35 L265 35 Z"/>
+    
+    <!-- Bottom Left Corner -->
+    <path d="M20 400 L40 400 L40 395 L25 395 L25 380 L20 380 Z"/>
+    <path d="M30 385 L35 385 L35 390 L30 390 Z"/>
+    
+    <!-- Bottom Right Corner -->
+    <path d="M280 400 L260 400 L260 395 L275 395 L275 380 L280 380 Z"/>
+    <path d="M265 385 L270 385 L270 390 L265 390 Z"/>
+  </g>
+  
+  <!-- Title Text Area -->
+  <rect x="80" y="35" width="140" height="30" rx="4" ry="4" fill="#0d0d2a" stroke="#c9a74a" stroke-width="1"/>
+  <text x="150" y="56" font-family="serif" font-size="14" fill="#c9a74a" text-anchor="middle" letter-spacing="2">FATE DECK</text>
+  
+  <!-- Bottom Text Area -->
+  <rect x="80" y="355" width="140" height="25" rx="4" ry="4" fill="#0d0d2a" stroke="#c9a74a" stroke-width="1"/>
+  <text x="150" y="373" font-family="serif" font-size="11" fill="#a08030" text-anchor="middle" letter-spacing="1">WUXUXIAN</text>
+  
+  <!-- Decorative Side Lines -->
+  <line x1="50" y1="70" x2="250" y2="70" stroke="#a08030" stroke-width="1"/>
+  <line x1="50" y1="350" x2="250" y2="350" stroke="#a08030" stroke-width="1"/>
+</svg>

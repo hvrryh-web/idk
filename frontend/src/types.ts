@@ -223,6 +223,7 @@ export interface FateCard {
   summary?: string;
   mechanicalHooks?: Record<string, unknown>;
   statMods?: Record<string, unknown>;
+  artPath?: string;
 }
 
 export interface FateCardSet {

@@ -1,0 +1,161 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-12-12T12:20:00Z",
+  "description": "Fate Deck card art assets for the WuXuxian TTRPG",
+  "frames": {
+    "death": {
+      "path": "/assets/fate-cards/frames/frame-death.svg",
+      "theme": "gray-void",
+      "description": "Gray/void themed frame for Death cards"
+    },
+    "body": {
+      "path": "/assets/fate-cards/frames/frame-body.svg",
+      "theme": "red-orange-martial",
+      "description": "Red/orange martial themed frame for Body cards"
+    },
+    "seed": {
+      "path": "/assets/fate-cards/frames/frame-seed.svg",
+      "theme": "green-elemental",
+      "description": "Green elemental themed frame for Seed cards"
+    }
+  },
+  "backs": {
+    "default": {
+      "path": "/assets/fate-cards/backs/card-back.svg",
+      "description": "Universal card back design with Yin-Yang and three forces motif"
+    }
+  },
+  "cards": {
+    "death": [
+      {
+        "id": "death-silent-river",
+        "name": "Silent River",
+        "artPath": "/assets/fate-cards/death/silent-river.svg",
+        "description": "Serene river flowing through misty mountains under moonlight",
+        "theme": "water-peace-acceptance"
+      },
+      {
+        "id": "death-burning-phoenix",
+        "name": "Burning Phoenix",
+        "artPath": "/assets/fate-cards/death/burning-phoenix.svg",
+        "description": "Phoenix rising from flames and ashes",
+        "theme": "fire-rebirth-transformation"
+      },
+      {
+        "id": "death-void-mirror",
+        "name": "Void Mirror",
+        "artPath": "/assets/fate-cards/death/void-mirror.svg",
+        "description": "Ancient mirror showing fragmented reflection in the void",
+        "theme": "reflection-truth-illusion"
+      },
+      {
+        "id": "death-eternal-watcher",
+        "name": "Eternal Watcher",
+        "artPath": "/assets/fate-cards/death/eternal-watcher.svg",
+        "description": "Great eye watching through eternity with hourglass symbols",
+        "theme": "patience-time-endurance"
+      }
+    ],
+    "body": [
+      {
+        "id": "body-stone-anchor",
+        "name": "Stone Anchor",
+        "artPath": "/assets/fate-cards/body/stone-anchor.svg",
+        "description": "Immovable anchor stone rooted deep in the earth",
+        "theme": "earth-stability-defense"
+      },
+      {
+        "id": "body-lightning-step",
+        "name": "Lightning Step",
+        "artPath": "/assets/fate-cards/body/lightning-step.svg",
+        "description": "Lightning bolt striking with incredible speed",
+        "theme": "electricity-speed-precision"
+      },
+      {
+        "id": "body-iron-mountain",
+        "name": "Iron Mountain",
+        "artPath": "/assets/fate-cards/body/iron-mountain.svg",
+        "description": "Unbreakable iron mountain with snow peak",
+        "theme": "strength-durability-power"
+      },
+      {
+        "id": "body-serpent-coil",
+        "name": "Serpent Coil",
+        "artPath": "/assets/fate-cards/body/serpent-coil.svg",
+        "description": "Coiled serpent in jungle ready to strike",
+        "theme": "flexibility-cunning-adaptation"
+      },
+      {
+        "id": "body-crane-stance",
+        "name": "Crane Stance",
+        "artPath": "/assets/fate-cards/body/crane-stance.svg",
+        "description": "Elegant crane in balanced stance at twilight",
+        "theme": "grace-balance-elegance"
+      }
+    ],
+    "seed": [
+      {
+        "id": "seed-azure-flow",
+        "name": "Azure Flow",
+        "artPath": "/assets/fate-cards/seed/azure-flow.svg",
+        "colour": "Blue",
+        "aspect": "Mind",
+        "description": "Flowing azure waters with insight eye symbol",
+        "theme": "water-mind-flow"
+      },
+      {
+        "id": "seed-crimson-fury",
+        "name": "Crimson Fury",
+        "artPath": "/assets/fate-cards/seed/crimson-fury.svg",
+        "colour": "Red",
+        "aspect": "Body",
+        "description": "Burning crimson rage core with erupting flames",
+        "theme": "fire-passion-power"
+      },
+      {
+        "id": "seed-jade-serenity",
+        "name": "Jade Serenity",
+        "artPath": "/assets/fate-cards/seed/jade-serenity.svg",
+        "colour": "Green",
+        "aspect": "Soul",
+        "description": "Jade stone in serene bamboo garden",
+        "theme": "earth-harmony-balance"
+      },
+      {
+        "id": "seed-silver-lightning",
+        "name": "Silver Lightning",
+        "artPath": "/assets/fate-cards/seed/silver-lightning.svg",
+        "colour": "Blue",
+        "aspect": "Mind",
+        "description": "Silver lightning bolt with precision crosshairs",
+        "theme": "electricity-precision-speed"
+      },
+      {
+        "id": "seed-obsidian-void",
+        "name": "Obsidian Void",
+        "artPath": "/assets/fate-cards/seed/obsidian-void.svg",
+        "colour": "Black",
+        "aspect": "Soul",
+        "description": "Obsidian void consuming matter and light",
+        "theme": "void-mystery-power"
+      }
+    ]
+  },
+  "dimensions": {
+    "cardArt": {
+      "width": 250,
+      "height": 180,
+      "format": "svg"
+    },
+    "frame": {
+      "width": 300,
+      "height": 420,
+      "format": "svg"
+    },
+    "cardBack": {
+      "width": 300,
+      "height": 420,
+      "format": "svg"
+    }
+  }
+}

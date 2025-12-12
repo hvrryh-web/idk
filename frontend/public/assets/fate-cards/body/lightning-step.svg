@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <linearGradient id="lightningBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d0d1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#05050d;stop-opacity:1" />
+    </linearGradient>
+    <filter id="electricGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="sparkGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background - Storm Sky -->
+  <rect width="250" height="180" fill="url(#lightningBg)"/>
+  
+  <!-- Storm clouds -->
+  <g fill="#2a2a3d" opacity="0.7">
+    <ellipse cx="50" cy="30" rx="50" ry="25"/>
+    <ellipse cx="120" cy="25" rx="60" ry="30"/>
+    <ellipse cx="200" cy="35" rx="55" ry="28"/>
+    <ellipse cx="80" cy="45" rx="45" ry="20"/>
+    <ellipse cx="180" cy="40" rx="50" ry="22"/>
+  </g>
+  
+  <!-- Main Lightning Bolt -->
+  <g filter="url(#electricGlow)">
+    <!-- Outer glow -->
+    <path d="M125 20 L115 55 L135 60 L110 100 L140 95 L100 160" 
+          stroke="#5a7aaa" stroke-width="8" fill="none" opacity="0.4"/>
+    
+    <!-- Core lightning -->
+    <path d="M125 20 L115 55 L135 60 L110 100 L140 95 L100 160" 
+          stroke="#8aaadd" stroke-width="4" fill="none"/>
+    
+    <!-- Bright center -->
+    <path d="M125 20 L115 55 L135 60 L110 100 L140 95 L100 160" 
+          stroke="#c0d8ff" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Branch Lightning -->
+  <g filter="url(#electricGlow)" opacity="0.8">
+    <!-- Left branch -->
+    <path d="M115 55 L85 65 L90 75 L60 90" stroke="#6a8abb" stroke-width="3" fill="none"/>
+    <path d="M115 55 L85 65 L90 75 L60 90" stroke="#a0c0ee" stroke-width="1.5" fill="none"/>
+    
+    <!-- Right branch -->
+    <path d="M135 60 L160 55 L155 70 L185 80" stroke="#6a8abb" stroke-width="3" fill="none"/>
+    <path d="M135 60 L160 55 L155 70 L185 80" stroke="#a0c0ee" stroke-width="1.5" fill="none"/>
+    
+    <!-- Lower branches -->
+    <path d="M110 100 L80 110 L85 125" stroke="#5a7aaa" stroke-width="2" fill="none"/>
+    <path d="M140 95 L170 105 L165 120" stroke="#5a7aaa" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- Speed lines - motion effect -->
+  <g stroke="#4a5a7a" stroke-width="1" opacity="0.5">
+    <line x1="20" y1="80" x2="45" y2="80"/>
+    <line x1="15" y1="95" x2="50" y2="95"/>
+    <line x1="25" y1="110" x2="55" y2="110"/>
+    
+    <line x1="205" y1="85" x2="230" y2="85"/>
+    <line x1="200" y1="100" x2="235" y2="100"/>
+    <line x1="210" y1="115" x2="240" y2="115"/>
+  </g>
+  
+  <!-- Foot symbol (speed/step) -->
+  <g transform="translate(125, 145)" filter="url(#sparkGlow)">
+    <!-- Footprint outline -->
+    <ellipse cx="0" cy="0" rx="20" ry="8" fill="none" stroke="#7a9acc" stroke-width="2"/>
+    <ellipse cx="-8" cy="-12" rx="5" ry="4" fill="none" stroke="#7a9acc" stroke-width="1.5"/>
+    <ellipse cx="0" cy="-14" rx="4" ry="3" fill="none" stroke="#7a9acc" stroke-width="1.5"/>
+    <ellipse cx="8" cy="-12" rx="5" ry="4" fill="none" stroke="#7a9acc" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Electric sparks -->
+  <g filter="url(#sparkGlow)" fill="#c0d8ff">
+    <circle cx="70" cy="60" r="2"/>
+    <circle cx="180" cy="70" r="1.5"/>
+    <circle cx="55" cy="105" r="1.5"/>
+    <circle cx="190" cy="95" r="2"/>
+    <circle cx="90" cy="140" r="1"/>
+    <circle cx="165" cy="135" r="1"/>
+  </g>
+  
+  <!-- Ground impact -->
+  <g opacity="0.6">
+    <ellipse cx="100" cy="165" rx="30" ry="5" fill="#4a5a7a" filter="url(#electricGlow)"/>
+    <path d="M80 165 L70 170 M90 168 L85 175 M110 168 L120 175 M105 165 L115 172" stroke="#5a7a9a" stroke-width="1" fill="none"/>
+  </g>
+</svg>

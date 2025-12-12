@@ -1,0 +1,114 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2025-12-12T12:30:00Z",
+  "description": "UI enhancement assets for the WuXuxian TTRPG",
+  "icons": {
+    "navigation": [
+      {
+        "id": "home",
+        "name": "Home",
+        "path": "/assets/ui/icons/icon-home.svg",
+        "sizes": [24],
+        "description": "Home/Game Room navigation"
+      },
+      {
+        "id": "character",
+        "name": "Character",
+        "path": "/assets/ui/icons/icon-character.svg",
+        "sizes": [24],
+        "description": "Character sheet navigation"
+      },
+      {
+        "id": "combat",
+        "name": "Combat",
+        "path": "/assets/ui/icons/icon-combat.svg",
+        "sizes": [24],
+        "description": "Combat view navigation"
+      },
+      {
+        "id": "wiki",
+        "name": "Wiki",
+        "path": "/assets/ui/icons/icon-wiki.svg",
+        "sizes": [24],
+        "description": "Knowledge wiki navigation"
+      },
+      {
+        "id": "help",
+        "name": "Help",
+        "path": "/assets/ui/icons/icon-help.svg",
+        "sizes": [24],
+        "description": "Help and info navigation"
+      },
+      {
+        "id": "settings",
+        "name": "Settings",
+        "path": "/assets/ui/icons/icon-settings.svg",
+        "sizes": [24],
+        "description": "Settings navigation"
+      },
+      {
+        "id": "back",
+        "name": "Back",
+        "path": "/assets/ui/icons/icon-back.svg",
+        "sizes": [24],
+        "description": "Back/return navigation"
+      },
+      {
+        "id": "fate-deck",
+        "name": "Fate Deck",
+        "path": "/assets/ui/icons/icon-fate-deck.svg",
+        "sizes": [24],
+        "description": "Fate Deck cards icon"
+      }
+    ]
+  },
+  "decorations": {
+    "corners": [
+      {
+        "id": "corner-tl",
+        "name": "Top Left Corner",
+        "path": "/assets/ui/decorations/corner-tl.svg",
+        "position": "top-left"
+      },
+      {
+        "id": "corner-tr",
+        "name": "Top Right Corner",
+        "path": "/assets/ui/decorations/corner-tr.svg",
+        "position": "top-right"
+      },
+      {
+        "id": "corner-bl",
+        "name": "Bottom Left Corner",
+        "path": "/assets/ui/decorations/corner-bl.svg",
+        "position": "bottom-left"
+      },
+      {
+        "id": "corner-br",
+        "name": "Bottom Right Corner",
+        "path": "/assets/ui/decorations/corner-br.svg",
+        "position": "bottom-right"
+      }
+    ],
+    "dividers": [
+      {
+        "id": "divider-h",
+        "name": "Horizontal Divider",
+        "path": "/assets/ui/decorations/divider-horizontal.svg",
+        "orientation": "horizontal"
+      },
+      {
+        "id": "divider-v",
+        "name": "Vertical Divider",
+        "path": "/assets/ui/decorations/divider-vertical.svg",
+        "orientation": "vertical"
+      }
+    ]
+  },
+  "theme": {
+    "primaryColor": "#c9a74a",
+    "secondaryColor": "#8b6914",
+    "accentColor": "#d35400",
+    "backgroundColor": "#0f172a",
+    "textColor": "#f8fafc"
+  }
+}

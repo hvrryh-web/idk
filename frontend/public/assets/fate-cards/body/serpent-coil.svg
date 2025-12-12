@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 180" width="250" height="180">
+  <defs>
+    <linearGradient id="serpentBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2a1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d1a0d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#050d05;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="scaleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a6a4a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3a5a3a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a4a2a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="serpentGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background - Jungle floor -->
+  <rect width="250" height="180" fill="url(#serpentBg)"/>
+  
+  <!-- Foliage background -->
+  <g fill="#1a2a1a" opacity="0.6">
+    <path d="M0 0 L20 30 L10 40 L30 60 L0 60 Z"/>
+    <path d="M230 0 L250 0 L250 50 L220 40 L240 20 Z"/>
+    <path d="M0 100 L30 90 L20 120 L40 140 L0 150 Z"/>
+    <path d="M210 120 L250 100 L250 160 L220 140 Z"/>
+  </g>
+  
+  <!-- Coiled Serpent -->
+  <g filter="url(#serpentGlow)">
+    <!-- Body coils -->
+    <path d="M40 140 Q60 130 80 145 Q110 170 140 150 Q170 130 190 150 Q210 170 220 150" 
+          stroke="url(#scaleGradient)" stroke-width="16" fill="none" stroke-linecap="round"/>
+    
+    <path d="M60 120 Q90 100 120 115 Q150 135 175 115 Q200 95 210 110" 
+          stroke="url(#scaleGradient)" stroke-width="14" fill="none" stroke-linecap="round"/>
+    
+    <path d="M80 90 Q110 70 140 85 Q165 100 180 80" 
+          stroke="url(#scaleGradient)" stroke-width="12" fill="none" stroke-linecap="round"/>
+    
+    <!-- Scale pattern overlay -->
+    <g stroke="#5a7a5a" stroke-width="0.5" fill="none" opacity="0.5">
+      <path d="M50 138 Q55 135 60 138"/>
+      <path d="M70 142 Q75 138 80 142"/>
+      <path d="M100 150 Q105 145 110 150"/>
+      <path d="M130 148 Q135 143 140 148"/>
+      <path d="M160 140 Q165 135 170 140"/>
+      <path d="M85 95 Q90 90 95 95"/>
+      <path d="M120 82 Q125 77 130 82"/>
+      <path d="M155 85 Q160 80 165 85"/>
+    </g>
+    
+    <!-- Head -->
+    <g transform="translate(180, 70)">
+      <ellipse cx="0" cy="0" rx="18" ry="10" fill="#4a6a4a"/>
+      <ellipse cx="0" cy="0" rx="15" ry="8" fill="#5a7a5a"/>
+      
+      <!-- Eyes -->
+      <ellipse cx="-6" cy="-3" rx="3" ry="4" fill="#8a9a3a"/>
+      <ellipse cx="-6" cy="-3" rx="1.5" ry="3" fill="#1a2a1a"/>
+      <ellipse cx="6" cy="-3" rx="3" ry="4" fill="#8a9a3a"/>
+      <ellipse cx="6" cy="-3" rx="1.5" ry="3" fill="#1a2a1a"/>
+      
+      <!-- Snout -->
+      <path d="M-8 5 Q0 12 8 5" fill="#4a6a4a"/>
+      
+      <!-- Tongue -->
+      <path d="M0 8 L-5 18 M0 8 L5 18" stroke="#8a3a3a" stroke-width="1.5" fill="none"/>
+    </g>
+    
+    <!-- Tail -->
+    <path d="M40 140 Q20 145 10 135 Q5 125 15 120" stroke="#3a5a3a" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Bamboo/reeds in background -->
+  <g stroke="#2a4a2a" stroke-width="2" fill="none">
+    <line x1="25" y1="0" x2="25" y2="80"/>
+    <line x1="225" y1="0" x2="225" y2="70"/>
+    <line x1="15" y1="0" x2="15" y2="60"/>
+    <line x1="235" y1="0" x2="235" y2="55"/>
+  </g>
+  
+  <!-- Bamboo joints -->
+  <g stroke="#3a5a3a" stroke-width="3">
+    <line x1="22" y1="25" x2="28" y2="25"/>
+    <line x1="22" y1="55" x2="28" y2="55"/>
+    <line x1="222" y1="30" x2="228" y2="30"/>
+    <line x1="12" y1="35" x2="18" y2="35"/>
+  </g>
+  
+  <!-- Ground texture -->
+  <g fill="#1a2a1a" opacity="0.5">
+    <ellipse cx="50" cy="175" rx="20" ry="4"/>
+    <ellipse cx="125" cy="178" rx="30" ry="5"/>
+    <ellipse cx="200" cy="176" rx="25" ry="4"/>
+  </g>
+  
+  <!-- Leaves -->
+  <g fill="#3a5a3a" opacity="0.7">
+    <path d="M30 20 Q40 15 50 25 Q40 22 30 20"/>
+    <path d="M220 25 Q230 20 240 30 Q230 27 220 25"/>
+    <path d="M20 45 Q30 38 40 48 Q30 47 20 45"/>
+  </g>
+</svg>
