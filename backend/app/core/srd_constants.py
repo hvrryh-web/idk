@@ -14,7 +14,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Tuple
 
-
 # =============================================================================
 # SRD Version Information
 # =============================================================================
@@ -392,19 +391,19 @@ def get_boss_rank_config(rank: int) -> BossRankConfig:
 def generate_boss_baseline(party_scl: int, boss_rank: int) -> dict:
     """
     Generate recommended boss baseline stats.
-    
+
     Args:
         party_scl: Average SCL of the party
         boss_rank: Boss rank (1-5)
-        
+
     Returns:
         dict with recommended bands, HP, charges, DR profile
     """
     config = get_boss_rank_config(boss_rank)
-    
+
     base_thp = 50 + (party_scl * 20)
     total_thp = int(base_thp * config.thp_multiplier)
-    
+
     return {
         "recommended_bands": {
             "offense_min": party_scl * 3,
@@ -578,7 +577,7 @@ PILLAR_ATTACK_MAPPING = {
 def calculate_cl(body: int, mind: int, soul: int) -> int:
     """
     Calculate Core Level (CL) per ADR-0002.
-    
+
     CL = floor((Body + Mind + Soul) / 3)
     """
     return (body + mind + soul) // 3
@@ -587,7 +586,7 @@ def calculate_cl(body: int, mind: int, soul: int) -> int:
 def calculate_sl(control: int, fate: int, spirit: int) -> int:
     """
     Calculate Soul Level (SL) per ADR-0002.
-    
+
     SL = floor((Control + Fate + Spirit) / 3)
     """
     return (control + fate + spirit) // 3
@@ -597,7 +596,7 @@ def calculate_scl_from_stats(body: int, mind: int, soul: int,
                               control: int, fate: int, spirit: int) -> int:
     """
     Calculate Soul Core Level (SCL) per ADR-0002.
-    
+
     SCL = CL + SL
     """
     return calculate_cl(body, mind, soul) + calculate_sl(control, fate, spirit)
@@ -606,7 +605,7 @@ def calculate_scl_from_stats(body: int, mind: int, soul: int,
 def get_martial_rank(cl: int) -> int:
     """
     Get Martial Rank per ADR-0002.
-    
+
     MartialRank = CL
     """
     return cl
@@ -615,7 +614,7 @@ def get_martial_rank(cl: int) -> int:
 def get_sorcery_rank(sl: int) -> int:
     """
     Get Sorcery Rank per ADR-0002.
-    
+
     SorceryRank = SL
     """
     return sl
@@ -682,7 +681,7 @@ CONTEST_OPP_TRAIT: Dict[ContestType, TraitRole] = {
 def get_actor_trait_for_contest(contest_type: ContestType, pillar: Pillar) -> str:
     """Get the trait name the actor uses for a contest type."""
     role = CONTEST_ACTOR_TRAIT.get(contest_type, TraitRole.ATTACK)
-    
+
     if role == TraitRole.ATTACK:
         return PILLAR_ATTACK_MAPPING[pillar]
     elif role == TraitRole.DEFENSE:
@@ -694,7 +693,7 @@ def get_actor_trait_for_contest(contest_type: ContestType, pillar: Pillar) -> st
 def get_opp_trait_for_contest(contest_type: ContestType, pillar: Pillar) -> str:
     """Get the trait name the opposition uses for a contest type."""
     role = CONTEST_OPP_TRAIT.get(contest_type, TraitRole.DEFENSE)
-    
+
     if role == TraitRole.ATTACK:
         return PILLAR_ATTACK_MAPPING[pillar]
     elif role == TraitRole.DEFENSE:
@@ -714,13 +713,13 @@ class SkillID(str, Enum):
     ARMS = "Arms"
     STEALTH = "Stealth"
     SURVIVAL = "Survival"
-    
+
     # Influence-anchored
     COMMAND = "Command"
     DECEIVE = "Deceive"
     RAPPORT = "Rapport"
     ETIQUETTE = "Etiquette"
-    
+
     # Revelation-anchored
     OBSERVE = "Observe"
     INVESTIGATE = "Investigate"
@@ -838,12 +837,12 @@ class Tag:
 def create_scene_tag_from_advantage(dos: int, tag_name: str, target: str) -> Tag:
     """
     Create a tag from a Create Advantage action per ADR-0004.
-    
+
     Args:
         dos: Degrees of Success from the contest
         tag_name: Name for the new tag
         target: What the tag attaches to
-    
+
     Returns:
         Tag object (Scene or Complication type)
     """

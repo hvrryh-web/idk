@@ -27,6 +27,7 @@ ADRs are immutable records. Once accepted, they cannot be silently edited. Futur
 | [ADR-0003](./ADR-0003-bonus-composition-contest-roles.md) | Bonus Composition and Contest Roles | Accepted | 2025-12-12 |
 | [ADR-0004](./ADR-0004-skill-layer-tagging.md) | Skill Layer and Tagging | Accepted | 2025-12-12 |
 | [ADR-0005](./ADR-0005-technique-tag-taxonomy.md) | Technique Tag Taxonomy and Validation Rules | Accepted | 2025-12-12 |
+| [ADR-0006](./ADR-0006-effect-resolution-condition-ladders.md) | Effect Resolution and Condition Ladders | Accepted | 2025-12-12 |
 
 ## Relationship to SRD
 
@@ -39,5 +40,5 @@ ADRs are immutable records. Once accepted, they cannot be silently edited. Futur
 
 | ADR ID | Title | Status |
 |--------|-------|--------|
-| ADR-0006 | Equipment and Gear Tags | Proposed |
-| ADR-0007 | GM Guidelines and Scene Structure | Proposed |
+| ADR-0007 | Equipment and Gear Tags | Proposed |
+| ADR-0008 | GM Guidelines and Scene Structure | Proposed |

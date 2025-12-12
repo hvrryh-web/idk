@@ -31,7 +31,7 @@ Patches are categorized by type:
 
 | Patch ID | Date | Category | Description | Status |
 |----------|------|----------|-------------|--------|
-| PATCH-20251212-002 | 2025-12-12 | SYSTEM | ADR Integration - Core Resolution Engine, Stat Model, Skills/Tags | 🟢 LIVE |
+| PATCH-20251212-002 | 2025-12-12 | SYSTEM | ADR Integration - Resolution Engine, Stats, Skills, Techniques, Effects | 🟢 LIVE |
 | PATCH-20251212-001 | 2025-12-12 | DOCS | Unified SRD Alpha v0.3 - Complete mechanical systems | 📦 Archived |
 | PATCH-20251210-001 | 2025-12-10 | FEATURE | Combat UI Implementation - Initial Release | ✅ Active |
 
@@ -46,6 +46,8 @@ The latest release includes Architecture Decision Records:
 | [ADR-0002](../adr/ADR-0002-canonical-stat-model.md) | Canonical Stat Model |
 | [ADR-0003](../adr/ADR-0003-bonus-composition-contest-roles.md) | Bonus Composition and Contest Roles |
 | [ADR-0004](../adr/ADR-0004-skill-layer-tagging.md) | Skill Layer and Tagging |
+| [ADR-0005](../adr/ADR-0005-technique-tag-taxonomy.md) | Technique Tag Taxonomy |
+| [ADR-0006](../adr/ADR-0006-effect-resolution-condition-ladders.md) | Effect Resolution and Condition Ladders |
 
 ## Patch 0.3 Documentation
 

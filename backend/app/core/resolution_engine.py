@@ -19,7 +19,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Optional, Tuple
 
-
 # =============================================================================
 # Constants (ADR-0001 Locked)
 # =============================================================================
@@ -48,17 +47,17 @@ class Approach(str, Enum):
 def get_rank_dice_pool(rank: int) -> Tuple[int, int]:
     """
     Calculate the rank dice pool (XdY) for a given rank.
-    
+
     Per ADR-0001:
         X = 1 + floor(Rank / 2)
         Y = min(12, 4 + 2*Rank)
-    
+
     Args:
         rank: The character's rank (MartialRank or SorceryRank)
-        
+
     Returns:
         Tuple of (X, Y) where X is dice count and Y is die size
-        
+
     Examples:
         Rank 0 -> 1d4
         Rank 1 -> 1d6
@@ -69,28 +68,28 @@ def get_rank_dice_pool(rank: int) -> Tuple[int, int]:
     """
     if rank < 0:
         rank = 0
-    
+
     x = 1 + (rank // 2)
     y = min(12, 4 + 2 * rank)
-    
+
     return (x, y)
 
 
 def roll_rank_dice(rank: int) -> int:
     """
     Roll the rank dice pool and return the kept (highest) die.
-    
+
     Args:
         rank: The character's rank
-        
+
     Returns:
         The highest die result from the pool (KeptRankDie)
     """
     x, y = get_rank_dice_pool(rank)
-    
+
     if x <= 0:
         return 0
-    
+
     rolls = [random.randint(1, y) for _ in range(x)]
     return max(rolls)
 
@@ -98,21 +97,21 @@ def roll_rank_dice(rank: int) -> int:
 def roll_rank_dice_detailed(rank: int) -> Tuple[int, List[int], int, int]:
     """
     Roll the rank dice pool with full details.
-    
+
     Args:
         rank: The character's rank
-        
+
     Returns:
         Tuple of (kept_die, all_rolls, dice_count, die_size)
     """
     x, y = get_rank_dice_pool(rank)
-    
+
     if x <= 0:
         return (0, [], 0, 0)
-    
+
     rolls = [random.randint(1, y) for _ in range(x)]
     kept = max(rolls)
-    
+
     return (kept, rolls, x, y)
 
 
@@ -123,23 +122,23 @@ def roll_rank_dice_detailed(rank: int) -> Tuple[int, List[int], int, int]:
 def compute_dos(margin: int, k: int = K) -> int:
     """
     Compute Degrees of Success from margin.
-    
+
     Per ADR-0001:
         If margin == 0: DoS = 0
         If margin > 0:  DoS = min(4, 1 + floor((margin - 1) / K))
         If margin < 0:  DoS = -min(4, 1 + floor((abs(margin) - 1) / K))
-    
+
     Band Table (K=4):
         0 => 0
         ±1..±4 => ±1
         ±5..±8 => ±2
         ±9..±12 => ±3
         ±13+ => ±4 (capped)
-    
+
     Args:
         margin: ActorTotal - OppTotal
         k: Band width (default 4, locked per ADR-0001)
-        
+
     Returns:
         DoS in range [-4, +4]
     """
@@ -154,17 +153,17 @@ def compute_dos(margin: int, k: int = K) -> int:
 def get_dos_band(margin: int, k: int = K) -> Tuple[int, int, int]:
     """
     Get the DoS band for a margin.
-    
+
     Args:
         margin: ActorTotal - OppTotal
         k: Band width
-        
+
     Returns:
         Tuple of (dos, band_min, band_max) where band_min/max are the
         margin values that map to this DoS
     """
     dos = compute_dos(margin, k)
-    
+
     if dos == 0:
         return (0, 0, 0)
     elif dos > 0:
@@ -185,13 +184,13 @@ def get_dos_band(margin: int, k: int = K) -> Tuple[int, int, int]:
 def nat_shift(d20_roll: int) -> int:
     """
     Calculate the natural die shift for a d20 roll.
-    
+
     Per ADR-0001:
         NatShift(d20) = +1 if 20, -1 if 1, else 0
-    
+
     Args:
         d20_roll: The d20 result (1-20)
-        
+
     Returns:
         +1 for nat 20, -1 for nat 1, 0 otherwise
     """
@@ -205,15 +204,15 @@ def nat_shift(d20_roll: int) -> int:
 def apply_nat_shift(base_dos: int, actor_d20: int, opp_d20: int) -> int:
     """
     Apply natural die shifts to base DoS.
-    
+
     Per ADR-0001:
         FinalDoS = clamp(DoS + NatShift(d20_actor) - NatShift(d20_opp), -4, +4)
-    
+
     Args:
         base_dos: The DoS computed from margin
         actor_d20: The actor's d20 roll
         opp_d20: The opponent's d20 roll (0 if TN mode)
-        
+
     Returns:
         Final DoS after nat shift, clamped to [-4, +4]
     """
@@ -234,11 +233,11 @@ class RollResult:
     kept_rank_die: int
     rank_dice_rolls: List[int]
     total: int
-    
+
     @property
     def is_nat_20(self) -> bool:
         return self.d20 == D20_NAT_HIGH
-    
+
     @property
     def is_nat_1(self) -> bool:
         return self.d20 == D20_NAT_LOW
@@ -247,15 +246,15 @@ class RollResult:
 def compute_total(d20: int, bonus: int, kept_rank_die: int) -> int:
     """
     Compute total for one side of a check.
-    
+
     Per ADR-0001:
         Total = d20 + Bonus + KeptRankDie
-    
+
     Args:
         d20: The d20 roll result
         bonus: All numeric modifiers
         kept_rank_die: The highest rank die result
-        
+
     Returns:
         The total
     """
@@ -265,18 +264,18 @@ def compute_total(d20: int, bonus: int, kept_rank_die: int) -> int:
 def roll_total(bonus: int, rank: int) -> RollResult:
     """
     Roll a complete total for one side.
-    
+
     Args:
         bonus: All numeric modifiers
         rank: Martial or Sorcery rank
-        
+
     Returns:
         RollResult with all components
     """
     d20 = random.randint(1, 20)
     kept, rolls, _, _ = roll_rank_dice_detailed(rank)
     total = compute_total(d20, bonus, kept)
-    
+
     return RollResult(
         d20=d20,
         bonus=bonus,
@@ -302,7 +301,7 @@ class ResolutionResult:
     nat_shift_applied: int
     actor_wins: bool
     is_tie: bool
-    
+
     @property
     def defender_wins_tie(self) -> bool:
         """Per ADR-0001: Defender wins ties (status quo holds)."""
@@ -318,30 +317,30 @@ def resolve_opposed(
 ) -> ResolutionResult:
     """
     Resolve an opposed check (both sides roll).
-    
+
     Args:
         actor_bonus: Actor's total bonus
         actor_rank: Actor's rank for rank dice
         opp_bonus: Opposition's total bonus
         opp_rank: Opposition's rank for rank dice
         apply_nat_shifts: Whether to apply nat 20/1 shifts (default True)
-        
+
     Returns:
         Complete ResolutionResult
     """
     actor = roll_total(actor_bonus, actor_rank)
     opp = roll_total(opp_bonus, opp_rank)
-    
+
     margin = actor.total - opp.total
     base_dos = compute_dos(margin)
-    
+
     if apply_nat_shifts:
         final_dos = apply_nat_shift(base_dos, actor.d20, opp.d20)
         nat_shift_amount = final_dos - base_dos
     else:
         final_dos = base_dos
         nat_shift_amount = 0
-    
+
     return ResolutionResult(
         actor_result=actor,
         opp_result=opp,
@@ -363,23 +362,23 @@ def resolve_tn(
 ) -> ResolutionResult:
     """
     Resolve a TN mode check (static opposition).
-    
+
     Per ADR-0001: OppTotal = TN (no d20 or rank dice for opposition)
-    
+
     Args:
         actor_bonus: Actor's total bonus
         actor_rank: Actor's rank for rank dice
         tn: Target Number (static opposition total)
         apply_nat_shifts: Whether to apply nat 20/1 shifts (default True)
-        
+
     Returns:
         Complete ResolutionResult
     """
     actor = roll_total(actor_bonus, actor_rank)
-    
+
     margin = actor.total - tn
     base_dos = compute_dos(margin)
-    
+
     if apply_nat_shifts:
         # In TN mode, opponent has no d20, so their nat shift is 0
         final_dos = apply_nat_shift(base_dos, actor.d20, 0)
@@ -387,7 +386,7 @@ def resolve_tn(
     else:
         final_dos = base_dos
         nat_shift_amount = 0
-    
+
     return ResolutionResult(
         actor_result=actor,
         opp_result=None,
@@ -412,16 +411,16 @@ def get_rank_from_approach(
 ) -> int:
     """
     Get the appropriate rank based on approach.
-    
+
     Per ADR-0001/ADR-0002:
         MartialRank = CL
         SorceryRank = SL
-    
+
     Args:
         approach: Martial or Sorcerous
         martial_rank: CL value
         sorcery_rank: SL value
-        
+
     Returns:
         The rank to use for rank dice
     """
@@ -433,10 +432,10 @@ def get_rank_from_approach(
 def interpret_dos(dos: int) -> str:
     """
     Get a human-readable interpretation of DoS.
-    
+
     Args:
         dos: Degrees of Success
-        
+
     Returns:
         Description string
     """
