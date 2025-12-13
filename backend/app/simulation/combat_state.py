@@ -4,6 +4,43 @@ from typing import Dict, List, Optional
 from uuid import UUID
 
 
+# Condition types for the three pillars
+VIOLENCE_CONDITIONS = ["wounded", "crippled", "downed", "ruined_body"]
+INFLUENCE_CONDITIONS = ["shaken", "compromised", "subjugated", "shattered_broken"]
+REVELATION_CONDITIONS = ["disturbed", "fractured", "unhinged", "shattered_broken"]
+
+
+@dataclass
+class CostTracks:
+    """Blood/Fate/Stain cost tracks."""
+
+    blood: int = 0
+    fate: int = 0
+    stain: int = 0
+    maximum: int = 10
+
+    def mark_blood(self, amount: int = 1) -> bool:
+        """Mark Blood track. Returns True if threshold reached."""
+        self.blood = min(self.maximum, self.blood + amount)
+        return self.blood >= 3  # Threshold for auto-Wounded
+
+    def mark_fate(self, amount: int = 1):
+        """Mark Fate track."""
+        self.fate = min(self.maximum, self.fate + amount)
+
+    def mark_stain(self, amount: int = 1):
+        """Mark Stain track."""
+        self.stain = min(self.maximum, self.stain + amount)
+
+    def to_dict(self) -> Dict:
+        """Convert to dictionary for API response."""
+        return {
+            "blood": {"current": self.blood, "maximum": self.maximum},
+            "fate": {"current": self.fate, "maximum": self.maximum},
+            "stain": {"current": self.stain, "maximum": self.maximum},
+        }
+
+
 @dataclass
 class CombatantState:
     """Runtime state for a combatant (PC or Boss) during combat."""
@@ -32,9 +69,86 @@ class CombatantState:
     temp_dr_modifier: float = 0.0
     temp_guard_modifier: int = 0
 
+    # SCL for cap enforcement
+    scl: int = 5
+
+    # Conditions for each pillar
+    conditions: List[str] = field(default_factory=list)
+
+    # Cost tracks
+    cost_tracks: CostTracks = field(default_factory=CostTracks)
+
     def is_alive(self) -> bool:
         """Check if combatant is still alive."""
-        return self.thp > 0
+        return self.thp > 0 and not self.is_incapacitated()
+
+    def is_incapacitated(self) -> bool:
+        """Check if combatant has a 4th degree condition."""
+        incapacitating = ["ruined_body", "shattered_broken"]
+        return any(cond in self.conditions for cond in incapacitating)
+
+    def get_sequence_band(self) -> str:
+        """Get Sequence band label based on SCL."""
+        if self.scl <= 2:
+            return "Cursed-Sequence"
+        elif self.scl <= 4:
+            return "Low-Sequence"
+        elif self.scl <= 7:
+            return "Mid-Sequence"
+        elif self.scl <= 10:
+            return "High-Sequence"
+        else:
+            return "Transcendent"
+
+    def apply_condition(self, pillar: str, condition: str) -> bool:
+        """
+        Apply a condition if not already present.
+        Returns True if condition was applied.
+        """
+        if condition not in self.conditions:
+            self.conditions.append(condition)
+            return True
+        return False
+
+    def get_condition_degree(self, pillar: str) -> int:
+        """
+        Get the highest condition degree for a pillar.
+        Returns 0-4 (0 = no conditions).
+        """
+        if pillar == "violence":
+            for i, cond in enumerate(VIOLENCE_CONDITIONS, start=1):
+                if cond in self.conditions:
+                    return i
+        elif pillar == "influence":
+            for i, cond in enumerate(INFLUENCE_CONDITIONS, start=1):
+                if cond in self.conditions:
+                    return i
+        elif pillar == "revelation":
+            for i, cond in enumerate(REVELATION_CONDITIONS, start=1):
+                if cond in self.conditions:
+                    return i
+        return 0
+
+    def escalate_condition(self, pillar: str) -> Optional[str]:
+        """
+        Escalate condition to next degree.
+        Returns the new condition name or None if already at max.
+        """
+        if pillar == "violence":
+            ladder = VIOLENCE_CONDITIONS
+        elif pillar == "influence":
+            ladder = INFLUENCE_CONDITIONS
+        elif pillar == "revelation":
+            ladder = REVELATION_CONDITIONS
+        else:
+            return None
+
+        current_degree = self.get_condition_degree(pillar)
+        if current_degree < len(ladder):
+            new_condition = ladder[current_degree]  # current_degree is 0-indexed for next
+            self.apply_condition(pillar, new_condition)
+            return new_condition
+        return None
 
     def apply_damage(self, damage: int, routing: str = "THP") -> int:
         """

@@ -301,5 +301,8 @@ class PlayerCombatSession:
             "technique_ids": [str(tid) for tid in combatant.technique_ids]
             if combatant.technique_ids
             else [],
-            "conditions": [],  # TODO: Implement conditions
+            "conditions": list(combatant.conditions) if combatant.conditions else [],
+            "scl": combatant.scl,
+            "sequence_band": combatant.get_sequence_band(),
+            "cost_tracks": combatant.cost_tracks.to_dict() if combatant.cost_tracks else None,
         }

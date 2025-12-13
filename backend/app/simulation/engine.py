@@ -9,7 +9,7 @@ from app.models.boss_template import BossTemplate
 from app.models.characters import Character
 from app.models.simulation import SimulationConfig
 from app.models.techniques import Technique
-from app.simulation.combat_state import CombatantState, CombatState
+from app.simulation.combat_state import CombatantState, CombatState, CostTracks
 
 
 class TechniqueData:
@@ -39,6 +39,31 @@ def create_combatant_from_character(
 ) -> CombatantState:
     """Create a CombatantState from a Character model."""
     tech_ids = char.techniques or []
+
+    # Parse cost tracks from JSONB if available
+    cost_tracks = CostTracks()
+    if char.cost_tracks:
+        blood = char.cost_tracks.get("blood", {})
+        fate = char.cost_tracks.get("fate", {})
+        stain = char.cost_tracks.get("stain", {})
+        cost_tracks = CostTracks(
+            blood=blood.get("current", 0) if isinstance(blood, dict) else 0,
+            fate=fate.get("current", 0) if isinstance(fate, dict) else 0,
+            stain=stain.get("current", 0) if isinstance(stain, dict) else 0,
+        )
+
+    # Parse conditions from JSONB if available
+    conditions = []
+    if char.conditions:
+        for pillar in ["violence", "influence", "revelation"]:
+            pillar_data = char.conditions.get(pillar, {})
+            if isinstance(pillar_data, dict):
+                history = pillar_data.get("history", [])
+                # Extract condition names from history
+                for event in history:
+                    if isinstance(event, dict) and event.get("cause"):
+                        conditions.append(event.get("cause"))
+
     return CombatantState(
         id=char.id,
         name=char.name,
@@ -53,6 +78,9 @@ def create_combatant_from_character(
         guard=char.guard or 0,
         spd_band=char.spd_band.value if char.spd_band else "Normal",
         technique_ids=tech_ids,
+        scl=char.scl if hasattr(char, "scl") and char.scl else 5,
+        conditions=conditions,
+        cost_tracks=cost_tracks,
     )
 
 

@@ -1,4 +1,6 @@
 import type { CombatantState } from "../../types";
+import ConditionBadge from "./ConditionBadge";
+import CostTrackDisplay from "./CostTrackDisplay";
 
 interface CombatantCardProps {
   combatant: CombatantState;
@@ -39,6 +41,23 @@ export default function CombatantCard({
       <h3 style={{ margin: "0 0 8px 0", color: isAlly ? "#5f5" : "#f55" }}>{combatant.name}</h3>
       <p style={{ margin: "4px 0", fontSize: "0.9em", color: "#aaa" }}>
         {combatant.is_boss ? "Boss" : "Character"}
+        {combatant.scl !== undefined && (
+          <span style={{ marginLeft: "8px", color: "#88f" }}>
+            SCL {combatant.scl}
+          </span>
+        )}
+        {combatant.sequence_band && (
+          <span
+            style={{
+              display: "block",
+              fontSize: "0.85em",
+              color: "#999",
+              marginTop: "2px",
+            }}
+          >
+            {combatant.sequence_band}
+          </span>
+        )}
       </p>
 
       {/* THP Bar */}
@@ -134,22 +153,14 @@ export default function CombatantCard({
       {combatant.conditions && combatant.conditions.length > 0 && (
         <div style={{ marginTop: "8px" }}>
           {combatant.conditions.map((cond, i) => (
-            <span
-              key={i}
-              style={{
-                display: "inline-block",
-                padding: "2px 6px",
-                marginRight: "4px",
-                marginBottom: "4px",
-                backgroundColor: "#533",
-                borderRadius: "4px",
-                fontSize: "0.75em",
-              }}
-            >
-              {cond}
-            </span>
+            <ConditionBadge key={i} condition={cond} />
           ))}
         </div>
+      )}
+
+      {/* Cost Tracks (if available) */}
+      {combatant.cost_tracks && (
+        <CostTrackDisplay costTracks={combatant.cost_tracks} compact />
       )}
     </div>
   );
