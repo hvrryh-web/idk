@@ -18,10 +18,13 @@ from pydantic import BaseModel, Field
 router = APIRouter(prefix="/stock-images", tags=["stock-images"])
 
 # Configuration
-STOCK_IMAGES_DIR = os.environ.get(
-    'STOCK_IMAGES_DIR',
-    os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'tools', 'comfyui', 'stock-images')
+# Use pathlib for more robust path handling
+_DEFAULT_STOCK_IMAGES_DIR = str(
+    Path(__file__).parent.parent.parent.parent.parent / 'tools' / 'comfyui' / 'stock-images'
 )
+STOCK_IMAGES_DIR = os.environ.get('STOCK_IMAGES_DIR', _DEFAULT_STOCK_IMAGES_DIR)
+# Resolve to absolute path to prevent directory traversal attacks
+STOCK_IMAGES_DIR = str(Path(STOCK_IMAGES_DIR).resolve())
 MANIFEST_PATH = os.path.join(STOCK_IMAGES_DIR, 'manifest.json')
 
 
@@ -258,17 +261,31 @@ async def get_random_asset(
 @router.get("/file/{category}/{subcategory}/{filename}")
 async def get_asset_file(category: str, subcategory: str, filename: str):
     """Get the actual asset file."""
-    # Validate filename to prevent path traversal
-    if ".." in filename or "/" in filename or "\\" in filename:
+    # Use Path.name to sanitize and prevent path traversal
+    safe_filename = Path(filename).name
+    safe_category = Path(category).name
+    safe_subcategory = Path(subcategory).name
+    
+    # Additional validation
+    if not safe_filename or safe_filename != filename:
         raise HTTPException(status_code=400, detail="Invalid filename")
+    if not safe_category or safe_category != category:
+        raise HTTPException(status_code=400, detail="Invalid category")
+    if not safe_subcategory or safe_subcategory != subcategory:
+        raise HTTPException(status_code=400, detail="Invalid subcategory")
     
-    file_path = get_asset_path(category, subcategory, filename)
+    file_path = get_asset_path(safe_category, safe_subcategory, safe_filename)
     
-    if not file_path.exists():
+    # Ensure the resolved path is within the stock images directory
+    resolved_path = file_path.resolve()
+    if not str(resolved_path).startswith(STOCK_IMAGES_DIR):
+        raise HTTPException(status_code=400, detail="Invalid path")
+    
+    if not resolved_path.exists():
         raise HTTPException(status_code=404, detail="Asset file not found")
     
     # Determine media type
-    suffix = file_path.suffix.lower()
+    suffix = resolved_path.suffix.lower()
     media_types = {
         ".svg": "image/svg+xml",
         ".png": "image/png",

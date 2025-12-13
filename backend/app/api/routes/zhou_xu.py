@@ -36,7 +36,9 @@ MAX_TOTAL_LOGS_MB = 10  # Maximum total log storage per player in MB
 AUTO_SAVE_LIMIT = 1  # Only keep last session for auto-save
 
 # Storage paths
-PLAYER_LOGS_DIR = os.environ.get('ZHOU_XU_LOGS_DIR', 'storage/zhou_xu_logs')
+# Resolve to absolute path to prevent directory traversal attacks
+_DEFAULT_LOGS_DIR = os.path.join(os.path.dirname(__file__), '..', '..', '..', '..', 'storage', 'zhou_xu_logs')
+PLAYER_LOGS_DIR = os.path.abspath(os.environ.get('ZHOU_XU_LOGS_DIR', _DEFAULT_LOGS_DIR))
 
 # ============================================
 # Response Tag Tables
@@ -352,14 +354,22 @@ def save_session_to_file(session: SessionData, is_auto_save: bool = False) -> st
     
     filepath = os.path.join(player_dir, filename)
     
-    # Check file size limits
+    # Check message count first (cheaper than JSON serialization)
     session_dict = session.model_dump()
+    needs_trim = len(session_dict.get("messages", [])) > MAX_SESSION_MESSAGES
+    
+    if needs_trim:
+        # Trim messages before serialization to avoid double-serialization
+        original_count = len(session_dict["messages"])
+        session_dict["messages"] = session_dict["messages"][-MAX_SESSION_MESSAGES//2:]
+        session_dict["chat_summary"] = f"Session trimmed due to size limits. Original had {original_count} messages."
+    
     session_json = json.dumps(session_dict, indent=2)
     
+    # Final size check after trimming
     if len(session_json) > MAX_LOG_FILE_SIZE_KB * 1024:
-        # Trim messages to fit within limit
-        session_dict["messages"] = session_dict["messages"][-MAX_SESSION_MESSAGES//2:]
-        session_dict["chat_summary"] = f"Session trimmed due to size limits. Original had {len(session.messages)} messages."
+        # Further trim if still too large
+        session_dict["messages"] = session_dict["messages"][-MAX_SESSION_MESSAGES//4:]
         session_json = json.dumps(session_dict, indent=2)
     
     with open(filepath, 'w') as f:
@@ -632,11 +642,20 @@ async def clear_player_logs(
 @router.get("/logs/load/{player_id}/{filename}")
 async def load_saved_session(player_id: str, filename: str):
     """Load a previously saved session."""
-    # Validate filename to prevent path traversal
-    if ".." in filename or "/" in filename or "\\" in filename:
+    # Sanitize filename using Path.name to prevent path traversal
+    safe_filename = os.path.basename(filename)
+    
+    # Additional validation
+    if not safe_filename or safe_filename != filename:
         raise HTTPException(status_code=400, detail="Invalid filename")
     
-    session = load_session_from_file(player_id, filename)
+    # Verify the file path stays within player's directory
+    player_dir = get_player_logs_dir(player_id)
+    expected_path = os.path.abspath(os.path.join(player_dir, safe_filename))
+    if not expected_path.startswith(os.path.abspath(player_dir)):
+        raise HTTPException(status_code=400, detail="Invalid filename")
+    
+    session = load_session_from_file(player_id, safe_filename)
     
     if not session:
         raise HTTPException(status_code=404, detail="Save file not found")
