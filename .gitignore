@@ -30,3 +30,14 @@ embeddings/
 
 # Wiki character art outputs (generated)
 wiki_assets/
+
+# Visual Assets Storage and Staging (exclude binary files, keep structure)
+storage/visual-assets/incoming/*
+storage/visual-assets/processed/*
+storage/visual-assets/archived/*
+staging/visual-assets/pending/*
+staging/visual-assets/ready/*
+staging/visual-assets/deployed/*
+!storage/visual-assets/README.md
+!staging/visual-assets/README.md
+staging/visual-assets/asset_metadata.json
