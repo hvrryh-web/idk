@@ -192,7 +192,7 @@ def cmd_start(args, client: GMControlClient):
     session = client.start_generation(
         character_ids=character_ids,
         generation_types=generation_types,
-        use_lora=args.use_lora,
+        use_lora=not args.no_lora,  # Invert the flag
         priority=args.priority
     )
     
@@ -336,7 +336,7 @@ Examples:
     start_parser = subparsers.add_parser("start", help="Start art generation")
     start_parser.add_argument("--characters", required=True, help="Comma-separated character IDs")
     start_parser.add_argument("--types", default="portrait", help="Comma-separated generation types")
-    start_parser.add_argument("--use-lora", action="store_true", default=True, help="Use character LoRAs")
+    start_parser.add_argument("--no-lora", action="store_true", help="Disable character LoRAs (enabled by default)")
     start_parser.add_argument("--priority", choices=["low", "normal", "high"], default="normal")
     start_parser.add_argument("--watch", action="store_true", help="Watch progress after starting")
     

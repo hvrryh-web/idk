@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 import asyncio
 import logging
 
-from app.services.comfyui_client import get_comfyui_client, GenerationStatus
+from app.services.comfyui_client import get_comfyui_client
 
 router = APIRouter(prefix="/gm", tags=["game-master"])
 logger = logging.getLogger(__name__)
@@ -351,9 +351,9 @@ async def _run_generation_session(session_id: str):
     session = _active_sessions[session_id]
     session["status"] = "running"
     
-    client = get_comfyui_client()
-    
     try:
+        # Get ComfyUI client for actual generation
+        client = get_comfyui_client()
         # Generate jobs for each character x generation_type combination
         for char_id in session["character_ids"]:
             for gen_type in session["generation_types"]:
@@ -380,8 +380,13 @@ async def _run_generation_session(session_id: str):
                 session["in_progress_jobs"] += 1
                 
                 try:
-                    # TODO: Implement actual ComfyUI generation calls
-                    # For now, simulate with sleep
+                    # TODO: Implement actual ComfyUI generation calls based on generation_type
+                    # Example implementation would call appropriate workflow:
+                    # if gen_type == "portrait":
+                    #     result = await client.generate_portrait(char_id, ...)
+                    # elif gen_type == "fullbody":
+                    #     result = await client.generate_fullbody(char_id, ...)
+                    # For now, simulate with sleep until ComfyUI workflows are fully integrated
                     await asyncio.sleep(5)  # Simulate generation time
                     
                     job["status"] = "completed"
@@ -457,6 +462,13 @@ async def _execute_generation_job(session: dict, job: dict):
     try:
         # TODO: Implement actual ComfyUI generation
         # This would call the appropriate ComfyUI workflow based on generation_type
+        # Example:
+        # client = get_comfyui_client()
+        # char_data = job["character_data"]
+        # gen_type = job["generation_type"]
+        # if gen_type == "portrait":
+        #     result = await client.generate_portrait(char_data, ...)
+        # For now, simulate until full ComfyUI integration
         await asyncio.sleep(5)  # Simulate
         
         job["status"] = "completed"
