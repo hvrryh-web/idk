@@ -1,2 +1,7 @@
 node_modules/
 dist/
+
+# AI-generated character portraits (generate locally with scripts/comfyui)
+public/assets/characters/generated/*.png
+public/assets/characters/generated/*.jpg
+!public/assets/characters/generated/README.md
