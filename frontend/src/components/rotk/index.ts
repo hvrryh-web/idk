@@ -72,3 +72,6 @@ export type { CharacterPortraitProps, PortraitSize, PortraitShape } from './Char
 
 export { AssetManagementPanel } from './AssetManagementPanel';
 export type { AssetManagementPanelProps } from './AssetManagementPanel';
+
+// Page Layout
+export { ROTKPageLayout } from './ROTKPageLayout';
