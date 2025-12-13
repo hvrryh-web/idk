@@ -30,8 +30,9 @@ const CONFIG = {
      * - "wuxuxian": Uses the existing WuXuxian FastAPI backend at port 8000
      * 
      * Can be overridden via URL parameter: ?mode=api
+     * Default changed to "wuxuxian" to connect to real backend
      */
-    MODE: getUrlParam("mode", "mock"),
+    MODE: getUrlParam("mode", "wuxuxian"),
     
     /**
      * Base URL for the backend server (used in health-only, api, and wuxuxian modes)
@@ -423,12 +424,12 @@ async function stopServer() {
 }
 
 /**
- * Continue to the game page
+ * Continue to the profile selection page
  */
 function continueToGame() {
     if (currentState === States.RUNNING_CONFIRMED) {
-        log("Navigating to game page...", "success");
-        window.location.href = "game.html";
+        log("Navigating to profile selection...", "success");
+        window.location.href = "profile.html";
     }
 }
 

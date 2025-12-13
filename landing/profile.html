@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WuXuxian VN - Profile Selection</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Profile Page Specific Styles */
+        .profile-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .profile-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-2);
+        }
+
+        .profile-header .subtitle-cjk {
+            font-size: 1.5rem;
+            color: var(--danger-red);
+            font-family: var(--font-display);
+            margin-bottom: var(--space-4);
+        }
+
+        .profile-header .description {
+            color: var(--slate-300);
+            font-size: 1rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            max-width: 1000px;
+            width: 100%;
+            margin-bottom: var(--space-8);
+        }
+
+        .profile-card {
+            background: linear-gradient(180deg, rgba(253, 246, 227, 0.95) 0%, rgba(212, 193, 169, 0.95) 100%);
+            border: 4px solid var(--bronze);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), var(--shadow-gold);
+        }
+
+        .profile-card:focus-visible {
+            outline: 3px solid var(--ally-blue);
+            outline-offset: 2px;
+        }
+
+        .profile-card.selected {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .profile-card.player1 { --card-color: #059669; }
+        .profile-card.player2 { --card-color: #2563eb; }
+        .profile-card.gamemaster { --card-color: var(--danger-red); }
+
+        .profile-card.selected.player1 { border-color: #059669; box-shadow: 0 0 30px rgba(5, 150, 105, 0.4); }
+        .profile-card.selected.player2 { border-color: #2563eb; box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); }
+        .profile-card.selected.gamemaster { border-color: var(--danger-red); box-shadow: 0 0 30px rgba(196, 30, 58, 0.4); }
+
+        .profile-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--card-color), var(--card-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-4);
+            border: 4px solid var(--gold-primary);
+            font-size: 3rem;
+        }
+
+        .profile-card.player1 .profile-icon { background: linear-gradient(135deg, #059669, #047857); }
+        .profile-card.player2 .profile-icon { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .profile-card.gamemaster .profile-icon { background: linear-gradient(135deg, var(--danger-red), var(--danger-red-dark)); }
+
+        .profile-title {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--navy-deep);
+            margin-bottom: var(--space-2);
+        }
+
+        .profile-title-cjk {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: var(--space-3);
+        }
+
+        .profile-card.player1 .profile-title-cjk { color: #059669; }
+        .profile-card.player2 .profile-title-cjk { color: #2563eb; }
+        .profile-card.gamemaster .profile-title-cjk { color: var(--danger-red); }
+
+        .profile-description {
+            text-align: center;
+            color: var(--slate-600);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .lock-badge {
+            position: absolute;
+            top: var(--space-3);
+            right: var(--space-3);
+            background: var(--navy-deep);
+            border-radius: 50%;
+            padding: var(--space-2);
+            font-size: 1rem;
+        }
+
+        /* Password Input */
+        .password-section {
+            margin-top: var(--space-4);
+            padding: var(--space-4);
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius-md);
+            display: none;
+        }
+
+        .password-section.active {
+            display: block;
+        }
+
+        .password-section label {
+            display: block;
+            font-weight: bold;
+            color: var(--navy-deep);
+            margin-bottom: var(--space-2);
+        }
+
+        .password-input-group {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .password-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .password-input-wrapper input {
+            width: 100%;
+            padding: var(--space-3) var(--space-8) var(--space-3) var(--space-3);
+            border: 2px solid var(--bronze);
+            border-radius: var(--radius-md);
+            font-family: var(--font-ui);
+            font-size: 1rem;
+        }
+
+        .password-input-wrapper input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: var(--space-2);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: var(--space-1);
+        }
+
+        .password-submit {
+            padding: var(--space-3) var(--space-4);
+            background: var(--danger-red);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .password-submit:hover {
+            background: var(--danger-red-dark);
+        }
+
+        .password-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .password-cancel {
+            margin-top: var(--space-2);
+            background: none;
+            border: none;
+            color: var(--slate-500);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* Action Buttons */
+        .action-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-4);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .start-game-btn {
+            width: 100%;
+            padding: var(--space-4) var(--space-8);
+            font-size: 1.25rem;
+        }
+
+        .start-game-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-4);
+            background: rgba(196, 30, 58, 0.2);
+            border: 2px solid var(--danger-red);
+            border-radius: var(--radius-md);
+            color: var(--parchment);
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            color: var(--slate-400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--gold-light);
+        }
+
+        .footer-info {
+            margin-top: var(--space-6);
+            text-align: center;
+            color: var(--slate-500);
+            font-size: 0.85rem;
+        }
+
+        /* Session info display */
+        .session-info {
+            margin-top: var(--space-4);
+            padding: var(--space-3) var(--space-4);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--gold-dark);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            color: var(--slate-300);
+            font-family: var(--font-mono);
+            display: none;
+        }
+
+        .session-info.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="vn-app profile-page">
+        <main id="main-content">
+            <!-- Header -->
+            <div class="profile-header">
+                <h1>⚔️ WuXuxian TTRPG</h1>
+                <p class="subtitle-cjk">武侠仙</p>
+                <p class="description">Select your profile to begin your journey</p>
+            </div>
+
+            <!-- Error Message (hidden by default) -->
+            <div id="errorMessage" class="error-message" style="display: none;">
+                <span>⚠️</span>
+                <span id="errorText"></span>
+            </div>
+
+            <!-- Profile Cards -->
+            <div class="profile-grid">
+                <!-- Player 1 -->
+                <div class="profile-card player1" tabindex="0" role="button" 
+                     aria-describedby="player1-desc" data-profile="player1" onclick="selectProfile('player1')">
+                    <div class="profile-icon">👤</div>
+                    <h2 class="profile-title">Player 1</h2>
+                    <p class="profile-title-cjk">玩家一</p>
+                    <p class="profile-description" id="player1-desc">
+                        Join the game as the first player. Experience the story and combat as a hero.
+                    </p>
+                </div>
+
+                <!-- Player 2 -->
+                <div class="profile-card player2" tabindex="0" role="button"
+                     aria-describedby="player2-desc" data-profile="player2" onclick="selectProfile('player2')">
+                    <div class="profile-icon">👥</div>
+                    <h2 class="profile-title">Player 2</h2>
+                    <p class="profile-title-cjk">玩家二</p>
+                    <p class="profile-description" id="player2-desc">
+                        Join as the second player. Cooperate or compete in this epic adventure.
+                    </p>
+                </div>
+
+                <!-- Game Master -->
+                <div class="profile-card gamemaster" tabindex="0" role="button"
+                     aria-describedby="gm-desc" data-profile="gamemaster" onclick="selectProfile('gamemaster')">
+                    <span class="lock-badge">🔒</span>
+                    <div class="profile-icon">👑</div>
+                    <h2 class="profile-title">Game Master</h2>
+                    <p class="profile-title-cjk">游戏主持</p>
+                    <p class="profile-description" id="gm-desc">
+                        Control the game world, manage NPCs, and guide the story. Password protected.
+                    </p>
+                    <!-- Password Section -->
+                    <div id="gmPasswordSection" class="password-section">
+                        <label for="gmPassword">Enter Game Master Password</label>
+                        <div class="password-input-group">
+                            <div class="password-input-wrapper">
+                                <input type="password" id="gmPassword" placeholder="Password..." autocomplete="off">
+                                <button type="button" class="toggle-password" onclick="togglePasswordVisibility(event)" aria-label="Toggle password visibility">
+                                    👁️
+                                </button>
+                            </div>
+                            <button type="button" class="password-submit" id="gmSubmitBtn" onclick="confirmGMPassword()" disabled>
+                                Enter
+                            </button>
+                        </div>
+                        <button type="button" class="password-cancel" onclick="cancelGMPassword()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Section -->
+            <div class="action-section">
+                <button id="startGameBtn" class="btn btn-start start-game-btn" disabled onclick="startGame()">
+                    <span id="startGameText">🎮 Start Game</span>
+                </button>
+                
+                <div id="sessionInfo" class="session-info">
+                    Session: <span id="sessionId">-</span>
+                </div>
+
+                <a href="index.html" class="back-link">← Back to Control Panel</a>
+            </div>
+
+            <div class="footer-info">
+                <p>Romance of the Three Kingdoms • Xianxia Visual Novel TTRPG</p>
+                <p>Session tokens are generated using date-based keys for tracking</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ========================================
+        // Profile Selection Logic
+        // ========================================
+
+        const SESSION_KEY = 'wuxuxian_session';
+        let selectedProfile = null;
+        let isLoading = false;
+
+        /**
+         * Select a profile card
+         */
+        function selectProfile(profileType) {
+            if (isLoading) return;
+
+            // Remove selected from all cards
+            document.querySelectorAll('.profile-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // If clicking Game Master, show password input
+            if (profileType === 'gamemaster') {
+                const gmCard = document.querySelector('.profile-card.gamemaster');
+                gmCard.classList.add('selected');
+                document.getElementById('gmPasswordSection').classList.add('active');
+                document.getElementById('gmPassword').focus();
+                selectedProfile = null;
+                updateStartButton();
+                return;
+            }
+
+            // Select the clicked card
+            const selectedCard = document.querySelector(`.profile-card.${profileType}`);
+            selectedCard.classList.add('selected');
+            selectedProfile = profileType;
+
+            // Hide GM password section if open
+            document.getElementById('gmPasswordSection').classList.remove('active');
+
+            updateStartButton();
+        }
+
+        /**
+         * Toggle password visibility
+         */
+        function togglePasswordVisibility(event) {
+            event.stopPropagation();
+            const input = document.getElementById('gmPassword');
+            const btn = event.currentTarget;
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
+
+        /**
+         * Handle GM password input
+         */
+        document.getElementById('gmPassword').addEventListener('input', function() {
+            const submitBtn = document.getElementById('gmSubmitBtn');
+            submitBtn.disabled = !this.value.trim();
+        });
+
+        document.getElementById('gmPassword').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                confirmGMPassword();
+            }
+        });
+
+        /**
+         * Confirm GM password
+         */
+        function confirmGMPassword() {
+            const password = document.getElementById('gmPassword').value;
+            if (!password.trim()) return;
+
+            // Store password for later validation
+            selectedProfile = 'gamemaster';
+            updateStartButton();
+        }
+
+        /**
+         * Cancel GM password entry
+         */
+        function cancelGMPassword() {
+            document.getElementById('gmPasswordSection').classList.remove('active');
+            document.getElementById('gmPassword').value = '';
+            document.querySelector('.profile-card.gamemaster').classList.remove('selected');
+            selectedProfile = null;
+            updateStartButton();
+        }
+
+        /**
+         * Update start button state
+         */
+        function updateStartButton() {
+            const btn = document.getElementById('startGameBtn');
+            btn.disabled = !selectedProfile || isLoading;
+        }
+
+        /**
+         * Show error message
+         */
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.textContent = message;
+            errorDiv.style.display = 'flex';
+        }
+
+        /**
+         * Hide error message
+         */
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        /**
+         * Generate session ID
+         */
+        function generateSessionId(profileType) {
+            const dateKey = new Date().toISOString().split('T')[0].replace(/-/g, '');
+            const array = new Uint8Array(8);
+            window.crypto.getRandomValues(array);
+            const randomToken = Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
+            return `${profileType}-${dateKey}-${randomToken}`;
+        }
+
+        /**
+         * Start the game
+         */
+        async function startGame() {
+            if (!selectedProfile || isLoading) return;
+
+            isLoading = true;
+            hideError();
+            updateStartButton();
+
+            const startBtn = document.getElementById('startGameBtn');
+            const startText = document.getElementById('startGameText');
+            startText.innerHTML = '<span class="loading-spinner"></span> Loading...';
+
+            const password = selectedProfile === 'gamemaster' 
+                ? document.getElementById('gmPassword').value 
+                : undefined;
+
+            try {
+                // Try to login via backend API
+                const response = await fetch('http://localhost:8000/api/v1/sessions/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        profile_type: selectedProfile,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store session
+                    const session = {
+                        sessionId: data.session_id,
+                        profileType: data.profile_type,
+                        isGameMaster: data.is_game_master,
+                        createdAt: new Date().toISOString()
+                    };
+                    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+                    // Show session info
+                    document.getElementById('sessionId').textContent = data.session_id;
+                    document.getElementById('sessionInfo').classList.add('visible');
+
+                    // Navigate to game
+                    setTimeout(() => {
+                        if (data.is_game_master) {
+                            // Go to React frontend GM dashboard
+                            window.location.href = 'http://localhost:5173/gm-dashboard';
+                        } else {
+                            // Go to VN game page
+                            window.location.href = 'game.html';
+                        }
+                    }, 500);
+                } else {
+                    showError(data.error || 'Login failed. Please try again.');
+                    isLoading = false;
+                    updateStartButton();
+                    startText.innerHTML = '🎮 Start Game';
+                }
+            } catch (error) {
+                console.warn('Backend not available, creating local session:', error.message);
+
+                // For GM, require backend
+                if (selectedProfile === 'gamemaster') {
+                    showError('Game Master login requires backend connection. Please ensure the server is running.');
+                    isLoading = false;
+                    updateStartButton();
+                    startText.innerHTML = '🎮 Start Game';
+                    return;
+                }
+
+                // Create local session for players
+                const sessionId = generateSessionId(selectedProfile);
+                const session = {
+                    sessionId: sessionId,
+                    profileType: selectedProfile,
+                    isGameMaster: false,
+                    createdAt: new Date().toISOString()
+                };
+                localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+                // Show session info
+                document.getElementById('sessionId').textContent = sessionId;
+                document.getElementById('sessionInfo').classList.add('visible');
+
+                // Navigate to game
+                setTimeout(() => {
+                    window.location.href = 'game.html';
+                }, 500);
+            }
+        }
+
+        // Keyboard navigation for profile cards
+        document.querySelectorAll('.profile-card').forEach(card => {
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const profileType = card.dataset.profile;
+                    selectProfile(profileType);
+                }
+            });
+        });
+
+        // Check for existing session on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const existingSession = localStorage.getItem(SESSION_KEY);
+            if (existingSession) {
+                try {
+                    const session = JSON.parse(existingSession);
+                    // Pre-select the profile type if session exists
+                    if (session.profileType && session.profileType !== 'gamemaster') {
+                        selectProfile(session.profileType);
+                    }
+                } catch (e) {
+                    // Invalid session, ignore
+                }
+            }
+        });
+    </script>
+</body>
+</html>
