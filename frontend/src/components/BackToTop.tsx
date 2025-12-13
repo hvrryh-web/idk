@@ -3,6 +3,7 @@
  * 
  * Provides a consistent way to return to the top of the page from anywhere.
  * Acts as a safety feature ensuring users can always access the global navigation.
+ * Positioned to avoid overlap with Zhou Xu advisor widget (bottom-right).
  */
 
 import { useState, useEffect } from "react";
@@ -54,11 +55,11 @@ export default function BackToTop({ showHomeButton = true }: BackToTopProps) {
       style={{
         position: "fixed",
         bottom: "2rem",
-        right: "2rem",
+        left: "2rem", // Changed from right to left to avoid overlap with Zhou Xu widget
         display: "flex",
         flexDirection: "column",
         gap: "0.5rem",
-        zIndex: 9999,
+        zIndex: 9998, // Slightly lower than Zhou Xu widget (9999)
         transition: "opacity 0.3s ease",
         opacity: baseOpacity,
       }}
@@ -137,7 +138,7 @@ export default function BackToTop({ showHomeButton = true }: BackToTopProps) {
         <div
           style={{
             position: "absolute",
-            right: "70px",
+            left: "70px", // Changed from right to left
             bottom: "0.5rem",
             background: "var(--parchment, #fdf6e3)",
             border: "2px solid var(--imperial-gold, #d4af37)",
