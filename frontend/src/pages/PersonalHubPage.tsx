@@ -11,7 +11,8 @@ import {
   ArrowLeft,
   User,
   Heart,
-  Star
+  Star,
+  Home
 } from "lucide-react";
 import Button from "../components/Button";
 
@@ -98,14 +99,24 @@ export default function PersonalHubPage() {
           borderBottom: '3px solid var(--soul-essence)',
         }}
       >
-        <Button
-          variant="secondary"
-          size="small"
-          icon={ArrowLeft}
-          onClick={() => navigate("/home")}
-        >
-          Back
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={Home}
+            onClick={() => navigate("/home")}
+          >
+            Home
+          </Button>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={ArrowLeft}
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div
             style={{

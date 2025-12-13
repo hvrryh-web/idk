@@ -13,7 +13,8 @@ import {
   Castle,
   Swords,
   ArrowLeft,
-  Shield
+  Shield,
+  Home
 } from "lucide-react";
 import Button from "../components/Button";
 
@@ -211,14 +212,24 @@ export default function BattleHubPage() {
           borderBottom: '3px solid var(--dynasty-red)',
         }}
       >
-        <Button
-          variant="secondary"
-          size="small"
-          icon={ArrowLeft}
-          onClick={() => navigate("/home")}
-        >
-          Back
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={Home}
+            onClick={() => navigate("/home")}
+          >
+            Home
+          </Button>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={ArrowLeft}
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div
             style={{
