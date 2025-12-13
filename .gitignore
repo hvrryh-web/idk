@@ -45,3 +45,7 @@ staging/visual-assets/deployed/*
 !storage/visual-assets/README.md
 !staging/visual-assets/README.md
 staging/visual-assets/asset_metadata.json
+
+# Zhou Xu Advisor Logs (exclude player-specific logs)
+storage/zhou_xu_logs/*
+!storage/zhou_xu_logs/.gitkeep

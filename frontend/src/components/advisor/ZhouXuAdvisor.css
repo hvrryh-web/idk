@@ -1,5 +1,6 @@
 /* Zhou Xu Advisor Widget Styles */
 /* Design inspired by Dynasty Warriors 6 Zhou Yu character */
+/* Enhanced with memory management and troubleshooting views */
 
 /* ===== CSS Variables for Zhou Xu theme ===== */
 .zhou-xu-widget {
@@ -11,6 +12,8 @@
   --zx-gold-dark: #b8962e;
   --zx-white: #f5f5f0;
   --zx-cream: #fdf6e3;
+  --zx-green: #6bb86b;
+  --zx-red: #c0392b;
   --zx-wave-pattern: repeating-linear-gradient(
     90deg,
     transparent 0px,
@@ -129,8 +132,8 @@
 
 /* ===== Expanded State - Panel ===== */
 .zhou-xu-panel {
-  width: 380px;
-  height: 520px;
+  width: 400px;
+  height: 580px;
   background: linear-gradient(180deg, var(--zx-navy-dark) 0%, var(--zx-navy) 100%);
   border: 3px solid var(--zx-gold);
   border-radius: 12px;
@@ -258,6 +261,45 @@
   color: var(--zx-navy-dark);
 }
 
+/* ===== View Tabs ===== */
+.view-tabs {
+  display: flex;
+  background: var(--zx-navy-dark);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 8px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(245, 245, 240, 0.6);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--zx-cream);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.tab-btn.active {
+  color: var(--zx-gold);
+  border-bottom-color: var(--zx-gold);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* ===== View Content Container ===== */
+.view-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 /* ===== Messages Container ===== */
 .messages-container {
   flex: 1;
@@ -351,6 +393,45 @@
 
 .user-message .message-text {
   color: var(--zx-navy-dark);
+}
+
+/* Message tags */
+.message-tags {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.message-tags .tag {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  background: rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  color: var(--zx-gold-light);
+}
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 12px 16px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: var(--zx-gold);
+  border-radius: 50%;
+  animation: typing-bounce 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
 }
 
 /* ===== Quick Search ===== */
@@ -462,6 +543,11 @@
   color: rgba(245, 245, 240, 0.4);
 }
 
+.message-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .send-btn {
   width: 44px;
   height: 44px;
@@ -488,6 +574,383 @@
   cursor: not-allowed;
 }
 
+/* ===== Memory View ===== */
+.memory-view {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background: rgba(15, 26, 46, 0.5);
+}
+
+.memory-header {
+  margin-bottom: 16px;
+}
+
+.memory-header h4 {
+  margin: 0;
+  color: var(--zx-gold);
+  font-size: 1.1rem;
+}
+
+.memory-subtitle {
+  margin: 4px 0 0;
+  color: rgba(245, 245, 240, 0.6);
+  font-size: 0.8rem;
+}
+
+.backend-warning {
+  padding: 8px 12px;
+  background: rgba(192, 57, 43, 0.2);
+  border: 1px solid var(--zx-red);
+  border-radius: 6px;
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+
+.memory-status {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-label {
+  color: rgba(245, 245, 240, 0.7);
+  font-size: 0.85rem;
+}
+
+.status-value {
+  color: var(--zx-cream);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-value.active {
+  color: var(--zx-green);
+}
+
+.status-value.inactive {
+  color: rgba(245, 245, 240, 0.4);
+}
+
+.memory-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.memory-btn {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.memory-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, var(--zx-gold-dark), var(--zx-gold));
+  color: var(--zx-navy-dark);
+}
+
+.save-btn:hover:not(:disabled) {
+  box-shadow: 0 2px 12px rgba(212, 175, 55, 0.4);
+}
+
+.clear-btn {
+  background: rgba(192, 57, 43, 0.2);
+  border: 1px solid var(--zx-red);
+  color: #e74c3c;
+}
+
+.clear-btn:hover:not(:disabled) {
+  background: rgba(192, 57, 43, 0.3);
+}
+
+.saves-list {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.saves-list h5 {
+  margin: 0 0 8px;
+  color: var(--zx-gold);
+  font-size: 0.9rem;
+}
+
+.save-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  color: var(--zx-cream);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.save-item:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--zx-gold);
+}
+
+/* Save Prompt Overlay */
+.save-prompt-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.save-prompt {
+  background: var(--zx-navy);
+  border: 2px solid var(--zx-gold);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.save-prompt h4 {
+  margin: 0 0 8px;
+  color: var(--zx-gold);
+}
+
+.save-prompt p {
+  margin: 0 0 16px;
+  color: var(--zx-cream);
+  font-size: 0.9rem;
+}
+
+.prompt-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.prompt-buttons button {
+  padding: 8px 12px;
+  border: 1px solid var(--zx-gold);
+  border-radius: 4px;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--zx-cream);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prompt-buttons button:hover {
+  background: var(--zx-gold);
+  color: var(--zx-navy-dark);
+}
+
+/* ===== Troubleshoot View ===== */
+.troubleshoot-view {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background: rgba(15, 26, 46, 0.5);
+}
+
+.troubleshoot-header {
+  margin-bottom: 16px;
+}
+
+.troubleshoot-header h4 {
+  margin: 0;
+  color: var(--zx-gold);
+  font-size: 1.1rem;
+}
+
+.troubleshoot-subtitle {
+  margin: 4px 0 0;
+  color: rgba(245, 245, 240, 0.6);
+  font-size: 0.8rem;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.status-indicator {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-indicator.connected {
+  background: rgba(107, 184, 107, 0.2);
+  color: var(--zx-green);
+}
+
+.status-indicator.disconnected {
+  background: rgba(192, 57, 43, 0.2);
+  color: #e74c3c;
+}
+
+.connection-status .status-text {
+  color: rgba(245, 245, 240, 0.7);
+  font-size: 0.85rem;
+}
+
+.diagnostics-panel {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.diag-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.diag-item:last-child {
+  border-bottom: none;
+}
+
+.diag-label {
+  color: rgba(245, 245, 240, 0.7);
+  font-size: 0.85rem;
+}
+
+.diag-value {
+  color: var(--zx-cream);
+  font-size: 0.85rem;
+}
+
+.diag-value.good {
+  color: var(--zx-green);
+}
+
+.diag-value.warning {
+  color: #f39c12;
+}
+
+.issues-section,
+.recommendations-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.issues-section h5,
+.recommendations-section h5 {
+  margin: 0 0 8px;
+  color: var(--zx-gold);
+  font-size: 0.85rem;
+}
+
+.issues-section ul,
+.recommendations-section ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.issues-section li {
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
+.recommendations-section li {
+  color: var(--zx-cream);
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
+.troubleshoot-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.troubleshoot-btn {
+  flex: 1;
+  padding: 10px 12px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: var(--zx-cream);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.troubleshoot-btn:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--zx-gold);
+}
+
+.troubleshoot-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.help-links {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.help-links h5 {
+  margin: 0 0 8px;
+  color: var(--zx-gold);
+  font-size: 0.9rem;
+}
+
+.help-links a {
+  color: var(--zx-gold-light);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.help-links a:hover {
+  color: var(--zx-gold);
+  text-decoration: underline;
+}
+
 /* ===== Expression States ===== */
 .expression-welcoming {
   /* Default friendly state */
@@ -511,6 +974,14 @@
   box-shadow: 0 0 25px rgba(107, 184, 107, 0.4);
 }
 
+.expression-concerned {
+  box-shadow: 0 0 20px rgba(192, 57, 43, 0.3);
+}
+
+.expression-confident {
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 480px) {
   .zhou-xu-widget {
@@ -520,7 +991,7 @@
   
   .zhou-xu-panel {
     width: calc(100vw - 20px);
-    height: 450px;
+    height: 500px;
   }
   
   .zhou-xu-portrait-btn {
