@@ -398,6 +398,26 @@
 
     <script>
         // ========================================
+        // Configuration
+        // ========================================
+        
+        /**
+         * URL Configuration
+         * Can be overridden via URL parameters: ?backendUrl=...&frontendUrl=...
+         */
+        function getUrlParam(name, defaultValue) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name) || defaultValue;
+        }
+
+        const CONFIG = {
+            // Backend API URL - defaults to localhost:8000 for development
+            BACKEND_URL: getUrlParam('backendUrl', 'http://localhost:8000'),
+            // React Frontend URL - defaults to localhost:5173 for development
+            FRONTEND_URL: getUrlParam('frontendUrl', 'http://localhost:5173'),
+        };
+
+        // ========================================
         // Profile Selection Logic
         // ========================================
 
@@ -547,7 +567,7 @@
 
             try {
                 // Try to login via backend API
-                const response = await fetch('http://localhost:8000/api/v1/sessions/login', {
+                const response = await fetch(`${CONFIG.BACKEND_URL}/api/v1/sessions/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -576,7 +596,7 @@
                     setTimeout(() => {
                         if (data.is_game_master) {
                             // Go to React frontend GM dashboard
-                            window.location.href = 'http://localhost:5173/gm-dashboard';
+                            window.location.href = `${CONFIG.FRONTEND_URL}/gm-dashboard`;
                         } else {
                             // Go to VN game page
                             window.location.href = 'game.html';
