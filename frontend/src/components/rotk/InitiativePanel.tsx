@@ -142,7 +142,6 @@ function InitiativeEntryCard({
   showInitiativeValue,
 }: InitiativeEntryCardProps) {
   const borderColor = entry.isAlly ? '#00A86B' : '#C41E3A';
-  // glowColor reserved for future hover/active effects
   
   if (orientation === 'horizontal') {
     return (
