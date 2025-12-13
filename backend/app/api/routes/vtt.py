@@ -2,6 +2,12 @@
 Virtual Table Top (VTT) API Routes
 
 Handles game map synchronization, token management, and real-time game state.
+
+Production Notes:
+- Replace in-memory state with Redis or PostgreSQL for persistence
+- Add WebSocket support for real-time updates
+- Implement session isolation for multiple concurrent games
+- Add rate limiting for token operations
 """
 
 from datetime import datetime
@@ -12,7 +18,12 @@ import uuid
 
 router = APIRouter(prefix="/vtt", tags=["vtt"])
 
-# In-memory VTT state (would use Redis/DB in production)
+# In-memory VTT state
+# TODO: Replace with Redis or database for production
+# Current limitations:
+# - State lost on server restart
+# - No horizontal scaling support
+# - Single game instance only
 vtt_state: Dict[str, dict] = {
     "current_map": None,
     "tokens": {},

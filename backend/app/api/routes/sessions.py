@@ -6,6 +6,7 @@ Handles player profiles, session management, and Game Master authentication.
 
 import hashlib
 import secrets
+import os
 from datetime import datetime
 from typing import Dict, List, Optional
 from fastapi import APIRouter, HTTPException, Depends
@@ -14,10 +15,15 @@ from pydantic import BaseModel
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
 # In-memory session storage (would use Redis/DB in production)
+# Note: For production, use thread-safe storage like Redis
 active_sessions: Dict[str, dict] = {}
 
-# Game Master password hash (password: "GuGang123GG$")
-GM_PASSWORD_HASH = hashlib.sha256("GuGang123GG$".encode()).hexdigest()
+# Game Master password from environment variable with fallback for development
+# In production, set GM_PASSWORD environment variable
+def get_gm_password_hash() -> str:
+    """Get GM password hash from environment or use default for development."""
+    password = os.environ.get('GM_PASSWORD', 'GuGang123GG$')
+    return hashlib.sha256(password.encode()).hexdigest()
 
 
 class ProfileLoginRequest(BaseModel):
@@ -59,7 +65,7 @@ def generate_session_id(profile_type: str) -> str:
 
 def verify_gm_password(password: str) -> bool:
     """Verify Game Master password."""
-    return hashlib.sha256(password.encode()).hexdigest() == GM_PASSWORD_HASH
+    return hashlib.sha256(password.encode()).hexdigest() == get_gm_password_hash()
 
 
 @router.post("/login", response_model=ProfileLoginResponse)

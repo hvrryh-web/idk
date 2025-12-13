@@ -312,10 +312,12 @@ export default function ProfileLoaderPage() {
       }
     } catch (err) {
       // Fallback for when backend is not running - create local session
+      // Note: In development mode without backend, GM access requires backend
       console.warn('Backend not available, creating local session');
       
-      if (profileType === 'gamemaster' && password !== 'GuGang123GG$') {
-        setError('Invalid Game Master password');
+      if (profileType === 'gamemaster') {
+        // GM requires backend authentication - cannot validate offline
+        setError('Game Master login requires backend connection. Please ensure the server is running.');
         setSelectedProfile(null);
         setLoading(false);
         return;
