@@ -23,6 +23,7 @@ describe("API Functions - Fix Validation", () => {
 
       (globalThis.fetch as any).mockResolvedValueOnce({
         ok: true,
+        headers: new Headers({ "content-type": "application/json" }),
         json: async () => ({ ascii: "test ascii", meta: { width: 80 } }),
       });
 
@@ -75,8 +76,7 @@ describe("API Functions - Fix Validation", () => {
 
   describe("ASCII API Functions", () => {
     it("convertImageToASCII sends correct FormData", async () => {
-      const mockFormData = new FormData();
-      mockFormData.append("file", new Blob(["image data"]), "test.jpg");
+      const mockFile = new File(["image data"], "test.jpg", { type: "image/jpeg" });
 
       (globalThis.fetch as any).mockResolvedValueOnce({
         ok: true,
@@ -87,7 +87,7 @@ describe("API Functions - Fix Validation", () => {
         }),
       });
 
-      const result = await convertImageToASCII(mockFormData);
+      const result = await convertImageToASCII(mockFile);
       
       expect(result).toBeDefined();
       expect(result.id).toBe("123");
@@ -95,7 +95,6 @@ describe("API Functions - Fix Validation", () => {
         expect.stringContaining("/ascii/convert"),
         expect.objectContaining({
           method: "POST",
-          body: mockFormData,
         })
       );
     });
@@ -107,6 +106,7 @@ describe("API Functions - Fix Validation", () => {
 
       (globalThis.fetch as any).mockResolvedValueOnce({
         ok: true,
+        headers: new Headers({ "content-type": "application/json" }),
         json: async () => ({
           ascii: "cyberpunk art",
           meta: { width: 100, height: 50 },
@@ -116,7 +116,7 @@ describe("API Functions - Fix Validation", () => {
       const result = await renderAsciiArt(formData);
       
       expect(result.ascii).toBe("cyberpunk art");
-      expect(result.meta.width).toBe(100);
+      expect(result.meta?.width).toBe(100);
     });
   });
 

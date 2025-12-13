@@ -58,12 +58,13 @@ export default function CharacterCreation() {
     setSaving(true);
     setError(null);
     try {
-      const { step, selectedFateCards, selectedTechniqueIds, avatar, ...payload } = data;
+      // Destructure to exclude non-API fields from the payload
+      const { step: _step, selectedFateCards: _fateCards, selectedTechniqueIds: _techIds, avatar: _avatar, ...payload } = data;
       const created = await createCharacter({
         ...payload,
         type: data.type || "pc",
       });
-      navigate(`/profile/${(created as any)?.id ?? ""}`);
+      navigate(`/profile/${created.id ?? ""}`);
     } catch (err) {
       console.error("Failed to create character", err);
       setError("Failed to create character. Please try again.");

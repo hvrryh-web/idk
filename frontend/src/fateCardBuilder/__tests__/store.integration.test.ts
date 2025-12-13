@@ -70,7 +70,7 @@ describe("Fate Card Builder Store Integration", () => {
     });
 
     it("should update foundation statements", () => {
-      const { setActionStatement, setProblemStatement, buildState } = useFateCardBuilderStore.getState();
+      const { setActionStatement, setProblemStatement } = useFateCardBuilderStore.getState();
       
       const action = "I seek to heal the wounded to repay my debts";
       const problem = "Because I caused suffering, I must dedicate myself to healing";
@@ -106,7 +106,7 @@ describe("Fate Card Builder Store Integration", () => {
     });
 
     it("should draw 3 tokens", () => {
-      const { setCurrentCategory, drawTokens, drawnTokens } = useFateCardBuilderStore.getState();
+      const { setCurrentCategory, drawTokens } = useFateCardBuilderStore.getState();
       
       setCurrentCategory(CategoryId.PRIOR_LIFE_DEMISE);
       drawTokens();
@@ -137,7 +137,7 @@ describe("Fate Card Builder Store Integration", () => {
     });
 
     it("should allow selecting a token", () => {
-      const { setCurrentCategory, drawTokens, selectToken, selectedTokenId } = useFateCardBuilderStore.getState();
+      const { setCurrentCategory, drawTokens, selectToken } = useFateCardBuilderStore.getState();
       
       setCurrentCategory(CategoryId.PRIOR_LIFE_DEMISE);
       drawTokens();

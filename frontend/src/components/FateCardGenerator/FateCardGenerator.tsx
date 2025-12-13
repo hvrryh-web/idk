@@ -115,7 +115,7 @@ export default function FateCardGenerator({
         // Continue polling
         attempts++;
         setTimeout(poll, 1000);
-      } catch (error) {
+      } catch {
         attempts++;
         setTimeout(poll, 2000); // Longer delay on error
       }

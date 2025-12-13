@@ -24,6 +24,7 @@ export default function AsciiRenderer() {
 
   const ansiNodes = useMemo(() => {
     if (!result || !result.colorized) return null;
+    // eslint-disable-next-line no-control-regex
     const regex = /\u001b\[38;2;(\d+);(\d+);(\d+)m|\u001b\[0m/g;
     const nodes: ReactNode[] = [];
     let lastIndex = 0;

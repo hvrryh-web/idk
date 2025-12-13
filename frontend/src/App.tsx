@@ -29,9 +29,8 @@ import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage";
 
 export default function App() {
-  // Use global API hook for error/debug info
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _apiDiagnostics = useApi();
+  // Initialize API diagnostics hook for error tracking (used for future diagnostics panel)
+  useApi();
 
   return (
     <BrowserRouter>

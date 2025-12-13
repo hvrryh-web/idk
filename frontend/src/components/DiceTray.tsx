@@ -1,10 +1,6 @@
 import { useState, useRef } from "react";
 
-interface DiceTrayProps {
-  // Optionally pass props for integration
-}
-
-export default function DiceTray(_props: DiceTrayProps) {
+export default function DiceTray() {
   const [numDice, setNumDice] = useState(1);
   const [diceSides, setDiceSides] = useState(6);
   const [modifier, setModifier] = useState(0);
