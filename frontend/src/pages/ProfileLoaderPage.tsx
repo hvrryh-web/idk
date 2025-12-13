@@ -324,7 +324,10 @@ export default function ProfileLoaderPage() {
       }
 
       const dateKey = new Date().toISOString().split('T')[0].replace(/-/g, '');
-      const randomToken = Math.random().toString(36).substring(2, 10);
+      // Use a cryptographically secure random token
+      const array = new Uint8Array(8);
+      window.crypto.getRandomValues(array);
+      const randomToken = Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
       
       const session: GameSession = {
         sessionId: `${profileType}-${dateKey}-${randomToken}`,
