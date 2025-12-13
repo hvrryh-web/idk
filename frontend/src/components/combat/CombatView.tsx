@@ -6,6 +6,7 @@ import TurnIndicator from "./TurnIndicator";
 import TechniqueSelector from "./TechniqueSelector";
 import QuickActionPanel from "./QuickActionPanel";
 import CombatLog from "./CombatLog";
+import CombatResultModal from "./CombatResultModal";
 import type { CombatState, LogEntry, Technique } from "../../types";
 
 export default function CombatView() {
@@ -118,15 +119,19 @@ export default function CombatView() {
 
   if (combatState.combat_ended) {
     return (
-      <div style={{ padding: "24px", textAlign: "center" }}>
-        <h1>{combatState.victor === "party" ? "⚔️ VICTORY ⚔️" : "💀 DEFEAT 💀"}</h1>
-        <p style={{ fontSize: "1.2em", marginTop: "16px" }}>Combat has ended!</p>
-        <div style={{ marginTop: "24px" }}>
-          <button onClick={() => navigate("/")} style={{ padding: "12px 24px", fontSize: "1em" }}>
-            Return to Home
-          </button>
-        </div>
-      </div>
+      <CombatResultModal
+        result={{
+          victor: combatState.victor as "party" | "enemies" | null,
+          party: combatState.party,
+          enemies: combatState.enemies,
+          combatLog: combatLog,
+        }}
+        onContinue={() => navigate("/")}
+        onRematch={() => {
+          // In future, could restart combat with same configuration
+          navigate("/");
+        }}
+      />
     );
   }
 

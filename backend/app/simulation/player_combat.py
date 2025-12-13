@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 from uuid import UUID
 
 from app.simulation.combat_state import CombatantState, CombatState
-from app.simulation.engine import TechniqueData, execute_technique
+from app.simulation.engine import TechniqueData, execute_technique, validate_technique_usage
 
 
 class PlayerCombatSession:
@@ -72,12 +72,27 @@ class PlayerCombatSession:
 
             technique = self.techniques[tech_uuid]
 
-            # Validate technique usage (SCL and cost checks)
-            # Note: Validation can be added here when character SCL and cost_tracks are available
-            # For now, execute technique as before for backward compatibility
+            # Validate technique usage (SCL caps and AE cost)
+            is_valid, error_msg = validate_technique_usage(actor, technique)
+            if not is_valid:
+                new_log_entries.append(
+                    {
+                        "timestamp": 0,
+                        "actor": actor.name,
+                        "action": f"cannot use {technique.name}",
+                        "result": error_msg,
+                    }
+                )
+                return new_log_entries
 
-            # Execute technique
-            execute_technique(actor, target, technique, self.state)
+            # Execute technique and get results
+            result = execute_technique(actor, target, technique, self.state)
+
+            # Build result text with damage and conditions
+            result_text = f"Hit for {result['damage']} damage!"
+            if result.get("conditions_applied"):
+                cond_text = ", ".join(result["conditions_applied"])
+                result_text += f" ({cond_text})"
 
             # Log entry
             new_log_entries.append(
@@ -86,8 +101,9 @@ class PlayerCombatSession:
                     "actor": actor.name,
                     "action": f"uses {technique.name}",
                     "target": target.name,
-                    "result": "Hit!",
-                    "damage": technique.base_damage,
+                    "result": result_text,
+                    "damage": result["damage"],
+                    "conditions": result.get("conditions_applied", []),
                 }
             )
 

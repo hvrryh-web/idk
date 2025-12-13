@@ -18,11 +18,12 @@ This CRIT (Critical Review and Implementation Tracking) report provides a compre
 | Player-Controlled Combat | ✅ Implemented | Low | — |
 | Backend Combat API | ✅ Implemented | Low | — |
 | Full Stat System | ⚠️ Partial | Medium | P1 |
-| Condition Tracking Display | ❌ Not Visible | High | P1 |
-| Cost Track Display | ❌ Not Visible | High | P1 |
-| SCL Caps Enforcement | ❌ Missing | Medium | P2 |
-| Combat Result UI | ⚠️ Basic | Medium | P2 |
-| VN-Combat Integration | ❌ Disconnected | High | P1 |
+| Condition Tracking Display | ✅ Implemented | Low | — |
+| Cost Track Display | ✅ Implemented | Low | — |
+| SCL Caps Enforcement | ✅ Implemented | Low | — |
+| Combat Result UI | ✅ Implemented | Low | — |
+| VN-Combat Integration | ✅ Implemented | Low | — |
+| Condition Application on Damage | ✅ Implemented | Low | — |
 
 ---
 
