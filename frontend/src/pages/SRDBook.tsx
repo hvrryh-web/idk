@@ -303,7 +303,8 @@ export default function SRDBook() {
 
       <nav className="srd-navigation">
         <button onClick={() => navigate("/wiki")}>← Back to Wiki</button>
-        <button onClick={() => navigate("/")}>🏠 Game Room</button>
+        <button onClick={() => navigate("/codex-hub")}>📚 Codex Hub</button>
+        <button onClick={() => navigate("/home")}>🏠 Home</button>
       </nav>
     </div>
   );

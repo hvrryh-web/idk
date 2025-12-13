@@ -17,7 +17,10 @@ export default function CharacterManager() {
           <button onClick={() => navigate("/characters/create")} className="btn-create">
             + Create Character
           </button>
-          <button onClick={() => navigate("/")}>← Back to Game Room</button>
+          <button onClick={() => navigate("/characters/showcase")} className="btn-secondary" style={{ marginLeft: '0.5rem' }}>
+            🖼️ Showcase
+          </button>
+          <button onClick={() => navigate("/home")} style={{ marginLeft: '0.5rem' }}>← Back to Home</button>
         </div>
       </header>
 

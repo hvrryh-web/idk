@@ -322,7 +322,7 @@ export default function HelpPage() {
             </button>
             <button 
               className="footer-btn"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/home")}
             >
               🏠 Return Home
             </button>

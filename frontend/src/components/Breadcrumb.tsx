@@ -183,6 +183,21 @@ const routeBreadcrumbs: Record<string, BreadcrumbItem[]> = {
     { label: "Home", path: "/home", icon: Home },
     { label: "Showcase", path: "/showcase" },
   ],
+  "/map": [
+    { label: "Home", path: "/home", icon: Home },
+    { label: "Map Hub", path: "/map-hub" },
+    { label: "Standard Map", path: "/map" },
+  ],
+  "/rotk/showcase": [
+    { label: "Home", path: "/home", icon: Home },
+    { label: "Battle Hub", path: "/battle-hub" },
+    { label: "Component Showcase", path: "/rotk/showcase" },
+  ],
+  "/rotk/ro3k-battle": [
+    { label: "Home", path: "/home", icon: Home },
+    { label: "Battle Hub", path: "/battle-hub" },
+    { label: "Ro3K Battle", path: "/rotk/ro3k-battle" },
+  ],
 };
 
 export default function Breadcrumb() {
