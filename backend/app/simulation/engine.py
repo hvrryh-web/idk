@@ -53,16 +53,22 @@ def create_combatant_from_character(
         )
 
     # Parse conditions from JSONB if available
+    # Expected schema: {"violence": {"current": 0, "history": [{"cause": "wounded", ...}]}, ...}
     conditions = []
-    if char.conditions:
+    if char.conditions and isinstance(char.conditions, dict):
         for pillar in ["violence", "influence", "revelation"]:
-            pillar_data = char.conditions.get(pillar, {})
-            if isinstance(pillar_data, dict):
-                history = pillar_data.get("history", [])
-                # Extract condition names from history
-                for event in history:
-                    if isinstance(event, dict) and event.get("cause"):
-                        conditions.append(event.get("cause"))
+            pillar_data = char.conditions.get(pillar)
+            if not isinstance(pillar_data, dict):
+                continue
+            history = pillar_data.get("history")
+            if not isinstance(history, list):
+                continue
+            # Extract condition names from history
+            for event in history:
+                if isinstance(event, dict):
+                    cause = event.get("cause")
+                    if cause and isinstance(cause, str) and cause not in conditions:
+                        conditions.append(cause)
 
     return CombatantState(
         id=char.id,

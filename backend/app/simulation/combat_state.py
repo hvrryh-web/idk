@@ -133,6 +133,11 @@ class CombatantState:
         """
         Escalate condition to next degree.
         Returns the new condition name or None if already at max.
+        
+        get_condition_degree() returns:
+        - 0: no conditions (next is ladder[0])
+        - 1: 1st degree present (next is ladder[1])
+        - etc.
         """
         if pillar == "violence":
             ladder = VIOLENCE_CONDITIONS
@@ -144,8 +149,9 @@ class CombatantState:
             return None
 
         current_degree = self.get_condition_degree(pillar)
+        # current_degree acts as index to next condition (0 = no conditions, apply ladder[0])
         if current_degree < len(ladder):
-            new_condition = ladder[current_degree]  # current_degree is 0-indexed for next
+            new_condition = ladder[current_degree]
             self.apply_condition(pillar, new_condition)
             return new_condition
         return None
