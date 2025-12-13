@@ -32,6 +32,21 @@ import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 import TestBattle from "./pages/TestBattle";
 import DynamicMapPage from "./pages/DynamicMapPage";
 import CharacterShowcasePage from "./pages/CharacterShowcasePage";
+// New Hub Pages
+import HomePage from "./pages/HomePage";
+import MapHubPage from "./pages/MapHubPage";
+import PersonalHubPage from "./pages/PersonalHubPage";
+import BattleHubPage from "./pages/BattleHubPage";
+import CodexHubPage from "./pages/CodexHubPage";
+import CharacterStatsPage from "./pages/CharacterStatsPage";
+import QuestHubPage from "./pages/QuestHubPage";
+import ShowcasePage from "./pages/ShowcasePage";
+import RealmMapPage from "./pages/RealmMapPage";
+import CodexStyleBoardPage from "./pages/CodexStyleBoardPage";
+import CodexCharactersPage from "./pages/CodexCharactersPage";
+// Profile and Game Master Pages
+import ProfileLoaderPage from "./pages/ProfileLoaderPage";
+import GameMasterDashboard from "./pages/GameMasterDashboard";
 
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
@@ -70,6 +85,25 @@ export default function App() {
           <a href="/characters/showcase">Lu Bu & Diao Chan</a>
         </nav>
         <Routes>
+          {/* Profile Selection & Game Master */}
+          <Route path="/profile" element={<ProfileLoaderPage />} />
+          <Route path="/gm-dashboard" element={<GameMasterDashboard />} />
+          
+          {/* Main Hub Pages */}
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/map-hub" element={<MapHubPage />} />
+          <Route path="/personal-hub" element={<PersonalHubPage />} />
+          <Route path="/battle-hub" element={<BattleHubPage />} />
+          <Route path="/codex-hub" element={<CodexHubPage />} />
+          <Route path="/character-stats" element={<CharacterStatsPage />} />
+          <Route path="/character-stats/:id" element={<CharacterStatsPage />} />
+          <Route path="/quest-hub" element={<QuestHubPage />} />
+          <Route path="/showcase" element={<ShowcasePage />} />
+          <Route path="/realm-map" element={<RealmMapPage />} />
+          <Route path="/codex-styleboard" element={<CodexStyleBoardPage />} />
+          <Route path="/codex-characters" element={<CodexCharactersPage />} />
+          
+          {/* Alpha Test Entry Point */}
           <Route path="/" element={<GameRoom />} />
           <Route path="/game" element={<GameScreen />} />
           <Route path="/map" element={<MapScreen />} />
@@ -92,16 +126,20 @@ export default function App() {
           <Route path="/characters/create" element={<CharacterCreation />} />
           <Route path="/character/create" element={<CharacterCreatorPage />} />
           <Route path="/ascii-art" element={<ASCIIArtManager />} />
+          
+          {/* Battle & Combat Routes */}
           <Route path="/combat/:encounterId" element={<CombatView />} />
           <Route path="/combat-test" element={<TestBattle />} />
-          <Route path="/ascii" element={<AsciiVisualizer />} />
-          <Route path="/fate-card-builder" element={<FateCardBuilderPage />} />
           <Route path="/rotk/city" element={<CityHubScene />} />
           <Route path="/rotk/war" element={<WarCouncilScene />} />
           <Route path="/rotk/battle" element={<BattleHUDScene />} />
           <Route path="/rotk/ro3k-battle" element={<Ro3KBattleScene />} />
           <Route path="/rotk/siege" element={<SiegeOverlayScene />} />
           <Route path="/rotk/showcase" element={<ComponentShowcaseScene />} />
+          
+          {/* Other Routes */}
+          <Route path="/ascii" element={<AsciiVisualizer />} />
+          <Route path="/fate-card-builder" element={<FateCardBuilderPage />} />
           <Route path="/characters/showcase" element={<CharacterShowcasePage />} />
         </Routes>
         <StyleBoard />
