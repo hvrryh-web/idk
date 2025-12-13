@@ -15,7 +15,8 @@ import {
   Clock,
   MapPin,
   Gift,
-  ChevronRight
+  ChevronRight,
+  Home
 } from "lucide-react";
 import Button from "../components/Button";
 
@@ -253,14 +254,24 @@ export default function QuestHubPage() {
           borderBottom: '3px solid var(--imperial-gold)',
         }}
       >
-        <Button
-          variant="secondary"
-          size="small"
-          icon={ArrowLeft}
-          onClick={() => navigate("/home")}
-        >
-          Back
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={Home}
+            onClick={() => navigate("/home")}
+          >
+            Home
+          </Button>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={ArrowLeft}
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div
             style={{

@@ -18,7 +18,8 @@ import {
   Flame,
   Snowflake,
   Circle,
-  TrendingUp
+  TrendingUp,
+  Home
 } from "lucide-react";
 import Button from "../components/Button";
 import { fetchCharacters } from "../api";
@@ -188,14 +189,24 @@ export default function CharacterStatsPage() {
           borderBottom: '3px solid var(--imperial-gold)',
         }}
       >
-        <Button
-          variant="secondary"
-          size="small"
-          icon={ArrowLeft}
-          onClick={() => navigate("/home")}
-        >
-          Back
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={Home}
+            onClick={() => navigate("/home")}
+          >
+            Home
+          </Button>
+          <Button
+            variant="secondary"
+            size="small"
+            icon={ArrowLeft}
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+        </div>
         <div style={{ flex: 1 }}>
           <h1 style={{ margin: 0, fontSize: '2rem', color: 'var(--dynasty-red)' }}>
             {character.name}
