@@ -6,6 +6,7 @@ Handles player profiles, session management, and Game Master authentication.
 
 import hashlib
 import secrets
+from argon2 import PasswordHasher
 import os
 from datetime import datetime
 from typing import Dict, List, Optional
@@ -23,7 +24,13 @@ active_sessions: Dict[str, dict] = {}
 def get_gm_password_hash() -> str:
     """Get GM password hash from environment or use default for development."""
     password = os.environ.get('GM_PASSWORD', 'GuGang123GG$')
-    return hashlib.sha256(password.encode()).hexdigest()
+    # Check if we already have an Argon2 hash stored in an env var
+    gm_password_hash = os.environ.get('GM_PASSWORD_HASH')
+    if gm_password_hash:
+        return gm_password_hash
+    # For development or first-time use, hash the password (do not re-hash on every access in production) 
+    ph = PasswordHasher()
+    return ph.hash(password)
 
 
 class ProfileLoginRequest(BaseModel):
@@ -65,7 +72,12 @@ def generate_session_id(profile_type: str) -> str:
 
 def verify_gm_password(password: str) -> bool:
     """Verify Game Master password."""
-    return hashlib.sha256(password.encode()).hexdigest() == get_gm_password_hash()
+    ph = PasswordHasher()
+    known_hash = get_gm_password_hash()
+    try:
+        return ph.verify(known_hash, password)
+    except Exception:
+        return False
 
 
 @router.post("/login", response_model=ProfileLoginResponse)
