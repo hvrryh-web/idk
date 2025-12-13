@@ -69,6 +69,19 @@ jobs:
       with:
         node-version: '18'
     
+    # Install dependencies before firewall - these steps run early to cache dependencies
+    - name: Install frontend dependencies
+      working-directory: ./frontend
+      run: |
+        npm ci || npm install
+        echo "Frontend dependencies installed successfully"
+    
+    - name: Install backend dependencies
+      working-directory: ./backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || echo "Backend requirements installed (some may fail)"
+    
     # Fix #3: Wrap the Copilot-calling step with a retry wrapper
     # This handles transient failures (499 status codes, network errors) with
     # exponential backoff (3 attempts: 3s, 6s, 12s delays)

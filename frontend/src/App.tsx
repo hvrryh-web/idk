@@ -44,9 +44,12 @@ import ShowcasePage from "./pages/ShowcasePage";
 import RealmMapPage from "./pages/RealmMapPage";
 import CodexStyleBoardPage from "./pages/CodexStyleBoardPage";
 import CodexCharactersPage from "./pages/CodexCharactersPage";
+import ToolsHubPage from "./pages/ToolsHubPage";
 // Profile and Game Master Pages
 import ProfileLoaderPage from "./pages/ProfileLoaderPage";
 import GameMasterDashboard from "./pages/GameMasterDashboard";
+// Navigation Components
+import Breadcrumb from "./components/Breadcrumb";
 
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
@@ -69,12 +72,16 @@ export default function App() {
         <nav className="global-nav">
           <a href="/home" title="Main Hub">🏠 Home</a>
           <a href="/game" title="Visual Novel Game Screen">🎮 Game</a>
+          <a href="/map-hub" title="Maps & World">🗺️ Maps</a>
+          <a href="/battle-hub" title="Combat & Battles">⚔️ Battle</a>
           <a href="/characters" title="Character Manager">👤 Characters</a>
+          <a href="/tools-hub" title="Tools & Utilities">🛠️ Tools</a>
           <a href="/codex-hub" title="Knowledge Wiki & Codex">📚 Codex</a>
-          <a href="/help" title="Help & Documentation">❓ Help</a>
           <span className="nav-separator">|</span>
+          <a href="/help" title="Help & Documentation">❓ Help</a>
           <a href="/profile" title="Switch Profile or Start New Session">🔐 Profile</a>
         </nav>
+        <Breadcrumb />
         <Routes>
           {/* Profile Selection & Game Master */}
           <Route path="/profile" element={<ProfileLoaderPage />} />
@@ -86,6 +93,7 @@ export default function App() {
           <Route path="/personal-hub" element={<PersonalHubPage />} />
           <Route path="/battle-hub" element={<BattleHubPage />} />
           <Route path="/codex-hub" element={<CodexHubPage />} />
+          <Route path="/tools-hub" element={<ToolsHubPage />} />
           <Route path="/character-stats" element={<CharacterStatsPage />} />
           <Route path="/character-stats/:id" element={<CharacterStatsPage />} />
           <Route path="/quest-hub" element={<QuestHubPage />} />
