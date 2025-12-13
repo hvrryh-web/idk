@@ -21,7 +21,7 @@ import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import hashlib
 
 
@@ -154,7 +154,7 @@ class AssetDatabase:
         return list(self.assets.values())
 
 
-def validate_asset(filepath: Path) -> tuple[bool, str]:
+def validate_asset(filepath: Path) -> Tuple[bool, str]:
     """Validate asset file."""
     # Check file exists
     if not filepath.exists():

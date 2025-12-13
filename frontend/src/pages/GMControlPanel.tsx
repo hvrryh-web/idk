@@ -27,7 +27,7 @@ interface GenerationJob {
   error_message?: string;
 }
 
-const API_BASE = 'http://localhost:8000/api/v1/gm';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1/gm';
 
 export const GMControlPanel: React.FC = () => {
   const [sessions, setSessions] = useState<GenerationSession[]>([]);
