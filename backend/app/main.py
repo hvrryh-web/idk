@@ -17,6 +17,7 @@ from app.api.routes.combat import router as combat_router
 from app.api.routes.ascii_render import router as ascii_router
 from app.api.routes.comfyui import router as comfyui_router
 from app.api.routes.fate_cards import router as fate_cards_router
+from app.api.routes.gm_control import router as gm_control_router
 from app.api.routes.simulations import router as simulations_router
 from app.api.routes.techniques import router as techniques_router
 from app.api.routes.visual_assets import router as visual_assets_router
@@ -41,6 +42,7 @@ app.include_router(combat_router, prefix=f"{settings.API_PREFIX}/combat", tags=[
 app.include_router(character_assets_router, prefix=f"{settings.API_PREFIX}/assets", tags=["assets"])
 app.include_router(comfyui_router, prefix=settings.API_PREFIX)
 app.include_router(fate_cards_router, prefix=settings.API_PREFIX)
+app.include_router(gm_control_router, prefix=settings.API_PREFIX)
 app.include_router(simulations_router, prefix=settings.API_PREFIX)
 app.include_router(techniques_router, prefix=settings.API_PREFIX)
 app.include_router(ascii_art_router, prefix=settings.API_PREFIX)

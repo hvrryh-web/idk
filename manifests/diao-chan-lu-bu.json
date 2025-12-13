@@ -1,0 +1,283 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "name": "Wiki Characters Manifest - Diao Chan & Lu Bu",
+  "description": "Character manifest for Diao Chan and Lu Bu using reference images for generation",
+  "version": "1.0.0",
+  
+  "metadata": {
+    "created_at": "2024-12-13T10:00:00Z",
+    "updated_at": "2024-12-13T10:00:00Z",
+    "created_by": "asset-integration-system",
+    "notes": "Character entries for Diao Chan and Lu Bu based on Dynasty Warriors / Romance of Three Kingdoms reference materials"
+  },
+  
+  "generation_config": {
+    "output_base_path": "wiki_assets/characters",
+    "checkpoint_model": "anythingV5.safetensors",
+    "house_style_lora": null,
+    "enable_background_removal": false,
+    "generate_thumbnails": true,
+    "thumbnail_size": {"width": 256, "height": 384},
+    "use_reference_images": true,
+    "reference_image_base_path": "frontend/public/assets/characters/reference"
+  },
+  
+  "characters": [
+    {
+      "char_id": "npc-diao-chan",
+      "display_name": "Diao Chan",
+      "role": "Named Character",
+      "faction": "Independent / Various",
+      "character_type": "named_npc",
+      "allowed": true,
+      "historical_basis": "Romance of Three Kingdoms legendary beauty",
+      
+      "reference_images": {
+        "primary_fullbody": "diao-chan/diao-chan-001-fullbody-primary.jpg",
+        "primary_portrait": "diao-chan/diao-chan-004-closeup-portrait.jpg",
+        "costume_variants": "diao-chan/diao-chan-002-costume-variants.jpg",
+        "artistic_style": "diao-chan/diao-chan-003-artistic-portrait.jpg",
+        "additional_references": [
+          "diao-chan/diao-chan-005-standing-pose.jpg",
+          "diao-chan/diao-chan-006-reference.jpg",
+          "diao-chan/diao-chan-007-reference.jpg",
+          "diao-chan/diao-chan-008-reference.jpg",
+          "diao-chan/diao-chan-009-reference.jpg",
+          "diao-chan/diao-chan-010-reference.jpg"
+        ]
+      },
+      
+      "visual_traits": {
+        "gender": "female",
+        "age_range": "young_adult",
+        "hair_color": "jet black with purple highlights",
+        "hair_style": "long flowing hair with elaborate ornamental pins and decorative pieces",
+        "eye_color": "dark brown to amber",
+        "skin_tone": "fair porcelain",
+        "build": "slender graceful",
+        "distinctive_features": "legendary beauty, elegant presence, expressive eyes that convey both gentleness and determination"
+      },
+      
+      "outfit": {
+        "description": "elaborate flowing robes with multiple layers and ornate embroidery",
+        "primary_color": "purple gradient (light to deep purple)",
+        "secondary_color": "pink and jade accents",
+        "accent_color": "gold embroidery and silver trim",
+        "armor_elements": null,
+        "style_tier": "high_ornate",
+        "fabric_notes": "flowing silk with gradient effects, multiple flowing ribbons and fabric layers"
+      },
+      
+      "signature_props": {
+        "weapon": "chain whip or ribbon weapon with ornate ends",
+        "accessories": [
+          "elaborate hairpins with dangling ornaments",
+          "jade jewelry pieces",
+          "flowing ribbons integrated into outfit",
+          "ornate hair decorations"
+        ]
+      },
+      
+      "palette": {
+        "primary": "#9B59B6",
+        "secondary": "#FF85C1",
+        "accent": "#D4AF37",
+        "tertiary": "#00A86B",
+        "background_gradient": ["#4A148C", "#7B1FA2", "#9C27B0"]
+      },
+      
+      "personality_visual_cues": {
+        "elegance": "flowing fabrics, graceful poses",
+        "beauty": "refined facial features, elaborate styling",
+        "hidden_strength": "weapon presence, determined expression options"
+      },
+      
+      "variants": {
+        "portrait": ["default", "elegant", "determined", "combat"],
+        "fullbody": ["default", "dancing_pose", "combat_stance"],
+        "expressions": ["standard_6"]
+      },
+      
+      "generation_seeds": {
+        "portrait_base": 110001,
+        "fullbody_base": 210001,
+        "expressions_base": 310001
+      },
+      
+      "lora_training": {
+        "enabled": true,
+        "training_images_count": 10,
+        "focus_features": [
+          "elaborate hair ornaments",
+          "flowing purple robes with gradients",
+          "graceful poses and gestures",
+          "facial features and expressions",
+          "ribbon weapon styling"
+        ],
+        "output_path": "models/loras/diao-chan_v1.safetensors"
+      },
+      
+      "comfyui_settings": {
+        "ip_adapter_strength": 0.6,
+        "style_consistency_mode": "balanced",
+        "face_preservation": 0.7,
+        "detail_enhancement": true
+      }
+    },
+    
+    {
+      "char_id": "npc-lu-bu",
+      "display_name": "Lu Bu",
+      "role": "Named Character",
+      "faction": "Independent / Various",
+      "character_type": "named_npc",
+      "allowed": true,
+      "historical_basis": "Romance of Three Kingdoms legendary warrior",
+      
+      "reference_images": {
+        "primary_fullbody": "lu-bu/lu-bu-001-fullbody-primary.jpg",
+        "primary_portrait": "lu-bu/lu-bu-004-portrait-detail.jpg",
+        "costume_variants": "lu-bu/lu-bu-002-costume-variants.jpg",
+        "combat_pose": "lu-bu/lu-bu-003-combat-pose.jpg",
+        "additional_references": [
+          "lu-bu/lu-bu-005-standing-reference.jpg",
+          "lu-bu/lu-bu-006-reference.jpg",
+          "lu-bu/lu-bu-007-reference.jpg",
+          "lu-bu/lu-bu-008-reference.jpg",
+          "lu-bu/lu-bu-009-reference.jpg",
+          "lu-bu/lu-bu-010-reference.jpg"
+        ]
+      },
+      
+      "visual_traits": {
+        "gender": "male",
+        "age_range": "adult_prime",
+        "hair_color": "dark black or dark brown",
+        "hair_style": "long flowing hair, sometimes tied back, dramatic movement",
+        "eye_color": "dark brown to intense amber",
+        "skin_tone": "weathered tan",
+        "build": "tall muscular imposing",
+        "distinctive_features": "fierce commanding presence, intense gaze, powerful physique, often depicted with elaborate facial hair"
+      },
+      
+      "outfit": {
+        "description": "heavy ornate armor with elaborate decorations and flowing cape elements",
+        "primary_color": "dark steel blue to black",
+        "secondary_color": "crimson red accents",
+        "accent_color": "gold and bronze trim",
+        "armor_elements": "full plate armor with ornate engravings, shoulder guards, chest plate with decorative motifs",
+        "style_tier": "legendary_warrior",
+        "armor_notes": "heavy plated design with both protective and decorative elements, dramatic silhouette"
+      },
+      
+      "signature_props": {
+        "weapon": "Sky Piercer (Fang Tian Ji) - distinctive crescent-bladed halberd",
+        "accessories": [
+          "ornate helmet pieces or headgear",
+          "flowing cape or back banner",
+          "elaborate armor embellishments",
+          "decorative tassels on armor"
+        ]
+      },
+      
+      "palette": {
+        "primary": "#2C3E50",
+        "secondary": "#C0392B",
+        "accent": "#D4AF37",
+        "tertiary": "#34495E",
+        "background_gradient": ["#000000", "#1C2833", "#2E4053"]
+      },
+      
+      "personality_visual_cues": {
+        "power": "heavy armor, imposing stature",
+        "ferocity": "aggressive poses, intense expressions",
+        "legendary_status": "elaborate decorations, commanding presence"
+      },
+      
+      "variants": {
+        "portrait": ["default", "fierce", "commanding", "battle_ready"],
+        "fullbody": ["default", "combat_stance", "victory_pose"],
+        "expressions": ["standard_6"]
+      },
+      
+      "generation_seeds": {
+        "portrait_base": 120001,
+        "fullbody_base": 220001,
+        "expressions_base": 320001
+      },
+      
+      "lora_training": {
+        "enabled": true,
+        "training_images_count": 10,
+        "focus_features": [
+          "ornate heavy armor design",
+          "fierce facial expressions",
+          "powerful combat poses",
+          "distinctive halberd weapon",
+          "commanding presence and stature"
+        ],
+        "output_path": "models/loras/lu-bu_v1.safetensors"
+      },
+      
+      "comfyui_settings": {
+        "ip_adapter_strength": 0.65,
+        "style_consistency_mode": "strong",
+        "face_preservation": 0.7,
+        "detail_enhancement": true
+      }
+    }
+  ],
+  
+  "generation_instructions": {
+    "step_1_prepare_references": {
+      "description": "Download all reference images from GitHub URLs to the reference directories",
+      "diao_chan_dir": "frontend/public/assets/characters/reference/diao-chan/",
+      "lu_bu_dir": "frontend/public/assets/characters/reference/lu-bu/",
+      "verify": "Ensure all 10 images per character are present"
+    },
+    
+    "step_2_generate_loras": {
+      "description": "Train character-specific LoRAs using reference images",
+      "training_data_source": "models/loras/training-data/{character}/",
+      "recommended_images": "Use 4-6 best quality images from each set",
+      "training_steps": "Follow models/loras/README.md training pipeline",
+      "output": "models/loras/{character}_v1.safetensors"
+    },
+    
+    "step_3_generate_wiki_art": {
+      "description": "Generate wiki-quality character art using trained LoRAs",
+      "command": "npx tsx tools/generate_wiki_character_art.ts --manifest manifests/diao-chan-lu-bu.json",
+      "workflows": [
+        "wiki_char_portrait_detailed.json",
+        "wiki_char_fullbody_detailed.json",
+        "wiki_char_expressions_sheet.json"
+      ],
+      "output_path": "wiki_assets/characters/{char_id}/"
+    },
+    
+    "step_4_generate_character_sheets": {
+      "description": "Generate complete character sheets using character_sheet_full workflow",
+      "workflow": "character_sheet_full.json",
+      "includes": ["portrait", "poses sheet", "outfits sheet", "stats zone"],
+      "output_format": "Composite PSD/PNG with all elements"
+    },
+    
+    "step_5_generate_ui_assets": {
+      "description": "Generate all required UI portrait variants",
+      "variants": [
+        "thumbnail (256x384)",
+        "portrait (512x768)",
+        "bust (1024x1024)",
+        "full-body (1024x1536)"
+      ],
+      "output_path": "frontend/public/assets/characters/{type}/{character}.png"
+    }
+  },
+  
+  "style_consistency_notes": {
+    "base_style": "Romance of Three Kingdoms game art, Dynasty Warriors aesthetic, KOEI TECMO inspired, semi-realistic anime, Yuto Sano influenced, painterly gradients, dramatic lighting",
+    "color_harmony": "Maintain period-appropriate color palettes with fantasy enhancements",
+    "detail_level": "High detail for named characters, especially facial features and costume elements",
+    "composition": "Dynamic poses that convey character personality and role"
+  }
+}
