@@ -72,13 +72,17 @@ jobs:
       working-directory: ./frontend
       run: npm ci
     
-    - name: Run frontend tests
+    - name: TypeScript type check
       working-directory: ./frontend
-      run: npm test
+      run: npx tsc --noEmit
     
     - name: Build frontend
       working-directory: ./frontend
       run: npm run build
+    
+    - name: Run frontend tests
+      working-directory: ./frontend
+      run: npm test
 
   lint:
     runs-on: ubuntu-latest
