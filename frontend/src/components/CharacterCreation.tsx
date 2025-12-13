@@ -64,7 +64,11 @@ export default function CharacterCreation() {
         ...payload,
         type: data.type || "pc",
       });
-      navigate(`/profile/${created.id ?? ""}`);
+      if (created.id) {
+        navigate(`/profile/${created.id}`);
+      } else {
+        setError("Character created but no ID returned. Please refresh.");
+      }
     } catch (err) {
       console.error("Failed to create character", err);
       setError("Failed to create character. Please try again.");
