@@ -41,6 +41,8 @@ a:hover {
   font-family: 'Cinzel', serif;
   font-size: 1.1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  align-items: center;
+  flex-wrap: wrap;
 }
 .global-nav a {
   color: var(--dynasty-red, #8b0000);
@@ -52,6 +54,11 @@ a:hover {
 .global-nav a:hover {
   background: var(--imperial-gold, #d4af37);
   color: #fff;
+}
+.global-nav .nav-separator {
+  color: var(--imperial-gold, #d4af37);
+  font-weight: bold;
+  user-select: none;
 }
 
 /* Sample asset placeholders for screens */

@@ -67,18 +67,13 @@ export default function App() {
     <BrowserRouter>
       <div className="app">
         <nav className="global-nav">
-          <a href="/">Alpha Test</a>
-          <a href="/profile">Profile</a>
-          <a href="/home">Home</a>
-          <a href="/map-hub">Map Hub</a>
-          <a href="/personal-hub">Personal</a>
-          <a href="/battle-hub">Battle</a>
-          <a href="/codex-hub">Codex</a>
-          <a href="/quest-hub">Quests</a>
-          <a href="/character-stats">Stats</a>
-          <a href="/game">Game</a>
-          <a href="/characters">Characters</a>
-          <a href="/characters/showcase">Showcase</a>
+          <a href="/home" title="Main Hub">🏠 Home</a>
+          <a href="/game" title="Visual Novel Game Screen">🎮 Game</a>
+          <a href="/characters" title="Character Manager">👤 Characters</a>
+          <a href="/codex-hub" title="Knowledge Wiki & Codex">📚 Codex</a>
+          <a href="/help" title="Help & Documentation">❓ Help</a>
+          <span className="nav-separator">|</span>
+          <a href="/profile" title="Switch Profile or Start New Session">🔐 Profile</a>
         </nav>
         <Routes>
           {/* Profile Selection & Game Master */}
