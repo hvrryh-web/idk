@@ -375,6 +375,45 @@ function setupGridInteractions() {
 }
 
 // =============================================================================
+// Session Management
+// =============================================================================
+
+const SESSION_KEY = 'wuxuxian_session';
+
+/**
+ * Load and display current session profile
+ */
+function loadSessionProfile() {
+    const profileDisplay = document.getElementById('profileDisplay');
+    if (!profileDisplay) return;
+
+    try {
+        const sessionData = localStorage.getItem(SESSION_KEY);
+        if (sessionData) {
+            const session = JSON.parse(sessionData);
+            const profileNames = {
+                'player1': 'Player 1 (玩家一)',
+                'player2': 'Player 2 (玩家二)',
+                'gamemaster': 'Game Master (游戏主持)'
+            };
+            const displayName = profileNames[session.profileType] || session.profileType;
+            profileDisplay.textContent = displayName;
+            log(`Session loaded: ${session.profileType}`, 'success');
+        } else {
+            profileDisplay.textContent = 'No Session';
+            profileDisplay.classList.remove('running-confirmed');
+            profileDisplay.classList.add('stopped');
+            log('No active session found', 'warning');
+        }
+    } catch (e) {
+        profileDisplay.textContent = 'Session Error';
+        profileDisplay.classList.remove('running-confirmed');
+        profileDisplay.classList.add('error');
+        log('Failed to load session data', 'error');
+    }
+}
+
+// =============================================================================
 // Initialization
 // =============================================================================
 
@@ -382,6 +421,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize logging
     log('WuXuxian VN Tactics initialized', 'success');
     log('Press 1-7 to quickly navigate between screens', 'info');
+    
+    // Load session profile
+    loadSessionProfile();
     
     // Setup event listeners
     document.addEventListener('keydown', handleKeydown);
