@@ -75,7 +75,13 @@
 
 html {
     font-size: var(--font-size-base);
-    scroll-behavior: smooth;
+}
+
+/* Smooth scroll only for users who haven't requested reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
 }
 
 body {

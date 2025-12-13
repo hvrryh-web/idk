@@ -150,10 +150,7 @@
             // Escape key closes any open toggles
             if (e.key === 'Escape') {
                 const toggleBtn = document.getElementById('toggle-features');
-                if (toggleBtn && toggleBtn.getAttribute('aria-expanded') === 'false') {
-                    return; // Already collapsed
-                }
-                if (toggleBtn) {
+                if (toggleBtn && toggleBtn.getAttribute('aria-expanded') === 'true') {
                     toggleBtn.click();
                 }
             }
