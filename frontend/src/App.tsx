@@ -27,7 +27,7 @@ import CharacterCreation from "./components/CharacterCreation";
 import CharacterCodex from "./components/CharacterCodex";
 import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage";
 import { ZhouXuWidget } from "./components/advisor";
-import { CityHubScene, WarCouncilScene, BattleHUDScene, SiegeOverlayScene, ComponentShowcaseScene } from "./pages/rotk";
+import { CityHubScene, WarCouncilScene, BattleHUDScene, SiegeOverlayScene, ComponentShowcaseScene, Ro3KBattleScene } from "./pages/rotk";
 import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 import TestBattle from "./pages/TestBattle";
 import DynamicMapPage from "./pages/DynamicMapPage";
@@ -63,6 +63,7 @@ export default function App() {
           <a href="/rotk/city">ROTK City</a>
           <a href="/rotk/war">ROTK War</a>
           <a href="/rotk/battle">ROTK Battle</a>
+          <a href="/rotk/ro3k-battle">Ro3K Battle</a>
           <a href="/rotk/siege">ROTK Siege</a>
           <a href="/rotk/showcase">ROTK Showcase</a>
         </nav>
@@ -96,6 +97,7 @@ export default function App() {
           <Route path="/rotk/city" element={<CityHubScene />} />
           <Route path="/rotk/war" element={<WarCouncilScene />} />
           <Route path="/rotk/battle" element={<BattleHUDScene />} />
+          <Route path="/rotk/ro3k-battle" element={<Ro3KBattleScene />} />
           <Route path="/rotk/siege" element={<SiegeOverlayScene />} />
           <Route path="/rotk/showcase" element={<ComponentShowcaseScene />} />
         </Routes>

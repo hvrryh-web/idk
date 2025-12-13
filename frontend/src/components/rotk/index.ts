@@ -53,6 +53,10 @@ export type { AdvantageType } from './ClashIndicator';
 export { InitiativePanel } from './InitiativePanel';
 export type { InitiativeEntry, InitiativePanelProps } from './InitiativePanel';
 
+// Ro3K Enhanced Battle Components
+export { Ro3KCharacterPanel, Ro3KDamagePill, Ro3KClashDisplay } from './Ro3KBattleHUD';
+export type { Ro3KCharacterStats, Ro3KDamagePillProps, Ro3KClashDisplayProps } from './Ro3KBattleHUD';
+
 // Overlay & Dialog Components
 export { ScrollOverlay } from './ScrollOverlay';
 export type { ScrollOverlayProps, OverlayVariant, OverlaySize, TransitionStyle } from './ScrollOverlay';

@@ -17,11 +17,13 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Job-level timeout: Cancel if exceeds 30 minutes
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,15 +37,18 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./frontend
+        timeout-minutes: 5
         run: npm ci
 
       - name: Build React app for GitHub Pages
         working-directory: ./frontend
+        timeout-minutes: 15
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
 
       - name: Copy landing page assets to dist
+        timeout-minutes: 2
         run: |
           # Copy landing page control panel to dist for those who want it
           cp -r landing/assets frontend/dist/landing-assets || true
@@ -63,6 +68,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: build
     steps:
       - name: Deploy to GitHub Pages
