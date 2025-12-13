@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87ceeb;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#e6f3ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.8" />
+    </linearGradient>
+    <linearGradient id="mountainDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a252f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mountainMid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#34495e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2c3e50;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mountainLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5d7d8f;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#445566;stop-opacity:0.9" />
+    </linearGradient>
+    <filter id="mist" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="15"/>
+    </filter>
+    <filter id="softMist" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#skyGrad)"/>
+  
+  <!-- Sun/moon glow -->
+  <circle cx="1600" cy="200" r="100" fill="#fff5e6" filter="url(#mist)"/>
+  <circle cx="1600" cy="200" r="50" fill="#fffef0"/>
+  
+  <!-- Far distant mountains -->
+  <g fill="url(#mountainLight)" opacity="0.5">
+    <path d="M-100,700 L200,300 L400,500 L600,250 L800,450 L1000,200 L1200,400 L1400,180 L1600,350 L1800,220 L2020,400 L2020,1080 L-100,1080 Z"/>
+  </g>
+  
+  <!-- Mist layer 1 -->
+  <ellipse cx="400" cy="600" rx="500" ry="150" fill="#fff" opacity="0.4" filter="url(#mist)"/>
+  <ellipse cx="1400" cy="550" rx="600" ry="180" fill="#fff" opacity="0.3" filter="url(#mist)"/>
+  
+  <!-- Mid-distance mountains -->
+  <g fill="url(#mountainMid)" opacity="0.7">
+    <path d="M-100,800 L100,400 L300,600 L500,350 L700,550 L900,300 L1100,500 L1300,280 L1500,450 L1700,320 L1920,500 L1920,1080 L-100,1080 Z"/>
+  </g>
+  
+  <!-- Mist layer 2 -->
+  <ellipse cx="960" cy="650" rx="800" ry="200" fill="#e8f4f8" opacity="0.5" filter="url(#mist)"/>
+  
+  <!-- Near mountains -->
+  <g fill="url(#mountainDark)">
+    <path d="M-100,900 L50,500 L200,700 L400,450 L600,650 L800,400 L1000,600 L1200,380 L1400,550 L1600,420 L1800,580 L1920,450 L1920,1080 L-100,1080 Z"/>
+  </g>
+  
+  <!-- Pine trees silhouettes on peaks -->
+  <g fill="#1a252f">
+    <path d="M800,400 L810,350 L800,360 L820,340 L800,350 L825,330 L790,330 L815,350 L790,340 L810,360 L790,350 L800,400"/>
+    <path d="M1200,380 L1210,330 L1200,340 L1220,320 L1200,330 L1225,310 L1190,310 L1215,330 L1190,320 L1210,340 L1190,330 L1200,380"/>
+    <path d="M500,450 L510,410 L500,420 L515,400 L500,410 L520,390 L490,390 L510,410 L490,400 L505,420 L490,410 L500,450"/>
+  </g>
+  
+  <!-- Waterfall on distant peak -->
+  <g opacity="0.6">
+    <path d="M900,300 L902,450" stroke="#b8d4e8" stroke-width="4" filter="url(#softMist)"/>
+    <ellipse cx="901" cy="465" rx="15" ry="8" fill="#b8d4e8" filter="url(#softMist)"/>
+  </g>
+  
+  <!-- Flying cranes -->
+  <g fill="none" stroke="#2c3e50" stroke-width="2" opacity="0.4">
+    <path d="M300,250 Q310,240 320,250 Q330,240 340,250"/>
+    <path d="M350,280 Q360,270 370,280 Q380,270 390,280"/>
+    <path d="M280,300 Q290,290 300,300 Q310,290 320,300"/>
+  </g>
+  
+  <!-- Floating clouds -->
+  <g filter="url(#mist)" opacity="0.6">
+    <ellipse cx="200" cy="350" rx="120" ry="40" fill="#fff"/>
+    <ellipse cx="1700" cy="400" rx="150" ry="50" fill="#fff"/>
+    <ellipse cx="960" cy="200" rx="200" ry="60" fill="#fff"/>
+  </g>
+  
+  <!-- Foreground mist -->
+  <rect x="0" y="900" width="1920" height="180" fill="#fff" opacity="0.3" filter="url(#mist)"/>
+  
+  <!-- Chinese seal mark -->
+  <g transform="translate(1800, 980)">
+    <rect x="-40" y="-40" width="80" height="80" fill="#c41e3a" opacity="0.8"/>
+    <text x="0" y="15" text-anchor="middle" font-family="serif" font-size="40" fill="#fff">山</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="100" y="100" font-family="serif" font-size="48" fill="#2c3e50" opacity="0.7">仙山云雾</text>
+  <text x="100" y="140" font-family="sans-serif" font-size="18" fill="#445566" opacity="0.6">Misty Immortal Mountains</text>
+</svg>

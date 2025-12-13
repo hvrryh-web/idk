@@ -1,0 +1,404 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-12-13",
+  "description": "Stock image assets for WuXuxian TTRPG - Xianxia fantasy themed placeholders",
+  "categories": {
+    "characters": {
+      "description": "Character portraits and poses",
+      "subcategories": {
+        "cultivators": {
+          "description": "Martial artists and cultivators",
+          "assets": [
+            {
+              "id": "cultivator-male-sword-01",
+              "name": "Male Sword Cultivator",
+              "filename": "placeholder_cultivator_male_sword.svg",
+              "tags": ["male", "sword", "warrior", "cultivation", "young"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "Young male cultivator wielding a flying sword"
+            },
+            {
+              "id": "cultivator-female-scholar-01",
+              "name": "Female Scholar Cultivator",
+              "filename": "placeholder_cultivator_female_scholar.svg",
+              "tags": ["female", "scholar", "wisdom", "cultivation", "elegant"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "Elegant female cultivator with scholarly robes"
+            },
+            {
+              "id": "cultivator-elder-master-01",
+              "name": "Elder Sect Master",
+              "filename": "placeholder_cultivator_elder.svg",
+              "tags": ["elder", "master", "wise", "powerful", "cultivation"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "Venerable sect master with flowing beard"
+            }
+          ]
+        },
+        "npcs": {
+          "description": "Generic NPCs for various roles",
+          "assets": [
+            {
+              "id": "npc-merchant-01",
+              "name": "Traveling Merchant",
+              "filename": "placeholder_npc_merchant.svg",
+              "tags": ["merchant", "trader", "friendly", "common"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "Friendly traveling merchant"
+            },
+            {
+              "id": "npc-guard-01",
+              "name": "City Guard",
+              "filename": "placeholder_npc_guard.svg",
+              "tags": ["guard", "soldier", "martial", "common"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "City guard in standard armor"
+            },
+            {
+              "id": "npc-innkeeper-01",
+              "name": "Innkeeper",
+              "filename": "placeholder_npc_innkeeper.svg",
+              "tags": ["innkeeper", "service", "friendly", "common"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "Welcoming innkeeper"
+            }
+          ]
+        },
+        "advisors": {
+          "description": "Advisor and mentor characters",
+          "assets": [
+            {
+              "id": "advisor-zhou-xu-01",
+              "name": "Zhou Xu Divine Advisor",
+              "filename": "placeholder_advisor_zhou_xu.svg",
+              "tags": ["advisor", "strategist", "wise", "zhou-xu", "divine"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "Zhou Xu - The Divine Advisor inspired by Zhou Yu"
+            },
+            {
+              "id": "advisor-sage-01",
+              "name": "Mountain Sage",
+              "filename": "placeholder_advisor_sage.svg",
+              "tags": ["sage", "hermit", "wise", "elder", "cultivation"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 768 },
+              "placeholder": true,
+              "description": "Reclusive mountain sage"
+            }
+          ]
+        }
+      }
+    },
+    "backgrounds": {
+      "description": "Scene backgrounds and environments",
+      "subcategories": {
+        "landscapes": {
+          "description": "Natural outdoor environments",
+          "assets": [
+            {
+              "id": "bg-mountain-misty-01",
+              "name": "Misty Mountain Peaks",
+              "filename": "placeholder_bg_mountain_misty.svg",
+              "tags": ["mountain", "mist", "peaks", "nature", "cultivation"],
+              "style": "xianxia",
+              "dimensions": { "width": 1920, "height": 1080 },
+              "placeholder": true,
+              "description": "Ethereal mountain peaks shrouded in mist"
+            },
+            {
+              "id": "bg-bamboo-forest-01",
+              "name": "Bamboo Grove",
+              "filename": "placeholder_bg_bamboo.svg",
+              "tags": ["bamboo", "forest", "peaceful", "green", "nature"],
+              "style": "xianxia",
+              "dimensions": { "width": 1920, "height": 1080 },
+              "placeholder": true,
+              "description": "Serene bamboo forest"
+            },
+            {
+              "id": "bg-waterfall-01",
+              "name": "Celestial Waterfall",
+              "filename": "placeholder_bg_waterfall.svg",
+              "tags": ["waterfall", "water", "cultivation", "training", "nature"],
+              "style": "xianxia",
+              "dimensions": { "width": 1920, "height": 1080 },
+              "placeholder": true,
+              "description": "Majestic waterfall with rainbow mist"
+            }
+          ]
+        },
+        "cities": {
+          "description": "Urban environments",
+          "assets": [
+            {
+              "id": "bg-sect-gate-01",
+              "name": "Sect Main Gate",
+              "filename": "placeholder_bg_sect_gate.svg",
+              "tags": ["sect", "gate", "entrance", "martial", "architecture"],
+              "style": "xianxia",
+              "dimensions": { "width": 1920, "height": 1080 },
+              "placeholder": true,
+              "description": "Grand entrance gate to a martial sect"
+            },
+            {
+              "id": "bg-market-01",
+              "name": "Cultivation Market",
+              "filename": "placeholder_bg_market.svg",
+              "tags": ["market", "city", "trade", "busy", "urban"],
+              "style": "xianxia",
+              "dimensions": { "width": 1920, "height": 1080 },
+              "placeholder": true,
+              "description": "Bustling market selling cultivation supplies"
+            }
+          ]
+        },
+        "interiors": {
+          "description": "Indoor environments",
+          "assets": [
+            {
+              "id": "bg-cultivation-hall-01",
+              "name": "Cultivation Hall",
+              "filename": "placeholder_bg_cultivation_hall.svg",
+              "tags": ["hall", "cultivation", "meditation", "interior", "sect"],
+              "style": "xianxia",
+              "dimensions": { "width": 1920, "height": 1080 },
+              "placeholder": true,
+              "description": "Grand hall for cultivation practice"
+            },
+            {
+              "id": "bg-library-01",
+              "name": "Sect Library",
+              "filename": "placeholder_bg_library.svg",
+              "tags": ["library", "scrolls", "knowledge", "interior", "sect"],
+              "style": "xianxia",
+              "dimensions": { "width": 1920, "height": 1080 },
+              "placeholder": true,
+              "description": "Library filled with cultivation manuals"
+            }
+          ]
+        }
+      }
+    },
+    "items": {
+      "description": "Equipment, artifacts, and objects",
+      "subcategories": {
+        "weapons": {
+          "description": "Martial weapons and tools",
+          "assets": [
+            {
+              "id": "weapon-flying-sword-01",
+              "name": "Flying Sword",
+              "filename": "placeholder_weapon_flying_sword.svg",
+              "tags": ["sword", "flying", "cultivation", "legendary"],
+              "style": "xianxia",
+              "dimensions": { "width": 256, "height": 512 },
+              "placeholder": true,
+              "description": "Luminous flying sword for sword cultivators"
+            },
+            {
+              "id": "weapon-jade-flute-01",
+              "name": "Jade Flute",
+              "filename": "placeholder_weapon_jade_flute.svg",
+              "tags": ["flute", "jade", "sound", "cultivation", "elegant"],
+              "style": "xianxia",
+              "dimensions": { "width": 256, "height": 128 },
+              "placeholder": true,
+              "description": "Jade flute weapon for sound cultivators"
+            }
+          ]
+        },
+        "artifacts": {
+          "description": "Magical items and treasures",
+          "assets": [
+            {
+              "id": "artifact-spirit-stone-01",
+              "name": "Spirit Stone",
+              "filename": "placeholder_artifact_spirit_stone.svg",
+              "tags": ["spirit-stone", "cultivation", "energy", "currency"],
+              "style": "xianxia",
+              "dimensions": { "width": 128, "height": 128 },
+              "placeholder": true,
+              "description": "Glowing spirit stone for cultivation"
+            },
+            {
+              "id": "artifact-cauldron-01",
+              "name": "Alchemy Cauldron",
+              "filename": "placeholder_artifact_cauldron.svg",
+              "tags": ["cauldron", "alchemy", "pills", "cultivation"],
+              "style": "xianxia",
+              "dimensions": { "width": 256, "height": 256 },
+              "placeholder": true,
+              "description": "Ancient cauldron for pill refinement"
+            }
+          ]
+        },
+        "scrolls": {
+          "description": "Documents and technique scrolls",
+          "assets": [
+            {
+              "id": "scroll-technique-01",
+              "name": "Technique Scroll",
+              "filename": "placeholder_scroll_technique.svg",
+              "tags": ["scroll", "technique", "manual", "cultivation"],
+              "style": "xianxia",
+              "dimensions": { "width": 128, "height": 256 },
+              "placeholder": true,
+              "description": "Scroll containing secret techniques"
+            }
+          ]
+        }
+      }
+    },
+    "effects": {
+      "description": "Visual effects and particles",
+      "subcategories": {
+        "qi-auras": {
+          "description": "Cultivation energy auras",
+          "assets": [
+            {
+              "id": "aura-violence-01",
+              "name": "Violence Aura",
+              "filename": "placeholder_aura_violence.svg",
+              "tags": ["aura", "violence", "red", "combat", "pillar"],
+              "style": "xianxia",
+              "dimensions": { "width": 256, "height": 256 },
+              "placeholder": true,
+              "description": "Red combat-focused qi aura"
+            },
+            {
+              "id": "aura-influence-01",
+              "name": "Influence Aura",
+              "filename": "placeholder_aura_influence.svg",
+              "tags": ["aura", "influence", "blue", "social", "pillar"],
+              "style": "xianxia",
+              "dimensions": { "width": 256, "height": 256 },
+              "placeholder": true,
+              "description": "Blue influence-focused qi aura"
+            },
+            {
+              "id": "aura-revelation-01",
+              "name": "Revelation Aura",
+              "filename": "placeholder_aura_revelation.svg",
+              "tags": ["aura", "revelation", "gold", "wisdom", "pillar"],
+              "style": "xianxia",
+              "dimensions": { "width": 256, "height": 256 },
+              "placeholder": true,
+              "description": "Gold revelation-focused qi aura"
+            }
+          ]
+        },
+        "elements": {
+          "description": "Elemental effects",
+          "assets": [
+            {
+              "id": "element-fire-01",
+              "name": "Flame Effect",
+              "filename": "placeholder_element_fire.svg",
+              "tags": ["fire", "flame", "element", "attack"],
+              "style": "xianxia",
+              "dimensions": { "width": 128, "height": 128 },
+              "placeholder": true,
+              "description": "Blazing fire effect"
+            },
+            {
+              "id": "element-ice-01",
+              "name": "Ice Effect",
+              "filename": "placeholder_element_ice.svg",
+              "tags": ["ice", "frost", "element", "attack"],
+              "style": "xianxia",
+              "dimensions": { "width": 128, "height": 128 },
+              "placeholder": true,
+              "description": "Crystalline ice effect"
+            },
+            {
+              "id": "element-lightning-01",
+              "name": "Lightning Effect",
+              "filename": "placeholder_element_lightning.svg",
+              "tags": ["lightning", "thunder", "element", "attack"],
+              "style": "xianxia",
+              "dimensions": { "width": 128, "height": 128 },
+              "placeholder": true,
+              "description": "Crackling lightning effect"
+            }
+          ]
+        }
+      }
+    },
+    "ui": {
+      "description": "User interface elements",
+      "subcategories": {
+        "frames": {
+          "description": "Decorative frames and borders",
+          "assets": [
+            {
+              "id": "frame-gold-ornate-01",
+              "name": "Gold Ornate Frame",
+              "filename": "placeholder_frame_gold.svg",
+              "tags": ["frame", "gold", "ornate", "decorative"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 512 },
+              "placeholder": true,
+              "description": "Ornate gold decorative frame"
+            },
+            {
+              "id": "frame-jade-simple-01",
+              "name": "Jade Simple Frame",
+              "filename": "placeholder_frame_jade.svg",
+              "tags": ["frame", "jade", "simple", "decorative"],
+              "style": "xianxia",
+              "dimensions": { "width": 512, "height": 512 },
+              "placeholder": true,
+              "description": "Simple jade-colored frame"
+            }
+          ]
+        },
+        "panels": {
+          "description": "UI panels and containers",
+          "assets": [
+            {
+              "id": "panel-parchment-01",
+              "name": "Parchment Panel",
+              "filename": "placeholder_panel_parchment.svg",
+              "tags": ["panel", "parchment", "scroll", "ui"],
+              "style": "xianxia",
+              "dimensions": { "width": 400, "height": 300 },
+              "placeholder": true,
+              "description": "Parchment-textured UI panel"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "comfyui_templates": {
+    "character_portrait": {
+      "workflow": "ro3k_character_portrait.json",
+      "default_prompt_suffix": "xianxia style, chinese fantasy, ink wash painting influence, semi-realistic, high quality",
+      "default_negative": "modern clothing, western fantasy, low quality, blurry, bad anatomy"
+    },
+    "background": {
+      "workflow": "ro3k_background.json",
+      "default_prompt_suffix": "chinese landscape painting style, misty atmosphere, ethereal, high detail",
+      "default_negative": "modern buildings, urban, low quality, blurry"
+    },
+    "item": {
+      "workflow": "ro3k_item.json",
+      "default_prompt_suffix": "chinese fantasy item, glowing, mystical, detailed, transparent background",
+      "default_negative": "low quality, blurry, pixelated"
+    }
+  }
+}
