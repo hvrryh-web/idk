@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Gold/Coin icon with Chinese period styling -->
+  <circle cx="12" cy="12" r="10" stroke="#D4AF37" fill="#D4AF37" fill-opacity="0.2"/>
+  <rect x="9" y="9" width="6" height="6" rx="1" stroke="#D4AF37" fill="none" stroke-width="1.5"/>
+  <circle cx="12" cy="12" r="1.5" fill="#D4AF37"/>
+  <path d="M12 2 L12 4" stroke="#D4AF37" stroke-width="1.5"/>
+  <path d="M12 20 L12 22" stroke="#D4AF37" stroke-width="1.5"/>
+  <path d="M2 12 L4 12" stroke="#D4AF37" stroke-width="1.5"/>
+  <path d="M20 12 L22 12" stroke="#D4AF37" stroke-width="1.5"/>
+</svg>

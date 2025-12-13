@@ -1,0 +1,443 @@
+{
+  "name": "Visual Asset Quality Levels Specification",
+  "description": "Defines the hierarchy of visual asset quality levels for character and game system visuals, with integration points for the character creation pipeline",
+  "version": "1.0.0",
+  
+  "quality_hierarchy": {
+    "overview": "Visual assets exist at multiple quality levels to serve different use cases. Higher quality assets can be used to generate lower quality versions automatically.",
+    
+    "levels": {
+      "wiki_detailed": {
+        "tier": 1,
+        "name": "Wiki Detailed Art",
+        "description": "Highest quality character renders for wiki pages and promotional use",
+        "resolution": {
+          "portrait": {"width": 1024, "height": 1536},
+          "fullbody": {"width": 1024, "height": 1536},
+          "expressions": {"width": 2048, "height": 3072}
+        },
+        "use_cases": [
+          "Wiki character pages",
+          "Character highlight galleries",
+          "Promotional materials",
+          "Character detail view modal"
+        ],
+        "generation": {
+          "workflow": "wiki_char_portrait_detailed.json",
+          "pipeline": "7-layer iterative with face refinement",
+          "estimated_time": "2-5 minutes per image"
+        },
+        "eligible_characters": ["player_character", "named_npc"],
+        "source": "ComfyUI generation"
+      },
+      
+      "standard_gameplay": {
+        "tier": 2,
+        "name": "Standard Gameplay Art",
+        "description": "Quality character art for general gameplay, character sheets, and editor preview",
+        "resolution": {
+          "portrait": {"width": 512, "height": 768},
+          "fullbody": {"width": 512, "height": 768},
+          "thumbnail": {"width": 128, "height": 192}
+        },
+        "use_cases": [
+          "Character creation editor preview",
+          "In-game character panels",
+          "Conversation UI portraits",
+          "Character selection screens",
+          "Inventory/equipment screens"
+        ],
+        "generation": {
+          "workflow": "base_character.json / overlay_layer.json",
+          "pipeline": "Layer compositor from customization",
+          "estimated_time": "instant (compositing)"
+        },
+        "eligible_characters": ["player_character", "named_npc", "generic_npc"],
+        "source": "Layer compositing or downscaled wiki art"
+      },
+      
+      "battle_tokens_pc": {
+        "tier": 3,
+        "name": "Player Character Battle Tokens",
+        "description": "Circular or framed tokens for combat grid display - player characters",
+        "resolution": {
+          "large": {"width": 128, "height": 128},
+          "medium": {"width": 64, "height": 64},
+          "small": {"width": 32, "height": 32}
+        },
+        "use_cases": [
+          "Combat grid display",
+          "Turn order tracker",
+          "Target selection UI",
+          "Party status display"
+        ],
+        "visual_style": {
+          "frame": "gold ornate circular frame",
+          "background": "faction color gradient",
+          "portrait_crop": "face-focused circular crop"
+        },
+        "eligible_characters": ["player_character"],
+        "source": "Cropped and framed from standard_gameplay portrait"
+      },
+      
+      "battle_tokens_npc": {
+        "tier": 3,
+        "name": "NPC Battle Tokens",
+        "description": "Circular or framed tokens for combat grid display - NPCs",
+        "resolution": {
+          "large": {"width": 128, "height": 128},
+          "medium": {"width": 64, "height": 64},
+          "small": {"width": 32, "height": 32}
+        },
+        "use_cases": [
+          "Enemy tokens on combat grid",
+          "Allied NPC tokens",
+          "Boss indicators"
+        ],
+        "visual_style": {
+          "named_npc_frame": "silver ornate circular frame",
+          "generic_npc_frame": "bronze simple circular frame",
+          "enemy_frame": "red-tinted iron frame",
+          "background": "archetype-appropriate color"
+        },
+        "eligible_characters": ["named_npc", "generic_npc"],
+        "source": "Generated from npc_portrait workflow or archetype templates"
+      },
+      
+      "battle_map_tokens": {
+        "tier": 4,
+        "name": "Battle Map Tokens",
+        "description": "Top-down or isometric tokens for tactical battle maps",
+        "resolution": {
+          "standard": {"width": 64, "height": 64},
+          "large_creature": {"width": 128, "height": 128},
+          "huge_creature": {"width": 192, "height": 192}
+        },
+        "use_cases": [
+          "Tactical battle map grid",
+          "Position tracking",
+          "Area of effect visualization",
+          "Formation display"
+        ],
+        "visual_style": {
+          "view": "top-down or 3/4 isometric",
+          "silhouette": "recognizable character silhouette with faction colors",
+          "status_indicators": "ring colors for status effects"
+        },
+        "eligible_characters": ["player_character", "named_npc", "generic_npc"],
+        "source": "Simplified silhouette generation or sprite sheets"
+      },
+      
+      "ascii_combat": {
+        "tier": 5,
+        "name": "ASCII Combat Art",
+        "description": "Text-based ASCII art for combat illustrations in text mode",
+        "resolution": {
+          "character": {"width": 20, "height": 25, "unit": "characters"},
+          "effect": {"width": 15, "height": 15, "unit": "characters"},
+          "background": {"width": 80, "height": 24, "unit": "characters"}
+        },
+        "use_cases": [
+          "Text-mode combat display",
+          "Combat log illustrations",
+          "Terminal/retro UI mode",
+          "Accessibility mode"
+        ],
+        "poses": ["idle", "attack", "defend", "cast", "hurt", "dead"],
+        "eligible_characters": ["player_character", "named_npc", "generic_npc"],
+        "source": "ASCII art generator or image-to-ASCII conversion"
+      },
+      
+      "ascii_map_events": {
+        "tier": 5,
+        "name": "ASCII Map Event Art",
+        "description": "ASCII illustrations for map view events and encounters",
+        "resolution": {
+          "event_icon": {"width": 10, "height": 10, "unit": "characters"},
+          "scene": {"width": 60, "height": 20, "unit": "characters"}
+        },
+        "use_cases": [
+          "Map event icons",
+          "Encounter previews",
+          "Location illustrations",
+          "Travel event scenes"
+        ],
+        "eligible_characters": ["all"],
+        "source": "ASCII art templates with character overlays"
+      },
+      
+      "ro3k_game_ui": {
+        "tier": 6,
+        "name": "RO3K Game System UI Assets",
+        "description": "General Romance of Three Kingdoms styled UI elements",
+        "categories": {
+          "icons": {
+            "resolution": {"width": 64, "height": 64},
+            "types": ["stat_icons", "aether_icons", "combat_icons", "pillar_icons", "action_icons", "navigation_icons"]
+          },
+          "frames": {
+            "types": ["portrait_frames", "card_frames", "panel_frames", "button_frames"]
+          },
+          "backgrounds": {
+            "resolution": {"width": 1920, "height": 1080},
+            "types": ["combat_arenas", "dialogue_scenes", "menu_backgrounds"]
+          },
+          "decorations": {
+            "types": ["dividers", "corners", "borders", "flourishes"]
+          }
+        },
+        "source": "ComfyUI ui_assets.json workflow or manual design"
+      }
+    }
+  },
+  
+  "derivation_pipeline": {
+    "description": "How lower-quality assets are derived from higher-quality sources",
+    
+    "wiki_to_standard": {
+      "source": "wiki_detailed",
+      "target": "standard_gameplay",
+      "method": "bicubic_downscale",
+      "parameters": {
+        "target_width": 512,
+        "target_height": 768,
+        "sharpen_after": true,
+        "sharpen_amount": 0.3
+      }
+    },
+    
+    "standard_to_battle_token": {
+      "source": "standard_gameplay",
+      "target": "battle_tokens_pc",
+      "method": "face_crop_and_frame",
+      "parameters": {
+        "crop_type": "face_detection_center",
+        "frame_template": "assets/ui/frames/battle_token_{faction}.png",
+        "output_sizes": [128, 64, 32]
+      }
+    },
+    
+    "standard_to_map_token": {
+      "source": "standard_gameplay",
+      "target": "battle_map_tokens",
+      "method": "silhouette_extraction",
+      "parameters": {
+        "background_removal": true,
+        "edge_detection": true,
+        "fill_color": "{faction_primary}",
+        "outline_color": "{faction_secondary}"
+      }
+    },
+    
+    "image_to_ascii": {
+      "source": "standard_gameplay",
+      "target": "ascii_combat",
+      "method": "image_to_ascii_conversion",
+      "parameters": {
+        "width_chars": 20,
+        "aspect_ratio": 0.5,
+        "charset": "detailed",
+        "edge_enhance": true
+      },
+      "implementation": "src/backend/ascii/image-to-ascii.ts"
+    }
+  },
+  
+  "character_creation_integration": {
+    "description": "Integration points between character creation and visual asset generation",
+    
+    "creation_flow": {
+      "step_1_customization": {
+        "description": "User customizes character appearance in editor",
+        "visual_quality": "standard_gameplay",
+        "source": "Layer compositing in real-time",
+        "output": "CharacterAppearance object stored"
+      },
+      
+      "step_2_save_character": {
+        "description": "Character saved to database",
+        "actions": [
+          "Store appearance configuration",
+          "Generate standard_gameplay portrait",
+          "Generate battle_tokens",
+          "Queue ASCII art generation"
+        ]
+      },
+      
+      "step_3_wiki_art_request": {
+        "description": "User or system requests detailed wiki art",
+        "trigger": "Manual request or automatic for player_character",
+        "workflow": "tools/generate_wiki_character_art.ts",
+        "input": "Character manifest entry generated from CharacterAppearance",
+        "output": "wiki_detailed assets"
+      },
+      
+      "step_4_derivation": {
+        "description": "Lower quality assets derived from wiki art if available",
+        "actions": [
+          "Downscale wiki portrait to standard",
+          "Generate battle tokens from portrait",
+          "Update ASCII art from improved source"
+        ]
+      }
+    },
+    
+    "appearance_to_manifest": {
+      "description": "Converting CharacterAppearance to wiki manifest entry",
+      "mapping": {
+        "baseModel": "visual_traits.gender",
+        "selections.hair": "visual_traits.hair_style + hair_color from swatch",
+        "selections.eyes": "visual_traits.eye_color + eye_shape",
+        "selections.outfit": "outfit.description + colors from swatches",
+        "swatches.skin": "visual_traits.skin_tone",
+        "swatches.hair": "visual_traits.hair_color",
+        "swatches.fabric": "outfit.primary_color + secondary_color"
+      }
+    }
+  },
+  
+  "api_endpoints": {
+    "description": "Backend API endpoints for visual asset operations",
+    
+    "generation": {
+      "POST /api/v1/characters/{id}/generate-wiki-art": {
+        "description": "Request wiki-quality art generation for a character",
+        "request": {
+          "variants": ["portrait", "fullbody", "expressions"],
+          "priority": "normal | high"
+        },
+        "response": {
+          "job_id": "string",
+          "estimated_time": "number"
+        }
+      },
+      
+      "POST /api/v1/characters/{id}/generate-tokens": {
+        "description": "Generate battle tokens from existing portrait",
+        "request": {
+          "sizes": [128, 64, 32],
+          "frame_style": "gold | silver | bronze | iron"
+        },
+        "response": {
+          "tokens": {
+            "large": "url",
+            "medium": "url",
+            "small": "url"
+          }
+        }
+      },
+      
+      "POST /api/v1/characters/{id}/generate-ascii": {
+        "description": "Generate ASCII art versions",
+        "request": {
+          "poses": ["idle", "attack", "defend"],
+          "style": "detailed | simple"
+        },
+        "response": {
+          "ascii_assets": {
+            "idle": "url",
+            "attack": "url",
+            "defend": "url"
+          }
+        }
+      }
+    },
+    
+    "retrieval": {
+      "GET /api/v1/characters/{id}/assets": {
+        "description": "Get all visual assets for a character",
+        "response": {
+          "wiki_art": {
+            "portrait": "url | null",
+            "fullbody": "url | null",
+            "expressions": "url | null"
+          },
+          "standard": {
+            "portrait": "url",
+            "thumbnail": "url"
+          },
+          "tokens": {
+            "battle": {"large": "url", "medium": "url", "small": "url"},
+            "map": "url"
+          },
+          "ascii": {
+            "idle": "url",
+            "attack": "url"
+          }
+        }
+      },
+      
+      "GET /api/v1/characters/{id}/assets/{quality}/{type}": {
+        "description": "Get specific asset by quality level and type",
+        "path_params": {
+          "quality": "wiki | standard | token | map | ascii",
+          "type": "portrait | fullbody | expressions | battle | idle | attack | etc"
+        }
+      }
+    }
+  },
+  
+  "storage_structure": {
+    "description": "File system organization for visual assets",
+    
+    "per_character": {
+      "pattern": "assets/characters/{char_id}/",
+      "structure": {
+        "wiki/": {
+          "portrait_{variant}_{seed}.png": "Wiki-quality portrait",
+          "portrait_{variant}_{seed}.json": "Sidecar metadata",
+          "fullbody_{variant}_{seed}.png": "Wiki-quality full-body",
+          "expressions_{seed}.png": "Expression sheet"
+        },
+        "standard/": {
+          "portrait.png": "Standard gameplay portrait",
+          "thumbnail.png": "Thumbnail version"
+        },
+        "tokens/": {
+          "battle_128.png": "Large battle token",
+          "battle_64.png": "Medium battle token",
+          "battle_32.png": "Small battle token",
+          "map_64.png": "Map token"
+        },
+        "ascii/": {
+          "idle.txt": "ASCII idle pose",
+          "attack.txt": "ASCII attack pose",
+          "defend.txt": "ASCII defend pose"
+        }
+      }
+    },
+    
+    "shared_assets": {
+      "pattern": "assets/shared/",
+      "structure": {
+        "frames/": "Token and portrait frames",
+        "backgrounds/": "Combat and UI backgrounds",
+        "effects/": "Visual effect overlays",
+        "ui/": "General UI elements"
+      }
+    }
+  },
+  
+  "implementation_notes": {
+    "priority_order": [
+      "1. Standard gameplay assets (immediate - layer compositing)",
+      "2. Battle tokens (quick - crop and frame)",
+      "3. ASCII art (background - conversion)",
+      "4. Wiki detailed art (on-demand - ComfyUI generation)"
+    ],
+    
+    "caching_strategy": {
+      "standard_assets": "Cache indefinitely, regenerate on appearance change",
+      "wiki_assets": "Cache indefinitely, manual regeneration only",
+      "tokens": "Cache indefinitely, regenerate from source on change",
+      "ascii": "Cache with TTL, regenerate on source change"
+    },
+    
+    "fallback_chain": {
+      "description": "If higher quality not available, fall back to lower",
+      "chain": [
+        "wiki_detailed → standard_gameplay → battle_tokens → ascii"
+      ]
+    }
+  }
+}

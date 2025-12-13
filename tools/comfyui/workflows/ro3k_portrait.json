@@ -1,0 +1,256 @@
+{
+  "name": "Romance of Three Kingdoms Portrait - VN Character",
+  "description": "Generate VN character portraits (bust/half-body) in Romance of Three Kingdoms painted style. Outputs high-quality portraits with optional transparent background.",
+  "version": "1.0.0",
+  "workflow_type": "ro3k_portrait",
+  
+  "style_reference": {
+    "primary_inspiration": "Romance of Three Kingdoms game series (KOEI Tecmo), Dynasty Warriors, Sangokushi",
+    "visual_characteristics": {
+      "portrait_style": "Semi-realistic painted illustration, heroic historical-fantasy tone",
+      "lighting": "Warm cinematic lighting with gold/amber tones, high contrast, luminous rim light",
+      "detail_level": "Strong facial structure, expressive brows, period-appropriate features",
+      "clothing": "Layered robes/armor with embossed trim, muted jewel tones"
+    }
+  },
+  
+  "parameters": {
+    "character_description": {
+      "type": "string",
+      "required": true,
+      "description": "Description of the character (role, personality traits)"
+    },
+    "faction_color": {
+      "type": "enum",
+      "options": ["imperial_red_gold", "jade_green", "deep_blue", "bronze_copper", "purple_gold", "white_silver", "dark_black"],
+      "default": "imperial_red_gold",
+      "description": "Primary color accent for armor/robes"
+    },
+    "age_category": {
+      "type": "enum",
+      "options": ["youth", "young_adult", "middle_aged", "elder", "ancient"],
+      "default": "young_adult"
+    },
+    "facial_hair": {
+      "type": "enum",
+      "options": ["clean_shaven", "short_beard", "long_beard", "thin_mustache", "full_mustache_beard"],
+      "default": "clean_shaven"
+    },
+    "armor_type": {
+      "type": "enum",
+      "options": ["ornate_plate_armor", "general_cape_armor", "scholar_robes", "cultivation_robes", "noble_court_dress", "warrior_light_armor"],
+      "default": "ornate_plate_armor"
+    },
+    "mood": {
+      "type": "enum",
+      "options": ["calm_neutral", "determined_resolute", "wise_contemplative", "fierce_battle_ready", "scheming_cunning", "compassionate_kind", "sorrowful", "joyful"],
+      "default": "calm_neutral"
+    },
+    "gender": {
+      "type": "enum",
+      "options": ["male", "female"],
+      "required": true
+    },
+    "seed": {
+      "type": "integer",
+      "default": -1,
+      "description": "Random seed for reproducibility. -1 for random."
+    },
+    "use_ip_adapter_style": {
+      "type": "boolean",
+      "default": false,
+      "description": "Toggle IP-Adapter style conditioning (requires style reference image)"
+    },
+    "enable_background_removal": {
+      "type": "boolean",
+      "default": false,
+      "description": "Output with transparent background"
+    }
+  },
+  
+  "style_prompt_block": "Romance of Three Kingdoms game art, KOEI Tecmo quality, Dynasty Warriors aesthetic, semi-realistic painted illustration, heroic historical-fantasy tone, warm cinematic lighting with gold and amber tones, high contrast, luminous rim light, painterly soft gradients, Yuto Sano inspired, Han dynasty aesthetic, wuxia fantasy, professional game illustration, AAA game character art, 8k, masterpiece, best quality",
+  
+  "negative_prompt_block": "modern clothing, contemporary fashion, anime cel shading, photoreal uncanny skin, oversharp outlines, logo text, watermark stamps, signature, brand marks, blurry, low quality, amateur, bad anatomy, ugly, deformed, disfigured, extra limbs, mutated, western cartoon style, chibi, super deformed, nsfw, nude, text overlays",
+  
+  "prompt_templates": {
+    "composition": "portrait bust, upper body centered, facing slightly 3/4 view, clean background gradient, dramatic lighting from upper left",
+    
+    "faction_colors": {
+      "imperial_red_gold": "imperial red and gold accents, dragon motifs",
+      "jade_green": "jade green and white accents, scholarly elegance",
+      "deep_blue": "deep blue and silver accents, calm authority",
+      "bronze_copper": "bronze and copper tones, earthy warrior",
+      "purple_gold": "purple and gold accents, ambitious nobility",
+      "white_silver": "pristine white and silver, heroic purity",
+      "dark_black": "dark black and crimson accents, mysterious power"
+    },
+    
+    "age_modifiers": {
+      "youth": "youthful features, smooth skin, bright eager eyes, age 16-22",
+      "young_adult": "mature prime features, confident bearing, age 23-35",
+      "middle_aged": "experienced features, some character lines, distinguished, age 36-50",
+      "elder": "aged dignified features, gray hair, wisdom lines, venerable, age 51-70",
+      "ancient": "very aged, white hair, deeply weathered skin, ancient wisdom, age 70+"
+    },
+    
+    "facial_hair_modifiers": {
+      "clean_shaven": "clean-shaven, smooth jaw",
+      "short_beard": "short trimmed beard, well-groomed",
+      "long_beard": "long flowing majestic beard, dignified",
+      "thin_mustache": "thin elegant mustache",
+      "full_mustache_beard": "full magnificent beard and mustache, imposing"
+    },
+    
+    "armor_modifiers": {
+      "ornate_plate_armor": "ornate plate armor with embossed patterns, pauldrons, detailed metalwork",
+      "general_cape_armor": "general's armor with flowing cape, military insignia, commanding presence",
+      "scholar_robes": "elegant scholar's flowing robes, refined fabric, intellectual bearing",
+      "cultivation_robes": "mystical cultivation robes, ethereal quality, sect symbols",
+      "noble_court_dress": "refined nobleman's court dress, silk brocade, understated elegance",
+      "warrior_light_armor": "practical light armor, agile warrior appearance, leather and metal"
+    },
+    
+    "mood_modifiers": {
+      "calm_neutral": "calm neutral expression, composed demeanor",
+      "determined_resolute": "determined resolute gaze, set jaw, unwavering focus",
+      "wise_contemplative": "wise contemplative look, thoughtful eyes, inner wisdom",
+      "fierce_battle_ready": "fierce battle-ready intensity, warrior spirit, ready for combat",
+      "scheming_cunning": "sly calculating expression, narrowed eyes, strategic mind",
+      "compassionate_kind": "gentle compassionate expression, warm eyes, benevolent",
+      "sorrowful": "melancholic expression, weight of burden, dignified sadness",
+      "joyful": "warm genuine smile, bright eyes, celebratory mood"
+    },
+    
+    "gender_modifiers": {
+      "male": "masculine features, strong jawline, appropriate male physique",
+      "female": "feminine features, elegant build, refined feminine characteristics"
+    }
+  },
+  
+  "output_specifications": {
+    "sizes": {
+      "standard": {"width": 832, "height": 1216},
+      "large": {"width": 1024, "height": 1536}
+    },
+    "format": "png",
+    "transparency": "optional (via background removal)",
+    "naming_convention": "portraits/{char_id}_{variant}_{seed}.png"
+  },
+  
+  "workflow_nodes": {
+    "1": {
+      "class_type": "CheckpointLoaderSimple",
+      "inputs": {
+        "ckpt_name": "{CHECKPOINT_NAME}"
+      },
+      "_meta": {"title": "Load Checkpoint"}
+    },
+    "2": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{POSITIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Positive)"}
+    },
+    "3": {
+      "class_type": "CLIPTextEncode",
+      "inputs": {
+        "text": "{NEGATIVE_PROMPT}",
+        "clip": ["1", 1]
+      },
+      "_meta": {"title": "CLIP Text Encode (Negative)"}
+    },
+    "4": {
+      "class_type": "EmptyLatentImage",
+      "inputs": {
+        "width": 832,
+        "height": 1216,
+        "batch_size": 1
+      },
+      "_meta": {"title": "Empty Latent Image"}
+    },
+    "5": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 28,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 1.0,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["4", 0]
+      },
+      "_meta": {"title": "KSampler"}
+    },
+    "6": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["5", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode"}
+    },
+    "7": {
+      "class_type": "ImageScaleBy",
+      "inputs": {
+        "image": ["6", 0],
+        "upscale_method": "lanczos",
+        "scale_by": 1.5
+      },
+      "_meta": {"title": "Upscale (HiRes Fix)"}
+    },
+    "8": {
+      "class_type": "KSampler",
+      "inputs": {
+        "seed": "{SEED}",
+        "steps": 15,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m",
+        "scheduler": "karras",
+        "denoise": 0.45,
+        "model": ["1", 0],
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["10", 0]
+      },
+      "_meta": {"title": "KSampler (HiRes)"}
+    },
+    "9": {
+      "class_type": "VAEDecode",
+      "inputs": {
+        "samples": ["8", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Decode (Final)"}
+    },
+    "10": {
+      "class_type": "VAEEncode",
+      "inputs": {
+        "pixels": ["7", 0],
+        "vae": ["1", 2]
+      },
+      "_meta": {"title": "VAE Encode (for HiRes)"}
+    },
+    "11": {
+      "class_type": "SaveImage",
+      "inputs": {
+        "filename_prefix": "ro3k_portrait",
+        "images": ["9", 0]
+      },
+      "_meta": {"title": "Save Image"}
+    }
+  },
+  
+  "workflow_notes": "This workflow generates VN character portraits with a two-pass approach: initial generation followed by HiRes fix for detail enhancement. Replace {VARIABLES} with actual values before submission. For IP-Adapter style conditioning, additional nodes would be inserted between nodes 1 and 2.",
+  
+  "post_processing": {
+    "filmic_contrast": true,
+    "warm_color_balance": true,
+    "vignette_strength": 0.2,
+    "sharpening": "subtle"
+  }
+}

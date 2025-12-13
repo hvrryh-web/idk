@@ -1,0 +1,339 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "name": "WuXuxian TTRPG Asset Manifest",
+  "description": "Example manifest for batch asset generation using ComfyUI workflows",
+  "version": "1.0.0",
+  "generated_at": "2024-12-12T00:00:00Z",
+  
+  "settings": {
+    "output_base_dir": "../frontend/public/assets/generated",
+    "comfyui_url": "http://localhost:8188",
+    "checkpoint": "animagine-xl-3.1.safetensors",
+    "default_seed": -1,
+    "save_metadata_sidecar": true
+  },
+  
+  "advisor_character": {
+    "id": "zhou_xu",
+    "name": "Divine Advisor: Zhou Xu",
+    "workflow": "ro3k_advisor_zhou_xu.json",
+    "priority": 1,
+    "assets": [
+      {
+        "id": "zhou_xu_standing_full",
+        "type": "full_body",
+        "expression": "welcoming",
+        "size": {"width": 1024, "height": 2048},
+        "output": "advisor/zhou_xu_standing_welcoming.png",
+        "seed": 42857001,
+        "prompt_overrides": {
+          "pose": "standing gracefully, full body view, feather fan in hand"
+        }
+      },
+      {
+        "id": "zhou_xu_bust_welcoming",
+        "type": "bust",
+        "expression": "welcoming",
+        "size": {"width": 256, "height": 384},
+        "output": "advisor/zhou_xu_bust_welcoming.png",
+        "seed": 42857002
+      },
+      {
+        "id": "zhou_xu_bust_explaining",
+        "type": "bust",
+        "expression": "explaining",
+        "size": {"width": 256, "height": 384},
+        "output": "advisor/zhou_xu_bust_explaining.png",
+        "seed": 42857003
+      },
+      {
+        "id": "zhou_xu_bust_thinking",
+        "type": "bust",
+        "expression": "thinking",
+        "size": {"width": 256, "height": 384},
+        "output": "advisor/zhou_xu_bust_thinking.png",
+        "seed": 42857004
+      },
+      {
+        "id": "zhou_xu_bust_pleased",
+        "type": "bust",
+        "expression": "pleased",
+        "size": {"width": 256, "height": 384},
+        "output": "advisor/zhou_xu_bust_pleased.png",
+        "seed": 42857005
+      },
+      {
+        "id": "zhou_xu_avatar_small",
+        "type": "avatar",
+        "expression": "welcoming",
+        "size": {"width": 128, "height": 128},
+        "output": "advisor/zhou_xu_avatar.png",
+        "seed": 42857006
+      }
+    ]
+  },
+  
+  "characters": [
+    {
+      "id": "general_001",
+      "name": "Veteran General",
+      "category": "military",
+      "archetype": "general_elite",
+      "workflow": "ro3k_portrait.json",
+      "priority": 2,
+      "variants": [
+        {
+          "id": "general_001_neutral",
+          "gender": "male",
+          "age": "middle_aged",
+          "expression": "calm_neutral",
+          "faction_color": "imperial_red_gold",
+          "armor_type": "general_cape_armor",
+          "seed": 10001001,
+          "output": "portraits/general_001_neutral.png"
+        },
+        {
+          "id": "general_001_battle",
+          "gender": "male",
+          "age": "middle_aged",
+          "expression": "fierce_battle_ready",
+          "faction_color": "imperial_red_gold",
+          "armor_type": "general_cape_armor",
+          "seed": 10001002,
+          "output": "portraits/general_001_battle.png"
+        }
+      ]
+    },
+    {
+      "id": "strategist_001",
+      "name": "Grand Strategist",
+      "category": "scholars",
+      "archetype": "grand_strategist",
+      "workflow": "ro3k_portrait.json",
+      "priority": 2,
+      "variants": [
+        {
+          "id": "strategist_001_neutral",
+          "gender": "male",
+          "age": "young_adult",
+          "expression": "wise_contemplative",
+          "faction_color": "jade_green",
+          "armor_type": "scholar_robes",
+          "seed": 10002001,
+          "output": "portraits/strategist_001_neutral.png"
+        },
+        {
+          "id": "strategist_001_scheming",
+          "gender": "male",
+          "age": "young_adult",
+          "expression": "scheming_cunning",
+          "faction_color": "jade_green",
+          "armor_type": "scholar_robes",
+          "seed": 10002002,
+          "output": "portraits/strategist_001_scheming.png"
+        }
+      ]
+    },
+    {
+      "id": "noble_lady_001",
+      "name": "Court Lady",
+      "category": "nobility",
+      "archetype": "noble_heir",
+      "workflow": "ro3k_portrait.json",
+      "priority": 3,
+      "variants": [
+        {
+          "id": "noble_lady_001_neutral",
+          "gender": "female",
+          "age": "young_adult",
+          "expression": "calm_neutral",
+          "faction_color": "purple_gold",
+          "armor_type": "noble_court_dress",
+          "seed": 10003001,
+          "output": "portraits/noble_lady_001_neutral.png"
+        }
+      ]
+    }
+  ],
+  
+  "scenes": [
+    {
+      "id": "poster_brotherhood",
+      "name": "Oath of Brotherhood",
+      "workflow": "ro3k_group_poster.json",
+      "priority": 2,
+      "setting": "peach_garden",
+      "mood": "brotherhood",
+      "description": "Three sworn brothers taking their legendary oath",
+      "seed": 20001001,
+      "output": "posters/oath_brotherhood.png"
+    },
+    {
+      "id": "poster_war_council",
+      "name": "Strategic War Council",
+      "workflow": "ro3k_group_poster.json",
+      "priority": 3,
+      "setting": "war_council",
+      "mood": "tense_dramatic",
+      "description": "Advisors and generals planning a crucial campaign",
+      "seed": 20001002,
+      "output": "posters/war_council.png"
+    }
+  ],
+  
+  "backgrounds": [
+    {
+      "id": "bg_throne_room",
+      "name": "Imperial Throne Room",
+      "workflow": "ro3k_bg_environment.json",
+      "priority": 2,
+      "environment_type": "palace_throne_room",
+      "time_of_day": "afternoon",
+      "weather": "clear",
+      "mood": "tense",
+      "seed": 30001001,
+      "outputs": [
+        {"size": "hd", "path": "backgrounds/throne_room_hd.png"},
+        {"size": "qhd", "path": "backgrounds/throne_room_qhd.png"}
+      ]
+    },
+    {
+      "id": "bg_battlefield",
+      "name": "Epic Battlefield",
+      "workflow": "ro3k_bg_environment.json",
+      "priority": 2,
+      "environment_type": "battlefield_plains",
+      "time_of_day": "golden_hour",
+      "weather": "cloudy",
+      "mood": "epic_heroic",
+      "seed": 30001002,
+      "outputs": [
+        {"size": "hd", "path": "backgrounds/battlefield_hd.png"}
+      ]
+    },
+    {
+      "id": "bg_teahouse",
+      "name": "Teahouse Interior",
+      "workflow": "ro3k_bg_environment.json",
+      "priority": 3,
+      "environment_type": "teahouse_interior",
+      "time_of_day": "afternoon",
+      "weather": "clear",
+      "mood": "peaceful",
+      "seed": 30001003,
+      "outputs": [
+        {"size": "hd", "path": "backgrounds/teahouse_hd.png"}
+      ]
+    },
+    {
+      "id": "bg_mountain_pass",
+      "name": "Misty Mountain Pass",
+      "workflow": "ro3k_bg_environment.json",
+      "priority": 3,
+      "environment_type": "mountain_pass",
+      "time_of_day": "dawn",
+      "weather": "misty",
+      "mood": "mysterious",
+      "seed": 30001004,
+      "outputs": [
+        {"size": "hd", "path": "backgrounds/mountain_pass_hd.png"}
+      ]
+    }
+  ],
+  
+  "ui_elements": [
+    {
+      "id": "ui_corner_dragon",
+      "name": "Dragon Corner Ornament",
+      "workflow": "ro3k_ui_motifs.json",
+      "priority": 1,
+      "asset_type": "corner_ornament",
+      "material_style": "bronze_gold",
+      "motif": "dragon",
+      "complexity": "ornate",
+      "seed": 40001001,
+      "output": "ui/corners/dragon_corner.png"
+    },
+    {
+      "id": "ui_panel_parchment",
+      "name": "Parchment Panel Background",
+      "workflow": "ro3k_ui_motifs.json",
+      "priority": 1,
+      "asset_type": "panel_background",
+      "material_style": "parchment",
+      "motif": "plain_elegant",
+      "complexity": "simple",
+      "seed": 40001002,
+      "output": "ui/panels/parchment_bg.png"
+    },
+    {
+      "id": "ui_medallion_seal",
+      "name": "Official Seal Medallion",
+      "workflow": "ro3k_ui_motifs.json",
+      "priority": 2,
+      "asset_type": "medallion_seal",
+      "material_style": "jade_green",
+      "motif": "character_seal",
+      "complexity": "moderate",
+      "seed": 40001003,
+      "output": "ui/medallions/jade_seal.png"
+    },
+    {
+      "id": "ui_border_wave",
+      "name": "Wave Pattern Border",
+      "workflow": "ro3k_ui_motifs.json",
+      "priority": 2,
+      "asset_type": "border_horizontal",
+      "material_style": "bronze_gold",
+      "motif": "wave",
+      "complexity": "moderate",
+      "tileable": true,
+      "seed": 40001004,
+      "output": "ui/borders/wave_border.png"
+    },
+    {
+      "id": "ui_advisor_frame",
+      "name": "Advisor UI Frame (Zhou Xu themed)",
+      "workflow": "ro3k_ui_motifs.json",
+      "priority": 1,
+      "asset_type": "panel_background",
+      "material_style": "bronze_gold",
+      "motif": "wave",
+      "complexity": "ornate",
+      "seed": 40001005,
+      "output": "ui/advisor/advisor_frame.png",
+      "notes": "Uses navy blue and gold to match Zhou Xu color scheme"
+    }
+  ],
+  
+  "generation_order": {
+    "description": "Assets grouped by priority for generation queue",
+    "priority_1": [
+      "zhou_xu (all variants)",
+      "ui_corner_dragon",
+      "ui_panel_parchment",
+      "ui_advisor_frame"
+    ],
+    "priority_2": [
+      "general_001 (all variants)",
+      "strategist_001 (all variants)",
+      "poster_brotherhood",
+      "bg_throne_room",
+      "bg_battlefield"
+    ],
+    "priority_3": [
+      "noble_lady_001",
+      "poster_war_council",
+      "bg_teahouse",
+      "bg_mountain_pass",
+      "remaining ui elements"
+    ]
+  },
+  
+  "metadata": {
+    "total_assets": 28,
+    "estimated_generation_time_minutes": 85,
+    "disk_usage_estimate_mb": 450,
+    "last_updated": "2024-12-12"
+  }
+}

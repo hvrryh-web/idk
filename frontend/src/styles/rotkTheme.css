@@ -1,0 +1,471 @@
+/**
+ * Romance of the Three Kingdoms (ROTK) Theme CSS Variables
+ * 
+ * CSS custom properties for the period-piece Chinese aesthetic theme.
+ * Import this file in your root stylesheet to use these variables.
+ * 
+ * @see docs/UI_STYLE_GUIDE.md for complete documentation
+ */
+
+:root {
+  /* ============================================
+     PRIMARY COLORS - ORNAMENTAL
+     ============================================ */
+  
+  --rotk-gold: #D4AF37;
+  --rotk-gold-light: #F5D48A;
+  --rotk-gold-dark: #B8960F;
+  --rotk-bronze: #CD7F32;
+  --rotk-bronze-light: #E6A55C;
+  --rotk-bronze-dark: #A66628;
+  
+  /* ============================================
+     CINNABAR / LACQUER REDS
+     ============================================ */
+  
+  --rotk-cinnabar: #C41E3A;
+  --rotk-cinnabar-light: #E85C73;
+  --rotk-cinnabar-dark: #8B0000;
+  --rotk-lacquer: #990000;
+  
+  /* ============================================
+     JADE GREENS
+     ============================================ */
+  
+  --rotk-jade: #00A86B;
+  --rotk-jade-light: #3FD99B;
+  --rotk-jade-dark: #006B3F;
+  
+  /* ============================================
+     INK / NEUTRALS
+     ============================================ */
+  
+  --rotk-ink-black: #1A1A1A;
+  --rotk-charcoal: #2D2D2D;
+  --rotk-ink-gray: #424242;
+  --rotk-ink-wash: #757575;
+  
+  /* ============================================
+     PARCHMENT / PAPER
+     ============================================ */
+  
+  --rotk-parchment: #FDF6E3;
+  --rotk-parchment-aged: #D4C5A9;
+  --rotk-parchment-dark: #BEB19A;
+  
+  /* ============================================
+     COOL BLUE (SECONDARY)
+     ============================================ */
+  
+  --rotk-blue: #4682B4;
+  --rotk-blue-light: #6FA3CF;
+  --rotk-blue-dark: #2E5C7B;
+  
+  /* ============================================
+     STATUS COLORS
+     ============================================ */
+  
+  --rotk-hp: #8B0000;
+  --rotk-hp-light: #CC3333;
+  --rotk-ae: #4169E1;
+  --rotk-ae-light: #6B8DEF;
+  --rotk-guard: #C0C0C0;
+  --rotk-strain: #DAA520;
+  --rotk-strain-light: #F0C040;
+  
+  /* ============================================
+     GHOST / SPIRIT (for effects)
+     ============================================ */
+  
+  --rotk-ghost-white: #E8E8E8;
+  --rotk-bone-white: #F5F5DC;
+  
+  /* ============================================
+     GRADIENTS
+     ============================================ */
+  
+  --rotk-gradient-gold: linear-gradient(135deg, #D4AF37 0%, #CD7F32 100%);
+  --rotk-gradient-gold-horizontal: linear-gradient(90deg, #CD7F32 0%, #D4AF37 50%, #CD7F32 100%);
+  --rotk-gradient-gold-shimmer: linear-gradient(90deg, #D4AF37 0%, #F5D48A 25%, #D4AF37 50%, #F5D48A 75%, #D4AF37 100%);
+  --rotk-gradient-cinnabar: linear-gradient(135deg, #C41E3A 0%, #8B0000 100%);
+  --rotk-gradient-cinnabar-vertical: linear-gradient(180deg, #C41E3A 0%, #8B0000 100%);
+  --rotk-gradient-jade: linear-gradient(135deg, #00A86B 0%, #006B3F 100%);
+  --rotk-gradient-parchment: linear-gradient(135deg, #FDF6E3 0%, #D4C5A9 100%);
+  --rotk-gradient-parchment-vertical: linear-gradient(180deg, #FDF6E3 0%, #D4C5A9 100%);
+  --rotk-gradient-ink: linear-gradient(180deg, #1A1A1A 0%, #424242 50%, #757575 100%);
+  --rotk-gradient-ink-radial: radial-gradient(ellipse at center, #2D2D2D 0%, #1A1A1A 100%);
+  
+  /* Bar Gradients */
+  --rotk-gradient-hp: linear-gradient(90deg, #8B0000 0%, #CC3333 50%, #8B0000 100%);
+  --rotk-gradient-ae: linear-gradient(90deg, #4169E1 0%, #6B8DEF 50%, #4169E1 100%);
+  --rotk-gradient-guard: linear-gradient(90deg, #A0A0A0 0%, #C0C0C0 50%, #A0A0A0 100%);
+  --rotk-gradient-strain: linear-gradient(90deg, #B8860B 0%, #DAA520 50%, #B8860B 100%);
+  
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  
+  --rotk-font-heading: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --rotk-font-heading-cjk: 'Noto Serif SC', SimSun, serif;
+  --rotk-font-body: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --rotk-font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --rotk-font-damage: 'Cinzel', Georgia, serif;
+  
+  /* Font Sizes */
+  --rotk-text-xs: 0.75rem;
+  --rotk-text-sm: 0.875rem;
+  --rotk-text-base: 1rem;
+  --rotk-text-lg: 1.25rem;
+  --rotk-text-xl: 1.5rem;
+  --rotk-text-2xl: 2rem;
+  --rotk-text-3xl: 2.5rem;
+  --rotk-text-4xl: 3rem;
+  --rotk-text-5xl: 4rem;
+  
+  /* Font Weights */
+  --rotk-font-normal: 400;
+  --rotk-font-medium: 500;
+  --rotk-font-semibold: 600;
+  --rotk-font-bold: 700;
+  --rotk-font-extrabold: 800;
+  
+  /* Line Heights */
+  --rotk-leading-tight: 1.25;
+  --rotk-leading-normal: 1.5;
+  --rotk-leading-relaxed: 1.75;
+  --rotk-leading-loose: 2;
+  
+  /* ============================================
+     SPACING
+     ============================================ */
+  
+  --rotk-space-1: 0.25rem;
+  --rotk-space-2: 0.5rem;
+  --rotk-space-3: 0.75rem;
+  --rotk-space-4: 1rem;
+  --rotk-space-5: 1.25rem;
+  --rotk-space-6: 1.5rem;
+  --rotk-space-8: 2rem;
+  --rotk-space-10: 2.5rem;
+  --rotk-space-12: 3rem;
+  --rotk-space-16: 4rem;
+  --rotk-space-20: 5rem;
+  
+  /* ============================================
+     BORDERS
+     ============================================ */
+  
+  --rotk-border-sm: 1px;
+  --rotk-border-md: 2px;
+  --rotk-border-lg: 3px;
+  --rotk-border-xl: 4px;
+  
+  --rotk-radius-none: 0;
+  --rotk-radius-sm: 2px;
+  --rotk-radius-md: 4px;
+  --rotk-radius-lg: 8px;
+  --rotk-radius-xl: 12px;
+  --rotk-radius-full: 9999px;
+  
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  
+  /* Panel Shadows */
+  --rotk-shadow-base: 0 2px 4px rgba(0,0,0,0.1);
+  --rotk-shadow-raised: 0 4px 8px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.1);
+  --rotk-shadow-elevated: 0 8px 16px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.1);
+  --rotk-shadow-floating: 0 16px 32px rgba(0,0,0,0.25), 0 8px 16px rgba(0,0,0,0.15);
+  
+  /* Inner Shadows */
+  --rotk-shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
+  --rotk-shadow-inner-deep: inset 0 4px 8px rgba(0,0,0,0.1);
+  
+  /* Glow Effects */
+  --rotk-glow-gold: 0 0 10px rgba(212, 175, 55, 0.4), 0 0 20px rgba(212, 175, 55, 0.2);
+  --rotk-glow-cinnabar: 0 0 10px rgba(196, 30, 58, 0.4), 0 0 20px rgba(196, 30, 58, 0.2);
+  --rotk-glow-jade: 0 0 10px rgba(0, 168, 107, 0.4), 0 0 20px rgba(0, 168, 107, 0.2);
+  
+  /* Text Shadows */
+  --rotk-text-shadow-dark: 0 2px 4px rgba(0,0,0,0.5);
+  --rotk-text-shadow-light: 0 1px 2px rgba(255,255,255,0.5);
+  
+  /* ============================================
+     ANIMATION
+     ============================================ */
+  
+  --rotk-duration-fast: 150ms;
+  --rotk-duration-base: 250ms;
+  --rotk-duration-slow: 400ms;
+  --rotk-duration-shimmer: 3s;
+  
+  --rotk-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --rotk-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --rotk-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --rotk-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  
+  --rotk-z-base: 0;
+  --rotk-z-hud: 10;
+  --rotk-z-dropdown: 20;
+  --rotk-z-sticky: 30;
+  --rotk-z-modal: 40;
+  --rotk-z-popover: 50;
+  --rotk-z-tooltip: 60;
+  --rotk-z-notification: 70;
+  --rotk-z-overlay: 80;
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+@keyframes rotk-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes rotk-damage-float {
+  0% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: translateY(-20px) scale(1.1); 
+  }
+  100% { 
+    opacity: 0; 
+    transform: translateY(-40px) scale(0.9); 
+  }
+}
+
+@keyframes rotk-damage-critical {
+  0% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1.2); 
+    color: var(--rotk-gold);
+  }
+  25% {
+    transform: translateY(-10px) scale(1.4);
+  }
+  50% { 
+    opacity: 1; 
+    transform: translateY(-25px) scale(1.3); 
+  }
+  100% { 
+    opacity: 0; 
+    transform: translateY(-50px) scale(1); 
+  }
+}
+
+@keyframes rotk-heal-float {
+  0% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+    color: var(--rotk-jade);
+  }
+  50% { 
+    opacity: 1; 
+    transform: translateY(-15px) scale(1.05); 
+  }
+  100% { 
+    opacity: 0; 
+    transform: translateY(-30px) scale(0.95); 
+  }
+}
+
+@keyframes rotk-panel-enter {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.95) translateY(10px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+@keyframes rotk-panel-exit {
+  0% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+  100% { 
+    opacity: 0; 
+    transform: scale(0.95) translateY(10px); 
+  }
+}
+
+@keyframes rotk-brush-reveal {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes rotk-pulse-glow {
+  0%, 100% { 
+    box-shadow: var(--rotk-glow-gold); 
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.6), 0 0 40px rgba(212, 175, 55, 0.3); 
+  }
+}
+
+@keyframes rotk-hit-flash {
+  0% { 
+    filter: brightness(1); 
+  }
+  50% { 
+    filter: brightness(2); 
+  }
+  100% { 
+    filter: brightness(1); 
+  }
+}
+
+@keyframes rotk-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Panel Variants */
+.rotk-panel-parchment {
+  background: var(--rotk-gradient-parchment);
+  border: var(--rotk-border-md) solid var(--rotk-bronze);
+  border-radius: var(--rotk-radius-md);
+  box-shadow: var(--rotk-shadow-raised);
+  padding: var(--rotk-space-6);
+  color: var(--rotk-ink-black);
+}
+
+.rotk-panel-lacquer {
+  background: var(--rotk-gradient-cinnabar);
+  border: var(--rotk-border-md) solid var(--rotk-gold);
+  border-radius: var(--rotk-radius-md);
+  box-shadow: var(--rotk-shadow-raised), inset 0 1px 0 rgba(255,255,255,0.1);
+  padding: var(--rotk-space-6);
+  color: var(--rotk-parchment);
+}
+
+.rotk-panel-ink {
+  background: var(--rotk-ink-black);
+  border: var(--rotk-border-sm) solid var(--rotk-bronze);
+  border-radius: var(--rotk-radius-md);
+  box-shadow: var(--rotk-shadow-elevated);
+  padding: var(--rotk-space-6);
+  color: var(--rotk-parchment);
+}
+
+/* Frame with bronze corners */
+.rotk-frame-bronze {
+  position: relative;
+  border: var(--rotk-border-lg) solid var(--rotk-bronze);
+  box-shadow: 0 0 0 1px var(--rotk-ink-black), var(--rotk-shadow-raised);
+}
+
+/* Gold shimmer effect */
+.rotk-shimmer {
+  background: var(--rotk-gradient-gold-shimmer);
+  background-size: 200% 100%;
+  animation: rotk-shimmer var(--rotk-duration-shimmer) ease-in-out infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Gold text */
+.rotk-text-gold {
+  color: var(--rotk-gold);
+  text-shadow: var(--rotk-text-shadow-dark);
+}
+
+/* Cinnabar text */
+.rotk-text-cinnabar {
+  color: var(--rotk-cinnabar);
+  text-shadow: var(--rotk-text-shadow-dark);
+}
+
+/* Jade text */
+.rotk-text-jade {
+  color: var(--rotk-jade);
+  text-shadow: var(--rotk-text-shadow-dark);
+}
+
+/* Parchment text (for dark backgrounds) */
+.rotk-text-parchment {
+  color: var(--rotk-parchment);
+  text-shadow: var(--rotk-text-shadow-dark);
+}
+
+/* Heading font */
+.rotk-heading {
+  font-family: var(--rotk-font-heading);
+  font-weight: var(--rotk-font-bold);
+  letter-spacing: 0.05em;
+}
+
+/* CJK Heading font */
+.rotk-heading-cjk {
+  font-family: var(--rotk-font-heading-cjk);
+  font-weight: var(--rotk-font-bold);
+}
+
+/* Damage number styling */
+.rotk-damage-number {
+  font-family: var(--rotk-font-damage);
+  font-weight: var(--rotk-font-extrabold);
+  font-size: var(--rotk-text-3xl);
+  color: var(--rotk-cinnabar);
+  text-shadow: 
+    0 0 10px var(--rotk-cinnabar-dark),
+    2px 2px 0 var(--rotk-ink-black),
+    -2px -2px 0 var(--rotk-ink-black),
+    2px -2px 0 var(--rotk-ink-black),
+    -2px 2px 0 var(--rotk-ink-black);
+  animation: rotk-damage-float 1s var(--rotk-ease-out) forwards;
+}
+
+.rotk-damage-number.critical {
+  font-size: var(--rotk-text-4xl);
+  color: var(--rotk-gold);
+  animation: rotk-damage-critical 1.2s var(--rotk-ease-out) forwards;
+}
+
+/* Heal number styling */
+.rotk-heal-number {
+  font-family: var(--rotk-font-damage);
+  font-weight: var(--rotk-font-extrabold);
+  font-size: var(--rotk-text-3xl);
+  color: var(--rotk-jade);
+  text-shadow: 
+    0 0 10px var(--rotk-jade-dark),
+    2px 2px 0 var(--rotk-ink-black),
+    -2px -2px 0 var(--rotk-ink-black),
+    2px -2px 0 var(--rotk-ink-black),
+    -2px 2px 0 var(--rotk-ink-black);
+  animation: rotk-heal-float 1s var(--rotk-ease-out) forwards;
+}
+
+/* Ink wash overlay */
+.rotk-overlay-ink {
+  background: radial-gradient(ellipse at top, rgba(26,26,26,0.8), rgba(26,26,26,0.95));
+}
+
+/* Transition utilities */
+.rotk-transition-fast {
+  transition: all var(--rotk-duration-fast) var(--rotk-ease-out);
+}
+
+.rotk-transition-base {
+  transition: all var(--rotk-duration-base) var(--rotk-ease-out);
+}
+
+.rotk-transition-slow {
+  transition: all var(--rotk-duration-slow) var(--rotk-ease-in-out);
+}

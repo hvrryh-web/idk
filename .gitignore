@@ -25,3 +25,8 @@ tools/comfyui/output/
 generated/
 embeddings/
 *.onnx
+*.safetensors
+*.ckpt
+
+# Wiki character art outputs (generated)
+wiki_assets/
