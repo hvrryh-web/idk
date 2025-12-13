@@ -116,6 +116,13 @@ export interface CombatantState {
   spd_band: string;
   technique_ids?: string[];
   conditions?: string[];
+  scl?: number;
+  sequence_band?: string;
+  cost_tracks?: {
+    blood?: { current: number; maximum: number };
+    fate?: { current: number; maximum: number };
+    stain?: { current: number; maximum: number };
+  };
 }
 
 export interface CombatState {

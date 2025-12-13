@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { createCharacter, fetchCharacters } from "../api";
 import type { Character } from "../types";
-import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog } from "lucide-react";
+import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog, Swords } from "lucide-react";
 import Button from "../components/Button";
 import GameScreen from "../components/GameScreen";
 import ChatBox from "../components/ChatBox";
@@ -56,6 +56,7 @@ export default function GameRoom() {
   const [showMenu, setShowMenu] = useState(false);
   const [templateStatus, setTemplateStatus] = useState<string | null>(null);
   const [templateError, setTemplateError] = useState<string | null>(null);
+  const [combatLoading, setCombatLoading] = useState(false);
 
   useEffect(() => {
     loadCharacters();
@@ -88,6 +89,25 @@ export default function GameRoom() {
       alert("No characters available. Please create a character first.");
     } finally {
       setTemplateStatus(null);
+    }
+  };
+
+  const handleStartCombat = async () => {
+    if (characters.length === 0) {
+      alert("You need at least one character to start combat. Create a character first.");
+      return;
+    }
+
+    try {
+      setCombatLoading(true);
+      // Navigate to combat-test which has mock enemies
+      // In future, this could select from boss templates dynamically
+      navigate("/combat-test");
+    } catch (error) {
+      console.error("Failed to start combat:", error);
+      alert("Failed to start combat. Please try again.");
+    } finally {
+      setCombatLoading(false);
     }
   };
 
@@ -213,6 +233,17 @@ export default function GameRoom() {
               className="launch-button-new"
             >
               LAUNCH ALPHA TEST
+            </Button>
+            <Button
+              variant="secondary"
+              size="large"
+              icon={Swords}
+              onClick={handleStartCombat}
+              disabled={loading || combatLoading || characters.length === 0}
+              className="combat-button"
+              style={{ marginTop: '12px' }}
+            >
+              {combatLoading ? "Starting Combat..." : "⚔️ ENTER COMBAT"}
             </Button>
             {loading && <p className="loading-text">Loading characters...</p>}
             {!loading && characters.length === 0 && (

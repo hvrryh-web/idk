@@ -83,14 +83,9 @@ jobs:
       timeout-minutes: 5
       run: npm ci
     
-    - name: Run frontend tests
+    - name: TypeScript type check
       working-directory: ./frontend
-      # Step-level timeout: Cancel test step if it exceeds 15 minutes
-      timeout-minutes: 15
-      env:
-        # Prevent tests from hanging indefinitely
-        CI: true
-      run: npm test
+      run: npx tsc --noEmit
     
     - name: Type check
       working-directory: ./frontend
@@ -101,6 +96,10 @@ jobs:
       working-directory: ./frontend
       timeout-minutes: 10
       run: npm run build
+    
+    - name: Run frontend tests
+      working-directory: ./frontend
+      run: npm test
 
   lint:
     runs-on: ubuntu-latest

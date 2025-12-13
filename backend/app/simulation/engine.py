@@ -9,7 +9,7 @@ from app.models.boss_template import BossTemplate
 from app.models.characters import Character
 from app.models.simulation import SimulationConfig
 from app.models.techniques import Technique
-from app.simulation.combat_state import CombatantState, CombatState
+from app.simulation.combat_state import CombatantState, CombatState, CostTracks
 
 
 class TechniqueData:
@@ -26,6 +26,10 @@ class TechniqueData:
         self.boss_strain_on_hit = technique.boss_strain_on_hit or 0
         self.dr_debuff = technique.dr_debuff or 0.0
         self.is_quick_action = bool(technique.is_quick_action)
+        # SCL requirements
+        self.max_scl = technique.max_scl
+        # Cost requirements
+        self.cost = technique.cost or {"blood": 0, "fate": 0, "stain": 0}
 
 
 def load_techniques(db: Session, technique_ids: List[UUID]) -> Dict[UUID, TechniqueData]:
@@ -39,6 +43,37 @@ def create_combatant_from_character(
 ) -> CombatantState:
     """Create a CombatantState from a Character model."""
     tech_ids = char.techniques or []
+
+    # Parse cost tracks from JSONB if available
+    cost_tracks = CostTracks()
+    if char.cost_tracks:
+        blood = char.cost_tracks.get("blood", {})
+        fate = char.cost_tracks.get("fate", {})
+        stain = char.cost_tracks.get("stain", {})
+        cost_tracks = CostTracks(
+            blood=blood.get("current", 0) if isinstance(blood, dict) else 0,
+            fate=fate.get("current", 0) if isinstance(fate, dict) else 0,
+            stain=stain.get("current", 0) if isinstance(stain, dict) else 0,
+        )
+
+    # Parse conditions from JSONB if available
+    # Expected schema: {"violence": {"current": 0, "history": [{"cause": "wounded", ...}]}, ...}
+    conditions = []
+    if char.conditions and isinstance(char.conditions, dict):
+        for pillar in ["violence", "influence", "revelation"]:
+            pillar_data = char.conditions.get(pillar)
+            if not isinstance(pillar_data, dict):
+                continue
+            history = pillar_data.get("history")
+            if not isinstance(history, list):
+                continue
+            # Extract condition names from history
+            for event in history:
+                if isinstance(event, dict):
+                    cause = event.get("cause")
+                    if cause and isinstance(cause, str) and cause not in conditions:
+                        conditions.append(cause)
+
     return CombatantState(
         id=char.id,
         name=char.name,
@@ -53,6 +88,9 @@ def create_combatant_from_character(
         guard=char.guard or 0,
         spd_band=char.spd_band.value if char.spd_band else "Normal",
         technique_ids=tech_ids,
+        scl=char.scl if hasattr(char, "scl") and char.scl else 5,
+        conditions=conditions,
+        cost_tracks=cost_tracks,
     )
 
 
@@ -115,32 +153,167 @@ def choose_technique_simple(
         return max(available, key=lambda t: t.base_damage)
 
 
+def validate_technique_usage(
+    attacker: CombatantState, technique: TechniqueData
+) -> tuple[bool, str]:
+    """
+    Validate if attacker can use the technique.
+    
+    Checks:
+    - SCL caps: technique.max_scl must be >= attacker.scl (if set)
+    - AE cost: attacker must have enough AE
+    
+    Returns (is_valid, error_message).
+    """
+    # Check AE cost
+    if attacker.ae < technique.ae_cost:
+        return False, f"Not enough AE: {attacker.ae} < {technique.ae_cost}"
+    
+    # Check SCL cap - max_scl means character SCL must be <= max_scl to use
+    if technique.max_scl is not None and attacker.scl > technique.max_scl:
+        return False, f"SCL too high: {attacker.scl} > {technique.max_scl}"
+    
+    return True, ""
+
+
+def apply_technique_costs(attacker: CombatantState, technique: TechniqueData) -> dict:
+    """
+    Apply cost track marks from technique usage.
+    
+    Side Effects:
+    - If Blood track reaches 3+ marks, automatically applies Wounded condition
+      to the attacker (Violence pillar escalation)
+    
+    Returns:
+        dict with marks applied: {"blood": int, "fate": int, "stain": int}
+    """
+    marks = {"blood": 0, "fate": 0, "stain": 0}
+    
+    if technique.cost:
+        blood_cost = technique.cost.get("blood", 0) or 0
+        fate_cost = technique.cost.get("fate", 0) or 0
+        stain_cost = technique.cost.get("stain", 0) or 0
+        
+        if blood_cost > 0:
+            threshold_reached = attacker.cost_tracks.mark_blood(blood_cost)
+            marks["blood"] = blood_cost
+            # Auto-apply Wounded if blood threshold reached (3+ marks)
+            if threshold_reached:
+                attacker.escalate_condition("violence")
+        
+        if fate_cost > 0:
+            attacker.cost_tracks.mark_fate(fate_cost)
+            marks["fate"] = fate_cost
+        
+        if stain_cost > 0:
+            attacker.cost_tracks.mark_stain(stain_cost)
+            marks["stain"] = stain_cost
+    
+    return marks
+
+
+def apply_damage_conditions(target: CombatantState, damage: int, pillar: str = "violence") -> list:
+    """
+    Apply conditions based on damage dealt.
+    
+    Condition escalation thresholds (based on % of max THP):
+    - 25%+ max THP in one hit: 1st degree (Wounded/Shaken/Disturbed)
+    - 50%+ max THP in one hit: 2nd degree  
+    - 75%+ max THP in one hit: 3rd degree
+    - Target reduced to 0 THP: 4th degree (Incapacitating)
+    
+    Returns list of conditions applied.
+    """
+    conditions_applied = []
+    
+    # Only apply conditions for Violence pillar for now (THP damage)
+    if pillar != "violence" or damage <= 0:
+        return conditions_applied
+    
+    damage_percent = (damage / target.max_thp) * 100 if target.max_thp > 0 else 0
+    
+    # Check damage thresholds for condition application
+    if target.thp <= 0:
+        # Target is incapacitated - apply up to 4th degree
+        # Use for loop with explicit limit to avoid potential infinite loop
+        for _ in range(4):
+            if target.get_condition_degree("violence") >= 4:
+                break
+            new_cond = target.escalate_condition("violence")
+            if new_cond:
+                conditions_applied.append(new_cond)
+            else:
+                break
+    elif damage_percent >= 75:
+        # Devastating hit - apply up to 3rd degree
+        for _ in range(3):
+            if target.get_condition_degree("violence") < 3:
+                new_cond = target.escalate_condition("violence")
+                if new_cond:
+                    conditions_applied.append(new_cond)
+    elif damage_percent >= 50:
+        # Heavy hit - apply up to 2nd degree
+        for _ in range(2):
+            if target.get_condition_degree("violence") < 2:
+                new_cond = target.escalate_condition("violence")
+                if new_cond:
+                    conditions_applied.append(new_cond)
+    elif damage_percent >= 25:
+        # Significant hit - apply 1st degree
+        if target.get_condition_degree("violence") < 1:
+            new_cond = target.escalate_condition("violence")
+            if new_cond:
+                conditions_applied.append(new_cond)
+    
+    return conditions_applied
+
+
 def execute_technique(
     attacker: CombatantState, target: CombatantState, technique: TechniqueData, state: CombatState
-):
+) -> dict:
     """
     Execute a technique from attacker to target.
 
     Applies:
     - AE cost to attacker
     - Self strain to attacker
+    - Cost track marks to attacker
     - Damage to target (after DR)
+    - Conditions based on damage
     - Boss strain (if applicable)
     - DR debuff (if applicable)
+    
+    Returns dict with execution results.
     """
+    result = {
+        "hit": True,
+        "damage": 0,
+        "conditions_applied": [],
+        "cost_marks": {"blood": 0, "fate": 0, "stain": 0},
+    }
+    
     # Apply costs to attacker
     attacker.apply_ae_cost(technique.ae_cost)
     attacker.apply_strain(technique.self_strain)
+    
+    # Apply cost track marks
+    result["cost_marks"] = apply_technique_costs(attacker, technique)
 
     # Calculate damage after DR
     effective_dr = target.get_effective_dr()
     final_damage = int(technique.base_damage * (1.0 - effective_dr))
+    result["damage"] = final_damage
 
     # Apply damage to target
     actual_thp_damage = target.apply_damage(final_damage, technique.damage_routing)
 
     # Record damage dealt
     state.record_damage(attacker.id, actual_thp_damage)
+    
+    # Apply conditions based on damage
+    if technique.damage_routing == "THP" or technique.damage_routing is None:
+        conditions = apply_damage_conditions(target, actual_thp_damage, "violence")
+        result["conditions_applied"] = conditions
 
     # Apply boss strain if target is boss
     if target.is_boss and technique.boss_strain_on_hit > 0:
@@ -149,6 +322,8 @@ def execute_technique(
     # Apply DR debuff if any
     if technique.dr_debuff > 0:
         target.temp_dr_modifier -= technique.dr_debuff
+    
+    return result
 
 
 def run_1beat_round(state: CombatState, techniques: Dict[UUID, TechniqueData]):
