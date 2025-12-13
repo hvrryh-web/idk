@@ -1,10 +1,5 @@
 import CharacterPreview from './components/CharacterPreview';
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { ErrorBoundary } from "./ErrorBoundary";
-import { ApiErrorBanner } from "./ApiErrorBanner";
-import React from "react";
-import { useApi } from "./api";
-import { DebugPanel } from "./DebugPanel";
 import GameRoom from "./pages/GameRoom";
 import GameScreen from "./pages/GameScreen";
 import ProfileSheet from "./pages/ProfileSheet";
@@ -29,9 +24,9 @@ import PersonalViewScreen from "./screens/PersonalViewScreen";
 import ConversationScreen from "./screens/ConversationScreen";
 import CharacterCreation from "./components/CharacterCreation";
 import CharacterCodex from "./components/CharacterCodex";
-import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage";
 import { ZhouXuWidget } from "./components/advisor";
+import { CityHubScene, WarCouncilScene, BattleHUDScene, SiegeOverlayScene } from "./pages/rotk";
 
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
@@ -45,10 +40,6 @@ function ZhouXuWithNavigation() {
 }
 
 export default function App() {
-  // Use global API hook for error/debug info
-  const apiDiagnostics = useApi();
-  const { apiError, lastApiCall, lastStatus } = apiDiagnostics;
-
   return (
     <BrowserRouter>
       <div className="app">
@@ -61,6 +52,10 @@ export default function App() {
           <a href="/world">World</a>
           <a href="/personal">Personal</a>
           <a href="/conversation">Conversation</a>
+          <a href="/rotk/city">ROTK City</a>
+          <a href="/rotk/war">ROTK War</a>
+          <a href="/rotk/battle">ROTK Battle</a>
+          <a href="/rotk/siege">ROTK Siege</a>
         </nav>
         <Routes>
           <Route path="/" element={<GameRoom />} />
@@ -88,6 +83,10 @@ export default function App() {
           <Route path="/combat-test" element={<TestBattle />} />
           <Route path="/ascii" element={<AsciiVisualizer />} />
           <Route path="/fate-card-builder" element={<FateCardBuilderPage />} />
+          <Route path="/rotk/city" element={<CityHubScene />} />
+          <Route path="/rotk/war" element={<WarCouncilScene />} />
+          <Route path="/rotk/battle" element={<BattleHUDScene />} />
+          <Route path="/rotk/siege" element={<SiegeOverlayScene />} />
         </Routes>
         <StyleBoard />
         <CharacterPreview />

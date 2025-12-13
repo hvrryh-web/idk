@@ -1,5 +1,3 @@
-import React from "react";
-
 export function ApiErrorBanner({ error }: { error: string | null }) {
   if (!error) return null;
   return (

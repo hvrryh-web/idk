@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Palace/Castle icon with Chinese period styling -->
+  <path d="M3 21 L3 12 L12 4 L21 12 L21 21" stroke="#CD7F32" stroke-width="2" fill="#D4C5A9" fill-opacity="0.3"/>
+  <rect x="10" y="14" width="4" height="7" stroke="#CD7F32" fill="#8B0000" fill-opacity="0.5"/>
+  <path d="M1 12 L12 2 L23 12" stroke="#D4AF37" stroke-width="2" fill="none"/>
+  <rect x="6" y="9" width="3" height="3" stroke="#CD7F32" fill="#4682B4" fill-opacity="0.5"/>
+  <rect x="15" y="9" width="3" height="3" stroke="#CD7F32" fill="#4682B4" fill-opacity="0.5"/>
+  <!-- Roof ornament -->
+  <circle cx="12" cy="2" r="1.5" fill="#D4AF37"/>
+</svg>
