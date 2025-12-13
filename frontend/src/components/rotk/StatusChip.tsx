@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { ArrowUp, ArrowDown, Minus, LucideIcon } from 'lucide-react';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export type ChipVariant = 'buff' | 'debuff' | 'neutral';
 

@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export type ROTKButtonVariant = 'primary' | 'secondary' | 'gold';
 export type ROTKButtonSize = 'small' | 'medium' | 'large';

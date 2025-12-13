@@ -3,7 +3,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export type DamageType = 'damage' | 'critical' | 'heal' | 'block';
 

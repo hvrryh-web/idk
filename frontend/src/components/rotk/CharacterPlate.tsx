@@ -6,7 +6,7 @@ import React from 'react';
 import { Shield, Zap, Target } from 'lucide-react';
 import StatBar from './StatBar';
 import StatusChip from './StatusChip';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export interface CharacterPlateUnit {
   id: string;

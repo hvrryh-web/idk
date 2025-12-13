@@ -3,7 +3,7 @@
  */
 
 import { Settings, Menu, Sun, Cloud, Snowflake, Leaf, LucideIcon } from 'lucide-react';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
