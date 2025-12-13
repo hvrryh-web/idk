@@ -4,7 +4,7 @@
 
 import React from 'react';
 import Panel9Slice from './Panel9Slice';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 interface CharacterPortraitOverlayProps {
   name: string;

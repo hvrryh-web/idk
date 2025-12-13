@@ -77,7 +77,7 @@ export const combatReducer: CombatReducer = (state, event): CombatState => {
         },
       };
 
-    case "ROUND_END":
+    case "ROUND_END": {
       // Regenerate AE for all units
       const updatedUnits: Record<string, CombatUnit> = {};
       for (const id in state.units) {
@@ -91,6 +91,7 @@ export const combatReducer: CombatReducer = (state, event): CombatState => {
         ...state,
         units: updatedUnits,
       };
+    }
 
     case "PHASE_START":
       return {

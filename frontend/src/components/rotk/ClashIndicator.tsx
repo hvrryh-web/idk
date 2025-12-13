@@ -5,7 +5,7 @@
 import React from 'react';
 import { Swords } from 'lucide-react';
 import StatusChip from './StatusChip';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export type AdvantageType = 'left' | 'right' | 'neutral';
 

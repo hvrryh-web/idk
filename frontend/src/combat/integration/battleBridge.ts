@@ -382,7 +382,7 @@ export class BattleBridge {
 
   private updateStats(event: CombatEvent): void {
     switch (event.type) {
-      case "THP_DAMAGE":
+      case "THP_DAMAGE": {
         const targetUnit = this.state?.units[event.targetId];
         if (targetUnit?.team === "enemy") {
           this.stats.totalDamageDealt += event.amount;
@@ -390,6 +390,7 @@ export class BattleBridge {
           this.stats.totalDamageTaken += event.amount;
         }
         break;
+      }
 
       case "CRIT":
         this.stats.criticalHits++;

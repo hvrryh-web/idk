@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export interface NavTab {
   id: string;

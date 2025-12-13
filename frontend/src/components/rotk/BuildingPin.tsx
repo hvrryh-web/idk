@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import '../styles/rotkTheme.css';
+import '../../styles/rotkTheme.css';
 
 export interface BuildingPinProps {
   id: string;

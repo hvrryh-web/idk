@@ -1,7 +1,6 @@
 import CharacterPreview from './components/CharacterPreview';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useApi } from "./api";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { useApi } from "./api";
 import GameRoom from "./pages/GameRoom";
 import GameScreen from "./pages/GameScreen";
 import ProfileSheet from "./pages/ProfileSheet";
@@ -29,10 +28,9 @@ import CharacterCodex from "./components/CharacterCodex";
 import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage";
 import { ZhouXuWidget } from "./components/advisor";
 import { CityHubScene, WarCouncilScene, BattleHUDScene, SiegeOverlayScene } from "./pages/rotk";
+import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
+import TestBattle from "./pages/TestBattle";
 
-export default function App() {
-  // Initialize API diagnostics hook for error tracking (used for future diagnostics panel)
-  useApi();
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
   const navigate = useNavigate();
@@ -45,6 +43,9 @@ function ZhouXuWithNavigation() {
 }
 
 export default function App() {
+  // Initialize API diagnostics hook for error tracking (used for future diagnostics panel)
+  useApi();
+
   return (
     <BrowserRouter>
       <div className="app">
