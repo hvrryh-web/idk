@@ -83,8 +83,10 @@ export default function WikiIndex() {
       </div>
 
       <div className="wiki-footer">
-        <button onClick={() => navigate("/")}>← Back to Game Room</button>
+        <button onClick={() => navigate("/codex-hub")}>← Back to Codex</button>
         <button onClick={() => navigate("/srd")}>View as SRD Book</button>
+        <button onClick={() => navigate("/help")}>❓ Help Center</button>
+        <button onClick={() => navigate("/home")}>🏠 Home</button>
       </div>
     </div>
   );

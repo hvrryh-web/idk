@@ -20,8 +20,9 @@ export default function ASCIIArtManager() {
       <header className="ascii-manager-header">
         <h1>ASCII Art Generator - GM Console</h1>
         <nav className="ascii-nav">
-          <button onClick={() => navigate("/")}>🏠 Game Room</button>
+          <button onClick={() => navigate("/tools-hub")}>← Back to Tools</button>
           <button onClick={() => navigate("/game")}>🎮 Game Screen</button>
+          <button onClick={() => navigate("/home")}>🏠 Home</button>
           <button onClick={() => setShowTV(!showTV)}>
             {showTV ? "📺 Hide TV" : "📺 Show TV"}
           </button>

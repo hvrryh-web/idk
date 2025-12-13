@@ -85,7 +85,8 @@ export default function ProfileSheet() {
         <button onClick={() => navigate(`/cultivation/${id}`)}>→ Cultivation Sheet</button>
         <button onClick={() => navigate(`/soul-core/${id}`)}>→ Soul Core Sheet</button>
         <button onClick={() => navigate(`/domain-source/${id}`)}>→ Domain Source Sheet</button>
-        <button onClick={() => navigate("/")}>← Back to Game Room</button>
+        <button onClick={() => navigate("/characters")}>← Back to Characters</button>
+        <button onClick={() => navigate("/home")}>🏠 Home</button>
       </nav>
     </div>
   );

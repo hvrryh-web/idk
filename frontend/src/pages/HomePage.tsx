@@ -13,7 +13,8 @@ import {
   BookOpen, 
   BarChart2, 
   ScrollText,
-  Compass
+  Compass,
+  Wrench
 } from "lucide-react";
 import Button from "../components/Button";
 
@@ -44,6 +45,14 @@ const navCards: NavCard[] = [
     color: "var(--dynasty-red)",
   },
   {
+    id: "battle",
+    title: "Battle & Combat",
+    description: "ROTK-style battles: city, region, war, skirmish, siege, and standard combat",
+    icon: Swords,
+    route: "/battle-hub",
+    color: "var(--fire-red)",
+  },
+  {
     id: "personal",
     title: "Personal",
     description: "Character conversations and showcase gallery",
@@ -52,12 +61,12 @@ const navCards: NavCard[] = [
     color: "var(--soul-essence)",
   },
   {
-    id: "battle",
-    title: "Battle & Combat",
-    description: "ROTK-style battles: city, region, war, skirmish, siege, and standard combat",
-    icon: Swords,
-    route: "/battle-hub",
-    color: "var(--fire-red)",
+    id: "tools",
+    title: "Tools Hub",
+    description: "Fate Card Builder, ASCII Art Generator, Character Creator, and utilities",
+    icon: Wrench,
+    route: "/tools-hub",
+    color: "var(--jade-green)",
   },
   {
     id: "codex",

@@ -1,5 +1,5 @@
 import CharacterPreview from './components/CharacterPreview';
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, Link } from "react-router-dom";
 import { useApi } from "./api";
 import GameRoom from "./pages/GameRoom";
 import GameScreen from "./pages/GameScreen";
@@ -44,9 +44,13 @@ import ShowcasePage from "./pages/ShowcasePage";
 import RealmMapPage from "./pages/RealmMapPage";
 import CodexStyleBoardPage from "./pages/CodexStyleBoardPage";
 import CodexCharactersPage from "./pages/CodexCharactersPage";
+import ToolsHubPage from "./pages/ToolsHubPage";
 // Profile and Game Master Pages
 import ProfileLoaderPage from "./pages/ProfileLoaderPage";
 import GameMasterDashboard from "./pages/GameMasterDashboard";
+// Navigation Components
+import Breadcrumb from "./components/Breadcrumb";
+import BackToTop from "./components/BackToTop";
 
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
@@ -66,20 +70,19 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <nav className="global-nav">
-          <a href="/">Alpha Test</a>
-          <a href="/profile">Profile</a>
-          <a href="/home">Home</a>
-          <a href="/map-hub">Map Hub</a>
-          <a href="/personal-hub">Personal</a>
-          <a href="/battle-hub">Battle</a>
-          <a href="/codex-hub">Codex</a>
-          <a href="/quest-hub">Quests</a>
-          <a href="/character-stats">Stats</a>
-          <a href="/game">Game</a>
-          <a href="/characters">Characters</a>
-          <a href="/characters/showcase">Showcase</a>
+        <nav className="global-nav" id="global-nav">
+          <Link to="/home" title="Main Hub">🏠 Home</Link>
+          <Link to="/game" title="Visual Novel Game Screen">🎮 Game</Link>
+          <Link to="/map-hub" title="Maps & World">🗺️ Maps</Link>
+          <Link to="/battle-hub" title="Combat & Battles">⚔️ Battle</Link>
+          <Link to="/characters" title="Character Manager">👤 Characters</Link>
+          <Link to="/tools-hub" title="Tools & Utilities">🛠️ Tools</Link>
+          <Link to="/codex-hub" title="Knowledge Wiki & Codex">📚 Codex</Link>
+          <span className="nav-separator">|</span>
+          <Link to="/help" title="Help & Documentation">❓ Help</Link>
+          <Link to="/profile" title="Switch Profile or Start New Session">🔐 Profile</Link>
         </nav>
+        <Breadcrumb />
         <Routes>
           {/* Profile Selection & Game Master */}
           <Route path="/profile" element={<ProfileLoaderPage />} />
@@ -91,6 +94,7 @@ export default function App() {
           <Route path="/personal-hub" element={<PersonalHubPage />} />
           <Route path="/battle-hub" element={<BattleHubPage />} />
           <Route path="/codex-hub" element={<CodexHubPage />} />
+          <Route path="/tools-hub" element={<ToolsHubPage />} />
           <Route path="/character-stats" element={<CharacterStatsPage />} />
           <Route path="/character-stats/:id" element={<CharacterStatsPage />} />
           <Route path="/quest-hub" element={<QuestHubPage />} />
@@ -143,6 +147,8 @@ export default function App() {
         <CharacterCodex />
         {/* Zhou Xu Divine Advisor - Global help widget */}
         <ZhouXuWithNavigation />
+        {/* Back to Top / Home floating button - safety navigation */}
+        <BackToTop showHomeButton={true} />
       </div>
     </BrowserRouter>
   );
