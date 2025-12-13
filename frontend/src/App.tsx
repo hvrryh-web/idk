@@ -30,6 +30,7 @@ import { ZhouXuWidget } from "./components/advisor";
 import { CityHubScene, WarCouncilScene, BattleHUDScene, SiegeOverlayScene, ComponentShowcaseScene } from "./pages/rotk";
 import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 import TestBattle from "./pages/TestBattle";
+import DynamicMapPage from "./pages/DynamicMapPage";
 
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
@@ -52,6 +53,7 @@ export default function App() {
         <nav className="global-nav">
           <a href="/">Home</a>
           <a href="/map">Map</a>
+          <a href="/dynamic-map">Dynamic Map</a>
           <a href="/war-map">War Map</a>
           <a href="/city">City</a>
           <a href="/region">Region</a>
@@ -68,6 +70,7 @@ export default function App() {
           <Route path="/" element={<GameRoom />} />
           <Route path="/game" element={<GameScreen />} />
           <Route path="/map" element={<MapScreen />} />
+          <Route path="/dynamic-map" element={<DynamicMapPage />} />
           <Route path="/war-map" element={<WarMapScreen />} />
           <Route path="/city" element={<CityScreen />} />
           <Route path="/region" element={<RegionalMapScreen />} />
