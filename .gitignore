@@ -33,6 +33,10 @@ wiki_assets/
 
 # Visual Assets Storage and Staging (exclude binary files, keep structure)
 storage/visual-assets/incoming/*
+!storage/visual-assets/incoming/README.md
+!storage/visual-assets/incoming/*/
+!storage/visual-assets/incoming/*/README.md
+!storage/visual-assets/incoming/*/*/README.md
 storage/visual-assets/processed/*
 storage/visual-assets/archived/*
 staging/visual-assets/pending/*
