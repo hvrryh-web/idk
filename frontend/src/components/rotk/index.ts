@@ -32,6 +32,9 @@ export type { BuildingPinProps } from './BuildingPin';
 export { MapMarker } from './MapMarker';
 export type { FactionColor } from './MapMarker';
 
+export { DraggableToken } from './DraggableToken';
+export type { DraggableTokenProps, TokenVariant, TokenSize } from './DraggableToken';
+
 // Navigation
 export { NavBar } from './NavBar';
 export type { NavTab } from './NavBar';
@@ -46,5 +49,15 @@ export type { CharacterPlateUnit } from './CharacterPlate';
 
 export { ClashIndicator } from './ClashIndicator';
 export type { AdvantageType } from './ClashIndicator';
+
+export { InitiativePanel } from './InitiativePanel';
+export type { InitiativeEntry, InitiativePanelProps } from './InitiativePanel';
+
+// Overlay & Dialog Components
+export { ScrollOverlay } from './ScrollOverlay';
+export type { ScrollOverlayProps, OverlayVariant, OverlaySize, TransitionStyle } from './ScrollOverlay';
+
+export { EventChoiceDialog } from './EventChoiceDialog';
+export type { EventChoiceDialogProps, DialogChoice } from './EventChoiceDialog';
 
 export { CharacterPortraitOverlay } from './CharacterPortraitOverlay';

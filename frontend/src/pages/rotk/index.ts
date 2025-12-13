@@ -8,3 +8,4 @@ export { CityHubScene } from './CityHubScene';
 export { WarCouncilScene } from './WarCouncilScene';
 export { BattleHUDScene } from './BattleHUDScene';
 export { SiegeOverlayScene } from './SiegeOverlayScene';
+export { ComponentShowcaseScene } from './ComponentShowcaseScene';
