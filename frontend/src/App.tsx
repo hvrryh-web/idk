@@ -1,5 +1,5 @@
 import CharacterPreview from './components/CharacterPreview';
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, Link } from "react-router-dom";
 import { useApi } from "./api";
 import GameRoom from "./pages/GameRoom";
 import GameScreen from "./pages/GameScreen";
@@ -50,6 +50,7 @@ import ProfileLoaderPage from "./pages/ProfileLoaderPage";
 import GameMasterDashboard from "./pages/GameMasterDashboard";
 // Navigation Components
 import Breadcrumb from "./components/Breadcrumb";
+import BackToTop from "./components/BackToTop";
 
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
@@ -69,17 +70,17 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <nav className="global-nav">
-          <a href="/home" title="Main Hub">🏠 Home</a>
-          <a href="/game" title="Visual Novel Game Screen">🎮 Game</a>
-          <a href="/map-hub" title="Maps & World">🗺️ Maps</a>
-          <a href="/battle-hub" title="Combat & Battles">⚔️ Battle</a>
-          <a href="/characters" title="Character Manager">👤 Characters</a>
-          <a href="/tools-hub" title="Tools & Utilities">🛠️ Tools</a>
-          <a href="/codex-hub" title="Knowledge Wiki & Codex">📚 Codex</a>
+        <nav className="global-nav" id="global-nav">
+          <Link to="/home" title="Main Hub">🏠 Home</Link>
+          <Link to="/game" title="Visual Novel Game Screen">🎮 Game</Link>
+          <Link to="/map-hub" title="Maps & World">🗺️ Maps</Link>
+          <Link to="/battle-hub" title="Combat & Battles">⚔️ Battle</Link>
+          <Link to="/characters" title="Character Manager">👤 Characters</Link>
+          <Link to="/tools-hub" title="Tools & Utilities">🛠️ Tools</Link>
+          <Link to="/codex-hub" title="Knowledge Wiki & Codex">📚 Codex</Link>
           <span className="nav-separator">|</span>
-          <a href="/help" title="Help & Documentation">❓ Help</a>
-          <a href="/profile" title="Switch Profile or Start New Session">🔐 Profile</a>
+          <Link to="/help" title="Help & Documentation">❓ Help</Link>
+          <Link to="/profile" title="Switch Profile or Start New Session">🔐 Profile</Link>
         </nav>
         <Breadcrumb />
         <Routes>
@@ -146,6 +147,8 @@ export default function App() {
         <CharacterCodex />
         {/* Zhou Xu Divine Advisor - Global help widget */}
         <ZhouXuWithNavigation />
+        {/* Back to Top / Home floating button - safety navigation */}
+        <BackToTop showHomeButton={true} />
       </div>
     </BrowserRouter>
   );
