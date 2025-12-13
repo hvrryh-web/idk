@@ -469,3 +469,124 @@
 .rotk-transition-slow {
   transition: all var(--rotk-duration-slow) var(--rotk-ease-in-out);
 }
+
+/* ============================================
+   OVERLAY & DIALOG ANIMATIONS
+   ============================================ */
+
+/* Ink blot expansion effect */
+@keyframes rotk-ink-blot-in {
+  0% {
+    clip-path: ellipse(0% 0% at 50% 50%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: ellipse(100% 100% at 50% 50%);
+    opacity: 1;
+  }
+}
+
+@keyframes rotk-ink-blot-out {
+  0% {
+    clip-path: ellipse(100% 100% at 50% 50%);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    clip-path: ellipse(0% 0% at 50% 50%);
+    opacity: 0;
+  }
+}
+
+/* Slow fade overlay */
+@keyframes rotk-overlay-fade-in {
+  0% {
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+  }
+}
+
+@keyframes rotk-overlay-fade-out {
+  0% {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+}
+
+/* Scroll unroll animation */
+@keyframes rotk-scroll-unroll {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top center;
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: top center;
+    opacity: 1;
+  }
+}
+
+/* Dialog slide up */
+@keyframes rotk-dialog-slide-up {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Token drag pulse */
+@keyframes rotk-token-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.6), 0 0 24px rgba(212, 175, 55, 0.3);
+  }
+}
+
+/* Initiative turn highlight */
+@keyframes rotk-initiative-active {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.8), 0 0 24px rgba(212, 175, 55, 0.4);
+  }
+}
+
+/* Utility classes for overlays */
+.rotk-overlay-ink-blot-enter {
+  animation: rotk-ink-blot-in 400ms var(--rotk-ease-in-out) forwards;
+}
+
+.rotk-overlay-ink-blot-exit {
+  animation: rotk-ink-blot-out 400ms var(--rotk-ease-in-out) forwards;
+}
+
+.rotk-dialog-enter {
+  animation: rotk-dialog-slide-up 300ms var(--rotk-ease-out) forwards;
+}
+
+.rotk-scroll-unroll {
+  animation: rotk-scroll-unroll 500ms var(--rotk-ease-out) forwards;
+}

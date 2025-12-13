@@ -395,6 +395,114 @@ import { ClashIndicator } from '../components/rotk';
 - Siege progress and morale bars
 - Action buttons for assault/capture
 
+### ComponentShowcaseScene (`/rotk/showcase`)
+
+- Complete showcase of all new UI components
+- Draggable token demo with interactive map
+- Initiative panel (both horizontal and vertical orientations)
+- Scroll/paper/ink overlay variants with ink blot transitions
+- NPC event choice dialog with typewriter effect
+- Control buttons to demonstrate each component
+
+---
+
+## New Components (Latest Update)
+
+### DraggableToken
+
+Draggable token component for tactical maps and courts.
+
+```tsx
+import { DraggableToken } from '../components/rotk';
+
+<DraggableToken
+  id="token-1"
+  label="Zhao Yun"
+  labelCjk="赵云"
+  variant="character"   // 'character' | 'npc' | 'enemy' | 'object' | 'marker'
+  size="medium"         // 'small' | 'medium' | 'large'
+  position={{ x: 150, y: 200 }}
+  onPositionChange={(id, pos) => handleMove(id, pos)}
+  onSelect={(id) => handleSelect(id)}
+  isSelected={true}
+  isDraggable={true}
+  showLabel={true}
+/>
+```
+
+### ScrollOverlay
+
+Overlay component with scroll/parchment styling and ink blot transitions.
+
+```tsx
+import { ScrollOverlay } from '../components/rotk';
+
+<ScrollOverlay
+  isOpen={showOverlay}
+  onClose={() => setShowOverlay(false)}
+  variant="scroll"       // 'scroll' | 'paper' | 'ink'
+  size="medium"          // 'small' | 'medium' | 'large' | 'fullscreen'
+  title="Imperial Decree"
+  titleCjk="皇帝诏书"
+  transition="inkBlot"   // 'fade' | 'inkBlot' | 'brushReveal' | 'none'
+  showCloseButton={true}
+  closeOnBackdrop={true}
+>
+  <p>Your content here...</p>
+</ScrollOverlay>
+```
+
+### InitiativePanel
+
+Combat turn order display with character portraits and status.
+
+```tsx
+import { InitiativePanel, InitiativeEntry } from '../components/rotk';
+
+const entries: InitiativeEntry[] = [
+  { id: 'char-1', name: 'Zhao Yun', nameCjk: '赵云', initiative: 18, isAlly: true },
+  { id: 'char-2', name: 'Zhang Liao', nameCjk: '张辽', initiative: 16, isAlly: false, hasActed: true },
+];
+
+<InitiativePanel
+  entries={entries}
+  currentTurn={0}
+  roundNumber={3}
+  orientation="vertical"  // 'horizontal' | 'vertical'
+  showInitiativeValue={true}
+  onEntryClick={(id) => handleClick(id)}
+/>
+```
+
+### EventChoiceDialog
+
+NPC conversation dialog with typewriter effect and choice buttons.
+
+```tsx
+import { EventChoiceDialog, DialogChoice } from '../components/rotk';
+
+const choices: DialogChoice[] = [
+  { id: 'accept', text: 'Accept the alliance', textCjk: '接受联盟', consequence: 'positive' },
+  { id: 'negotiate', text: 'Negotiate terms', consequence: 'neutral' },
+  { id: 'reject', text: 'Reject outright', consequence: 'negative' },
+  { id: 'consult', text: 'Consult advisors', isDisabled: true, disabledReason: 'Unavailable' },
+];
+
+<EventChoiceDialog
+  isOpen={showDialog}
+  onClose={() => setShowDialog(false)}
+  speakerName="Sun Quan"
+  speakerNameCjk="孙权"
+  speakerTitle="Lord of Wu"
+  dialogueText="My lord, shall we form an alliance?"
+  dialogueTextCjk="主公，我们是否应该结盟？"
+  choices={choices}
+  onChoiceSelect={(id) => handleChoice(id)}
+  showTypewriter={true}
+  typewriterSpeed={30}
+/>
+```
+
 ---
 
 ## Asset Pipeline
@@ -544,6 +652,7 @@ export const rotkComponents = {
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | 2025-12-13 | Added DraggableToken, ScrollOverlay, InitiativePanel, EventChoiceDialog components. New ComponentShowcaseScene demo. Added ink blot and overlay animations. |
 | 1.0.0 | 2025-12-12 | Initial release with core components and 4 demo scenes |
 
 ---

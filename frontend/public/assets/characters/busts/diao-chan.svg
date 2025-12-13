@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#0f0f23"/>
+    </linearGradient>
+    <linearGradient id="silk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff69b4"/>
+      <stop offset="100%" style="stop-color:#c71585"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffe4c4"/>
+      <stop offset="100%" style="stop-color:#deb887"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700"/>
+      <stop offset="100%" style="stop-color:#cd7f32"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="200" height="250" fill="url(#bg)"/>
+  <circle cx="160" cy="40" r="25" fill="#f5f5dc" opacity="0.6"/>
+  
+  <!-- Robes -->
+  <ellipse cx="100" cy="240" rx="80" ry="50" fill="url(#silk)"/>
+  <path d="M40 200 Q70 180 100 190 Q130 180 160 200 L170 250 L30 250 Z" fill="url(#silk)"/>
+  
+  <!-- Neck -->
+  <ellipse cx="100" cy="160" rx="25" ry="15" fill="url(#skin)"/>
+  
+  <!-- Face -->
+  <ellipse cx="100" cy="110" rx="35" ry="45" fill="url(#skin)"/>
+  
+  <!-- Hair -->
+  <ellipse cx="100" cy="85" rx="45" ry="50" fill="#1a1a1a"/>
+  <circle cx="65" cy="55" r="18" fill="#1a1a1a"/>
+  <circle cx="135" cy="55" r="18" fill="#1a1a1a"/>
+  
+  <!-- Hair ornaments -->
+  <circle cx="65" cy="45" r="5" fill="url(#gold)"/>
+  <circle cx="135" cy="45" r="5" fill="url(#gold)"/>
+  <circle cx="100" cy="30" r="6" fill="#ff1493"/>
+  
+  <!-- Bangs -->
+  <path d="M65 90 Q80 70 100 75 Q120 70 135 90 Q115 80 100 85 Q85 80 65 90" fill="#1a1a1a"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="85" cy="105" rx="8" ry="6" fill="white"/>
+  <ellipse cx="115" cy="105" rx="8" ry="6" fill="white"/>
+  <circle cx="85" cy="105" r="4" fill="#2d1f1f"/>
+  <circle cx="115" cy="105" r="4" fill="#2d1f1f"/>
+  <circle cx="84" cy="104" r="1.5" fill="white"/>
+  <circle cx="114" cy="104" r="1.5" fill="white"/>
+  
+  <!-- Eyebrows -->
+  <path d="M77 97 Q85 94 93 97" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  <path d="M107 97 Q115 94 123 97" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+  
+  <!-- Nose -->
+  <path d="M100 110 L98 125 Q100 128 102 125 L100 110" fill="#deb887" opacity="0.5"/>
+  
+  <!-- Lips -->
+  <path d="M92 138 Q100 133 108 138" fill="none" stroke="#c71585" stroke-width="1.5"/>
+  <path d="M92 138 Q100 143 108 138" fill="#ff69b4" opacity="0.7"/>
+  
+  <!-- Blush -->
+  <ellipse cx="75" cy="122" rx="8" ry="4" fill="#ffb6c1" opacity="0.4"/>
+  <ellipse cx="125" cy="122" rx="8" ry="4" fill="#ffb6c1" opacity="0.4"/>
+  
+  <!-- Necklace -->
+  <path d="M75 155 Q100 165 125 155" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <circle cx="100" cy="162" r="5" fill="#ff1493"/>
+  
+  <!-- Border -->
+  <rect x="5" y="5" width="190" height="240" fill="none" stroke="url(#gold)" stroke-width="2" rx="4"/>
+</svg>

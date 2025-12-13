@@ -27,9 +27,11 @@ import CharacterCreation from "./components/CharacterCreation";
 import CharacterCodex from "./components/CharacterCodex";
 import { FateCardBuilderPage } from "./fateCardBuilder/pages/FateCardBuilderPage";
 import { ZhouXuWidget } from "./components/advisor";
-import { CityHubScene, WarCouncilScene, BattleHUDScene, SiegeOverlayScene } from "./pages/rotk";
+import { CityHubScene, WarCouncilScene, BattleHUDScene, SiegeOverlayScene, ComponentShowcaseScene, Ro3KBattleScene } from "./pages/rotk";
 import { CharacterCreatorPage } from "./character/CharacterCreatorPage";
 import TestBattle from "./pages/TestBattle";
+import DynamicMapPage from "./pages/DynamicMapPage";
+import CharacterShowcasePage from "./pages/CharacterShowcasePage";
 
 // Wrapper component for Zhou Xu widget to access React Router navigation
 function ZhouXuWithNavigation() {
@@ -52,6 +54,7 @@ export default function App() {
         <nav className="global-nav">
           <a href="/">Home</a>
           <a href="/map">Map</a>
+          <a href="/dynamic-map">Dynamic Map</a>
           <a href="/war-map">War Map</a>
           <a href="/city">City</a>
           <a href="/region">Region</a>
@@ -61,12 +64,16 @@ export default function App() {
           <a href="/rotk/city">ROTK City</a>
           <a href="/rotk/war">ROTK War</a>
           <a href="/rotk/battle">ROTK Battle</a>
+          <a href="/rotk/ro3k-battle">Ro3K Battle</a>
           <a href="/rotk/siege">ROTK Siege</a>
+          <a href="/rotk/showcase">ROTK Showcase</a>
+          <a href="/characters/showcase">Lu Bu & Diao Chan</a>
         </nav>
         <Routes>
           <Route path="/" element={<GameRoom />} />
           <Route path="/game" element={<GameScreen />} />
           <Route path="/map" element={<MapScreen />} />
+          <Route path="/dynamic-map" element={<DynamicMapPage />} />
           <Route path="/war-map" element={<WarMapScreen />} />
           <Route path="/city" element={<CityScreen />} />
           <Route path="/region" element={<RegionalMapScreen />} />
@@ -92,7 +99,10 @@ export default function App() {
           <Route path="/rotk/city" element={<CityHubScene />} />
           <Route path="/rotk/war" element={<WarCouncilScene />} />
           <Route path="/rotk/battle" element={<BattleHUDScene />} />
+          <Route path="/rotk/ro3k-battle" element={<Ro3KBattleScene />} />
           <Route path="/rotk/siege" element={<SiegeOverlayScene />} />
+          <Route path="/rotk/showcase" element={<ComponentShowcaseScene />} />
+          <Route path="/characters/showcase" element={<CharacterShowcasePage />} />
         </Routes>
         <StyleBoard />
         <CharacterPreview />

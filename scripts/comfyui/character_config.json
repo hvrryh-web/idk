@@ -1,0 +1,135 @@
+{
+  "characters": [
+    {
+      "id": "guan-yu",
+      "name": "Guan Yu",
+      "name_cjk": "关羽",
+      "style": "warrior",
+      "description": "legendary warrior with long black beard, red face, green robe armor, wielding Green Dragon Crescent Blade",
+      "faction": "shu"
+    },
+    {
+      "id": "zhang-fei",
+      "name": "Zhang Fei",
+      "name_cjk": "张飞",
+      "style": "warrior",
+      "description": "fierce warrior with wild beard, intimidating expression, wielding serpent spear",
+      "faction": "shu"
+    },
+    {
+      "id": "zhao-yun",
+      "name": "Zhao Yun",
+      "name_cjk": "赵云",
+      "style": "warrior",
+      "description": "noble young warrior in white armor, handsome features, wielding dragon spear",
+      "faction": "shu"
+    },
+    {
+      "id": "zhuge-liang",
+      "name": "Zhuge Liang",
+      "name_cjk": "诸葛亮",
+      "style": "strategist",
+      "description": "wise strategist with feather fan, white robe, calm expression, knowing smile",
+      "faction": "shu"
+    },
+    {
+      "id": "liu-bei",
+      "name": "Liu Bei",
+      "name_cjk": "刘备",
+      "style": "noble",
+      "description": "benevolent lord with long earlobes, kind expression, imperial yellow robes",
+      "faction": "shu"
+    },
+    {
+      "id": "cao-cao",
+      "name": "Cao Cao",
+      "name_cjk": "曹操",
+      "style": "villain",
+      "description": "ambitious warlord with sharp features, calculating gaze, dark ornate armor",
+      "faction": "wei"
+    },
+    {
+      "id": "cao-ren",
+      "name": "Cao Ren",
+      "name_cjk": "曹仁",
+      "style": "general",
+      "description": "stalwart general with determined expression, heavy armor, defensive stance",
+      "faction": "wei"
+    },
+    {
+      "id": "zhang-liao",
+      "name": "Zhang Liao",
+      "name_cjk": "张辽",
+      "style": "warrior",
+      "description": "fierce general with sharp eyes, Wei armor, halberd weapon",
+      "faction": "wei"
+    },
+    {
+      "id": "sun-quan",
+      "name": "Sun Quan",
+      "name_cjk": "孙权",
+      "style": "noble",
+      "description": "young lord with purple eyes, noble bearing, Wu kingdom robes",
+      "faction": "wu"
+    },
+    {
+      "id": "zhou-yu",
+      "name": "Zhou Yu",
+      "name_cjk": "周瑜",
+      "style": "strategist",
+      "description": "handsome strategist and musician, elegant robes, confident expression",
+      "faction": "wu"
+    },
+    {
+      "id": "lu-xun",
+      "name": "Lu Xun",
+      "name_cjk": "陆逊",
+      "style": "strategist",
+      "description": "young scholar-general, scholarly appearance, determined eyes",
+      "faction": "wu"
+    },
+    {
+      "id": "diao-chan",
+      "name": "Diao Chan",
+      "name_cjk": "貂蝉",
+      "style": "female_warrior",
+      "description": "beautiful dancer with flowing silk robes, graceful pose, moonlit scene",
+      "faction": "neutral"
+    },
+    {
+      "id": "lu-bu",
+      "name": "Lu Bu",
+      "name_cjk": "吕布",
+      "style": "villain",
+      "description": "mightiest warrior with phoenix plume, ornate armor, riding Red Hare, intimidating presence",
+      "faction": "neutral"
+    },
+    {
+      "id": "sima-yi",
+      "name": "Sima Yi",
+      "name_cjk": "司马懿",
+      "style": "advisor",
+      "description": "cunning strategist with hawk-like gaze, dark robes, scheming expression",
+      "faction": "wei"
+    }
+  ],
+  "style_presets": {
+    "warrior": "ancient Chinese warrior, armor, heroic pose, dramatic lighting, oil painting style, highly detailed, 4k",
+    "strategist": "ancient Chinese scholar, robes, wise expression, study background, classical painting style, highly detailed",
+    "general": "ancient Chinese military general, ornate armor, commanding presence, battlefield background, epic art style",
+    "noble": "ancient Chinese noble, elegant robes, refined features, palace background, portrait painting style",
+    "villain": "ancient Chinese warlord, menacing expression, dark armor, dramatic shadows, epic fantasy art",
+    "female_warrior": "ancient Chinese female warrior, elegant armor, fierce expression, martial arts pose, beautiful detailed art",
+    "advisor": "ancient Chinese court advisor, scholarly robes, thoughtful expression, scrolls and books, classical art style"
+  },
+  "settings": {
+    "comfyui_url": "http://localhost:8188",
+    "output_dir": "frontend/public/assets/characters/generated",
+    "timeout_per_image": 300,
+    "checkpoint": "sd_xl_base_1.0.safetensors",
+    "width": 768,
+    "height": 1024,
+    "steps": 20,
+    "cfg": 7
+  }
+}
