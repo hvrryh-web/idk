@@ -61,7 +61,7 @@ jobs:
         # Use the same credentials as the postgres service
         DATABASE_URL: postgresql+psycopg2://${{ secrets.TEST_DB_USER || 'postgres' }}:${{ secrets.TEST_DB_PASSWORD || 'postgres' }}@localhost:5432/wuxuxian_test
       run: |
-        python -m pytest tests/ -v --tb=short --timeout=300
+        python -m pytest tests/ -v --tb=short
 
   frontend-tests:
     runs-on: ubuntu-latest
@@ -90,17 +90,12 @@ jobs:
       env:
         # Prevent tests from hanging indefinitely
         CI: true
-      run: |
-        # Run tests with timeout and fail-fast options
-        npm test -- --run --reporter=verbose --passWithNoTests 2>&1 || {
-          echo "Tests failed or timed out"
-          exit 1
-        }
+      run: npm test
     
     - name: Type check
       working-directory: ./frontend
       timeout-minutes: 5
-      run: npm run typecheck || true
+      run: npm run typecheck
     
     - name: Build frontend
       working-directory: ./frontend
@@ -128,17 +123,20 @@ jobs:
     - name: Check Python formatting with Black
       working-directory: ./backend
       timeout-minutes: 2
-      run: black --check . || true
+      continue-on-error: true
+      run: black --check .
     
     - name: Check Python imports with isort
       working-directory: ./backend
       timeout-minutes: 2
-      run: isort --check-only . || true
+      continue-on-error: true
+      run: isort --check-only .
     
     - name: Lint Python code with Ruff
       working-directory: ./backend
       timeout-minutes: 2
-      run: ruff check . || true
+      continue-on-error: true
+      run: ruff check .
     
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -155,4 +153,5 @@ jobs:
     - name: Lint TypeScript code
       working-directory: ./frontend
       timeout-minutes: 5
-      run: npm run lint || true
+      continue-on-error: true
+      run: npm run lint

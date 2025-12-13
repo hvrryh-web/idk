@@ -22,9 +22,8 @@ import argparse
 import json
 import os
 import time
-import uuid
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, List, Dict
 import urllib.request
 import urllib.error
 

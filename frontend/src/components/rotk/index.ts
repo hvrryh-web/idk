@@ -65,3 +65,10 @@ export { EventChoiceDialog } from './EventChoiceDialog';
 export type { EventChoiceDialogProps, DialogChoice } from './EventChoiceDialog';
 
 export { CharacterPortraitOverlay } from './CharacterPortraitOverlay';
+
+// Character Portrait & Asset Management
+export { CharacterPortrait } from './CharacterPortrait';
+export type { CharacterPortraitProps, PortraitSize, PortraitShape } from './CharacterPortrait';
+
+export { AssetManagementPanel } from './AssetManagementPanel';
+export type { AssetManagementPanelProps } from './AssetManagementPanel';
