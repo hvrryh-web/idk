@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { createCharacter, fetchCharacters } from "../api";
 import type { Character } from "../types";
-import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog, Swords } from "lucide-react";
+import { BookOpen, HelpCircle, Users, Rocket, Maximize, Menu, ShieldCheck, Database, ServerCog, Swords, Map, Gamepad2, User, BarChart2, ScrollText, Compass, Library } from "lucide-react";
 import Button from "../components/Button";
 import GameScreen from "../components/GameScreen";
 import ChatBox from "../components/ChatBox";
@@ -345,15 +345,109 @@ export default function GameRoom() {
           </div>
         </aside>
 
-        {/* Main Content or additional quick nav */}
-        <div className="quick-nav">
-          <h3>Quick Navigation</h3>
-          <nav>
-            <button onClick={() => navigate("/wiki")}>Wiki Home</button>
-            <button onClick={() => navigate("/help")}>Help Center</button>
-            <button onClick={() => navigate("/characters")}>Manage Characters</button>
-            <button onClick={() => navigate("/ascii-art")}>🎨 ASCII Art Generator</button>
-            <button onClick={() => navigate("/fate-card-builder")}>🎴 Fate Card Builder</button>
+        {/* Main Content - Hub Navigation Grid */}
+        <div className="quick-nav" style={{ flex: 1 }}>
+          <h3>Hub Pages</h3>
+          <p style={{ margin: '0 0 1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+            Navigate between different game areas and features
+          </p>
+          <nav style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
+            <Button
+              variant="primary"
+              size="medium"
+              icon={Compass}
+              onClick={() => navigate("/home")}
+            >
+              🏠 Home Hub
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              icon={Map}
+              onClick={() => navigate("/map-hub")}
+            >
+              🗺️ Map Hub
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              icon={User}
+              onClick={() => navigate("/personal-hub")}
+            >
+              👤 Personal Hub
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              icon={Swords}
+              onClick={() => navigate("/battle-hub")}
+            >
+              ⚔️ Battle Hub
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              icon={Library}
+              onClick={() => navigate("/codex-hub")}
+            >
+              📚 Codex Hub
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              icon={BarChart2}
+              onClick={() => navigate("/character-stats")}
+            >
+              📊 Character Stats
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              icon={ScrollText}
+              onClick={() => navigate("/quest-hub")}
+            >
+              📜 Quest Log
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              icon={Gamepad2}
+              onClick={() => navigate("/game")}
+            >
+              🎮 Game Screen
+            </Button>
+          </nav>
+          
+          <h3 style={{ marginTop: '1.5rem' }}>Tools & Utilities</h3>
+          <nav style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
+            <Button
+              variant="secondary"
+              size="medium"
+              onClick={() => navigate("/ascii-art")}
+            >
+              🎨 ASCII Art Generator
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              onClick={() => navigate("/fate-card-builder")}
+            >
+              🎴 Fate Card Builder
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              onClick={() => navigate("/character/create")}
+            >
+              ✨ Character Creator
+            </Button>
+            <Button
+              variant="secondary"
+              size="medium"
+              onClick={() => navigate("/showcase")}
+            >
+              🖼️ Showcase Gallery
+            </Button>
           </nav>
         </div>
       </div>

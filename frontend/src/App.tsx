@@ -67,22 +67,17 @@ export default function App() {
     <BrowserRouter>
       <div className="app">
         <nav className="global-nav">
-          <a href="/">Home</a>
-          <a href="/map">Map</a>
-          <a href="/dynamic-map">Dynamic Map</a>
-          <a href="/war-map">War Map</a>
-          <a href="/city">City</a>
-          <a href="/region">Region</a>
-          <a href="/world">World</a>
-          <a href="/personal">Personal</a>
-          <a href="/conversation">Conversation</a>
-          <a href="/rotk/city">ROTK City</a>
-          <a href="/rotk/war">ROTK War</a>
-          <a href="/rotk/battle">ROTK Battle</a>
-          <a href="/rotk/ro3k-battle">Ro3K Battle</a>
-          <a href="/rotk/siege">ROTK Siege</a>
-          <a href="/rotk/showcase">ROTK Showcase</a>
-          <a href="/characters/showcase">Lu Bu & Diao Chan</a>
+          <a href="/">Alpha Test</a>
+          <a href="/home">Home</a>
+          <a href="/map-hub">Map Hub</a>
+          <a href="/personal-hub">Personal</a>
+          <a href="/battle-hub">Battle</a>
+          <a href="/codex-hub">Codex</a>
+          <a href="/quest-hub">Quests</a>
+          <a href="/character-stats">Stats</a>
+          <a href="/game">Game</a>
+          <a href="/characters">Characters</a>
+          <a href="/characters/showcase">Showcase</a>
         </nav>
         <Routes>
           {/* Profile Selection & Game Master */}
