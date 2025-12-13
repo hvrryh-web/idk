@@ -5,13 +5,13 @@
  */
 
 import { useEffect, useState } from "react";
-import { useCharacterCreatorStore } from "../state/useCharacterCreatorStore";
-import { PreviewPane } from "../components/PreviewPane";
-import { CategoryTabs } from "../components/CategoryTabs";
-import { OptionGrid } from "../components/OptionGrid";
-import { SwatchPicker } from "../components/SwatchPicker";
-import { BaseModel } from "../data/types";
-import { exportCompositePNG, downloadPNG } from "../rendering/compositor";
+import { useCharacterCreatorStore } from "./state/useCharacterCreatorStore";
+import { PreviewPane } from "./components/PreviewPane";
+import { CategoryTabs } from "./components/CategoryTabs";
+import { OptionGrid } from "./components/OptionGrid";
+import { SwatchPicker } from "./components/SwatchPicker";
+import { BaseModel } from "./data/types";
+import { exportCompositePNG, downloadPNG } from "./rendering/compositor";
 
 export function CharacterCreatorPage() {
   const {

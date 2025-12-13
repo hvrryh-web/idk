@@ -224,7 +224,7 @@ export const useFateCardBuilderStore = create<FateCardBuilderState>(
     },
     
     drawTokens: () => {
-      const { currentCategoryId, rng, buildState } = get();
+      const { currentCategoryId, rng } = get();
       if (!currentCategoryId) return;
       
       const deck = getDeckByCategoryId(currentCategoryId);

@@ -17,7 +17,7 @@ export default function GameScreen() {
     setLoadingArt(true);
     setAsciiError(null);
     try {
-      const result = await fetchAsciiArt("default");
+      const result = await fetchAsciiArt();
       setAsciiArt(result.art || "");
     } catch (error) {
       console.error("Failed to fetch ASCII art", error);
