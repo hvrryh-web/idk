@@ -68,6 +68,7 @@ export default function App() {
       <div className="app">
         <nav className="global-nav">
           <a href="/">Alpha Test</a>
+          <a href="/profile">Profile</a>
           <a href="/home">Home</a>
           <a href="/map-hub">Map Hub</a>
           <a href="/personal-hub">Personal</a>
